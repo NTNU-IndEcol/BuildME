@@ -9,5 +9,5 @@ Framework to calculate building material & energy expenditures.
 
 The current version should work on macOS, probably Linux, and will need some adaptations for Windows, such as renaming executable names, etc.
 
-## Credits
+
 

@@ -8,12 +8,6 @@ import subprocess
 
 from BuildME import settings
 
-__author__ = "Niko Heeren"
-__email__ = "niko.heeren@gmail.com"
-__license__ = "MIT"
-__copyright__ = "Niko Heeren"
-__version__ = "0.1"
-__status__ = "ALPHA"
 
 
 
@@ -46,7 +40,7 @@ def gather_files_to_copy(idf, epw, ep_files=settings.ep_exec_files, check=True):
     return copy_list
 
 
-def copy_files(copy_list, tmp_run_path, create_dir=True, assert_exists=True):
+def copy_files(copy_list, tmp_run_path, create_dir=True):
     """
     Copies the files to the desired location.
     I guess symlinks could work too, but let's be nice to Windows folks :-P
@@ -57,8 +51,6 @@ def copy_files(copy_list, tmp_run_path, create_dir=True, assert_exists=True):
     """
 
     run_folder = os.path.join(settings.tmp_path, tmp_run_path)
-    if assert_exists:
-        assert not os.path.exists(run_folder), "Folder already exists: %s" % run_folder
     if create_dir:
         os.makedirs(run_folder)
     for file in copy_list:
@@ -70,16 +62,17 @@ def copy_files(copy_list, tmp_run_path, create_dir=True, assert_exists=True):
         shutil.copy2(file, os.path.join(run_folder, basename))
 
 
-def delete_ep_files(tmp_folder, ep_files=settings.ep_exec_files):
+def delete_ep_files(copy_list, tmp_run_path):
     """
-    Deletes the e+ files after simulation
+    Deletes the e+ files after simulation, skips input and weather file
     :param tmp_folder:
     :param ep_files:
     """
-    for f in ep_files:
-        os.remove(os.path.join(settings.tmp_path, tmp_folder, f))
-
-
+    run_folder = os.path.join(settings.tmp_path, tmp_run_path)
+    for f in copy_list:
+        if os.path.basename(f)[-4:] in ['.idf', '.epw']:
+            continue
+        os.remove(os.path.join(run_folder, os.path.basename(f)))
 
 
 def delete_temp_folder(tmp_run_path, verbose=False):
@@ -106,22 +99,23 @@ def run_energyplus_single(tmp_path):
     # 1. Run `./ExpandObjects`
     os.chdir(os.path.join(settings.tmp_path, tmp_path))
     # for exec in ['./ExpandObjects', './Basement', './energyplus']:
-    log_file = open("log_ExpandObjects.txt", 'w')
-    subprocess.call('./ExpandObjects', shell=True, stdout=log_file, stderr=log_file)
-    log_file.close()
+    with open("log_ExpandObjects.txt", 'w') as log_file:
+        subprocess.call('./ExpandObjects', shell=True, stdout=log_file, stderr=log_file)
     if os.path.exists('BasementGHTIn.idf'):
-        log_file = open("log_Basement.txt", 'w')
-        # subprocess.call('./Basement', shell=True, stdout=f, stderr=f)
+        with open("log_Basement.txt", 'w') as log_file:
+            pass
+            subprocess.call('./Basement', shell=True, stdout=log_file, stderr=log_file)
+    with open('merged.idf', 'w') as merged_idf:
+        with open('expanded.idf', 'r') as expanded_idf:
+            merged_idf.write(expanded_idf.read())
+        with open('EPObjects.txt', 'r') as epobjects:
+            merged_idf.write(epobjects.read())
+    with open("log_energyplus.txt", 'w+') as log_file:
+        subprocess.call('./energyplus -r merged.idf', shell=True, stdout=log_file, stderr=log_file)
+        log_file.seek(0)
+        assert log_file.readlines()[-1] == 'EnergyPlus Completed Successfully.\n'
         log_file.close()
-    merged_idf = open('merged.idf', 'w')
-    merged_idf.write(open('expanded.idf', 'r').read())
-    merged_idf.write(open('EPObjects.txt', 'r').read())
-    merged_idf.close()
-    log_file = open("log_energyplus.txt", 'r+')
-    subprocess.call('./energyplus -r merged.idf', shell=True, stdout=log_file, stderr=log_file)
-    log_file.seek(0)
-    assert log_file.readlines()[-1] == 'EnergyPlus Completed Successfully.\n'
-    log_file.close()
+
 
 
 
