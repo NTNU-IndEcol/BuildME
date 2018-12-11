@@ -9,7 +9,8 @@ __copyright__ = "Niko Heeren 2018"
 __version__ = "0.1"
 __status__ = "ALPHA"
 
-import eppy
+from . import *
+from eppy import modeleditor
 
 
 def apply_material_substitution(idf, mat, mate_new):
@@ -38,6 +39,22 @@ def apply_more_intense_use(idf, new_occ, assert_occ=None):
     if assert_occ is not None:
         pass
     pass
+
+
+def get_idf(idf_file):
+    """Returns the idf file as a eppy class"""
+    modeleditor.IDF.setiddname(settings.ep_idd)
+    return modeleditor.IDF(idf_file)
+
+
+def get_dimensions(idf):
+    res = {}
+    for zone in idf.idfobjects['ZONE']:
+        res[zone.Name] = {'zonearea': modeleditor.zonearea(idf, zone.Name)}
+        res[zone.Name]['zonearea_floor'] = modeleditor.zonearea_floor(idf, zone.Name)
+        res[zone.Name]['zvolume'] = modeleditor.zonevolume(idf, zone.Name)
+        # res[zone.Name]['A/V'] = res[zone.Name]['area']/res[zone.Name]['volume']
+    return res
 
 
 def get_matrial_inventory():

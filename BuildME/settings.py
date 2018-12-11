@@ -1,5 +1,6 @@
-ep_path = "./bin/EnergyPlus-9-0-1/"
 ep_version = '9.0.1'
+ep_path = "./bin/EnergyPlus-9-0-1/"
+ep_idd = "bin/EnergyPlus-9-0-1/Energy+.idd"
 ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
                  "libenergyplusapi.%s.dylib" % ep_version,   # required by energyplus
                  "libgfortran.3.dylib",  "libquadmath.0.dylib", # required by ExpandObjects

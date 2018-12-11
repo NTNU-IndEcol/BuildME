@@ -6,7 +6,7 @@ import shutil
 import os
 import subprocess
 
-import settings
+from BuildME import settings
 
 __author__ = "Niko Heeren"
 __email__ = "niko.heeren@gmail.com"
