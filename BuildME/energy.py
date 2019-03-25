@@ -1,7 +1,7 @@
 """
 Energy demand algorithm for the RECC building model
 """
-
+import datetime
 import shutil
 import os
 import subprocess
@@ -40,7 +40,11 @@ def gather_files_to_copy(idf, epw, ep_files=settings.ep_exec_files, check=True):
     return copy_list
 
 
-def copy_files(copy_list, tmp_run_path, create_dir=True):
+def get_timestamp_path():
+    return datetime.datetime.now().strftime("%y%m%d-%H%M%S.%f")
+
+
+def copy_files(copy_list, tmp_run_path=None, create_dir=True):
     """
     Copies the files to the desired location.
     I guess symlinks could work too, but let's be nice to Windows folks :-P
@@ -49,7 +53,8 @@ def copy_files(copy_list, tmp_run_path, create_dir=True):
     :param create_dir: Switch allowing to create new folders
     :param assert_exists: Check if the folder exists
     """
-
+    if not tmp_run_path:
+        tmp_run_path = get_timestamp_path()
     run_folder = os.path.join(settings.tmp_path, tmp_run_path)
     if create_dir:
         os.makedirs(run_folder)
@@ -60,6 +65,7 @@ def copy_files(copy_list, tmp_run_path, create_dir=True):
         elif os.path.splitext(file)[-1] == '.epw':
             basename = 'in.epw'
         shutil.copy2(file, os.path.join(run_folder, basename))
+    return tmp_run_path
 
 
 def delete_ep_files(copy_list, tmp_run_path):
@@ -72,7 +78,7 @@ def delete_ep_files(copy_list, tmp_run_path):
     for f in copy_list:
         if os.path.basename(f)[-4:] in ['.idf', '.epw']:
             continue
-        os.remove(os.path.join(run_folder, os.path.basename(f)))
+        os.remove(os.path.basename(f))
 
 
 def delete_temp_folder(tmp_run_path, verbose=False):

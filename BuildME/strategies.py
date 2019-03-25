@@ -1,5 +1,5 @@
 """
-Archetype management
+Functions in this file contain the Resource Efficiency strategies to be applied to the archetypes.yp
 """
 
 
