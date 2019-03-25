@@ -104,7 +104,7 @@ def get_surfaces(idf):
     A function to derive all surfaces from the IDF file.
     Source: https://unmethours.com/question/15574/how-to-list-and-measure-area-surfaces/?answer=15604#post-id-15604
     The post also explains a method to calculate the external areas by orientation (not implemented here).
-    :return: A dictionary for each surface type, e.g. {'ext_wall': 100, 'int_wall': 100, 'roof': 100}
+    :return: A dictionary for each surface type, e.g. {'ext_wall': [..., ...], 'roof': [...]}
     """
     surfaces = {}
     surfaces_to_count = ['Window', 'BuildingSurface:Detailed', 'Door']
@@ -128,16 +128,18 @@ def get_surfaces(idf):
     return surfaces
 
 
-def calc_surface_areas(surfaces):
+def calc_surface_areas(surfaces, ref_area=['int_floor', 'basement_int_floor']):
     """
-
+    Sums the surfaces as created by get_surfaces() and returns a corresponding dict.
     :param surfaces:
     :return:
     """
     areas = {}
     for element in surfaces:
         areas[element] = sum(e.area for e in surfaces[element])
-    surfaces['ext_wall_area_net'] = areas['ext_wall'] - surfaces['window']
+    areas['ext_wall_area_net'] = areas['ext_wall'] - areas['window']
+    areas['reference_area'] = sum([areas[s] for s in areas if s in ref_area])
+    return areas
 
 
 def calc_envelope(areas):
@@ -150,19 +152,6 @@ def calc_envelope(areas):
         'envelope_w_basement': sum(areas[s] for s in ['ext_wall', 'roof', 'basement_ext_floor']),
         'envelope_wo_basement': areas['envelope_w_basement'] + areas['basement_ext_wall']}
     return envelope
-
-
-def calc_surfaces_sum(surfaces, consider=['int_floor', 'basement_int_floor']):
-    """
-    Sums up surfaces
-    :param surfaces: Surfaces dictionary from get_surfaces()
-    :param consider: Surface names to consider. Default are floor areas.
-    :return: Sum as float
-    """
-    flat_surfaces = [surfaces[s] for s in surfaces if s in consider]
-    flat_surfaces = [item for sublist in flat_surfaces for item in sublist]
-    ref_area = sum([s.area for s in flat_surfaces])
-    return ref_area
 
 
 def read_materials(idf):
@@ -313,8 +302,5 @@ def calc_material_intensity(total_material, reference_area):
     return {mat: total_material[mat] / reference_area for mat in total_material}
 
 
-
-def calc_mat_int(surfaces, materials, constructions):
-    pass
 
 
