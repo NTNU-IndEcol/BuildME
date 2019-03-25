@@ -16,14 +16,21 @@ class SurrogateElement:
     attribute. See also https://github.com/santoshphilip/eppy/issues/230.
     """
     def __init__(self, g):
-        self.area = g.Length * g.Height
-        self.Building_Surface_Name = g.Building_Surface_Name
-        self.Construction_Name = g.Construction_Name
-        self.key = g.key
-        self.Name = g.Name
-        # self.Outside_Boundary_Condition = g.Outside_Boundary_Condition
-        # self.Zone_Name = g.Zone_Name
-        # self.Surface_Type = g.Surface_Type
+        if type(g) == dict:
+            self.area = g['area']
+            self.Building_Surface_Name = g['Building_Surface_Name']
+            self.Construction_Name = g['Construction_Name']
+            self.key = g['key']
+            self.Name = g['Name']
+        else:
+            self.area = g.Length * g.Height
+            self.Building_Surface_Name = g.Building_Surface_Name
+            self.Construction_Name = g.Construction_Name
+            self.key = g.key
+            self.Name = g.Name
+            # self.Outside_Boundary_Condition = g.Outside_Boundary_Condition
+            # self.Zone_Name = g.Zone_Name
+            # self.Surface_Type = g.Surface_Type
 
 
 class SurrogateMaterial:
@@ -124,13 +131,35 @@ def get_surfaces(idf):
     surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Roof'])
     check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in flatten_surfaces(surfaces)]]
     assert len(check) == 0, "Following elements were not found: %s" % check
-    # TODO: Interior walls not defined in idf file
+    temp_surface_areas = calc_surface_areas(surfaces)
+    int_wall_constr = {m.Name: m for m in read_constructions(idf)}
+    int_wall_constr = int_wall_constr['Interior Ceiling'].Name
+    surfaces['int_wall'] = create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr)
     return surfaces
 
 
-def calc_surface_areas(surfaces, ref_area=['int_floor', 'basement_int_floor']):
+def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
+    """
+    Since IDF files sometimes do not contain internal walls, this function will create surrogate internal walls.
+    Based on Kellenberger et al. 2012, 0.4 m per 1.0 m2 floor area is assumed. Assuming a room height of 2.8 m,
+     this corresponds to  1.12 m2 per 1.0 m2 floor area.
+    :return: List of one surface which can be added to the surfaces variable in get_surfaces().
+    """
+    int_wall = {
+        'key': 'DummyBuildingSurface',
+        'Name': 'surrogate_int_wall',
+        'Building_Surface_Name': None,
+        'Construction_Name': construction,
+        'area': linear_m * floor_area * room_h
+    }
+    return [SurrogateElement(int_wall)]
+
+
+
+def calc_surface_areas(surfaces, floor_area=['int_floor', 'basement_int_floor']):
     """
     Sums the surfaces as created by get_surfaces() and returns a corresponding dict.
+    :param floor_area:
     :param surfaces:
     :return:
     """
@@ -138,7 +167,7 @@ def calc_surface_areas(surfaces, ref_area=['int_floor', 'basement_int_floor']):
     for element in surfaces:
         areas[element] = sum(e.area for e in surfaces[element])
     areas['ext_wall_area_net'] = areas['ext_wall'] - areas['window']
-    areas['reference_area'] = sum([areas[s] for s in areas if s in ref_area])
+    areas['floor_area_wo_basement'] = sum([areas[s] for s in areas if s in floor_area])
     return areas
 
 
