@@ -1,5 +1,7 @@
 """
 Scripts for managing climate data
+
+Copyright: Niko Heeren, 2019
 """
 import pandas as pd
 

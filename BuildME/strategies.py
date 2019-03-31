@@ -1,5 +1,9 @@
 """
-Functions in this file contain the Resource Efficiency strategies to be applied to the archetypes.yp
+Functions in this file contain the Resource Efficiency strategies to be applied to the archetypes.
+
+RES 1: Service sufficiency
+
+Copyright: Niko Heeren, 2019
 """
 
 

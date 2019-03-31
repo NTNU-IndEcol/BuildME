@@ -1,10 +1,14 @@
 """
 Energy demand algorithm for the RECC building model
+
+Copyright: Niko Heeren, 2019
 """
 import datetime
 import shutil
 import os
 import subprocess
+
+import pandas as pd
 
 from BuildME import settings
 
@@ -123,6 +127,15 @@ def run_energyplus_single(tmp_path):
         log_file.close()
 
 
+def ep_result_collector(ep_path):
+    results_to_collect = ("Heating:EnergyTransfer [J](Hourly)",	"Cooling:EnergyTransfer [J](Hourly)",
+                          # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
+                          "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly) ")
+    ep_file = os.path.join(ep_path, 'eplusout.csv')
+    ep_out = pd.read_csv(ep_file)
+    results = ep_out.loc[:, results_to_collect].sum()
+    results.to_csv(os.path.join(ep_path, 'energy_intensity.csv'))
+    return results
 
 
 

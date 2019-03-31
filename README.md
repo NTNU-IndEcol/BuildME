@@ -11,3 +11,4 @@ The current version should work on macOS, probably Linux, and will need some ada
 
 
 
+Copyright Niko Heeren, 2019
