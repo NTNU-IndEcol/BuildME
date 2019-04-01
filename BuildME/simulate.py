@@ -6,6 +6,7 @@ Copyright: Niko Heeren, 2019
 
 import os
 import shutil
+from tqdm import tqdm
 
 from BuildME import settings
 
@@ -40,7 +41,9 @@ def create_combinations(comb=settings.combinations):
                                 {
                                 'climate_file': os.path.join(settings.climate_files_path, climate_scen,
                                                              settings.climate_stations[region][climate_reg])
-                                'archetype_file': os.path.join(settings.archetypes, region, occ_type)
+                                'archetype_file': os.path.join(settings.archetypes, region, occ_type),
+                                # TODO
+                                'energy_standard': None
                                 }
                             # make sure no underscores are used in the pathname, because this could cause issues later
                             assert list(fnames)[-1].count('_') == 6, \
@@ -65,6 +68,10 @@ def nuke_folders(fnames, forgive=True):
         print("INFO: 'tmp' folder not empty: %s" % ', '.join(remaining_folders))
 
 
+def apply_energy_standard(param, param1):
+    pass
+
+
 def copy_scenario_files(fnames, replace=False):
     """
     Creates scenario folders and copies the necessary files (climate and IDF file) into them. Further,
@@ -84,6 +91,7 @@ def copy_scenario_files(fnames, replace=False):
         # copy IDF archetype file
         shutil.copy(fnames[fname]['IDF'], fpath)
         # TODO: Apply energy-standard to archetype
+        apply_energy_standard('standard', fnames[fname]['energy_standard'])
         # TODO: Apply RES to archetype
 
 

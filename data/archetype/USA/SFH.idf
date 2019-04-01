@@ -1840,7 +1840,8 @@ Construction,
     Lumber_2x4;              !- Outside Layer
 
 Construction,
-    Exterior Floor,          !- Name
+    !- Exterior Floor,          !- Name
+    ext-floor-standard,          !- Name
     floor_consol_layer,      !- Outside Layer
     Plywood_3/4in,           !- Layer 2
     Carpet_n_pad;            !- Layer 3
@@ -1851,7 +1852,14 @@ Construction,
     Carpet_n_pad;            !- Layer 2
 
 Construction,
-    Exterior Wall,           !- Name
+    !- Copy of 'Interior Floor'
+    int-floor-basement-standard,          !- Name
+    Plywood_3/4in,           !- Outside Layer
+    Carpet_n_pad;            !- Layer 2
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-standard,           !- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
@@ -1888,12 +1896,14 @@ Construction,
     Drywall_1/2in;           !- Layer 3
 
 Construction,
-    Exterior Roof,           !- Name
+    !- Exterior Roof,           !- Name
+    ext-roof-standard,           !- Name
     Asphalt_shingle,         !- Outside Layer
     OSB_1/2in;               !- Layer 2
 
 Construction,
-    Exterior Window,         !- Name
+    !- Exterior Window,         !- Name
+    ext-window-standard,         !- Name
     Glass;                   !- Outside Layer
 
 Construction,
@@ -1948,7 +1958,7 @@ Construction,
     Diffusing Acrylic Plastic;  !- Outside Layer
 
 Construction,
-    Basement Wall,           !- Name
+    ext-wall-basement-standard,           !- Name
     Plywood_3/4in,           !- Outside Layer
     bsmtwall_consol_layer,   !- Layer 2
     Plywood_3/4in;           !- Layer 3
@@ -2045,7 +2055,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Roof_front_unit1,        !- Name
     Roof,                    !- Surface Type
-    Exterior Roof,           !- Construction Name
+    !- Exterior Roof,           !- Construction Name
+    ext-roof-standard,           !- Construction Name  $$REPLACE$$
     attic_unit1,             !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2069,7 +2080,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Roof_back_unit1,         !- Name
     Roof,                    !- Surface Type
-    Exterior Roof,           !- Construction Name
+    !- Exterior Roof,           !- Construction Name
+    ext-roof-standard,           !- Construction Name  $$REPLACE$$
     attic_unit1,             !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2093,7 +2105,9 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Roof_right_unit1,        !- Name
     Wall,                    !- Surface Type
-    Gable_end,               !- Construction Name
+    !- Replacing 'Gable_end' with 'ext-roof-standard' for simplicity
+    !- Gable_end,               !- Construction Name
+    ext-roof-standard,               !- Construction Name
     attic_unit1,             !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2114,7 +2128,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Roof_left_unit1,         !- Name
     Wall,                    !- Surface Type
-    Gable_end,               !- Construction Name
+    !- Gable_end,               !- Construction Name
+    ext-roof-standard,               !- Construction Name
     attic_unit1,             !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2135,7 +2150,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Extfloor_unit1,          !- Name
     Floor,                   !- Surface Type
-    Exterior Floor,          !- Construction Name
+    !- Exterior Floor,          !- Construction Name
+    ext-floor-standard,          !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     GroundBasementPreprocessorAverageFloor,  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2159,7 +2175,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_ldf_1.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2183,7 +2200,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_sdr_1.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2207,7 +2225,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_ldb_1.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2231,7 +2250,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_sdl_1.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2255,7 +2275,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_ldf_2.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2279,7 +2300,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_sdr_2.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2303,7 +2325,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_ldb_2.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2327,7 +2350,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Wall_sdl_2.unit1,        !- Name
     Wall,                    !- Surface Type
-    Exterior Wall,           !- Construction Name
+    !- Exterior Wall,           !- Construction Name
+    ext-wall-standard,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2351,7 +2375,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Floor_unit1,             !- Name
     Floor,                   !- Surface Type
-    Interior Floor,          !- Construction Name
+    !- Interior Floor,          !- Construction Name
+    int-floor-basement-standard,          !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Zone,                    !- Outside Boundary Condition
     unheatedbsmt_unit1,      !- Outside Boundary Condition Object
@@ -2373,9 +2398,11 @@ BuildingSurface:Detailed,
     0.001;                   !- Vertex 4 Z-coordinate {m}
 
 BuildingSurface:Detailed,
+    !- This is a really weird element. it has a height of 0.001. Probably required fore basement calculation. 
     BGWall_upper_ldf,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2399,7 +2426,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BGWall_lower_ldf,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2423,7 +2451,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BGWall_upper_sdr,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2447,7 +2476,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BGWall_lower_sdr,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2471,7 +2501,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BGWall_upper_ldb,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2495,7 +2526,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BGWall_lower_ldb,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2519,7 +2551,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BGWall_upper_sdl,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2543,7 +2576,8 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BGWall_lower_sdl,        !- Name
     Wall,                    !- Surface Type
-    Basement Wall,           !- Construction Name
+    !- Basement Wall,           !- Construction Name
+    ext-wall-basement-standard,           !- Construction Name  $$REPLACE$$
     unheatedbsmt_unit1,      !- Zone Name
     GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2569,7 +2603,8 @@ BuildingSurface:Detailed,
 
 Window,
     Window_ldf_1.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_ldf_1.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2580,7 +2615,8 @@ Window,
 
 Window,
     Window_ldb_1.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_ldb_1.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2591,7 +2627,8 @@ Window,
 
 Window,
     Window_sdr_1.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_sdr_1.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2602,7 +2639,8 @@ Window,
 
 Window,
     Window_sdl_1.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_sdl_1.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2613,7 +2651,8 @@ Window,
 
 Window,
     Window_ldf_2.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_ldf_2.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2624,7 +2663,8 @@ Window,
 
 Window,
     Window_ldb_2.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_ldb_2.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2635,7 +2675,8 @@ Window,
 
 Window,
     Window_sdr_2.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_sdr_2.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2646,7 +2687,8 @@ Window,
 
 Window,
     Window_sdl_2.unit1,      !- Name
-    Exterior Window,         !- Construction Name
+    !- Exterior Window,         !- Construction Name  $$REPLACE$$
+    ext-window-standard,         !- Construction Name
     Wall_sdl_2.unit1,        !- Building Surface Name
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
@@ -2660,7 +2702,8 @@ Window,
 
 Door,
     Door_ldf_unit1,          !- Name
-    Exterior Door,           !- Construction Name
+    !- Exterior Door,           !- Construction Name
+    ext-door-standard,           !- Construction Name  $$REPLACE$$
     Wall_ldf_1.unit1,        !- Building Surface Name
     1,                       !- Multiplier
     0.5,                     !- Starting X Coordinate {m}
@@ -2670,7 +2713,8 @@ Door,
 
 Door,
     Door_ldb_unit1,          !- Name
-    Exterior Door,           !- Construction Name
+    !- Exterior Door,           !- Construction Name
+    ext-door-standard,           !- Construction Name  $$REPLACE$$
     Wall_ldb_1.unit1,        !- Building Surface Name
     1,                       !- Multiplier
     0.5,                     !- Starting X Coordinate {m}
