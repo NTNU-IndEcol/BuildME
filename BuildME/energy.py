@@ -37,7 +37,7 @@ def gather_files_to_copy(idf, epw, ep_files=settings.ep_exec_files, check=True):
     # 2. idf e+ input file
     copy_list.append(os.path.join(settings.archetypes, idf))
     # 3. epw climate file
-    copy_list.append(os.path.join(settings.climate_files, epw))
+    copy_list.append(os.path.join(settings.climate_files_path, epw))
     if check:
         bad_news = [f for f in copy_list if not os.path.exists(f)]
         assert len(bad_news) == 0, "The following files do not exist: %s" % bad_news
