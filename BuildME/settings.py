@@ -33,7 +33,7 @@ combinations = \
         'USA':
             {'occupation': ['SFH', 'MFH', 'informal'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES1'],
              'climate_region':
                  ['1A', '2A', '2B', '3A', '3B-Coast', '3B', '3C',
                   '4A', '4B',

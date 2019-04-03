@@ -81,8 +81,9 @@ def calc_material_intensity(total_material, reference_area):
     return {mat: total_material[mat] / reference_area for mat in total_material}
 
 
-def save_material_intensity(mat_int, filename='mat_int'):
+def save_material_intensity(mat_int, folder, filename='mat_int.csv'):
     s = pd.Series(mat_int)
-    s.to_csv('%s.csv' % filename, header=False)
+    full_filename = os.path.join(folder, filename)
+    s.to_csv(full_filename, header=False)
 
 

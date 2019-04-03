@@ -99,8 +99,8 @@ def flatten_surfaces(surfaces):
     return flat
 
 
-def read_idf(filepath, filename='in.idf'):
-    in_file = os.path.join(filepath, filename)
+def read_idf(in_file):
+    # in_file = os.path.join(filepath, filename)
     idd = settings.ep_idd
     IDF.setiddname(idd)
     with open(in_file, 'r') as infile:
