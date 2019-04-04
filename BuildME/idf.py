@@ -108,7 +108,7 @@ def read_idf(in_file):
     return idf
 
 
-def get_surfaces(idf):
+def get_surfaces(idf, energy_standard):
     """
     A function to derive all surfaces from the IDF file.
     Source: https://unmethours.com/question/15574/how-to-list-and-measure-area-surfaces/?answer=15604#post-id-15604
@@ -135,7 +135,7 @@ def get_surfaces(idf):
     assert len(check) == 0, "Following elements were not found: %s" % check
     temp_surface_areas = calc_surface_areas(surfaces)
     int_wall_constr = {m.Name: m for m in read_constructions(idf)}
-    int_wall_constr = int_wall_constr['Interior Ceiling'].Name
+    int_wall_constr = int_wall_constr['attic-ceiling-' + energy_standard].Name
     surfaces['int_wall'] = create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr)
     return surfaces
 

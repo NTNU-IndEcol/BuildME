@@ -18,7 +18,8 @@
 !- Geometry from the scalable geometry template
 
   BuildingSurface:Detailed,
-    BGFloor,                 !- Name
+    !- BGFloor,                 !- Name
+    ext-floor-en-std-replaceme,                 !- Name
     Floor,                   !- Surface Type
     Exterior Floor,          !- Construction Name
     unheatedbsmt,            !- Zone Name

@@ -4,13 +4,16 @@ Functions to perform the actual simulations.
 Copyright: Niko Heeren, 2019
 """
 import datetime
+import multiprocessing as mp
 import os
 import shutil
+import pickle
+from time import sleep
 
 import pandas as pd
 from tqdm import tqdm
 
-from BuildME import idf, material, settings
+from BuildME import settings, idf, material, energy
 
 
 def create_combinations(comb=settings.combinations):
@@ -39,7 +42,7 @@ def create_combinations(comb=settings.combinations):
                         # 6 Climate scenario
                         for climate_scen in comb[region]['climate_scenario']:
                             fnames['_'.join([region, occ_type, energy_std,
-                                             occ_type, res, climate_reg, climate_scen])] = \
+                                             res, climate_reg, climate_scen])] = \
                                 {
                                 'climate_file': os.path.join(settings.climate_files_path, climate_scen,
                                                              settings.climate_stations[region][climate_reg]),
@@ -49,7 +52,7 @@ def create_combinations(comb=settings.combinations):
                                 'RES': [region, occ_type, res]
                                 }
                             # make sure no underscores are used in the pathname, because this could cause issues later
-                            assert list(fnames)[-1].count('_') == 6, \
+                            assert list(fnames)[-1].count('_') == 5, \
                                 "Scenario combination names mustn't use underscores: '%s'" % fnames[-1]
     return fnames
 
@@ -108,7 +111,9 @@ def copy_scenario_files(fnames, replace=False):
     :return:
     """
     if replace:
+        print("Deleting files...")
         nuke_folders(fnames)
+    print("Copying files...")
     res_rules = pd.read_excel('./data/RES.xlsx', index_col=[0, 1, 2])
     tq = tqdm(fnames, desc='Initiating...', leave=True)
     for fname in tq:
@@ -117,16 +122,17 @@ def copy_scenario_files(fnames, replace=False):
         # create folder
         os.makedirs(fpath)
         # copy climate file
-        shutil.copy(fnames[fname]['climate_file'], fpath)
+        shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
         idf_f = apply_energy_standard(fnames[fname]['archetype_file'], fnames[fname]['energy_standard'])
         idf_f = apply_RES(idf_f, fnames[fname]['RES'], res_rules)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
         idf_f.saveas(os.path.join(fpath, 'in.idf'))
     # save list of all folders
-    scenarios_csv = os.path.join(settings.tmp_path, datetime.datetime.now().strftime("%y%m%d-%H%M%S") + '.run')
-    pd.DataFrame(fnames.keys()).to_csv(scenarios_csv, index=False, header=False)
-    return scenarios_csv
+    scenarios_filename = os.path.join(settings.tmp_path, datetime.datetime.now().strftime("%y%m%d-%H%M%S") + '.run')
+    # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
+    pickle.dump(fnames, open(scenarios_filename, "wb"))
+    return scenarios_filename
 
 
 def load_last_run(path=settings.tmp_path):
@@ -138,11 +144,14 @@ def load_last_run(path=settings.tmp_path):
     candidates = [f for f in os.listdir(path) if f.endswith('.run')]
     if len(candidates) == 0:
         raise FileNotFoundError("Couldn't find any .run files in %s" % path)
-    fnames = pd.read_csv(os.path.join(path, sorted(candidates)[-1]), header=None)
-    return fnames.to_csv(None, header=False, index=False).split('\n')
+    # fnames = pd.read_csv(os.path.join(path, sorted(candidates)[-1]), header=None)
+    fnames = pickle.load(open(os.path.join(path, sorted(candidates)[-1]), 'rb'))
+    # return fnames.to_csv(None, header=False, index=False).split('\n')
+    return fnames
 
 
 def calculate_materials(fnames=None):
+    print("Calculating material intensity...")
     if not fnames:
         fnames = load_last_run()
     fallback_materials = material.load_material_data()
@@ -156,13 +165,65 @@ def calculate_materials(fnames=None):
         densities = material.make_mat_density_dict(materials_dict, fallback_materials)
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict)
-        surfaces = material.get_surfaces(idff)
+        surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2])
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
         surface_areas = material.calc_surface_areas(surfaces)
         reference_area = surface_areas['floor_area_wo_basement']
         material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
         material.save_material_intensity(material_intensity, run_path)
+
+
+def calculate_energy(fnames=None):
+    print("Calculating energy intensity...")
+    if not fnames:
+        fnames = load_last_run()
+    fallback_materials = material.load_material_data()
+    tq = tqdm(fnames, desc='Initiating...', leave=True)
+    for folder in tq:
+        run_path = os.path.join(settings.tmp_path, folder)
+        tq.set_description(folder)
+        copy_us = energy.gather_files_to_copy()
+        # TODO: Change Building !- Name
+        tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
+        energy.run_energyplus_single(tmp)
+        energy.delete_ep_files(copy_us, tmp)
+
+
+def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
+    print("Calculating energy intensity...")
+    if not fnames:
+        fnames = load_last_run()
+    fallback_materials = material.load_material_data()
+    pool = mp.Pool(processes=cpus)
+    m = mp.Manager()
+    q = m.Queue()
+    pbar = tqdm(total=len(fnames))
+    args = ((folder, q, no) for no, folder in enumerate(fnames))
+    result = pool.map_async(calculate_energy_worker, args)
+    old_q = 0
+    while not result.ready():
+        #pbar.update()
+        #print(q.qsize())
+        if q.qsize() > old_q:
+            pbar.update(q.qsize() - old_q)
+        old_q = q.qsize()
+        sleep(0.2)
+    pool.close()
+    pool.join()
+    pbar.close()
+    result_output = result.get()
+
+
+def calculate_energy_worker(args):
+    folder, q, no = args
+    run_path = os.path.join(settings.tmp_path, folder)
+    # sleep(1.5)
+    copy_us = energy.gather_files_to_copy()
+    tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
+    energy.run_energyplus_single(tmp)
+    energy.delete_ep_files(copy_us, tmp)
+    q.put(no)
 
 
 def simulate_all(fnames):

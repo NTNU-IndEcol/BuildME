@@ -23,7 +23,7 @@ def cleanup_post_sim():
     pass
 
 
-def gather_files_to_copy(idf, epw, ep_files=settings.ep_exec_files, check=True):
+def gather_files_to_copy(ep_files=settings.ep_exec_files, check=True):
     """
     Collect the neccessary files for copy_files() and check if they exist
     :param idf: The IDF file in question
@@ -35,9 +35,9 @@ def gather_files_to_copy(idf, epw, ep_files=settings.ep_exec_files, check=True):
     # 1. necessary e+ executable files
     copy_list = [os.path.join(settings.ep_path, f) for f in ep_files]
     # 2. idf e+ input file
-    copy_list.append(os.path.join(settings.archetypes, idf))
+    # copy_list.append(os.path.join(settings.archetypes, idf))
     # 3. epw climate file
-    copy_list.append(os.path.join(settings.climate_files_path, epw))
+    # copy_list.append(os.path.join(settings.climate_files_path, epw))
     if check:
         bad_news = [f for f in copy_list if not os.path.exists(f)]
         assert len(bad_news) == 0, "The following files do not exist: %s" % bad_news
@@ -82,7 +82,7 @@ def delete_ep_files(copy_list, tmp_run_path):
     for f in copy_list:
         if os.path.basename(f)[-4:] in ['.idf', '.epw']:
             continue
-        os.remove(os.path.basename(f))
+        os.remove(os.path.join(settings.tmp_path, tmp_run_path, os.path.basename(f)))
 
 
 def delete_temp_folder(tmp_run_path, verbose=False):
@@ -125,6 +125,7 @@ def run_energyplus_single(tmp_path):
         log_file.seek(0)
         assert log_file.readlines()[-1] == 'EnergyPlus Completed Successfully.\n'
         log_file.close()
+    os.chdir(settings.basepath)
 
 
 def ep_result_collector(ep_path):

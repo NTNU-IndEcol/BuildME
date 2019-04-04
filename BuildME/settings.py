@@ -4,17 +4,21 @@ Settings and constants required for the model to run.
 Copyright: Niko Heeren, 2019
 """
 
+import os
+
 ep_version = '9.0.1'
-ep_path = "./bin/EnergyPlus-9-0-1/"
-ep_idd = "bin/EnergyPlus-9-0-1/Energy+.idd"
+basepath = os.path.abspath('.')
+ep_path = os.path.abspath("./bin/EnergyPlus-9-0-1/")
+ep_idd = os.path.abspath("./bin/EnergyPlus-9-0-1/Energy+.idd")
 ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
                  "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
                  "libgfortran.3.dylib", "libquadmath.0.dylib",  # required by ExpandObjects
                  "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
                  "PostProcess/ReadVarsESO"
                  ]
-archetypes = "./data/archetype/"
-tmp_path = "./tmp/"
+archetypes = os.path.abspath("./data/archetype/")
+tmp_path = os.path.abspath("./tmp/")
+climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 # The combinations
 #   Example: USA.SFH_standard.RES0.
@@ -31,7 +35,8 @@ combinations = \
                   '2030_A1B', '2030_A2', '2030_B1',
                   '2050_A1B', '2050_A2', '2050_B1']},
         'USA':
-            {'occupation': ['SFH', 'MFH', 'informal'],
+            # TODO  {'occupation': ['SFH', 'MFH', 'informal'],
+            {'occupation': ['SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES1'],
              'climate_region':
@@ -43,7 +48,6 @@ combinations = \
              }
     }
 
-climate_files_path = "./data/climate/meteonorm71/"
 climate_stations = {
     'USA': {
         '1A': 'Miami_FL-hour.epw',
