@@ -3,6 +3,7 @@ Functions to perform the actual simulations.
 
 Copyright: Niko Heeren, 2019
 """
+import collections
 import datetime
 import multiprocessing as mp
 import os
@@ -41,15 +42,16 @@ def create_combinations(comb=settings.combinations):
                     for climate_reg in comb[region]['climate_region']:
                         # 6 Climate scenario
                         for climate_scen in comb[region]['climate_scenario']:
-                            fnames['_'.join([region, occ_type, energy_std,
-                                             res, climate_reg, climate_scen])] = \
+                            fname = '_'.join([region, occ_type, energy_std, res, climate_reg, climate_scen])
+                            fnames[fname] = \
                                 {
                                 'climate_file': os.path.join(settings.climate_files_path, climate_scen,
                                                              settings.climate_stations[region][climate_reg]),
                                 'archetype_file': os.path.join(settings.archetypes, region, occ_type + '.idf'),
                                 # TODO
                                 'energy_standard': [region, occ_type, energy_std],
-                                'RES': [region, occ_type, res]
+                                'RES': [region, occ_type, res],
+                                'run_folder': os.path.join(settings.tmp_path, fname)
                                 }
                             # make sure no underscores are used in the pathname, because this could cause issues later
                             assert list(fnames)[-1].count('_') == 5, \
@@ -135,7 +137,7 @@ def copy_scenario_files(fnames, replace=False):
     return scenarios_filename
 
 
-def load_last_run(path=settings.tmp_path):
+def find_last_run(path=settings.tmp_path):
     """
     Returns the last scenario combination run as saved in copy_scenario_files().
     :param path: folder to scan
@@ -144,16 +146,22 @@ def load_last_run(path=settings.tmp_path):
     candidates = [f for f in os.listdir(path) if f.endswith('.run')]
     if len(candidates) == 0:
         raise FileNotFoundError("Couldn't find any .run files in %s" % path)
-    # fnames = pd.read_csv(os.path.join(path, sorted(candidates)[-1]), header=None)
-    fnames = pickle.load(open(os.path.join(path, sorted(candidates)[-1]), 'rb'))
-    # return fnames.to_csv(None, header=False, index=False).split('\n')
-    return fnames
+    return os.path.join(path, sorted(candidates)[-1])
+
+
+def load_run_data_file(filename):
+    """
+    Returns the last scenario combination run as saved in copy_scenario_files().
+    :param filename: Absolute filename
+    :return: filename, e.g. '190403-230346.run'
+    """
+    return pickle.load(open(filename, 'rb'))
 
 
 def calculate_materials(fnames=None):
     print("Calculating material intensity...")
     if not fnames:
-        fnames = load_last_run()
+        fnames = load_run_data_file(find_last_run())
     fallback_materials = material.load_material_data()
     tq = tqdm(fnames, desc='Initiating...', leave=True)
     for folder in tq:
@@ -177,7 +185,7 @@ def calculate_materials(fnames=None):
 def calculate_energy(fnames=None):
     print("Calculating energy intensity...")
     if not fnames:
-        fnames = load_last_run()
+        fnames = load_run_data_file(find_last_run())
     fallback_materials = material.load_material_data()
     tq = tqdm(fnames, desc='Initiating...', leave=True)
     for folder in tq:
@@ -193,12 +201,12 @@ def calculate_energy(fnames=None):
 def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
     print("Calculating energy intensity...")
     if not fnames:
-        fnames = load_last_run()
+        fnames = load_run_data_file(find_last_run())
     fallback_materials = material.load_material_data()
     pool = mp.Pool(processes=cpus)
     m = mp.Manager()
     q = m.Queue()
-    pbar = tqdm(total=len(fnames))
+    pbar = tqdm(total=len(fnames), smoothing=0.1)
     args = ((folder, q, no) for no, folder in enumerate(fnames))
     result = pool.map_async(calculate_energy_worker, args)
     old_q = 0
@@ -237,12 +245,72 @@ def simulate_all(fnames):
     pass
 
 
-def collect_results():
+def collect_logs(fnames, logfile='eplusout.err'):
     """
-    Collects the results after the simulation.
+    Goes through all folders and extracts the last line of the energyplus log file to make sure the simulation was successful.
+    :param fnames:
+    :param logfile:
     :return:
     """
-    pass
+    print('Collecting E+ logs...')
+    res = {}
+    for folder in tqdm(fnames):
+        res[folder] = {}
+        file = os.path.join(fnames[folder]['run_folder'], logfile)
+        with open(file, "rb") as f:
+            # https://stackoverflow.com/a/18603065/2075003
+            # first = f.readline()  # Read the first line.
+            f.seek(-2, os.SEEK_END)  # Jump to the second last byte.
+            while f.read(1) != b"\n":  # Until EOL is found...
+                f.seek(-2, os.SEEK_CUR)  # ...jump back the read byte plus one more.
+            last = f.readline()  # Read last line.
+            res_string = last.decode("utf-8")
+            for repl in [('*', ''), ('  ', ''), ('\n', '')]:
+                res_string = res_string.replace(*repl)
+            res[folder]['ep_log'] = res_string
+    return res
+
+
+def collect_mi(fnames):
+    print('Collecting MI results...')
+    res = {}
+    for folder in tqdm(fnames):
+        df = pd.read_csv(os.path.join(fnames[folder]['run_folder'], 'mat_int.csv'), header=None)
+        res[folder] = {d[1][0]: d[1][1] for d in df.iterrows()}
+        res[folder]['total_mat'] = df.sum(axis=0)[1]
+    return res
+
+
+def collect_ei(fnames):
+    print('Collecting EI results...')
+    res = {}
+    for folder in tqdm(fnames):
+        ei = energy.ep_result_collector(os.path.join(fnames[folder]['run_folder']))
+        res[folder] = ei.to_dict()
+    return res
+
+
+def save_result_csv(res):
+    res.to_csv(find_last_run().replace('.run', '.csv'))
+
+
+
+def collector(fnames):
+    """
+    Collects the results after the simulation.
+    :return: Dictionary with scenario as key and material intensity, energy intensity, and e+ log file, e.g.
+                {'USA_SFH_ZEB_RES0_1A_2015': {Asphalt_shingle: 4.2, ...}}
+    """
+    ep_logs = collect_logs(fnames)
+    mi = collect_mi(fnames)
+    ei = collect_ei(fnames)
+    res = {}
+    for f in ep_logs:
+        res[f] = {**mi[f], **ei[f], **ep_logs[f]}
+    res = pd.DataFrame.from_dict(res, orient='index')
+    res.index.names = ['scenario']
+    save_result_csv(res)
+    return res
 
 
 def cleanup():

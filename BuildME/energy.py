@@ -128,14 +128,21 @@ def run_energyplus_single(tmp_path):
     os.chdir(settings.basepath)
 
 
-def ep_result_collector(ep_path):
+def ep_result_collector(ep_path, save='energy_intensity.csv'):
+    """
+    Reads the energy plus result file 'eplusout.csv' and returns the result (sum of entire column).
+    :param ep_path: Absolute path of 'eplusout.csv'
+    :param save: Switch to save the results as CSV.
+    :return:
+    """
     results_to_collect = ("Heating:EnergyTransfer [J](Hourly)",	"Cooling:EnergyTransfer [J](Hourly)",
                           # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
                           "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly) ")
     ep_file = os.path.join(ep_path, 'eplusout.csv')
     ep_out = pd.read_csv(ep_file)
     results = ep_out.loc[:, results_to_collect].sum()
-    results.to_csv(os.path.join(ep_path, 'energy_intensity.csv'))
+    if save:
+        results.to_csv(os.path.join(ep_path, save), header=False)
     return results
 
 
