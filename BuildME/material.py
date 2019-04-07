@@ -14,11 +14,12 @@ from BuildME import settings
 from BuildME.idf import *
 
 
-def calc_mat_vol_m2(constructions, materials_dict):
+def calc_mat_vol_m2(constructions, materials_dict, fallback_mat):
     """
     Calculates the material volume in 1 m2 of a construction
     :param constructions:
     :param materials_dict:
+    :param fallback_mat:
     :return: {'construction_name': {}
     """
     res = {}
@@ -31,7 +32,7 @@ def calc_mat_vol_m2(constructions, materials_dict):
                 # WindowMaterial:SimpleGlazingSystem does not have a Thickness attribute
                 thickness = materials_dict[layers[layer]].Thickness
             else:
-                thickness = 0
+                thickness = fallback_mat.loc[layers[layer], 'thickness']
             if layer not in res[construction.Name]:
                 res[construction.Name][layers[layer]] = thickness
             else:
@@ -81,8 +82,8 @@ def calc_material_intensity(total_material, reference_area):
     return {mat: total_material[mat] / reference_area for mat in total_material}
 
 
-def save_material_intensity(mat_int, folder, filename='mat_int.csv'):
-    s = pd.Series(mat_int)
+def save_materials(res_dict, folder, filename='materials.csv'):
+    s = pd.Series(res_dict)
     full_filename = os.path.join(folder, filename)
     s.to_csv(full_filename, header=False)
 

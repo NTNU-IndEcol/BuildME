@@ -26,6 +26,7 @@ def create_combinations(comb=settings.combinations):
     and with the climate scenario of 2015 (i.e. none): US_SFH_standard_RES0_cr1A_2015
     :return:
     """
+    print("Creating scenario combinations")
     fnames = {}
     # 1 Region
     for region in [r for r in comb if r != 'all']:
@@ -159,7 +160,7 @@ def load_run_data_file(filename):
 
 
 def calculate_materials(fnames=None):
-    print("Calculating material intensity...")
+    print("Extracting materials and surfaces...")
     if not fnames:
         fnames = load_run_data_file(find_last_run())
     fallback_materials = material.load_material_data()
@@ -172,21 +173,22 @@ def calculate_materials(fnames=None):
         materials_dict = material.make_materials_dict(materials)
         densities = material.make_mat_density_dict(materials_dict, fallback_materials)
         constructions = material.read_constructions(idff)
-        mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict)
+        mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
         surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2])
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
         surface_areas = material.calc_surface_areas(surfaces)
-        reference_area = surface_areas['floor_area_wo_basement']
-        material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
-        material.save_material_intensity(material_intensity, run_path)
+        # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
+        res = total_material_mass
+        res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
+        res['footprint_area'] = surface_areas['footprint_area']
+        material.save_materials(res, run_path)
 
 
 def calculate_energy(fnames=None):
-    print("Calculating energy intensity...")
+    print("Perform energy simulation...")
     if not fnames:
         fnames = load_run_data_file(find_last_run())
-    fallback_materials = material.load_material_data()
     tq = tqdm(fnames, desc='Initiating...', leave=True)
     for folder in tq:
         run_path = os.path.join(settings.tmp_path, folder)
@@ -199,10 +201,9 @@ def calculate_energy(fnames=None):
 
 
 def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
-    print("Calculating energy intensity...")
+    print("Perform energy simulation...")
     if not fnames:
         fnames = load_run_data_file(find_last_run())
-    fallback_materials = material.load_material_data()
     pool = mp.Pool(processes=cpus)
     m = mp.Manager()
     q = m.Queue()
@@ -271,18 +272,18 @@ def collect_logs(fnames, logfile='eplusout.err'):
     return res
 
 
-def collect_mi(fnames):
-    print('Collecting MI results...')
+def collect_material(fnames):
+    print('Collecting Material results...')
     res = {}
     for folder in tqdm(fnames):
-        df = pd.read_csv(os.path.join(fnames[folder]['run_folder'], 'mat_int.csv'), header=None)
+        df = pd.read_csv(os.path.join(fnames[folder]['run_folder'], 'materials.csv'), header=None)
         res[folder] = {d[1][0]: d[1][1] for d in df.iterrows()}
         res[folder]['total_mat'] = df.sum(axis=0)[1]
     return res
 
 
-def collect_ei(fnames):
-    print('Collecting EI results...')
+def collect_energy(fnames):
+    print('Collecting Energy results...')
     res = {}
     for folder in tqdm(fnames):
         ei = energy.ep_result_collector(os.path.join(fnames[folder]['run_folder']))
@@ -290,26 +291,56 @@ def collect_ei(fnames):
     return res
 
 
+def save_ei_result_csv(energy, material_surfaces, ref_area='floor_area_wo_basement'):
+    """
+
+    :param res:
+    :param ref_area:
+    :return:
+    """
+    res = {}
+    for scenario in energy:
+        res[scenario] = {}
+        area = material_surfaces[scenario][ref_area]
+        for e in energy[scenario]:
+            res[scenario][e] = energy[scenario][e] / area / 10**6
+    res = pd.DataFrame.from_dict(res, orient='index')
+    res.index.names = ['scenario']
+    res.to_excel(find_last_run().replace('.run', '_ei.xlsx'))
+    return res
+
+
 def save_result_csv(res):
-    res.to_csv(find_last_run().replace('.run', '.csv'))
+    res.to_csv(find_last_run().replace('.run', '_totals.csv'))
 
 
+def calculate_measures(res):
+    """
+    Adds further metrics to the results collected in all_results_collector(), such as material and energy intensity,
+    i.e. material / energy per floor area.
+    :param res: Dataframe created by all_results_collector()
+    :return: Dataframe with additional columns
+    """
+    return res
 
-def collector(fnames):
+
+def all_results_collector(fnames):
     """
     Collects the results after the simulation.
     :return: Dictionary with scenario as key and material intensity, energy intensity, and e+ log file, e.g.
                 {'USA_SFH_ZEB_RES0_1A_2015': {Asphalt_shingle: 4.2, ...}}
     """
     ep_logs = collect_logs(fnames)
-    mi = collect_mi(fnames)
-    ei = collect_ei(fnames)
+    material_res = collect_material(fnames)
+    energy_res = collect_energy(fnames)
     res = {}
     for f in ep_logs:
-        res[f] = {**mi[f], **ei[f], **ep_logs[f]}
+        res[f] = {**material_res[f], **energy_res[f], **ep_logs[f]}
     res = pd.DataFrame.from_dict(res, orient='index')
     res.index.names = ['scenario']
+    res = calculate_measures(res)
     save_result_csv(res)
+    save_ei_result_csv(energy_res, material_res)
     return res
 
 

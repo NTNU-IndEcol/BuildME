@@ -157,7 +157,6 @@ def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.
     return [SurrogateElement(int_wall)]
 
 
-
 def calc_surface_areas(surfaces, floor_area=['int_floor', 'basement_int_floor']):
     """
     Sums the surfaces as created by get_surfaces() and returns a corresponding dict.
@@ -170,6 +169,7 @@ def calc_surface_areas(surfaces, floor_area=['int_floor', 'basement_int_floor'])
         areas[element] = sum(e.area for e in surfaces[element])
     areas['ext_wall_area_net'] = areas['ext_wall'] - areas['window']
     areas['floor_area_wo_basement'] = sum([areas[s] for s in areas if s in floor_area])
+    areas['footprint_area'] = areas['basement_int_floor']
     return areas
 
 
