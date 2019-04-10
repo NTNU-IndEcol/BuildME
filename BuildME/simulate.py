@@ -286,28 +286,81 @@ def collect_energy(fnames):
     print('Collecting Energy results...')
     res = {}
     for folder in tqdm(fnames):
-        ei = energy.ep_result_collector(os.path.join(fnames[folder]['run_folder']))
-        res[folder] = ei.to_dict()
+        energy_res = energy.ep_result_collector(os.path.join(fnames[folder]['run_folder']))
+        res[folder] = energy_res.to_dict()
     return res
 
 
-def save_ei_result_csv(energy, material_surfaces, ref_area='floor_area_wo_basement'):
+def disaggregate_scenario_str(in_dict, unstack_cols):
     """
-
-    :param res:
-    :param ref_area:
+    Converting scenario titles, separated by underscores, into columns.
+    Also re-arranging dataframe.
+    :param in_dict:
+    :param unstack_cols:
     :return:
     """
+    res = pd.DataFrame.from_dict(in_dict, orient='index')
+    res.index = pd.MultiIndex.from_tuples(tuple(res.index.str.split('_')))
+    res.index.names = ['region', 'occupation', 'energy_std', 'RES', 'climate_reg', 'IPCC_scen']
+    res = res.unstack(unstack_cols)
+    return res
+
+
+def weighing_climate_region(res):
+    """
+    Multiplies each result by its climate region ratio given in aggregate.xlsx.
+    :param res:
+    :return:
+    """
+    aggregation = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
+    # making sure index is all strings
+    aggregation.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in aggregation.index.tolist()])
+    # I know looping DFs is lame, but who can figure out this fricking syntax?!
+    #  https://stackoverflow.com/a/41494810/2075003
+    for region in res.index.levels[0]:
+        for cr in res.loc[region].columns.levels[1]:
+            res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
+                res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
+                aggregation.loc[pd.IndexSlice[region, cr], 'share']
+    return res
+
+
+def divide_by_area(energy, material_surfaces, ref_area='floor_area_wo_basement'):
     res = {}
     for scenario in energy:
         res[scenario] = {}
         area = material_surfaces[scenario][ref_area]
         for e in energy[scenario]:
             res[scenario][e] = energy[scenario][e] / area / 10**6
-    res = pd.DataFrame.from_dict(res, orient='index')
-    res.index.names = ['scenario']
-    res.to_excel(find_last_run().replace('.run', '_ei.xlsx'))
     return res
+
+
+def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement'):
+    """
+
+    :param res:
+    :param ref_area:
+    :return:
+    """
+    res = divide_by_area(energy, material_surfaces, ref_area)
+    res = disaggregate_scenario_str(res, ['climate_reg'])
+    res = weighing_climate_region(res)
+    writer = pd.ExcelWriter(find_last_run().replace('.run', '_ei.xlsx'),
+                            engine='xlsxwriter')
+    res.to_excel(writer, 'all')
+    res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
+    res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
+    res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1).to_excel(writer, 'light')
+    res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
+    (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
+     res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
+    res.sum(axis=1).to_excel(writer, 'total')
+    writer.save()
+    return res
+
+
+def save_ei_for_odym(ei_result):
+    pass
 
 
 def save_result_csv(res):
@@ -340,7 +393,9 @@ def all_results_collector(fnames):
     res.index.names = ['scenario']
     res = calculate_measures(res)
     save_result_csv(res)
-    save_ei_result_csv(energy_res, material_res)
+    ei_result = save_ei_result(energy_res, material_res)
+    save_ei_for_odym(ei_result)
+    # TODO save_mi_result_csv(energy_res, material_res)
     return res
 
 
