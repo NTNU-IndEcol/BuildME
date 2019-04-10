@@ -312,17 +312,41 @@ def weighing_climate_region(res):
     :param res:
     :return:
     """
-    aggregation = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
+    weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
     # making sure index is all strings
-    aggregation.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in aggregation.index.tolist()])
+    weights.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in weights.index.tolist()])
     # I know looping DFs is lame, but who can figure out this fricking syntax?!
     #  https://stackoverflow.com/a/41494810/2075003
     for region in res.index.levels[0]:
         for cr in res.loc[region].columns.levels[1]:
             res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
                 res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
-                aggregation.loc[pd.IndexSlice[region, cr], 'share']
+                weights.loc[pd.IndexSlice[region, cr], 'share']
     return res
+
+
+def weighing_energy_carrier(ei_result):
+    energy_dict = {'Cooling': 'Cooling:EnergyTransfer [J](Hourly)',
+                   'Heating': 'Heating:EnergyTransfer [J](Hourly)'}
+    weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='energy_carrier', index_col=[0])
+    ei_result.index = ei_result.index.droplevel(4)
+    # Can't believe there is no easier way... https://stackoverflow.com/a/42612344/2075003
+    df = pd.DataFrame(data=0.0, index=ei_result.index, columns=['Heating', 'Cooling', 'DHW']).stack()
+    df = pd.DataFrame(data=0.0, index=df.index, columns=weights.columns).stack()
+    df.index.names = ei_result.index.names + ['ServiceType', 'energy_carrier']
+    for i, s in df.iteritems():
+        if i[4] == 'Heating':
+            df[i] = ei_result.loc[i[:-2], [energy_dict[i[4]]]].sum() * \
+                    weights.loc[i[0], i[-1]]
+        elif i[4] == 'DHW':  # TODO: Not implemented yet
+            df[i] = 0.0
+        else:
+            if i[5] == 'electricity':
+                df[i] = ei_result.loc[i[:-2], [energy_dict[i[4]]]].sum() * \
+                        1.0
+            else:
+                df[i] = 0.0
+    return df
 
 
 def divide_by_area(energy, material_surfaces, ref_area='floor_area_wo_basement'):
@@ -360,10 +384,20 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
 
 
 def save_ei_for_odym(ei_result):
-    pass
+    res = weighing_energy_carrier(ei_result)
+    new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Service', 'SSP_Regions_32', 'Energy carrier']
+    new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Energy Intensity UsePhase'] + [i[n] for n in (3, 4, 0, 5)])
+               for i in res.index.values]
+    res.index = pd.MultiIndex.from_tuples(new_idx, names=new_idx_names)
+    res = pd.DataFrame(res, columns=['Value'])
+    res['Unit'] = 'MJ/m2/yr'
+    res['Stats_array_string'] = ''
+    res['Comment'] = 'Simulated in BME v0.0'
+    # some more stuff?
+    res.to_excel(find_last_run().replace('.run', '_ODYM_ei.xlsx'), merge_cells=False)
 
 
-def save_result_csv(res):
+def save_all_result_csv(res):
     res.to_csv(find_last_run().replace('.run', '_totals.csv'))
 
 
@@ -392,9 +426,10 @@ def all_results_collector(fnames):
     res = pd.DataFrame.from_dict(res, orient='index')
     res.index.names = ['scenario']
     res = calculate_measures(res)
-    save_result_csv(res)
+    save_all_result_csv(res)
     ei_result = save_ei_result(energy_res, material_res)
     save_ei_for_odym(ei_result)
+    mi_result = save_mi_result(material_res)
     # TODO save_mi_result_csv(energy_res, material_res)
     return res
 
