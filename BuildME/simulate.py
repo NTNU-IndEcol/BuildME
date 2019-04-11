@@ -349,13 +349,13 @@ def weighing_energy_carrier(ei_result):
     return df
 
 
-def divide_by_area(energy, material_surfaces, ref_area='floor_area_wo_basement'):
+def divide_by_area(energy, material_surfaces, multi=1.0, ref_area='floor_area_wo_basement'):
     res = {}
     for scenario in energy:
         res[scenario] = {}
         area = material_surfaces[scenario][ref_area]
         for e in energy[scenario]:
-            res[scenario][e] = energy[scenario][e] / area / 10**6
+            res[scenario][e] = energy[scenario][e] / area * multi
     return res
 
 
@@ -366,7 +366,7 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     :param ref_area:
     :return:
     """
-    res = divide_by_area(energy, material_surfaces, ref_area)
+    res = divide_by_area(energy, material_surfaces, 1/10**6, ref_area)
     res = disaggregate_scenario_str(res, ['climate_reg'])
     res = weighing_climate_region(res)
     writer = pd.ExcelWriter(find_last_run().replace('.run', '_ei.xlsx'),
@@ -383,6 +383,13 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     return res
 
 
+def save_mi_result(material_surfaces):
+    res = divide_by_area(material_surfaces, material_surfaces)
+    res = disaggregate_scenario_str(res, ['climate_reg'])
+    res.to_excel(find_last_run().replace('.run', '_mi.xlsx'))
+    return res
+
+
 def save_ei_for_odym(ei_result):
     res = weighing_energy_carrier(ei_result)
     new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Service', 'SSP_Regions_32', 'Energy carrier']
@@ -395,6 +402,28 @@ def save_ei_for_odym(ei_result):
     res['Comment'] = 'Simulated in BME v0.0'
     # some more stuff?
     res.to_excel(find_last_run().replace('.run', '_ODYM_ei.xlsx'), merge_cells=False)
+
+
+def save_mi_for_odym(mi_result):
+    # Only use the first climate region
+    mi_result = mi_result.loc[pd.IndexSlice[:, :, :, :, :], pd.IndexSlice[:, mi_result.columns.levels[1][0]]]
+    mi_result.columns = mi_result.columns.droplevel(1)
+    mi_result = mi_result[[c for c in mi_result.columns if c not in ['floor_area_wo_basement',
+                                                                     'footprint_area',
+                                                                     'total_mat']]]
+    mi_result.index = mi_result.index.droplevel(4)
+    mi_result = mi_result.stack()
+    new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Engineering_Materials_m2', 'SSP_Regions_32']
+    new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Material Intensity UsePhase'] + [i[n] for n in (3,  4, 0)])
+               for i in mi_result.index.values]
+    mi_result.index = pd.MultiIndex.from_tuples(new_idx, names=new_idx_names)
+    mi_result = pd.DataFrame(mi_result, columns=['Value'])
+    mi_result['Unit'] = 'kg/m2'
+    mi_result['Stats_array_string'] = ''
+    mi_result['Comment'] = 'Simulated in BME v0.0'
+    # some more stuff?
+    mi_result.to_excel(find_last_run().replace('.run', '_ODYM_mi.xlsx'), merge_cells=False)
+
 
 
 def save_all_result_csv(res):
@@ -430,8 +459,7 @@ def all_results_collector(fnames):
     ei_result = save_ei_result(energy_res, material_res)
     save_ei_for_odym(ei_result)
     mi_result = save_mi_result(material_res)
-    # TODO save_mi_result_csv(energy_res, material_res)
-    return res
+    save_mi_for_odym(mi_result)
 
 
 def cleanup():
@@ -441,19 +469,4 @@ def cleanup():
     """
     pass
 
-
-def create_result_table():
-    """
-    Arragnes the results into a nice table for further aggregation.
-    :return:
-    """
-    pass
-
-
-def create_odym_input():
-    """
-    Aggregates the result table into the ODYM format.
-    :return:
-    """
-    pass
 
