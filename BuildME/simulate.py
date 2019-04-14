@@ -77,31 +77,42 @@ def nuke_folders(fnames, forgive=True):
         print("INFO: './tmp' folder not empty: %s" % ', '.join(remaining_folders))
 
 
-def apply_energy_standard(archetype_file, energy_standard):
+def apply_obj_name_change(idf_data, replacer, replace_str):
     """
     Replaces the all 'Construction' objects in the IDF with the current energy standard version.
     :param archetype_file:
-    :param energy_standard:
+    :param replacer:
     """
-    replace_me = '-en-std-replaceme'
     objects = ['Window', 'BuildingSurface:Detailed', 'Door']
     # Load IDF file
-    idf_data = idf.read_idf(archetype_file)
     for obj_type in objects:
         for obj in idf_data.idfobjects[obj_type.upper()]:
-            if obj.Construction_Name.endswith(replace_me):
+            if replace_str in obj.Construction_Name:
                 # replace the item
-                obj.Construction_Name = obj.Construction_Name.replace(replace_me, '-' + energy_standard[2])
-    # idf_data.idfobjects['Building'.upper()][0].Name = '.'.join(energy_standard)
+                obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + replacer[2])
+    # idf_data.idfobjects['Building'.upper()][0].Name = '.'.join(replacer)
     return idf_data
 
 
-def apply_RES(idf_f, res, res_rules):
-    res_values = res_rules.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
-    assert len(res_values) > 0, "Did not find a RES strategy for '%s" % res
-    for res_value in res_values.iterrows():
-        for idfobj in idf_f.idfobjects[res_value[1]['idfobject'].upper()]:
-            setattr(idfobj, res_value[1]['objectfield'], res_value[1]['Value'])
+def apply_rule_from_excel(idf_f, res, en_replace):
+    """
+
+    :param idf_f:
+    :param res:
+    :param en_replace: Excel replacement rules
+    :return:
+    """
+    xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
+    if not 'RES' in res[2]:
+        assert len(xls_values) > 0, "Did not find an energy replacement for '%s" % res
+    for xls_value in xls_values.iterrows():
+        if xls_value[1]['Value'] == 'skip':
+            print("bam")
+            continue
+        for idfobj in idf_f.idfobjects[xls_value[1]['idfobject'].upper()]:
+            if idfobj.Name not in ('*', xls_value[1].Name):
+                continue
+            setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
     return idf_f
 
 
@@ -114,21 +125,27 @@ def copy_scenario_files(fnames, replace=False):
     :return:
     """
     if replace:
-        print("Deleting files...")
+        print("DELETING %i folders..." % len(fnames))
         nuke_folders(fnames)
     print("Copying files...")
-    res_rules = pd.read_excel('./data/RES.xlsx', index_col=[0, 1, 2])
-    tq = tqdm(fnames, desc='Initiating...', leave=True)
+    en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
+    res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
+    tq = tqdm(fnames, leave=True)
     for fname in tq:
-        tq.set_description(fname)
+        # tq.set_description(fname)
         fpath = os.path.join(settings.tmp_path, fname)
         # create folder
         os.makedirs(fpath)
         # copy climate file
         shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
-        idf_f = apply_energy_standard(fnames[fname]['archetype_file'], fnames[fname]['energy_standard'])
-        idf_f = apply_RES(idf_f, fnames[fname]['RES'], res_rules)
+        idf_f = idf.read_idf(fnames[fname]['archetype_file'])
+        idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'],
+                                       '-en-std-replaceme')
+        idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'],
+                                       '-res-replaceme')
+        idf_f = apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
+        idf_f = apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
         idf_f.saveas(os.path.join(fpath, 'in.idf'))
     # save list of all folders
@@ -159,6 +176,16 @@ def load_run_data_file(filename):
     return pickle.load(open(filename, 'rb'))
 
 
+def translate_to_odym_mat(total_material_mass):
+    res = {}
+    for mat in total_material_mass:
+        if settings.odym_materials[mat] not in res:
+            res[settings.odym_materials[mat]] = total_material_mass[mat]
+        else:
+            res[settings.odym_materials[mat]] += total_material_mass[mat]
+    return res
+
+
 def calculate_materials(fnames=None):
     print("Extracting materials and surfaces...")
     if not fnames:
@@ -177,12 +204,30 @@ def calculate_materials(fnames=None):
         surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2])
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
+        odym_mat = translate_to_odym_mat(total_material_mass)
         surface_areas = material.calc_surface_areas(surfaces)
         # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
-        res = total_material_mass
+        res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
+        beam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
+        if beam[0] in res:
+            res[beam[0]] += beam[1]
+        else:
+            res[beam[0]] = beam[1]
         material.save_materials(res, run_path)
+
+
+def add_surrogate_beams(res, area, distance=0.6,):
+    res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .05*.05, 'density': 8050},
+                'RES2.1': {'Material': 'wood and wood products', 'vol': .12*.26, 'density': 500},
+                'RES2.2': {'Material': 'construction grade steel', 'vol': .03*.03, 'density': 8050},
+                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .12*.20, 'density': 500}}
+    side_length = area ** 0.5
+    number_beams = side_length / distance + 1
+    res_vol = res_dict[res]['vol'] * side_length * number_beams
+    mass = res_vol * res_dict[res]['density']
+    return res_dict[res]['Material'], mass
 
 
 def calculate_energy(fnames=None):
@@ -207,7 +252,7 @@ def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
     pool = mp.Pool(processes=cpus)
     m = mp.Manager()
     q = m.Queue()
-    pbar = tqdm(total=len(fnames), smoothing=0.1)
+    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
     args = ((folder, q, no) for no, folder in enumerate(fnames))
     result = pool.map_async(calculate_energy_worker, args)
     old_q = 0
@@ -216,6 +261,8 @@ def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
         #print(q.qsize())
         if q.qsize() > old_q:
             pbar.update(q.qsize() - old_q)
+        else:
+            pbar.update(0)
         old_q = q.qsize()
         sleep(0.2)
     pool.close()
@@ -272,8 +319,8 @@ def collect_logs(fnames, logfile='eplusout.err'):
     return res
 
 
-def collect_material(fnames):
-    print('Collecting Material results...')
+def load_material(fnames):
+    print('Loading Material results...')
     res = {}
     for folder in tqdm(fnames):
         df = pd.read_csv(os.path.join(fnames[folder]['run_folder'], 'materials.csv'), header=None)
@@ -318,7 +365,8 @@ def weighing_climate_region(res):
     # I know looping DFs is lame, but who can figure out this fricking syntax?!
     #  https://stackoverflow.com/a/41494810/2075003
     for region in res.index.levels[0]:
-        for cr in res.loc[region].columns.levels[1]:
+        # Why u not update the column index pandas??
+        for cr in set([c[1] for c in res.loc[region].dropna(axis=1)]):
             res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
                 res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
                 weights.loc[pd.IndexSlice[region, cr], 'share']
@@ -335,17 +383,13 @@ def weighing_energy_carrier(ei_result):
     df = pd.DataFrame(data=0.0, index=df.index, columns=weights.columns).stack()
     df.index.names = ei_result.index.names + ['ServiceType', 'energy_carrier']
     for i, s in df.iteritems():
-        if i[4] == 'Heating':
+        if i[4] in ('Heating', 'Cooling'):
             df[i] = ei_result.loc[i[:-2], [energy_dict[i[4]]]].sum() * \
                     weights.loc[i[0], i[-1]]
-        elif i[4] == 'DHW':  # TODO: Not implemented yet
-            df[i] = 0.0
+        elif i[4] == 'DHW':
+            df[i] = ei_result.loc[i[:-2], ['DHW']] * weights.loc[i[0], i[-1]]
         else:
-            if i[5] == 'electricity':
-                df[i] = ei_result.loc[i[:-2], [energy_dict[i[4]]]].sum() * \
-                        1.0
-            else:
-                df[i] = 0.0
+           df[i] = 0.0
     return df
 
 
@@ -369,8 +413,8 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     res = divide_by_area(energy, material_surfaces, 1/10**6, ref_area)
     res = disaggregate_scenario_str(res, ['climate_reg'])
     res = weighing_climate_region(res)
-    writer = pd.ExcelWriter(find_last_run().replace('.run', '_ei.xlsx'),
-                            engine='xlsxwriter')
+    res = add_DHW(res)
+    writer = pd.ExcelWriter(find_last_run().replace('.run', '_ei.xlsx'), engine='xlsxwriter')
     res.to_excel(writer, 'all')
     res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
     res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
@@ -378,9 +422,17 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
     (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
      res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
+    res['DHW'].to_excel(writer, 'DHW')
     res.sum(axis=1).to_excel(writer, 'total')
     writer.save()
     return res
+
+
+def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50}):
+    for occ in dhw_dict:
+        if occ in ei.index.levels[1]:
+            ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]
+    return ei
 
 
 def save_mi_result(material_surfaces):
@@ -392,6 +444,7 @@ def save_mi_result(material_surfaces):
 
 def save_ei_for_odym(ei_result):
     res = weighing_energy_carrier(ei_result)
+    res.index = res.index.set_levels([settings.odym_regions[r] for r in res.index.levels[0]], 0)
     new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Service', 'SSP_Regions_32', 'Energy carrier']
     new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Energy Intensity UsePhase'] + [i[n] for n in (3, 4, 0, 5)])
                for i in res.index.values]
@@ -399,30 +452,33 @@ def save_ei_for_odym(ei_result):
     res = pd.DataFrame(res, columns=['Value'])
     res['Unit'] = 'MJ/m2/yr'
     res['Stats_array_string'] = ''
-    res['Comment'] = 'Simulated in BME v0.0'
+    res['Comment'] = 'Simulated in BuildME v0.0'
     # some more stuff?
     res.to_excel(find_last_run().replace('.run', '_ODYM_ei.xlsx'), merge_cells=False)
 
 
 def save_mi_for_odym(mi_result):
     # Only use the first climate region
-    mi_result = mi_result.loc[pd.IndexSlice[:, :, :, :, :], pd.IndexSlice[:, mi_result.columns.levels[1][0]]]
-    mi_result.columns = mi_result.columns.droplevel(1)
-    mi_result = mi_result[[c for c in mi_result.columns if c not in ['floor_area_wo_basement',
-                                                                     'footprint_area',
-                                                                     'total_mat']]]
-    mi_result.index = mi_result.index.droplevel(4)
-    mi_result = mi_result.stack()
+    mi_result.index = mi_result.index.set_levels([settings.odym_regions[r] for r in mi_result.index.levels[0]], 0)
+    # mi_result = mi_result.loc[pd.IndexSlice[:, :, :, :, :], pd.IndexSlice[:, mi_result.columns.levels[1][0]]]
+    new_mi = pd.DataFrame(index=mi_result.index, columns=mi_result.columns.levels[0])
+    for region in mi_result.index.levels[0]:
+        first_climate_region = settings.combinations[ dict([[v,k] for k,v in settings.odym_regions.items()])[region]]['climate_region'][0]
+        new_mi.loc[region] = mi_result.loc[region, pd.IndexSlice[:, first_climate_region]].values
+        # mi_result.columns = mi_result.columns.droplevel(1)
+    new_mi = new_mi[[c for c in new_mi.columns if c not in ['floor_area_wo_basement', 'footprint_area', 'total_mat']]]
+    new_mi.index = new_mi.index.droplevel(4)
+    new_mi = new_mi.stack()
     new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Engineering_Materials_m2', 'SSP_Regions_32']
     new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Material Intensity UsePhase'] + [i[n] for n in (3,  4, 0)])
-               for i in mi_result.index.values]
-    mi_result.index = pd.MultiIndex.from_tuples(new_idx, names=new_idx_names)
-    mi_result = pd.DataFrame(mi_result, columns=['Value'])
-    mi_result['Unit'] = 'kg/m2'
-    mi_result['Stats_array_string'] = ''
-    mi_result['Comment'] = 'Simulated in BME v0.0'
+               for i in new_mi.index.values]
+    new_mi.index = pd.MultiIndex.from_tuples(new_idx, names=new_idx_names)
+    new_mi = pd.DataFrame(new_mi, columns=['Value'])
+    new_mi['Unit'] = 'kg/m2'
+    new_mi['Stats_array_string'] = ''
+    new_mi['Comment'] = 'Simulated in BuildME v0.0'
     # some more stuff?
-    mi_result.to_excel(find_last_run().replace('.run', '_ODYM_mi.xlsx'), merge_cells=False)
+    new_mi.to_excel(find_last_run().replace('.run', '_ODYM_mi.xlsx'), merge_cells=False)
 
 
 
@@ -446,15 +502,15 @@ def all_results_collector(fnames):
     :return: Dictionary with scenario as key and material intensity, energy intensity, and e+ log file, e.g.
                 {'USA_SFH_ZEB_RES0_1A_2015': {Asphalt_shingle: 4.2, ...}}
     """
+    print("Collecting results...")
     ep_logs = collect_logs(fnames)
-    material_res = collect_material(fnames)
+    material_res = load_material(fnames)
     energy_res = collect_energy(fnames)
     res = {}
     for f in ep_logs:
         res[f] = {**material_res[f], **energy_res[f], **ep_logs[f]}
     res = pd.DataFrame.from_dict(res, orient='index')
     res.index.names = ['scenario']
-    res = calculate_measures(res)
     save_all_result_csv(res)
     ei_result = save_ei_result(energy_res, material_res)
     save_ei_for_odym(ei_result)

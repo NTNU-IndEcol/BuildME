@@ -1,6 +1,6 @@
 !-Generator IDFEditor 1.50
 !-Option SortedOrder
-!-Original file: SF_Connecticut_Hartford-Bradley.Intl.AP.725080_gasfurnace_unheatedbsmt_IECC_2009
+!-Original file: SF_Connecticut_Hartford-Bradley.Intl.AP.725080_gasfurnace_slab_IECC_2006
 
 !-NOTE: All comments with '!-' are ignored by the IDFEditor and are generated automatically.
 !-      Use '!' comments if they need to be retained when using the IDFEditor.
@@ -20,15 +20,14 @@ SimulationControl,
     Yes,                     !- Do Zone Sizing Calculation
     Yes,                     !- Do System Sizing Calculation
     No,                      !- Do Plant Sizing Calculation
-    Yes,                     !- Run Simulation for Sizing Periods
+    No,                     !- Run Simulation for Sizing Periods
     Yes;                     !- Run Simulation for Weather File Run Periods
 
 
 !-   ===========  ALL OBJECTS IN CLASS: BUILDING ===========
 
 Building,
-    !- SF_Connecticut_Hartford-Bradley.Intl.AP.725080_gasfurnace_unheatedbsmt_IECC_2009,  !- Name
-    US_SFH_base.archetype,  !- Name
+    SF_Connecticut_Hartford-Bradley.Intl.AP.725080_gasfurnace_slab_IECC_2006,  !- Name
     0,                       !- North Axis {deg}
     Suburbs,                 !- Terrain
     0.04,                    !- Loads Convergence Tolerance Value
@@ -47,7 +46,7 @@ SurfaceConvectionAlgorithm:Inside,
 !-   ===========  ALL OBJECTS IN CLASS: TIMESTEP ===========
 
 Timestep,
-    30;                       !- Number of Timesteps per Hour
+    6;                       !- Number of Timesteps per Hour
 
 
 !-   ===========  ALL OBJECTS IN CLASS: SITE:LOCATION ===========
@@ -63,36 +62,29 @@ Site:Location,
     -5.00,                   !- Time Zone {hr}
     49.00;                   !- Elevation {m}
 
+!-   ===========  ALL OBJECTS IN CLASS: SIZINGPERIOD:WEATHERFILEDAYS ===========
 
-!-   ===========  ALL OBJECTS IN CLASS: SIZINGPERIOD:DESIGNDAY ===========
+SizingPeriod:WeatherFileDays,
+    WF1,                     !- Name
+    1,                       !- Begin Month
+    21,                      !- Begin Day of Month
+    1,                       !- End Month
+    22,                      !- End Day of Month
+    Monday,                  !- Day of Week for Start Day
+    Yes,                     !- Use Weather File Daylight Saving Period
+    Yes;                     !- Use Weather File Rain and Snow Indicators
 
-SizingPeriod:DesignDay,
-    Hartford Bradley Intl Ap Ann Htg 99.6% Condns DB,  !- Name
-    1,                       !- Month
-    21,                      !- Day of Month
-    WinterDesignDay,         !- Day Type
-    -16,                     !- Maximum Dry-Bulb Temperature {C}
-    0.0,                     !- Daily Dry-Bulb Temperature Range {deltaC}
-    ,                        !- Dry-Bulb Temperature Range Modifier Type
-    ,                        !- Dry-Bulb Temperature Range Modifier Day Schedule Name
-    Wetbulb,                 !- Humidity Condition Type
-    -16,                     !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
-    ,                        !- Humidity Condition Day Schedule Name
-    ,                        !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
-    ,                        !- Enthalpy at Maximum Dry-Bulb {J/kg}
-    ,                        !- Daily Wet-Bulb Temperature Range {deltaC}
-    100738.,                 !- Barometric Pressure {Pa}
-    3.3,                     !- Wind Speed {m/s}
-    330,                     !- Wind Direction {deg}
-    No,                      !- Rain Indicator
-    No,                      !- Snow Indicator
-    No,                      !- Daylight Saving Time Indicator
-    ASHRAEClearSky,          !- Solar Model Indicator
-    ,                        !- Beam Solar Day Schedule Name
-    ,                        !- Diffuse Solar Day Schedule Name
-    ,                        !- ASHRAE Clear Sky Optical Depth for Beam Irradiance (taub) {dimensionless}
-    ,                        !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance (taud) {dimensionless}
-    0.00;                    !- Sky Clearness
+SizingPeriod:WeatherFileDays,
+    WF2,                     !- Name
+    7,                       !- Begin Month
+    21,                      !- Begin Day of Month
+    7,                       !- End Month
+    22,                      !- End Day of Month
+    Monday,                  !- Day of Week for Start Day
+    Yes,                     !- Use Weather File Daylight Saving Period
+    Yes;                     !- Use Weather File Rain and Snow Indicators
+
+
 
 SizingPeriod:DesignDay,
     Hartford Bradley Intl Ap Ann Clg .4% Condns DB=>MWB,  !- Name
@@ -1431,10 +1423,46 @@ Schedule:Constant,
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL ===========
 
 Material,
-    wall_consol_layer,       !- Name
+    wall_consol_layer-en-non-standard,       !- Name
     Rough,                   !- Roughness
     0.1397,                  !- Thickness {m}
-    0.05966275,              !- Conductivity {W/m-K}
+    0.081285,                !- Conductivity {W/m-K} **CHANGED NH**
+    !- IECC 2006 0.061285,                !- Conductivity {W/m-K}
+    !- IECC 2009 0.05966275,              !- Conductivity {W/m-K}
+    !- IECC 2012 0.05966275,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    wall_consol_layer-en-standard,       !- Name
+    Rough,                   !- Roughness
+    0.1397,                  !- Thickness {m}
+    0.061285,                !- Conductivity {W/m-K} **CHANGED NH**
+    !- IECC 2006 0.061285,                !- Conductivity {W/m-K}
+    !- IECC 2009 0.05966275,              !- Conductivity {W/m-K}
+    !- IECC 2012 0.05966275,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    wall_consol_layer-en-efficient,       !- Name
+    Rough,                   !- Roughness
+    0.1397,                  !- Thickness {m}
+    0.05966275,                !- Conductivity {W/m-K} **CHANGED NH**
+    !- IECC 2006 0.061285,                !- Conductivity {W/m-K}
+    !- IECC 2009 0.05966275,              !- Conductivity {W/m-K}
+    !- IECC 2012 0.05966275,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    wall_consol_layer-en-ZEB,       !- Name
+    Rough,                   !- Roughness
+    0.2,                  !- Thickness {m} **CHANGED NH**
+    0.04,                !- Conductivity {W/m-K} **CHANGED NH**
+    !- IECC 2006 0.061285,                !- Conductivity {W/m-K}
+    !- IECC 2009 0.05966275,              !- Conductivity {W/m-K}
+    !- IECC 2012 0.05966275,              !- Conductivity {W/m-K}
     120.801,                 !- Density {kg/m3}
     1036.25775;              !- Specific Heat {J/kg-K}
 
@@ -1447,10 +1475,46 @@ Material,
     1172.332;                !- Specific Heat {J/kg-K}
 
 Material,
-    ceil_consol_layer,       !- Name
+    ceil_consol_layer-en-non-standard,       !- Name
     Rough,                   !- Roughness
-    0.31843988215804,        !- Thickness {m}
+    0.2,        !- Thickness {m}  **CHANGED NH**
+    !- IECC 2006 0.31843988215804,        !- Thickness {m}
+    !- IECC 2009 Yes, this is correct: 0.31843988215804,        !- Thickness {m}
+    !- IECC 2012 0.374580632741818,        !- Thickness {m}
     0.0617176,               !- Conductivity {W/m-K}
+    41.9286,                 !- Density {kg/m3}
+    776.25126;               !- Specific Heat {J/kg-K}
+
+Material,
+    ceil_consol_layer-en-standard,       !- Name
+    Rough,                   !- Roughness
+    0.374580632741818,        !- Thickness {m}  **CHANGED NH**
+    !- IECC 2006 0.31843988215804,        !- Thickness {m}
+    !- IECC 2009 Yes, this is correct: 0.31843988215804,        !- Thickness {m}
+    !- IECC 2012 0.374580632741818,        !- Thickness {m}
+    0.0617176,               !- Conductivity {W/m-K}
+    41.9286,                 !- Density {kg/m3}
+    776.25126;               !- Specific Heat {J/kg-K}
+
+Material,
+    ceil_consol_layer-en-efficient,       !- Name
+    Rough,                   !- Roughness
+    0.31843988215804,        !- Thickness {m}  **CHANGED NH**
+    !- IECC 2006 0.31843988215804,        !- Thickness {m}
+    !- IECC 2009 Yes, this is correct: 0.31843988215804,        !- Thickness {m}
+    !- IECC 2012 0.374580632741818,        !- Thickness {m}
+    0.0617176,               !- Conductivity {W/m-K}
+    41.9286,                 !- Density {kg/m3}
+    776.25126;               !- Specific Heat {J/kg-K}
+
+Material,
+    ceil_consol_layer-en-ZEB,       !- Name
+    Rough,                   !- Roughness
+    0.35,        !- Thickness {m}  **CHANGED NH**
+    !- IECC 2006 0.31843988215804,        !- Thickness {m}
+    !- IECC 2009 Yes, this is correct: 0.31843988215804,        !- Thickness {m}
+    !- IECC 2012 0.374580632741818,        !- Thickness {m}
+    0.04,               !- Conductivity {W/m-K}
     41.9286,                 !- Density {kg/m3}
     776.25126;               !- Specific Heat {J/kg-K}
 
@@ -1463,14 +1527,19 @@ Material,
     916.9311;                !- Specific Heat {J/kg-K}
 
 Material,
+    !- NH: Unused in the 'slab' file
     bsmtwall_consol_layer,   !- Name
     Rough,                   !- Roughness
     0.0889,                  !- Thickness {m}
+    !- IECC 2006 0.0889,                  !- Thickness {m}
+    !- IECC 2009 Yes, this is correct: 0.0889,                  !- Thickness {m}
+    !- IECC 2012 0.1397,                  !- Thickness {m}
     0.05966275,              !- Conductivity {W/m-K}
     120.801,                 !- Density {kg/m3}
     1036.25775;              !- Specific Heat {J/kg-K}
 
 Material,
+    !- NH: Unused in the 'slab' file
     crawlwall_consol_layer,  !- Name
     Rough,                   !- Roughness
     0.0889,                  !- Thickness {m}
@@ -1525,6 +1594,54 @@ Material,
     0.1014984,               !- Thickness {m}
     1.312098,                !- Conductivity {W/m-K}
     2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_12cm,            !- Name
+    Rough,                   !- Roughness
+    0.1,               !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_12cm,            !- Name
+    Rough,                   !- Roughness
+    0.0012,               !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_15cm,            !- Name
+    Rough,                   !- Roughness
+    0.15,               !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_15cm,            !- Name
+    Rough,                   !- Roughness
+    0.0015,               !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_20cm,            !- Name
+    Rough,                   !- Roughness
+    0.2,               !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_20cm,            !- Name
+    Rough,                   !- Roughness
+    0.002,               !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                  !- Density {kg/m3}
     465.2;                   !- Specific Heat {J/kg-K}
 
 Material,
@@ -1712,6 +1829,17 @@ Material,
     0.7000000;               !- Visible Absorptance
 
 Material,
+    Std Wood 10cm,          !- Name
+    MediumSmooth,            !- Roughness
+    0.1,                    !- Thickness {m}
+    0.12,                    !- Conductivity {W/m-K}
+    540.0000,                !- Density {kg/m3}
+    1210,                    !- Specific Heat {J/kg-K}
+    0.9000000,               !- Thermal Absorptance
+    0.7000000,               !- Solar Absorptance
+    0.7000000;               !- Visible Absorptance
+
+Material,
     Pipe Insulation,         !- Name
     VeryRough,               !- Roughness
     0.0127032520325203,      !- Thickness {m}
@@ -1752,8 +1880,42 @@ Material:AirGap,
 !-   ===========  ALL OBJECTS IN CLASS: WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM ===========
 
 WindowMaterial:SimpleGlazingSystem,
-    Glass,                   !- Name
+    Glass-en-non-standard,                   !- Name
+    3.0,                 !- U-Factor {W/m2-K}
+    !- IECC 2006 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2009 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2012 1.817152,                 !- U-Factor {W/m2-K}
+    !- NH: Change U-value for IECC
+    0.4,                     !- Solar Heat Gain Coefficient
+    0.88;                    !- Visible Transmittance
+
+WindowMaterial:SimpleGlazingSystem,
+    Glass-en-standard,                   !- Name
     1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2006 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2009 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2012 1.817152,                 !- U-Factor {W/m2-K}
+    !- NH: Change U-value for IECC
+    0.4,                     !- Solar Heat Gain Coefficient
+    0.88;                    !- Visible Transmittance
+
+WindowMaterial:SimpleGlazingSystem,
+    Glass-en-efficient,                   !- Name
+    1.3,                 !- U-Factor {W/m2-K}
+    !- IECC 2006 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2009 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2012 1.817152,                 !- U-Factor {W/m2-K}
+    !- NH: Change U-value for IECC
+    0.4,                     !- Solar Heat Gain Coefficient
+    0.88;                    !- Visible Transmittance
+
+WindowMaterial:SimpleGlazingSystem,
+    Glass-en-ZEB,                   !- Name
+    0.8,                 !- U-Factor {W/m2-K}
+    !- IECC 2006 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2009 1.98751,                 !- U-Factor {W/m2-K}
+    !- IECC 2012 1.817152,                 !- U-Factor {W/m2-K}
+    !- NH: Change U-value for IECC
     0.4,                     !- Solar Heat Gain Coefficient
     0.88;                    !- Visible Transmittance
 
@@ -1836,26 +1998,119 @@ Construction,
     Std Wood 6inch;          !- Outside Layer
 
 Construction,
+    !- unused
     ceiling-floor-layer,     !- Name
     Lumber_2x4;              !- Outside Layer
 
 Construction,
     !- Exterior Floor,          !- Name
-    ext-floor-non-standard,          !- Name
+    ext-floor-non-standard-RES0,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_15cm,           !- Layer 2
+    Reinforcement_1perc_15cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-standard-RES0,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_15cm,           !- Layer 2
+    Reinforcement_1perc_15cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-efficient-RES0,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_15cm,           !- Layer 2
+    Reinforcement_1perc_15cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-ZEB-RES0,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_15cm,           !- Layer 2
+    Reinforcement_1perc_15cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-non-standard-RES2.1,          !- Name
     floor_consol_layer,      !- Outside Layer
     Plywood_3/4in,           !- Layer 2
     Carpet_n_pad;            !- Layer 3
 
 Construction,
     !- Exterior Floor,          !- Name
-    ext-floor-standard,          !- Name
+    ext-floor-standard-RES2.1,          !- Name
     floor_consol_layer,      !- Outside Layer
     Plywood_3/4in,           !- Layer 2
     Carpet_n_pad;            !- Layer 3
 
 Construction,
     !- Exterior Floor,          !- Name
-    ext-floor-efficient,          !- Name
+    ext-floor-efficient-RES2.1,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Plywood_3/4in,           !- Layer 2
+    Carpet_n_pad;            !- Layer 3
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-ZEB-RES2.1,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Plywood_3/4in,           !- Layer 2
+    Carpet_n_pad;            !- Layer 3
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-non-standard-RES2.2,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-standard-RES2.2,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-efficient-RES2.2,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-ZEB-RES2.2,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,   !- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-non-standard-RES2.1+RES2.2,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Plywood_3/4in,           !- Layer 2
+    Carpet_n_pad;            !- Layer 3
+
+Construction,
+    !- Exterior Floor,          !- Name
+    ext-floor-standard-RES2.1+RES2.2,          !- Name
+    floor_consol_layer,      !- Outside Layer
+    Plywood_3/4in,           !- Layer 2
+    Carpet_n_pad;            !- Layer 3
+
+Construction,
+    !- Exterior Floor-RES2.1+RES2.2,          !- Name
+    ext-floor-efficient -RES2.1+RES2.2,          !- Name
     floor_consol_layer,      !- Outside Layer
     Plywood_3/4in,           !- Layer 2
     Carpet_n_pad;            !- Layer 3
@@ -1863,7 +2118,7 @@ Construction,
 
 Construction,
     !- Exterior Floor,          !- Name
-    ext-floor-ZEB,          !- Name
+    ext-floor-ZEB-RES2.1+RES2.2,          !- Name
     floor_consol_layer,      !- Outside Layer
     Plywood_3/4in,           !- Layer 2
     Carpet_n_pad;            !- Layer 3
@@ -1899,78 +2154,209 @@ Construction,
 
 Construction,
     !- Exterior Wall,           !- Name
-    ext-wall-non-standard,           !- Name
+    ext-wall-non-standard-RES0,           !- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
-    OSB_5/8in,               !- Layer 4
-    wall_consol_layer,       !- Layer 5
+    Concrete_15cm,               !- Layer 4
+    Reinforcement_1perc_15cm,
+    wall_consol_layer-en-non-standard,       !- Layer 5
     Drywall_1/2in;           !- Layer 6
 
 Construction,
     !- Exterior Wall,           !- Name
-    ext-wall-standard,           !- Name
+    ext-wall-standard-RES0,           !- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
-    OSB_5/8in,               !- Layer 4
-    wall_consol_layer,       !- Layer 5
+    Concrete_15cm,               !- Layer 4
+    Reinforcement_1perc_15cm,
+    wall_consol_layer-en-standard,       !- Layer 5
     Drywall_1/2in;           !- Layer 6
 
 Construction,
     !- Exterior Wall,           !- Name
-    ext-wall-efficient,           !- Name
+    ext-wall-efficient-RES0,           !- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
-    OSB_5/8in,               !- Layer 4
-    wall_consol_layer,       !- Layer 5
+    Concrete_15cm,               !- Layer 4
+    Reinforcement_1perc_15cm,
+    wall_consol_layer-en-efficient,       !- Layer 5
     Drywall_1/2in;           !- Layer 6
 
 Construction,
     !- Exterior Wall,           !- Name
-    ext-wall-ZEB,           !- Name
+    ext-wall-ZEB-RES0,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_15cm,               !- Layer 4
+    Reinforcement_1perc_15cm,
+    wall_consol_layer-en-ZEB,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-non-standard-RES2.1,           !- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
     OSB_5/8in,               !- Layer 4
-    wall_consol_layer,       !- Layer 5
+    wall_consol_layer-en-non-standard,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-standard-RES2.1,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    OSB_5/8in,               !- Layer 4
+    wall_consol_layer-en-standard,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-efficient-RES2.1,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    OSB_5/8in,               !- Layer 4
+    wall_consol_layer-en-efficient,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-ZEB-RES2.1,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    OSB_5/8in,               !- Layer 4
+    wall_consol_layer-en-ZEB,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-non-standard-RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,               !- Layer 4
+    Reinforcement_1perc_12cm,
+    wall_consol_layer-en-non-standard,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-standard-RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,               !- Layer 4
+    Reinforcement_1perc_12cm,
+    wall_consol_layer-en-standard,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-efficient-RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,               !- Layer 4
+    Reinforcement_1perc_12cm,
+    wall_consol_layer-en-efficient,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-ZEB-RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,               !- Layer 4
+    Reinforcement_1perc_15cm,
+    wall_consol_layer-en-ZEB,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-non-standard-RES2.1+RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    OSB_5/8in,               !- Layer 4
+    wall_consol_layer-en-non-standard,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-standard-RES2.1+RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    OSB_5/8in,               !- Layer 4
+    wall_consol_layer-en-standard,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-efficient-RES2.1+RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    OSB_5/8in,               !- Layer 4
+    wall_consol_layer-en-efficient,       !- Layer 5
+    Drywall_1/2in;           !- Layer 6
+
+Construction,
+    !- Exterior Wall,           !- Name
+    ext-wall-ZEB-RES2.1+RES2.2,           !- Name
+    Stucco_1in,              !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    OSB_5/8in,               !- Layer 4
+    wall_consol_layer-en-ZEB,       !- Layer 5
     Drywall_1/2in;           !- Layer 6
 
 Construction,
     !- Interior Ceiling,        !- Name
     attic-ceiling-non-standard,        !- Name
-    ceil_consol_layer,       !- Outside Layer
+    ceil_consol_layer-en-non-standard,       !- Outside Layer
     Drywall_1/2in;           !- Layer 2
 
 Construction,
     !- Interior Ceiling,        !- Name
     attic-ceiling-standard,        !- Name
-    ceil_consol_layer,       !- Outside Layer
+    ceil_consol_layer-en-standard,       !- Outside Layer
     Drywall_1/2in;           !- Layer 2
 
 Construction,
     !- Interior Ceiling,        !- Name
     attic-ceiling-efficient,        !- Name
-    ceil_consol_layer,       !- Outside Layer
+    ceil_consol_layer-en-efficient,       !- Outside Layer
     Drywall_1/2in;           !- Layer 2
 
 Construction,
     !- Interior Ceiling,        !- Name
     attic-ceiling-ZEB,        !- Name
-    ceil_consol_layer,       !- Outside Layer
+    ceil_consol_layer-en-ZEB,       !- Outside Layer
     Drywall_1/2in;           !- Layer 2
 
-Construction,
-    attic floor,             !- Name
-    Drywall_1/2in,           !- Outside Layer
-    ceil_consol_layer;       !- Layer 2
+!- Construction,
+!-     !- NH: unused
+!-     attic floor,             !- Name
+!-     Drywall_1/2in,           !- Outside Layer
+!-     ceil_consol_layer;       !- Layer 2
 
-Construction,
-    fndn_roof,               !- Name
-    Carpet_n_pad,            !- Outside Layer
-    Plywood_3/4in,           !- Layer 2
-    ceil_consol_layer;       !- Layer 3
+!- Construction,
+!-     !- NH: unused
+!-     fndn_roof,               !- Name
+!-     Carpet_n_pad,            !- Outside Layer
+!-     Plywood_3/4in,           !- Layer 2
+!-     ceil_consol_layer;       !- Layer 3
 
 Construction,
     interiorwall,            !- Name
@@ -2011,26 +2397,26 @@ Construction,
 Construction,
     !- Exterior Window,         !- Name
     ext-window-non-standard,         !- Name
-    Glass;                   !- Outside Layer
+    Glass-en-non-standard;                   !- Outside Layer
 
 Construction,
     !- Exterior Window,         !- Name
     ext-window-standard,         !- Name
-    Glass;                   !- Outside Layer
+    Glass-en-standard;                   !- Outside Layer
 
 Construction,
     !- Exterior Window,         !- Name
     ext-window-efficient,         !- Name
-    Glass;                   !- Outside Layer
+    Glass-en-efficient;                   !- Outside Layer
 
 Construction,
     !- Exterior Window,         !- Name
     ext-window-ZEB,         !- Name
-    Glass;                   !- Outside Layer
+    Glass-en-ZEB;                   !- Outside Layer
 
 Construction,
     Interior Window,         !- Name
-    Glass;                   !- Outside Layer
+    Glass-en-standard;                   !- Outside Layer
 
 Construction,
     !- Exterior Door,           !- Name
@@ -2071,7 +2457,7 @@ Construction,
 
 Construction,
     window_w_blinds,         !- Name
-    Glass,                   !- Outside Layer
+    Glass-en-standard,                   !- Outside Layer
     int_blind;               !- Layer 2
 
 Construction,
@@ -2096,28 +2482,9 @@ Construction,
     Diffusing Acrylic Plastic;  !- Outside Layer
 
 Construction,
-    ext-wall-basement-non-standard,           !- Name
-    Plywood_3/4in,           !- Outside Layer
-    bsmtwall_consol_layer,   !- Layer 2
-    Plywood_3/4in;           !- Layer 3
-
-Construction,
-    ext-wall-basement-standard,           !- Name
-    Plywood_3/4in,           !- Outside Layer
-    bsmtwall_consol_layer,   !- Layer 2
-    Plywood_3/4in;           !- Layer 3
-
-Construction,
-    ext-wall-basement-efficient,           !- Name
-    Plywood_3/4in,           !- Outside Layer
-    bsmtwall_consol_layer,   !- Layer 2
-    Plywood_3/4in;           !- Layer 3
-
-Construction,
-    ext-wall-basement-ZEB,           !- Name
-    Plywood_3/4in,           !- Outside Layer
-    bsmtwall_consol_layer,   !- Layer 2
-    Plywood_3/4in;           !- Layer 3
+    Surrogate_slab_20cm,            !- Name
+    Concrete_20cm,  !- Outside Layer
+    Reinforcement_1perc_20cm;              !- Layer 2
 
 
 !-   ===========  ALL OBJECTS IN CLASS: GLOBALGEOMETRYRULES ===========
@@ -2141,15 +2508,6 @@ Zone,
 
 Zone,
     attic_unit1,             !- Name
-    0.0,                     !- Direction of Relative North {deg}
-    0.0,                     !- X Origin {m}
-    0.0,                     !- Y Origin {m}
-    0.0,                     !- Z Origin {m}
-    ,                        !- Type
-    1;                       !- Multiplier
-
-Zone,
-    unheatedbsmt_unit1,      !- Name
     0.0,                     !- Direction of Relative North {deg}
     0.0,                     !- X Origin {m}
     0.0,                     !- Y Origin {m}
@@ -2308,9 +2666,9 @@ BuildingSurface:Detailed,
     Extfloor_unit1,          !- Name
     Floor,                   !- Surface Type
     !- Exterior Floor,          !- Construction Name
-    ext-floor-en-std-replaceme,          !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    GroundBasementPreprocessorAverageFloor,  !- Outside Boundary Condition
+    ext-floor-en-std-replaceme-res-replaceme,          !- Construction Name  $$REPLACE$$
+    living_unit1,             !- Zone Name
+    Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
     NoSun,                   !- Sun Exposure
     NoWind,                  !- Wind Exposure
@@ -2318,22 +2676,22 @@ BuildingSurface:Detailed,
     4,                       !- Number of Vertices
     0,                       !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 1 Z-coordinate {m}
+    0.001,                   !- Vertex 1 Z-coordinate {m}
     0,                       !- Vertex 2 X-coordinate {m}
     9.15711496940971,        !- Vertex 2 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 2 Z-coordinate {m}
+    0.001,                   !- Vertex 2 Z-coordinate {m}
     12.1789629093149,        !- Vertex 3 X-coordinate {m}
     9.15711496940971,        !- Vertex 3 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 3 Z-coordinate {m}
+    0.001,                   !- Vertex 3 Z-coordinate {m}
     12.1789629093149,        !- Vertex 4 X-coordinate {m}
     0,                       !- Vertex 4 Y-coordinate {m}
-    -2.13314634146341;       !- Vertex 4 Z-coordinate {m}
+    0.001;                   !- Vertex 4 Z-coordinate {m}
 
 BuildingSurface:Detailed,
     Wall_ldf_1.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2358,7 +2716,7 @@ BuildingSurface:Detailed,
     Wall_sdr_1.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2383,7 +2741,7 @@ BuildingSurface:Detailed,
     Wall_ldb_1.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2408,7 +2766,7 @@ BuildingSurface:Detailed,
     Wall_sdl_1.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2433,7 +2791,7 @@ BuildingSurface:Detailed,
     Wall_ldf_2.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2458,7 +2816,7 @@ BuildingSurface:Detailed,
     Wall_sdr_2.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2483,7 +2841,7 @@ BuildingSurface:Detailed,
     Wall_ldb_2.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2508,7 +2866,7 @@ BuildingSurface:Detailed,
     Wall_sdl_2.unit1,        !- Name
     Wall,                    !- Surface Type
     !- Exterior Wall,           !- Construction Name
-    ext-wall-en-std-replaceme,           !- Construction Name  $$REPLACE$$
+    ext-wall-en-std-replaceme-res-replaceme,           !- Construction Name  $$REPLACE$$
     living_unit1,            !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2528,232 +2886,6 @@ BuildingSurface:Detailed,
     0,                       !- Vertex 4 X-coordinate {m}
     9.15711496940971,        !- Vertex 4 Y-coordinate {m}
     5.18392682926829;        !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    Floor_unit1,             !- Name
-    Floor,                   !- Surface Type
-    !- Interior Floor,          !- Construction Name
-    int-floor-basement-en-std-replaceme,          !- Construction Name  $$REPLACE$$
-    living_unit1,            !- Zone Name
-    Zone,                    !- Outside Boundary Condition
-    unheatedbsmt_unit1,      !- Outside Boundary Condition Object
-    NoSun,                   !- Sun Exposure
-    NoWind,                  !- Wind Exposure
-    0.0,                     !- View Factor to Ground
-    4,                       !- Number of Vertices
-    0,                       !- Vertex 1 X-coordinate {m}
-    0,                       !- Vertex 1 Y-coordinate {m}
-    0.001,                   !- Vertex 1 Z-coordinate {m}
-    0,                       !- Vertex 2 X-coordinate {m}
-    9.15711496940971,        !- Vertex 2 Y-coordinate {m}
-    0.001,                   !- Vertex 2 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 3 X-coordinate {m}
-    9.15711496940971,        !- Vertex 3 Y-coordinate {m}
-    0.001,                   !- Vertex 3 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 4 X-coordinate {m}
-    0,                       !- Vertex 4 Y-coordinate {m}
-    0.001;                   !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    !- This is a really weird element. it has a height of 0.001. Probably required fore basement calculation.
-    BGWall_upper_ldf,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    Outdoors,                !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    SunExposed,              !- Sun Exposure
-    WindExposed,             !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    0,                       !- Vertex 1 X-coordinate {m}
-    0,                       !- Vertex 1 Y-coordinate {m}
-    0,                       !- Vertex 1 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 2 X-coordinate {m}
-    0,                       !- Vertex 2 Y-coordinate {m}
-    0,                       !- Vertex 2 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 3 X-coordinate {m}
-    0,                       !- Vertex 3 Y-coordinate {m}
-    0.001,                   !- Vertex 3 Z-coordinate {m}
-    0,                       !- Vertex 4 X-coordinate {m}
-    0,                       !- Vertex 4 Y-coordinate {m}
-    0.001;                   !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    BGWall_lower_ldf,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    NoSun,                   !- Sun Exposure
-    NoWind,                  !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    0,                       !- Vertex 1 X-coordinate {m}
-    0,                       !- Vertex 1 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 1 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 2 X-coordinate {m}
-    0,                       !- Vertex 2 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 2 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 3 X-coordinate {m}
-    0,                       !- Vertex 3 Y-coordinate {m}
-    0,                       !- Vertex 3 Z-coordinate {m}
-    0,                       !- Vertex 4 X-coordinate {m}
-    0,                       !- Vertex 4 Y-coordinate {m}
-    0;                       !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    BGWall_upper_sdr,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    Outdoors,                !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    SunExposed,              !- Sun Exposure
-    WindExposed,             !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    12.1789629093149,        !- Vertex 1 X-coordinate {m}
-    0,                       !- Vertex 1 Y-coordinate {m}
-    0,                       !- Vertex 1 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 2 X-coordinate {m}
-    9.15711496940971,        !- Vertex 2 Y-coordinate {m}
-    0,                       !- Vertex 2 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 3 X-coordinate {m}
-    9.15711496940971,        !- Vertex 3 Y-coordinate {m}
-    0.001,                   !- Vertex 3 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 4 X-coordinate {m}
-    0,                       !- Vertex 4 Y-coordinate {m}
-    0.001;                   !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    BGWall_lower_sdr,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    NoSun,                   !- Sun Exposure
-    NoWind,                  !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    12.1789629093149,        !- Vertex 1 X-coordinate {m}
-    0,                       !- Vertex 1 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 1 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 2 X-coordinate {m}
-    9.15711496940971,        !- Vertex 2 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 2 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 3 X-coordinate {m}
-    9.15711496940971,        !- Vertex 3 Y-coordinate {m}
-    0,                       !- Vertex 3 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 4 X-coordinate {m}
-    0,                       !- Vertex 4 Y-coordinate {m}
-    0;                       !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    BGWall_upper_ldb,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    Outdoors,                !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    SunExposed,              !- Sun Exposure
-    WindExposed,             !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    12.1789629093149,        !- Vertex 1 X-coordinate {m}
-    9.15711496940971,        !- Vertex 1 Y-coordinate {m}
-    0,                       !- Vertex 1 Z-coordinate {m}
-    0,                       !- Vertex 2 X-coordinate {m}
-    9.15711496940971,        !- Vertex 2 Y-coordinate {m}
-    0,                       !- Vertex 2 Z-coordinate {m}
-    0,                       !- Vertex 3 X-coordinate {m}
-    9.15711496940971,        !- Vertex 3 Y-coordinate {m}
-    0.001,                   !- Vertex 3 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 4 X-coordinate {m}
-    9.15711496940971,        !- Vertex 4 Y-coordinate {m}
-    0.001;                   !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    BGWall_lower_ldb,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    NoSun,                   !- Sun Exposure
-    NoWind,                  !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    12.1789629093149,        !- Vertex 1 X-coordinate {m}
-    9.15711496940971,        !- Vertex 1 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 1 Z-coordinate {m}
-    0,                       !- Vertex 2 X-coordinate {m}
-    9.15711496940971,        !- Vertex 2 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 2 Z-coordinate {m}
-    0,                       !- Vertex 3 X-coordinate {m}
-    9.15711496940971,        !- Vertex 3 Y-coordinate {m}
-    0,                       !- Vertex 3 Z-coordinate {m}
-    12.1789629093149,        !- Vertex 4 X-coordinate {m}
-    9.15711496940971,        !- Vertex 4 Y-coordinate {m}
-    0;                       !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    BGWall_upper_sdl,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    Outdoors,                !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    SunExposed,              !- Sun Exposure
-    WindExposed,             !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    0,                       !- Vertex 1 X-coordinate {m}
-    9.15711496940971,        !- Vertex 1 Y-coordinate {m}
-    0,                       !- Vertex 1 Z-coordinate {m}
-    0,                       !- Vertex 2 X-coordinate {m}
-    0,                       !- Vertex 2 Y-coordinate {m}
-    0,                       !- Vertex 2 Z-coordinate {m}
-    0,                       !- Vertex 3 X-coordinate {m}
-    0,                       !- Vertex 3 Y-coordinate {m}
-    0.001,                   !- Vertex 3 Z-coordinate {m}
-    0,                       !- Vertex 4 X-coordinate {m}
-    9.15711496940971,        !- Vertex 4 Y-coordinate {m}
-    0.001;                   !- Vertex 4 Z-coordinate {m}
-
-BuildingSurface:Detailed,
-    BGWall_lower_sdl,        !- Name
-    Wall,                    !- Surface Type
-    !- Basement Wall,           !- Construction Name
-    ext-wall-basement-en-std-replaceme,           !- Construction Name  $$REPLACE$$
-    unheatedbsmt_unit1,      !- Zone Name
-    GroundBasementPreprocessorAverageWall,  !- Outside Boundary Condition
-    ,                        !- Outside Boundary Condition Object
-    NoSun,                   !- Sun Exposure
-    NoWind,                  !- Wind Exposure
-    ,                        !- View Factor to Ground
-    4,                       !- Number of Vertices
-    0,                       !- Vertex 1 X-coordinate {m}
-    9.15711496940971,        !- Vertex 1 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 1 Z-coordinate {m}
-    0,                       !- Vertex 2 X-coordinate {m}
-    0,                       !- Vertex 2 Y-coordinate {m}
-    -2.13314634146341,       !- Vertex 2 Z-coordinate {m}
-    0,                       !- Vertex 3 X-coordinate {m}
-    0,                       !- Vertex 3 Y-coordinate {m}
-    0,                       !- Vertex 3 Z-coordinate {m}
-    0,                       !- Vertex 4 X-coordinate {m}
-    9.15711496940971,        !- Vertex 4 Y-coordinate {m}
-    0;                       !- Vertex 4 Z-coordinate {m}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: WINDOW ===========
@@ -2943,8 +3075,8 @@ Shading:Overhang,
 
 GroundHeatTransfer:Control,
     gtp_control,             !- Name
-    yes,                     !- Run Basement Preprocessor
-    no;                      !- Run Slab Preprocessor
+    no,                      !- Run Basement Preprocessor
+    No;                      !- Run Slab Preprocessor
 
 
 !-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:SLAB:MATERIALS ===========
@@ -3057,6 +3189,9 @@ GroundHeatTransfer:Basement:MatlProps,
 
 GroundHeatTransfer:Basement:Insulation,
     2.28929665762688,        !- REXT: R Value of any exterior insulation {m2-K/W}
+    !- IECC 2006 2.28929665762688,        !- REXT: R Value of any exterior insulation {m2-K/W}
+    !- IECC 2009 2.28929665762688,        !- REXT: R Value of any exterior insulation {m2-K/W}
+    !- IECC 2012 3.34589511499313,        !- REXT: R Value of any exterior insulation {m2-K/W}
     True;                    !- INSFULL: Flag: Is the wall fully insulated?
 
 
@@ -3150,10 +3285,16 @@ People,
 Lights,
     Living Hardwired Lighting1,  !- Name
     living_unit1,            !- Zone or ZoneList Name
-    LightingProfile_EELighting,  !- Schedule Name
+    LightingProfile_EELighting,         !- Schedule Name
+    !- IECC 2006 LightingProfile,         !- Schedule Name
+    !- IECC 2009 LightingProfile_EELighting,         !- Schedule Name
+    !- IECC 2012 LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.4867,                  !- Watts per Zone Floor Area {W/m2}
+    1.5,                  !- Watts per Zone Floor Area {W/m2}
+    !- IECC 2006 2.0565,                  !- Watts per Zone Floor Area {W/m2}
+    !- IECC 2009 1.4867,                  !- Watts per Zone Floor Area {W/m2}
+    !- IECC 2012 1.222,                   !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -3163,10 +3304,16 @@ Lights,
 Lights,
     Living Plug-in Lighting1,!- Name
     living_unit1,            !- Zone or ZoneList Name
-    LightingProfile_EELighting,  !- Schedule Name
+    LightingProfile_EELighting,         !- Schedule Name
+    !- IECC 2006 LightingProfile,         !- Schedule Name
+    !- IECC 2009 LightingProfile_EELighting,         !- Schedule Name
+    !- IECC 2012 LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.4775,                  !- Watts per Zone Floor Area {W/m2}
+    0.47,                  !- Watts per Zone Floor Area {W/m2}
+    !- IECC 2006 0.5141,                  !- Watts per Zone Floor Area {W/m2}
+    !- IECC 2009 0.4775,                  !- Watts per Zone Floor Area {W/m2}
+    !- IECC 2012 0.478,                   !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -3292,7 +3439,10 @@ ZoneInfiltration:EffectiveLeakageArea,
     Living_ShermanGrimsrud_unit1,  !- Name
     living_unit1,            !- Zone Name
     always_avail,            !- Schedule Name
-    842.363336989469,        !- Effective Air Leakage Area {cm2}
+    en-std-replaceme,        !- Effective Air Leakage Area {cm2}
+    !- IECC 2006 962.700956559393,        !- Effective Air Leakage Area {cm2}
+    !- IECC 2009 842.363336989469,        !- Effective Air Leakage Area {cm2}
+    !- IECC 2012 361.012858709772,        !- Effective Air Leakage Area {cm2}
     0.00029,                 !- Stack Coefficient
     0.000231;                !- Wind Coefficient
 
@@ -3313,6 +3463,7 @@ ZoneVentilation:DesignFlowRate,
     always_avail,            !- Schedule Name
     Flow/Zone,               !- Design Flow Rate Calculation Method
     0.028336639274582,       !- Design Flow Rate {m3/s}
+    !- NH: original value: 0.028336639274582,       !- Design Flow Rate {m3/s}
     ,                        !- Flow Rate per Zone Floor Area {m3/s-m2}
     ,                        !- Flow Rate per Person {m3/s-person}
     ,                        !- Air Changes per Hour {1/hr}
@@ -3341,14 +3492,23 @@ ZoneVentilation:DesignFlowRate,
 Exterior:Lights,
     Exterior-Lights,         !- Name
     ExteriorLightingProfile, !- Schedule Name
-    71.005,                  !- Design Level {W}
+    60,                    !- Design Level {W}
+    !- IECC 2006 79.5,                    !- Design Level {W}
+    !- IECC 2009 71.005,                    !- Design Level {W}
+    !- IECC 2012 58,                      !- Design Level {W}
     ,                        !- Control Option
     Exterior-Lights;         !- End-Use Subcategory
 
 Exterior:Lights,
     Garage-Lights,           !- Name
-    LightingProfile_EELighting,  !- Schedule Name
-    11.726,                  !- Design Level {W}
+    LightingProfile_EELighting,         !- Schedule Name
+    !- IECC 2006 LightingProfile,         !- Schedule Name
+    !- IECC 2009 LightingProfile_EELighting,         !- Schedule Name
+    !- IECC 2012 LightingProfile_EELighting,  !- Schedule Name
+    14.02,                   !- Design Level {W}
+    !- IECC 2006 14.02,                   !- Design Level {W}
+    !- IECC 2009 11.726,                   !- Design Level {W}
+    !- IECC 2012 9.5,                     !- Design Level {W}
     ,                        !- Control Option
     Exterior-Lights;         !- End-Use Subcategory
 
@@ -4302,7 +4462,7 @@ Output:Table:Monthly,
 
 OutputControl:Table:Style,
     CommaAndHTML,            !- Column Separator
-    InchPound;               !- Unit Conversion
+    None;                    !- Unit Conversion
 
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:VARIABLE ===========
@@ -4348,7 +4508,9 @@ Output:Variable,
 Output:Meter,
     Gas:Building ,           !- Key Name
     Hourly;                  !- Reporting Frequency
-
+Output:Meter,
+    Water Heater:WaterSystems:Water ,  !- Key Name
+    Hourly;                  !- Reporting Frequency
 Output:Meter,
     Heating:EnergyTransfer,
     Hourly;

@@ -113,17 +113,21 @@ def run_energyplus_single(tmp_path):
         subprocess.call('./ExpandObjects', shell=True, stdout=log_file, stderr=log_file)
     if os.path.exists('BasementGHTIn.idf'):
         with open("log_Basement.txt", 'w') as log_file:
-            pass
             subprocess.call('./Basement', shell=True, stdout=log_file, stderr=log_file)
-    with open('merged.idf', 'w') as merged_idf:
-        with open('expanded.idf', 'r') as expanded_idf:
-            merged_idf.write(expanded_idf.read())
-        with open('EPObjects.txt', 'r') as epobjects:
-            merged_idf.write(epobjects.read())
+        with open('merged.idf', 'w') as merged_idf:
+            with open('expanded.idf', 'r') as expanded_idf:
+                merged_idf.write(expanded_idf.read())
+            with open('EPObjects.txt', 'r') as epobjects:
+                merged_idf.write(epobjects.read())
+            run_idf = 'merged.idf'
+    else:
+        run_idf = 'expanded.idf'
     with open("log_energyplus.txt", 'w+') as log_file:
-        subprocess.call('./energyplus -r merged.idf', shell=True, stdout=log_file, stderr=log_file)
+        subprocess.call('./energyplus -r %s' % run_idf,
+                        shell=True, stdout=log_file, stderr=log_file)
         log_file.seek(0)
-        assert log_file.readlines()[-1] == 'EnergyPlus Completed Successfully.\n'
+        if log_file.readlines()[-1] != 'EnergyPlus Completed Successfully.\n':
+            print("ERROR: '%s' energy simulation was not successful" % tmp_path)
         log_file.close()
     os.chdir(settings.basepath)
 

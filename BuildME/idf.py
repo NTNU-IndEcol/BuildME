@@ -121,22 +121,30 @@ def get_surfaces(idf, energy_standard):
     # flatten the list
     total_no_surfaces = [item for sublist in total_no_surfaces for item in sublist]
     surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Wall'])
+    surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Wall'])
     surfaces['door'] = extract_doors(idf)
     surfaces['window'] = extract_windows(idf)
-    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor'])
+    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor']) + \
+                                extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
+    surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling'])
     surfaces['basement_ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                      ['GroundBasementPreprocessorAverageWall'], ['Wall'])
     surfaces['basement_int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Floor'])
-    surfaces['basement_ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
-                                                      ['GroundBasementPreprocessorAverageFloor'], ['Floor'])
+    surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Floor'])
+
     surfaces['ceiling_roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Ceiling'])
     surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Roof'])
     check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in flatten_surfaces(surfaces)]]
     assert len(check) == 0, "Following elements were not found: %s" % check
     temp_surface_areas = calc_surface_areas(surfaces)
-    int_wall_constr = {m.Name: m for m in read_constructions(idf)}
-    int_wall_constr = int_wall_constr['attic-ceiling-' + energy_standard].Name
-    surfaces['int_wall'] = create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr)
+    constr_list = {m.Name: m for m in read_constructions(idf)}
+    int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
+    surfaces['int_wall'] = surfaces['int_wall'] +\
+                           (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr))
+    slab_constr = constr_list['Surrogate_slab_20cm'].Name
+    surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+    beams = constr_list['Surrogate_slab_20cm'].Name
     return surfaces
 
 
@@ -157,7 +165,18 @@ def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.
     return [SurrogateElement(int_wall)]
 
 
-def calc_surface_areas(surfaces, floor_area=['int_floor', 'basement_int_floor']):
+def create_surrogate_slab(floor_area, construction):
+    slab = {
+        'key': 'DummyBuildingSurface',
+        'Name': 'surrogate_slab',
+        'Building_Surface_Name': None,
+        'Construction_Name': construction,
+        'area': floor_area
+    }
+    return [SurrogateElement(slab)]
+
+
+def calc_surface_areas(surfaces, floor_area=['int_floor', 'ext_floor']):
     """
     Sums the surfaces as created by get_surfaces() and returns a corresponding dict.
     :param floor_area:
@@ -169,7 +188,7 @@ def calc_surface_areas(surfaces, floor_area=['int_floor', 'basement_int_floor'])
         areas[element] = sum(e.area for e in surfaces[element])
     areas['ext_wall_area_net'] = areas['ext_wall'] - areas['window']
     areas['floor_area_wo_basement'] = sum([areas[s] for s in areas if s in floor_area])
-    areas['footprint_area'] = areas['basement_int_floor']
+    areas['footprint_area'] = areas['ext_floor']
     return areas
 
 
@@ -180,7 +199,7 @@ def calc_envelope(areas):
     :return: Dictionary of surface area with and without basement
     """
     envelope = {
-        'envelope_w_basement': sum(areas[s] for s in ['ext_wall', 'roof', 'basement_ext_floor']),
+        'envelope_w_basement': sum(areas[s] for s in ['ext_wall', 'roof', 'ext_floor']),
         'envelope_wo_basement': areas['envelope_w_basement'] + areas['basement_ext_wall']}
     return envelope
 
