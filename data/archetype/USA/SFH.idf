@@ -1336,7 +1336,8 @@ Schedule:Compact,
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
     Until: 24:00,            !- Field 3
-    23.88;                   !- Field 4
+    !- 23.88;                   !- Field 4
+    25.5;                   !- Field 4
 
 Schedule:Compact,
     fan_cycle,               !- Name
@@ -4541,5 +4542,5 @@ Output:Meter,
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:SQLITE ===========
 
-Output:SQLite,
-    SimpleAndTabular;        !- Option Type
+!- Output:SQLite,
+!-     SimpleAndTabular;        !- Option Type

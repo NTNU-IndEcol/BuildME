@@ -14,7 +14,7 @@ from time import sleep
 import pandas as pd
 from tqdm import tqdm
 
-from BuildME import settings, idf, material, energy
+from BuildME import settings, idf, material, energy, __version__
 
 
 def create_combinations(comb=settings.combinations):
@@ -466,9 +466,10 @@ def save_ei_for_odym(ei_result):
     res = pd.DataFrame(res, columns=['Value'])
     res['Unit'] = 'MJ/m2/yr'
     res['Stats_array_string'] = ''
-    res['Comment'] = 'Simulated in BuildME v0.0'
+    res['Comment'] = 'Simulated in BuildME v%s' % __version__
     # some more stuff?
     res.to_excel(find_last_run().replace('.run', '_ODYM_ei.xlsx'), merge_cells=False)
+    print("Wrote '%s'" % find_last_run().replace('.run', '_ODYM_ei.xlsx'))
 
 
 def save_mi_for_odym(mi_result):
@@ -490,9 +491,10 @@ def save_mi_for_odym(mi_result):
     new_mi = pd.DataFrame(new_mi, columns=['Value'])
     new_mi['Unit'] = 'kg/m2'
     new_mi['Stats_array_string'] = ''
-    new_mi['Comment'] = 'Simulated in BuildME v0.0'
+    new_mi['Comment'] = 'Simulated in BuildME v%s' % __version__
     # some more stuff?
     new_mi.to_excel(find_last_run().replace('.run', '_ODYM_mi.xlsx'), merge_cells=False)
+    print("Wrote '%s'" % find_last_run().replace('.run', '_ODYM_mi.xlsx'))
 
 
 
@@ -543,13 +545,14 @@ def cleanup():
 def create_sq_job(fnames):
     """
     ```
-
+    rsync -ahvrPz
+        /Users/n/code/BuildME/tmp/
+        nh432@grace.hpc.yale.edu:/home/fas/hertwich/nh432/scratch60/190615/
+    cp scratch60/190615/_run.txt ./run.txt
+    module load Tools/SimpleQueue
     sqCreateScript -n 99 run.txt > run.sh
     sbatch run.sh
-    rsync -avzhP --include="*/" --include="eplusout.csv" --exclude="*"
-        nh432@grace.hpc.yale.edu:/home/fas/hertwich/nh432/scratch60/190521/
-        /Users/n/code/BuildME/tmp
-    rsync -avzhP --include="*/" --include="eplusout.err" --exclude="*"
+    rsync -avzhP --include="*/" --include="eplusout.csv" --include="*.err" --include="*.htm" --exclude="*"
         nh432@grace.hpc.yale.edu:/home/fas/hertwich/nh432/scratch60/190521/
         /Users/n/code/BuildME/tmp
     ```
@@ -558,9 +561,11 @@ def create_sq_job(fnames):
     """
     # https://docs.ycrc.yale.edu/clusters-at-yale/job-scheduling/simplequeue/
     initial_str = "source /apps/bin/try_new_modules.sh; module load EnergyPlus/9.1.0; module load gc; "
-    with open("run.txt", 'w') as run_file:
+    run_file = os.path.join(settings.tmp_path, '_run.txt')
+    with open(run_file, 'w') as run_file:
         for f in fnames:
-            run_file.write(initial_str + "cd /home/fas/hertwich/nh432/scratch60/190521/" + f + "; energyplus -r\n")
+            # TODO Change path below
+            run_file.write(initial_str + "cd /home/fas/hertwich/nh432/scratch60/XXX/" + f + "; energyplus -r\n")
 
 
 
