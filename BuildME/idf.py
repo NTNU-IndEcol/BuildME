@@ -108,7 +108,7 @@ def read_idf(in_file):
     return idf
 
 
-def get_surfaces(idf, energy_standard):
+def get_surfaces(idf, energy_standard, res_scenario):
     """
     A function to derive all surfaces from the IDF file.
     Source: https://unmethours.com/question/15574/how-to-list-and-measure-area-surfaces/?answer=15604#post-id-15604
@@ -142,9 +142,9 @@ def get_surfaces(idf, energy_standard):
     int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
     surfaces['int_wall'] = surfaces['int_wall'] +\
                            (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr))
-    slab_constr = constr_list['Surrogate_slab_20cm'].Name
+    slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
     surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
-    beams = constr_list['Surrogate_slab_20cm'].Name
+    surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
     return surfaces
 
 
@@ -174,6 +174,18 @@ def create_surrogate_slab(floor_area, construction):
         'area': floor_area
     }
     return [SurrogateElement(slab)]
+
+
+def create_surrogate_basement(floor_area, construction, room_h=2.8):
+    basem = {
+        'key': 'DummyBuildingSurface',
+        'Name': 'surrogate_basement',
+        'Building_Surface_Name': None,
+        'Construction_Name': construction,
+        # assuming a square floor layout
+        'area': floor_area ** 0.5 * 4 * room_h
+    }
+    return [SurrogateElement(basem)]
 
 
 def calc_surface_areas(surfaces, floor_area=['int_floor', 'ext_floor']):

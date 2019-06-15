@@ -22,6 +22,14 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 # The combinations
 #   Example: USA.SFH_standard.RES0.
+debug_combinations = {
+    'USA':
+        {'occupation': ['SFH', 'MFH'],
+         'energy standard': ['standard', 'efficient', 'ZEB'],
+         'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+         'climate_region': ['8'],
+         'climate_scenario': ['2015']}}
+
 combinations = \
     {
         'all':  # maybe not necessary
@@ -29,7 +37,7 @@ combinations = \
                  ['SFH_non-standard', 'SFH_standard', 'SFH_efficient', 'SFH_ZEB',
                   'MFH_non-standard', 'MFH_standard', 'MFH_efficient', 'MFH_ZEB',
                   'informal_non-standard'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_scenario':
                  ['2015',
                   '2030_A1B', '2030_A2', '2030_B1',
@@ -37,8 +45,7 @@ combinations = \
         'USA':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['1A', '2A', '2B', '3A', '3B-Coast', '3B', '3C',
                   '4A', '4B', '4C',
@@ -48,8 +55,7 @@ combinations = \
         'DE':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Germany'],
              'climate_scenario': ['2015']
@@ -57,26 +63,23 @@ combinations = \
         'CN':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
-                 ['HSCW'],
+                 ['I', 'II', 'III', 'IV', 'V'],
              'climate_scenario': ['2015']
              },
         'JP':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
-                 ['6'],
+                 ['JP1', 'JP2', 'JP3', 'JP4', 'JP5', 'JP6', 'JP7', 'JP8'],
              'climate_scenario': ['2015']
              },
         'IT':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Italy'],
              'climate_scenario': ['2015']
@@ -84,8 +87,7 @@ combinations = \
         'FR':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['France'],
              'climate_scenario': ['2015']
@@ -93,8 +95,7 @@ combinations = \
         'PL':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Poland'],
              'climate_scenario': ['2015']
@@ -102,57 +103,56 @@ combinations = \
         'CA':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
-                 ['Canada'],
+                 ['CA5A', 'CA6A', 'CA7'],
              'climate_scenario': ['2015']
              },
         'R32EU12-M':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],             'climate_region':
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
                  ['R32EU12-M'],
              'climate_scenario': ['2015']
              },
         'IN':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],             'climate_region':
-                 ['India'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['IN1', 'IN2', 'IN3', 'IN4', 'IN5'],
              'climate_scenario': ['2015']
              },
         'ES':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],             'climate_region':
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
                  ['Spain'],
              'climate_scenario': ['2015']
              },
         'UK':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],             'climate_region':
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
                  ['UK'],
              'climate_scenario': ['2015']
              },
         'Oth-R32EU15':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],             'climate_region':
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
                  ['Oth-R32EU15'],
              'climate_scenario': ['2015']
              },
         'Oth-R32EU12-H':
             {'occupation': ['SFH', 'MFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             # 'RES': ['RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'RES': ['RES0'],             'climate_region':
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
                  ['Oth-R32EU12-H'],
              'climate_scenario': ['2015']
              }
@@ -168,7 +168,7 @@ climate_stations = {
         '3B': 'Las_Vegas_NV-hour.epw',
         '3C': 'San_Francisco_CA-hour.epw',
         '4A': 'Baltimore_MD-hour.epw',
-        '4B': 'Albuquerque_NM-hour.epw',
+        '4B': 'US-Albuquerque_NM-hour.epw',
         '4C': 'Seattle_Tacoma_WA-hour.epw',
         '5A': 'Chicago_IL-hour.epw',
         '5B': 'Boulder_CO-hour.epw',
@@ -177,18 +177,37 @@ climate_stations = {
         '7': 'Duluth_Airp_MN-hour.epw',
         '8': 'Fairbanks_AK-hour.epw'},
     'DE': {'Germany': 'Frankfurt_am_Main_Airp_-hour.epw'},
-    'CN': {'HSCW': 'Xiamen-hour.epw'},
-    'JP': {'6': 'Osaka-hour.epw'},
+    'CN': {'I': 'CN-Harbin.epw',
+           'II': 'CN-Beijing.epw',
+           'III': 'CN-Wuhan.epw',
+           'IV': 'CN-Haikou.epw',
+           'V': 'CN-Kunming.epw'},
+    'JP': {
+        'JP1': 'JP-Asahikawa-hour.epw',
+        'JP2': 'JP-Sapporo-hour.epw',
+        'JP3': 'JP-Morioka-hour.epw',
+        'JP4': 'JP-Sendai-hour.epw',
+        'JP5': 'JP-Tsukuba_JA-hour.epw',
+        'JP6': 'JP-Osaka-hour.epw',
+        'JP7': 'JP-Miyazaki-hour.epw',
+        'JP8': 'JP-Naha-hour.epw'},
     'IT': {'Italy': 'Roma_Ciampino-hour.epw'},
     'FR': {'France': 'PARIS_FR-hour.epw'},
-    'PL': {'Poland': 'Warszawa-hour.epw'},
-    'CA': {'Canada': 'Edmonton_Stony_P_AB-hour.epw'},
-    'R32EU12-M': {'R32EU12-M': 'Warszawa-hour.epw'},
-    'IN': {'India': 'Nagpur_Sonegaon_AFB-hour.epw'},
+    'PL': {'Poland': 'PL-Warszawa-hour.epw'},
+    'CA': {'CA5A': 'Chicago_IL-hour.epw',
+           'CA6A': 'Minneapolis_Airp_MN-hour.epw',
+           'CA7': 'Duluth_Airp_MN-hour.epw'},
+    'R32EU12-M': {'R32EU12-M': 'PL-Warszawa-hour.epw'},
+    'IN': {
+        'IN1': 'IN-Jodhpur.epw',
+        'IN2': 'IN-Santacruz_Bombay.epw',
+        'IN3': 'IN-Bangalore.epw',
+        'IN4': 'IN-Shimla.epw',
+        'IN5': 'IN-Hyderabad.epw'},
     'ES': {'Spain': 'Madrid_Barajas-hour.epw'},
     'UK': {'UK': 'Aughton-hour.epw'},
-    'Oth-R32EU15': {'Oth-R32EU15': 'Warszawa-hour.epw'},
-    'Oth-R32EU12-H': {'Oth-R32EU12-H': 'Warszawa-hour.epw'}
+    'Oth-R32EU15': {'Oth-R32EU15': 'PL-Warszawa-hour.epw'},
+    'Oth-R32EU12-H': {'Oth-R32EU12-H': 'PL-Warszawa-hour.epw'}
 }
 
 odym_materials = {'Asphalt_shingle': 'other',

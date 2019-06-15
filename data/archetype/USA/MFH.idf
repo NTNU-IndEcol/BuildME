@@ -2278,7 +2278,7 @@ Construction,
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
     Concrete_12cm,               !- Layer 4
-    Reinforcement_1perc_15cm,
+    Reinforcement_1perc_12cm,
     wall_consol_layer-en-ZEB,       !- Layer 5
     Drywall_1/2in;           !- Layer 6
 
@@ -2507,9 +2507,24 @@ Construction,
     Diffusing Acrylic Plastic;  !- Outside Layer
 
 Construction,
-    Surrogate_slab_20cm,            !- Name
+    Surrogate_slab-RES0,            !- Name
     Concrete_20cm,  !- Outside Layer
-    Reinforcement_1perc_20cm;              !- Layer 2
+    Reinforcement_1perc_15cm;              !- Layer 2
+
+Construction,
+    Surrogate_slab-RES2.1,            !- Name
+    Concrete_15cm,  !- Outside Layer
+    Reinforcement_1perc_15cm;              !- Layer 2
+
+Construction,
+    Surrogate_slab-RES2.2,            !- Name
+    Concrete_15cm,  !- Outside Layer
+    Reinforcement_1perc_15cm;              !- Layer 2
+
+Construction,
+    Surrogate_slab-RES2.1+RES2.2,            !- Name
+    Concrete_15cm,  !- Outside Layer
+    Reinforcement_1perc_15cm;              !- Layer 2
 
 
 !-   ===========  ALL OBJECTS IN CLASS: GLOBALGEOMETRYRULES ===========

@@ -201,7 +201,8 @@ def calculate_materials(fnames=None):
         densities = material.make_mat_density_dict(materials_dict, fallback_materials)
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
-        surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2])
+        surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2],
+                                         fnames[folder]['RES'][2])
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
         odym_mat = translate_to_odym_mat(total_material_mass)
@@ -210,19 +211,32 @@ def calculate_materials(fnames=None):
         res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
-        beam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
-        if beam[0] in res:
-            res[beam[0]] += beam[1]
+        loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
+        if loadbeam[0] in res:
+            res[loadbeam[0]] += loadbeam[1]
         else:
-            res[beam[0]] = beam[1]
+            res[loadbeam[0]] = loadbeam[1]
+        if 'RES2.1' in fnames[folder]['RES'][2]:
+            postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
+            res[postbeam[0]] += postbeam[1]
         material.save_materials(res, run_path)
 
 
 def add_surrogate_beams(res, area, distance=0.6,):
     res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .05*.05, 'density': 8050},
                 'RES2.1': {'Material': 'wood and wood products', 'vol': .12*.26, 'density': 500},
-                'RES2.2': {'Material': 'construction grade steel', 'vol': .03*.03, 'density': 8050},
+                'RES2.2': {'Material': 'construction grade steel', 'vol': .04*.04, 'density': 8050},
                 'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .12*.20, 'density': 500}}
+    side_length = area ** 0.5
+    number_beams = side_length / distance + 1
+    res_vol = res_dict[res]['vol'] * side_length * number_beams
+    mass = res_vol * res_dict[res]['density']
+    return res_dict[res]['Material'], mass
+
+
+def add_surrogate_postbeams(res, area, distance=0.6,):
+    res_dict = {'RES2.1': {'Material': 'wood and wood products', 'vol': .1*.05, 'density': 500},
+                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .1*.04, 'density': 500}}
     side_length = area ** 0.5
     number_beams = side_length / distance + 1
     res_vol = res_dict[res]['vol'] * side_length * number_beams
@@ -246,7 +260,7 @@ def calculate_energy(fnames=None):
 
 
 def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
-    print("Perform energy simulation...")
+    print("Perform energy simulation on %s CPUs..." % cpus)
     if not fnames:
         fnames = load_run_data_file(find_last_run())
     pool = mp.Pool(processes=cpus)
@@ -463,7 +477,7 @@ def save_mi_for_odym(mi_result):
     # mi_result = mi_result.loc[pd.IndexSlice[:, :, :, :, :], pd.IndexSlice[:, mi_result.columns.levels[1][0]]]
     new_mi = pd.DataFrame(index=mi_result.index, columns=mi_result.columns.levels[0])
     for region in mi_result.index.levels[0]:
-        first_climate_region = settings.combinations[ dict([[v,k] for k,v in settings.odym_regions.items()])[region]]['climate_region'][0]
+        first_climate_region = settings.combinations[dict([[v,k] for k,v in settings.odym_regions.items()])[region]]['climate_region'][0]
         new_mi.loc[region] = mi_result.loc[region, pd.IndexSlice[:, first_climate_region]].values
         # mi_result.columns = mi_result.columns.droplevel(1)
     new_mi = new_mi[[c for c in new_mi.columns if c not in ['floor_area_wo_basement', 'footprint_area', 'total_mat']]]
@@ -524,5 +538,29 @@ def cleanup():
     :return:
     """
     pass
+
+
+def create_sq_job(fnames):
+    """
+    ```
+
+    sqCreateScript -n 99 run.txt > run.sh
+    sbatch run.sh
+    rsync -avzhP --include="*/" --include="eplusout.csv" --exclude="*"
+        nh432@grace.hpc.yale.edu:/home/fas/hertwich/nh432/scratch60/190521/
+        /Users/n/code/BuildME/tmp
+    rsync -avzhP --include="*/" --include="eplusout.err" --exclude="*"
+        nh432@grace.hpc.yale.edu:/home/fas/hertwich/nh432/scratch60/190521/
+        /Users/n/code/BuildME/tmp
+    ```
+    :param fnames:
+    :return:
+    """
+    # https://docs.ycrc.yale.edu/clusters-at-yale/job-scheduling/simplequeue/
+    initial_str = "source /apps/bin/try_new_modules.sh; module load EnergyPlus/9.1.0; module load gc; "
+    with open("run.txt", 'w') as run_file:
+        for f in fnames:
+            run_file.write(initial_str + "cd /home/fas/hertwich/nh432/scratch60/190521/" + f + "; energyplus -r\n")
+
 
 
