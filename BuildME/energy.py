@@ -9,8 +9,9 @@ import os
 import subprocess
 
 import pandas as pd
+from tqdm import tqdm
 
-from BuildME import settings
+from BuildME import settings, idf
 
 
 
@@ -150,5 +151,48 @@ def ep_result_collector(ep_path, save='energy_intensity.csv'):
     return results
 
 
+def calc_therm_inertia(fnames):
+    """
+    Loops through surfaces and calculates their thermal mass.
+    Based on https://unmethours.com/question/39167/is-there-a-way-to-extract-thermal-mass-from-an-energyplus-model/
+    :return:
+    """
+    tq = tqdm(fnames, desc='Initiating...', leave=True)
+    for fname in tq:
+        tq.set_description(fname)
+        run_path = os.path.join(settings.tmp_path, fname)
+        idff = idf.read_idf(os.path.join(run_path, 'in.idf'))
+        surfaces = idf.get_surfaces(idff, fnames[fname]['energy_standard'][2], fnames[fname]['RES'][2])
+        total_heat_capacity = 0
+        for stype in surfaces:
+            for surface in surfaces[stype]:
+                construction_heat_capacity = 0
 
+                construction = idff.getobject('CONSTRUCTION', surface.Construction_Name)
+
+                # get the field names, which in eppy is a list of
+                # ['key', 'Name', 'Outside_Layer', 'Layer_2', ... 'Layer_10']
+                construction_field_names = construction.fieldnames
+
+                # loop through the construction's field names (layers),
+                # skipping first and second (key and Name)
+                for field_name in construction_field_names[2:]:
+
+                    # get the material object from the layer
+                    attribute = field_name
+                    material_name = getattr(construction, attribute)
+                    material = idff.getobject('MATERIAL', material_name)
+
+                    # calculate the material's heat capacity and add it to the construction's
+                    if material is not None:
+                        thickness = material.Thickness
+                        density = material.Density
+                        specific_heat = material.Specific_Heat
+                        material_heat_capacity = thickness * density * specific_heat
+                        construction_heat_capacity += material_heat_capacity
+
+                # add the construction's total heat capacity to the model's total
+                total_heat_capacity += construction_heat_capacity
+
+        print(fname, 'J/m2*K =', total_heat_capacity)
 
