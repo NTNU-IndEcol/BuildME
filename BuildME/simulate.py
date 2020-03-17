@@ -173,6 +173,7 @@ def load_run_data_file(filename):
     :param filename: Absolute filename
     :return: filename, e.g. '190403-230346.run'
     """
+    print("Loading datafile '%s'" % filename)
     return pickle.load(open(filename, 'rb'))
 
 

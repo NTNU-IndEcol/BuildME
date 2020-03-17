@@ -1,0 +1,30 @@
+Construction material data
+
+global:
+  climate:
+    - Global e+ weather files https://energyplus.net/weather
+    - Future climate / EPW modifier http://www.weathershift.com
+    - Climate file modifier https://bigladdersoftware.com/projects/elements/
+    - Climate tool http://www.energy.soton.ac.uk/ccworldweathergen/ as documented in https://www.sciencedirect.com/science/article/pii/S0960148113000232
+
+  floor area:
+    - http://www.gbpn.org/sites/default/files/08.CEU%20Technical%20Report%20copy_0.pdf
+
+USA:
+  general_statistics:
+    - https://www.census.gov/econ/construction.html
+
+  archetypes:
+    - https://www.energycodes.gov/development/residential/iecc_models
+    - http://www.jeplus.org/wiki/doku.php?id=download:examples
+    - http://dx.doi.org/10.6028/NIST.TN.1765
+    - Commercial with age-cohorts https://www.energy.gov/eere/buildings/commercial-reference-buildings
+    - https://linkinghub.elsevier.com/retrieve/pii/S0306261919300868
+
+EU:
+  archetypes:
+    - https://doi.org/10.1016/j.buildenv.2018.09.008
+
+China:
+  archetypes:
+    - http://www.mdpi.com/2076-3417/9/5/858
