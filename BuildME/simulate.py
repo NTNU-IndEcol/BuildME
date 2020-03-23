@@ -83,7 +83,12 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
     :param archetype_file:
     :param replacer:
     """
-    objects = ['Window', 'BuildingSurface:Detailed', 'Door']
+
+    #if the building if a HR - the windows are modeled in fenestrationsurface:detailed, so change objects
+    if replacer[1] == 'HR':
+        objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
+    else:
+        objects = ['Window', 'BuildingSurface:Detailed', 'Door']
     # Load IDF file
     for obj_type in objects:
         for obj in idf_data.idfobjects[obj_type.upper()]:

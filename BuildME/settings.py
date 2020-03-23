@@ -10,18 +10,33 @@ ep_version = '9.0.1'
 basepath = os.path.abspath('.')
 ep_path = os.path.abspath("./bin/EnergyPlus-9-0-1/")
 ep_idd = os.path.abspath("./bin/EnergyPlus-9-0-1/Energy+.idd")
-ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
+'''ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
                  "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
                  "libgfortran.3.dylib", "libquadmath.0.dylib",  # required by ExpandObjects
                  "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
                  "PostProcess/ReadVarsESO"
+                 ]'''
+
+ep_exec_files = ["energyplus.exe", "Energy+.idd", "EPMacro.exe", "ExpandObjects.exe",
+                 "PreProcess/GrndTempCalc/Basement.exe", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                 "PostProcess/ReadVarsESO.exe", "energyplusapi.dll"
                  ]
+
 archetypes = os.path.abspath("./data/archetype/")
 tmp_path = os.path.abspath("./tmp/")
 climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 # The combinations
 #   Example: USA.SFH_standard.RES0.
+
+testing_combinations = {
+    'USA':
+        {'occupation': ['HR'],
+         'energy standard': ['standard'],
+         'RES': ['RES0'],
+         'climate_region': ['8'],
+         'climate_scenario': ['2015']}}
+
 debug_combinations = {
     'USA':
         {'occupation': ['SFH', 'MFH'],
