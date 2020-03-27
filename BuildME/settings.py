@@ -7,10 +7,10 @@ Copyright: Niko Heeren, 2019
 import os
 import platform
 
-ep_version = '9.0.1'
+ep_version = '9.2.0'
 basepath = os.path.abspath('.')
-ep_path = os.path.abspath("./bin/EnergyPlus-9-0-1/")
-ep_idd = os.path.abspath("./bin/EnergyPlus-9-0-1/Energy+.idd")
+ep_path = os.path.abspath("./bin/EnergyPlus-9-2-0/")
+ep_idd = os.path.abspath("./bin/EnergyPlus-9-2-0/Energy+.idd")
 
 # Checking OS and modify files to copy
 if platform.system() == 'Windows':
@@ -34,7 +34,13 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 # The combinations
 #   Example: USA.SFH_standard.RES0.
-
+testing_combinations = {
+    'USA':
+        {'occupation': ['SFH'],
+         'energy standard': ['standard'],
+         'RES': ['RES0'],
+         'climate_region': ['8'],
+         'climate_scenario': ['2015']}}
 
 debug_combinations = {
     'USA':
