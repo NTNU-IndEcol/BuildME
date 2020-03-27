@@ -9,7 +9,8 @@ import subprocess
 import os
 os.chdir(r'C:\testing-ep\update')
 print(os.getcwd())
-subprocess.call([r'C:\testing-ep\energyplus.exe', '-w', r'C:\testing-ep\update\try_weather.epw', r'C:\testing-ep\update\HR.idf'])
+
+subprocess.call([r'C:\testing-ep\energyplus.exe', '-w', r'C:\testing-ep\update\try_weather.epw', '-r', r'C:\testing-ep\update\IECC_ApartmentHighRise_STD2006_Chicago_updated_v901.idf'])
 
 #subprocess.call([r'C:\Users\andrenis\gitprojects\BuildME\tmp\USA_SFH_standard_RES0_8_2015\energyplus.exe', '-w', r'C:\Users\andrenis\gitprojects\BuildME\tmp\USA_SFH_standard_RES0_8_2015\in.epw', r'C:\Users\andrenis\gitprojects\BuildME\tmp\USA_SFH_standard_RES0_8_2015\expanded.idf'])
 
