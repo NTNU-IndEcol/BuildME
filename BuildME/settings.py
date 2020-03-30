@@ -34,13 +34,7 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 # The combinations
 #   Example: USA.SFH_standard.RES0.
-testing_combinations = {
-    'USA':
-        {'occupation': ['SFH'],
-         'energy standard': ['standard'],
-         'RES': ['RES0'],
-         'climate_region': ['8'],
-         'climate_scenario': ['2015']}}
+
 
 debug_combinations = {
     'USA':
