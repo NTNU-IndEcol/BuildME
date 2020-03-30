@@ -17,7 +17,7 @@ from tqdm import tqdm
 from BuildME import settings, idf, material, energy, __version__
 
 
-def create_combinations(comb=settings.debug_combinations):
+def create_combinations(comb=settings.combinations):
     """
     Creates permutations of files to be simulated / calculated.
     The foldernames are coded as follows and separated by underscores: World Region, Occupation archetype,
