@@ -19,9 +19,10 @@ simulation_files = simulate.create_combinations(settings.testing_combinations)
 simulate.nuke_folders(simulation_files) #deletes only the folder with the case you try to simulate
 
 #copy scenarios .idf to the correct folder
-#simulate.copy_scenario_files(simulation_files)
-
-
+simulate.copy_scenario_files(simulation_files)
+simulate.calculate_energy()
+res_energy = simulate.collect_energy(simulation_files)
+'''
 en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
 res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
 tq = tqdm(simulation_files, leave=True)
@@ -40,13 +41,15 @@ for fname in tq:
     idf_f = simulate.apply_obj_name_change(idf_f, simulation_files[fname]['energy_standard'],
                                   '-en-std-replaceme')
     idf_f.saveas(os.path.join(fpath, 'in.idf'))
-    '''
-    idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'],
+    fnames = simulation_files
+    idf_f = simulate.apply_obj_name_change(idf_f, fnames[fname]['RES'],
                                   '-res-replaceme')
-    idf_f = apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
-    idf_f = apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
+
+    #idf_f = simulate.apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
+    #idf_f = simulate.apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
     idf_f.idfobjects['Building'.upper()][0].Name = fname
     idf_f.saveas(os.path.join(fpath, 'in.idf'))
+
 # save list of all folders
 scenarios_filename = os.path.join(settings.tmp_path, datetime.datetime.now().strftime("%y%m%d-%H%M%S") + '.run')
 # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)

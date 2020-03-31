@@ -149,8 +149,9 @@ def copy_scenario_files(fnames, replace=False):
                                        '-en-std-replaceme')
         idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'],
                                        '-res-replaceme')
-        idf_f = apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
-        idf_f = apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
+        # Andrea: Copy these out atm - as it is not implemented for the HR yet
+        #idf_f = apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
+        #idf_f = apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
         idf_f.saveas(os.path.join(fpath, 'in.idf'))
     # save list of all folders
