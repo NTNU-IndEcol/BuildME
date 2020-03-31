@@ -123,6 +123,11 @@ def run_energyplus_single(tmp_path):
             run_idf = 'merged.idf'
     else:
         run_idf = 'expanded.idf'
+
+    # For HR, ExpandObjects wont run?? So testing to add in.idf as run_idf
+    if not os.path.exists('expanded.idf'):
+        run_idf = 'in.idf'
+
     with open("log_energyplus.txt", 'w+') as log_file:
         subprocess.call('energyplus -r %s' % run_idf,
                         shell=True, stdout=log_file, stderr=log_file)
