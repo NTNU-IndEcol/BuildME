@@ -1,305 +1,304 @@
 !- Darwin Line endings
 
-Version,
-    9.0;                      !- Version Identifier
+  Version,9.2;
 
-Material,
-    wood-test,        !- Name
-    Rough,                    !- Roughness
-    0.1397,                   !- Thickness
-    0.05966275,               !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
+  Material,
+    wood-test,               !- Name
+    Rough,                   !- Roughness
+    0.1397,                  !- Thickness {m}
+    0.05966275,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
 
+  Material,
+    wall_consol_layer,       !- Name
+    Rough,                   !- Roughness
+    0.1397,                  !- Thickness {m}
+    0.05966275,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
 
-Material,
-    wall_consol_layer,        !- Name
-    Rough,                    !- Roughness
-    0.1397,                   !- Thickness
-    0.05966275,               !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
+  Material,
+    sheathing_consol_layer,  !- Name
+    Rough,                   !- Roughness
+    0.0127,                  !- Thickness {m}
+    0.0940184,               !- Conductivity {W/m-K}
+    685.008,                 !- Density {kg/m3}
+    1172.332;                !- Specific Heat {J/kg-K}
 
-Material,
-    sheathing_consol_layer,    !- Name
-    Rough,                    !- Roughness
-    0.0127,                   !- Thickness
-    0.0940184,                !- Conductivity
-    685.008,                  !- Density
-    1172.332;                 !- Specific Heat
+  Material,
+    ceil_consol_layer,       !- Name
+    Rough,                   !- Roughness
+    0.31843988215804,        !- Thickness {m}
+    0.0617176,               !- Conductivity {W/m-K}
+    41.9286,                 !- Density {kg/m3}
+    776.25126;               !- Specific Heat {J/kg-K}
 
-Material,
-    ceil_consol_layer,        !- Name
-    Rough,                    !- Roughness
-    0.31843988215804,         !- Thickness
-    0.0617176,                !- Conductivity
-    41.9286,                  !- Density
-    776.25126;                !- Specific Heat
+  Material,
+    floor_consol_layer,      !- Name
+    Rough,                   !- Roughness
+    0.23495,                 !- Thickness {m}
+    0.0485233,               !- Conductivity {W/m-K}
+    55.074,                  !- Density {kg/m3}
+    916.9311;                !- Specific Heat {J/kg-K}
 
-Material,
-    floor_consol_layer,       !- Name
-    Rough,                    !- Roughness
-    0.23495,                  !- Thickness
-    0.0485233,                !- Conductivity
-    55.074,                   !- Density
-    916.9311;                 !- Specific Heat
+  Material,
+    bsmtwall_consol_layer,   !- Name
+    Rough,                   !- Roughness
+    0.0889,                  !- Thickness {m}
+    0.05966275,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
 
-Material,
-    bsmtwall_consol_layer,    !- Name
-    Rough,                    !- Roughness
-    0.0889,                   !- Thickness
-    0.05966275,               !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
+  Material,
+    crawlwall_consol_layer,  !- Name
+    Rough,                   !- Roughness
+    0.0889,                  !- Thickness {m}
+    0.05966275,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
 
-Material,
-    crawlwall_consol_layer,    !- Name
-    Rough,                    !- Roughness
-    0.0889,                   !- Thickness
-    0.05966275,               !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
+  Material,
+    Very High Reflectivity Surface,  !- Name
+    Smooth,                  !- Roughness
+    0.0005,                  !- Thickness {m}
+    237.0,                   !- Conductivity {W/m-K}
+    2702.0,                  !- Density {kg/m3}
+    903.0,                   !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.05,                    !- Solar Absorptance
+    0.05;                    !- Visible Absorptance
 
-Material,
-    Very High Reflectivity Surface,    !- Name
-    Smooth,                   !- Roughness
-    0.0005,                   !- Thickness
-    237.0,                    !- Conductivity
-    2702.0,                   !- Density
-    903.0,                    !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.05,                     !- Solar Absorptance
-    0.05;                     !- Visible Absorptance
+  Material,
+    GypsumBoard-5/16in,      !- Name
+    Rough,                   !- Roughness
+    0.00793953,              !- Thickness {m}
+    0.1602906,               !- Conductivity {W/m-K}
+    801.0,                   !- Density {kg/m3}
+    465.2,                   !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.4,                     !- Solar Absorptance
+    0.1;                     !- Visible Absorptance
 
-Material,
-    GypsumBoard-5/16in,       !- Name
-    Rough,                    !- Roughness
-    0.00793953,               !- Thickness
-    0.1602906,                !- Conductivity
-    801.0,                    !- Density
-    465.2,                    !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.4,                      !- Solar Absorptance
-    0.1;                      !- Visible Absorptance
+  Material,
+    CopperPipe,              !- Name
+    MediumRough,             !- Roughness
+    0.0190500386169072,      !- Thickness {m}
+    401.0,                   !- Conductivity {W/m-K}
+    2243.0,                  !- Density {kg/m3}
+    837.0,                   !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.65,                    !- Solar Absorptance
+    0.65;                    !- Visible Absorptance
 
-Material,
-    CopperPipe,               !- Name
-    MediumRough,              !- Roughness
-    0.0190500386169072,       !- Thickness
-    401.0,                    !- Conductivity
-    2243.0,                   !- Density
-    837.0,                    !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.65,                     !- Solar Absorptance
-    0.65;                     !- Visible Absorptance
+  Material,
+    F08 Metal surface,       !- Name
+    Smooth,                  !- Roughness
+    0.0008,                  !- Thickness {m}
+    45.28,                   !- Conductivity {W/m-K}
+    7824.0,                  !- Density {kg/m3}
+    500.0;                   !- Specific Heat {J/kg-K}
 
-Material,
-    F08 Metal surface,        !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    45.28,                    !- Conductivity
-    7824.0,                   !- Density
-    500.0;                    !- Specific Heat
+  Material,
+    Concrete_4in,            !- Name
+    Rough,                   !- Roughness
+    0.1014984,               !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
 
-Material,
-    Concrete_4in,             !- Name
-    Rough,                    !- Roughness
-    0.1014984,                !- Thickness
-    1.312098,                 !- Conductivity
-    2242.8,                   !- Density
-    465.2;                    !- Specific Heat
+  Material,
+    Asphalt_shingle,         !- Name
+    MediumRough,             !- Roughness
+    0.00633985285170672,     !- Thickness {m}
+    0.08186,                 !- Conductivity {W/m-K}
+    1121.2917044623,         !- Density {kg/m3}
+    1255.20000949809,        !- Specific Heat {J/kg-K}
+    ,                        !- Thermal Absorptance
+    0.75;                    !- Solar Absorptance
 
-Material,
-    Asphalt_shingle,          !- Name
-    MediumRough,              !- Roughness
-    0.00633985285170672,      !- Thickness
-    0.08186,                  !- Conductivity
-    1121.2917044623,          !- Density
-    1255.20000949809,         !- Specific Heat
-    ,                         !- Thermal Absorptance
-    0.75;                     !- Solar Absorptance
+  Material,
+    Wood_shingle,            !- Name
+    MediumSmooth,            !- Roughness
+    0.0127000257446048,      !- Thickness {m}
+    0.11388,                 !- Conductivity {W/m-K}
+    426.090847695673,        !- Density {kg/m3}
+    1631.76001234752;        !- Specific Heat {J/kg-K}
 
-Material,
-    Wood_shingle,             !- Name
-    MediumSmooth,             !- Roughness
-    0.0127000257446048,       !- Thickness
-    0.11388,                  !- Conductivity
-    426.090847695673,         !- Density
-    1631.76001234752;         !- Specific Heat
+  Material,
+    Slate_shingle,           !- Name
+    MediumSmooth,            !- Roughness
+    0.0127000257446048,      !- Thickness {m}
+    1.44219,                 !- Conductivity {W/m-K}
+    1601.845292089,          !- Density {kg/m3}
+    1255.20000949809;        !- Specific Heat {J/kg-K}
 
-Material,
-    Slate_shingle,            !- Name
-    MediumSmooth,             !- Roughness
-    0.0127000257446048,       !- Thickness
-    1.44219,                  !- Conductivity
-    1601.845292089,           !- Density
-    1255.20000949809;         !- Specific Heat
+  Material,
+    Stucco_1in,              !- Name
+    MediumSmooth,            !- Roughness
+    0.0254000514892096,      !- Thickness {m}
+    1.39892,                 !- Conductivity {W/m-K}
+    1922.2143505068,         !- Density {kg/m3}
+    878.640006648665;        !- Specific Heat {J/kg-K}
 
-Material,
-    Stucco_1in,               !- Name
-    MediumSmooth,             !- Roughness
-    0.0254000514892096,       !- Thickness
-    1.39892,                  !- Conductivity
-    1922.2143505068,          !- Density
-    878.640006648665;         !- Specific Heat
+  Material,
+    Drywall_1/2in,           !- Name
+    MediumSmooth,            !- Roughness
+    0.0127000257446048,      !- Thickness {m}
+    0.16009,                 !- Conductivity {W/m-K}
+    800.922646044499,        !- Density {kg/m3}
+    1087.84000823168;        !- Specific Heat {J/kg-K}
 
-Material,
-    Drywall_1/2in,            !- Name
-    MediumSmooth,             !- Roughness
-    0.0127000257446048,       !- Thickness
-    0.16009,                  !- Conductivity
-    800.922646044499,         !- Density
-    1087.84000823168;         !- Specific Heat
+  Material,
+    OSB_5/8in,               !- Name
+    MediumSmooth,            !- Roughness
+    0.015875032180756,       !- Thickness {m}
+    0.1163,                  !- Conductivity {W/m-K}
+    544.627399310259,        !- Density {kg/m3}
+    1213.36000918149;        !- Specific Heat {J/kg-K}
 
-Material,
-    OSB_5/8in,                !- Name
-    MediumSmooth,             !- Roughness
-    0.015875032180756,        !- Thickness
-    0.1163,                   !- Conductivity
-    544.627399310259,         !- Density
-    1213.36000918149;         !- Specific Heat
+  Material,
+    OSB_5/16in,              !- Name
+    MediumSmooth,            !- Roughness
+    0.00795,                 !- Thickness {m}
+    0.1163,                  !- Conductivity {W/m-K}
+    544.627399310259,        !- Density {kg/m3}
+    1213.36000918149;        !- Specific Heat {J/kg-K}
 
-Material,
-    OSB_5/16in,               !- Name
-    MediumSmooth,             !- Roughness
-    0.00795,                  !- Thickness
-    0.1163,                   !- Conductivity
-    544.627399310259,         !- Density
-    1213.36000918149;         !- Specific Heat
+  Material,
+    Blown_R30,               !- Name
+    MediumRough,             !- Roughness
+    0.212598430964684,       !- Thickness {m}
+    0.04119,                 !- Conductivity {W/m-K}
+    9.61107175253399,        !- Density {kg/m3}
+    836.800006332062;        !- Specific Heat {J/kg-K}
 
-Material,
-    Blown_R30,                !- Name
-    MediumRough,              !- Roughness
-    0.212598430964684,        !- Thickness
-    0.04119,                  !- Conductivity
-    9.61107175253399,         !- Density
-    836.800006332062;         !- Specific Heat
+  Material,
+    Blown_R30_top,           !- Name
+    MediumRough,             !- Roughness
+    0.117348237880148,       !- Thickness {m}
+    0.04119,                 !- Conductivity {W/m-K}
+    9.61107175253399,        !- Density {kg/m3}
+    836.800006332062,        !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    Blown_R30_top,            !- Name
-    MediumRough,              !- Roughness
-    0.117348237880148,        !- Thickness
-    0.04119,                  !- Conductivity
-    9.61107175253399,         !- Density
-    836.800006332062,         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    Plywood_3/4in,           !- Name
+    Rough,                   !- Roughness
+    0.01905,                 !- Thickness {m}
+    0.1154577,               !- Conductivity {W/m-K}
+    544.68,                  !- Density {kg/m3}
+    674.54,                  !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    Plywood_3/4in,            !- Name
-    Rough,                    !- Roughness
-    0.01905,                  !- Thickness
-    0.1154577,                !- Conductivity
-    544.68,                   !- Density
-    674.54,                   !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    Batt_R19,                !- Name
+    MediumRough,             !- Roughness
+    0.0254000514892096,      !- Thickness {m}
+    0.00347522010738099,     !- Conductivity {W/m-K}
+    9.61107175253399,        !- Density {kg/m3}
+    836.800006332062,        !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    Batt_R19,                 !- Name
-    MediumRough,              !- Roughness
-    0.0254000514892096,       !- Thickness
-    0.00347522010738099,      !- Conductivity
-    9.61107175253399,         !- Density
-    836.800006332062,         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    Lumber_2x4,              !- Name
+    Rough,                   !- Roughness
+    0.0890016,               !- Thickness {m}
+    0.1154577,               !- Conductivity {W/m-K}
+    512.64,                  !- Density {kg/m3}
+    767.58,                  !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    Lumber_2x4,               !- Name
-    Rough,                    !- Roughness
-    0.0890016,                !- Thickness
-    0.1154577,                !- Conductivity
-    512.64,                   !- Density
-    767.58,                   !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    Carpet_n_pad,            !- Name
+    MediumSmooth,            !- Roughness
+    0.0254000514892096,      !- Thickness {m}
+    0.0601314018580031,      !- Conductivity {W/m-K}
+    32.03690584178,          !- Density {kg/m3}
+    836.800006332062,        !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    Carpet_n_pad,             !- Name
-    MediumSmooth,             !- Roughness
-    0.0254000514892096,       !- Thickness
-    0.0601314018580031,       !- Conductivity
-    32.03690584178,           !- Density
-    836.800006332062,         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    Batt_R13,                !- Name
+    MediumRough,             !- Roughness
+    0.0889,                  !- Thickness {m}
+    0.03876,                 !- Conductivity {W/m-K}
+    9.61107175253399,        !- Density {kg/m3}
+    836.800006332062,        !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    Batt_R13,                 !- Name
-    MediumRough,              !- Roughness
-    0.0889,                   !- Thickness
-    0.03876,                  !- Conductivity
-    9.61107175253399,         !- Density
-    836.800006332062,         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    OSB_1/2in,               !- Name
+    MediumSmooth,            !- Roughness
+    0.0127000257446048,      !- Thickness {m}
+    0.1163,                  !- Conductivity {W/m-K}
+    544.627399310259,        !- Density {kg/m3}
+    1213.36000918149,        !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    OSB_1/2in,                !- Name
-    MediumSmooth,             !- Roughness
-    0.0127000257446048,       !- Thickness
-    0.1163,                   !- Conductivity
-    544.627399310259,         !- Density
-    1213.36000918149,         !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    soil_12in,               !- Name
+    Rough,                   !- Roughness
+    0.3048,                  !- Thickness {m}
+    1.731,                   !- Conductivity {W/m-K}
+    1842.3,                  !- Density {kg/m3}
+    232.6,                   !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    soil_12in,                !- Name
-    Rough,                    !- Roughness
-    0.3048,                   !- Thickness
-    1.731,                    !- Conductivity
-    1842.3,                   !- Density
-    232.6,                    !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    door_const,              !- Name
+    Smooth,                  !- Roughness
+    0.031702180114817,       !- Thickness {m}
+    0.0720096,               !- Conductivity {W/m-K}
+    512.64,                  !- Density {kg/m3}
+    767.58;                  !- Specific Heat {J/kg-K}
 
-Material,
-    door_const,               !- Name
-    Smooth,                   !- Roughness
-    0.031702180114817,        !- Thickness
-    0.0720096,                !- Conductivity
-    512.64,                   !- Density
-    767.58;                   !- Specific Heat
+  Material,
+    GypsumBoard-1_2in,       !- Name
+    Rough,                   !- Roughness
+    0.01271016,              !- Thickness {m}
+    0.1602906,               !- Conductivity {W/m-K}
+    801.0,                   !- Density {kg/m3}
+    465.2,                   !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.4,                     !- Solar Absorptance
+    0.1;                     !- Visible Absorptance
 
-Material,
-    GypsumBoard-1_2in,        !- Name
-    Rough,                    !- Roughness
-    0.01271016,               !- Thickness
-    0.1602906,                !- Conductivity
-    801.0,                    !- Density
-    465.2,                    !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.4,                      !- Solar Absorptance
-    0.1;                      !- Visible Absorptance
+  Material,
+    Std Wood 6inch,          !- Name
+    MediumSmooth,            !- Roughness
+    0.15,                    !- Thickness {m}
+    0.12,                    !- Conductivity {W/m-K}
+    540.0,                   !- Density {kg/m3}
+    1210.0,                  !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
 
-Material,
-    Std Wood 6inch,           !- Name
-    MediumSmooth,             !- Roughness
-    0.15,                     !- Thickness
-    0.12,                     !- Conductivity
-    540.0,                    !- Density
-    1210.0,                   !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+  Material,
+    Pipe Insulation,         !- Name
+    VeryRough,               !- Roughness
+    0.0127032520325203,      !- Thickness {m}
+    0.03317175,              !- Conductivity {W/m-K}
+    91.0,                    !- Density {kg/m3}
+    836.0,                   !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.5,                     !- Solar Absorptance
+    0.5;                     !- Visible Absorptance
 
-Material,
-    Pipe Insulation,          !- Name
-    VeryRough,                !- Roughness
-    0.0127032520325203,       !- Thickness
-    0.03317175,               !- Conductivity
-    91.0,                     !- Density
-    836.0,                    !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.5,                      !- Solar Absorptance
-    0.5;                      !- Visible Absorptance
