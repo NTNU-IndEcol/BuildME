@@ -199,7 +199,7 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
         zone_multiplier = list_of_multipliers[0]
 
     # List of surfaces for the middle floor modeled with zone multipliers
-    surfaces_multiplier = [x for x in surfaces_idf if x.Name.startswith('m')] * zone_multiplier
+    surfaces_multiplier = [x for x in surfaces_idf if x.Name.startswith('m') or x.Name.startswith('M')] * zone_multiplier
 
     # Removing all surfaces with multiplier
     total_no_surfaces = [x for x in surfaces_idf if not x.Name.startswith('m')]
@@ -227,25 +227,6 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
     surfaces['roof'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Outdoors'],
                                                         ['Roof'])
     return surfaces
-    # TODO: ADD A CHECK SIMILAR TO BELOW
-    '''
-    check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in material.flatten_surfaces(surfaces)]]
-    assert len(check) == 0, "Following elements were not found: %s" % check'''
-
-    # Need to account for the zone multiplier here
-    #temp_surface_areas = material.calc_surface_areas(surfaces)
-    #constr_list = {m.Name: m for m in material.read_constructions(idf)}
-    # TODO: WHAT TO DO WITH INTERNAL WALLS? SLAB?
-    # TODO: ok to skip the basement
-    #int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
-    #surfaces['int_wall'] = surfaces['int_wall'] + \
-                           (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr))
-    #slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
-    #surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
-    # surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
-
-
-
 
 def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
     """
