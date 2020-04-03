@@ -208,8 +208,14 @@ def calculate_materials(fnames=None):
         densities = material.make_mat_density_dict(materials_dict, fallback_materials)
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
-        surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2],
-                                         fnames[folder]['RES'][2])
+
+        if fnames[folder]['energy_standard'][1] == 'HR':
+            surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'][2],
+                                             fnames[folder]['RES'][2])
+        else:
+            surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2],
+                                             fnames[folder]['RES'][2])
+
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
         odym_mat = translate_to_odym_mat(total_material_mass)
