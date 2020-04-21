@@ -7,6 +7,7 @@ import collections
 import os
 
 import pandas as pd
+import numpy as np
 from eppy.modeleditor import IDF
 
 from BuildME import settings
@@ -191,41 +192,65 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
     # Need to account for the zone multiplier
     # Finding the multiplier used
     list_of_multipliers = [x.Multiplier for x in idf.idfobjects["ZONE"] if x.Multiplier is not '']
-
+    zones_multipliers = [x.Name for x in idf.idfobjects["ZONE"] if x.Multiplier is not '']
+    multipliers = dict(zip(zones_multipliers,list_of_multipliers))
    # TODO: CHECK if multiple floors with zone multiplier and implement this
-    if list_of_multipliers.count(list_of_multipliers[0]) != len(list_of_multipliers):
-        raise Exception('Function can not handle multiple floors with zone multiplier')
-    else:
-        zone_multiplier = list_of_multipliers[0]
+   # if list_of_multipliers.count(list_of_multipliers[0]) != len(list_of_multipliers):
+   #     raise Exception('Function can not handle multiple floors with zone multiplier')
+   # else:
+   #     zone_multiplier = list_of_multipliers[0]
 
     # List of surfaces for the middle floor modeled with zone multipliers
-    surfaces_multiplier = [x for x in surfaces_idf if x.Name.startswith('m') or x.Name.startswith('M')] * zone_multiplier
+   # surfaces_multiplier = [x for x in surfaces_idf if x.Name.startswith('m') or x.Name.startswith('M')] * zone_multiplier
 
     # Removing all surfaces with multiplier
-    total_no_surfaces = [x for x in surfaces_idf if not x.Name.startswith('m')]
-    total_no_surfaces.extend(surfaces_multiplier)
+    #total_no_surfaces = [x for x in surfaces_idf if not x.Name.startswith('m')]
+    #total_no_surfaces.extend(surfaces_multiplier)
 
     # Need to account for zone multiplier
-    surfaces['ext_wall'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+    surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                             ['Outdoors'], ['Wall'])
-    surfaces['int_wall'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+    surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                             ['Surface'], ['Wall'])
-    surfaces['window'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['FenestrationSurface:Detailed'], [''],
+    surfaces['window'] = extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''],
                                                           ['Window'])
-    surfaces['int_floor'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                              ['Adiabatic'], ['Floor']) + \
-                            extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                              ['Surface'], ['Floor'])
-    surfaces['int_ceiling'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+    surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                                ['Surface'], ['Ceiling']) + \
-                              extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+                              extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                                ['Adiabatic'], ['Ceiling'])
-    surfaces['ext_floor'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+    surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                              ['Ground'], ['Floor']) + \
-                            extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'],
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                              ['Outdoors'], ['Floor'])
-    surfaces['roof'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Outdoors'],
+    surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'],
                                                         ['Roof'])
+    surfaces_with_multiplier = {}
+    # accounting for zone multiplier
+    for key in surfaces.keys():
+        temp_elem = []
+        for elem in surfaces[key]:
+            if elem.Surface_Type == 'Window':
+                if elem.Building_Surface_Name.upper().startswith('M'):
+                    #TODO: change this to account for the zone multiplier!!!
+                    temp_elem.extend(np.repeat(elem, 14 - 1).tolist())
+            else:
+                if elem.Zone_Name in multipliers.keys():
+                    temp_elem.extend(np.repeat(elem, multipliers[elem.Zone_Name] - 1).tolist())
+        surfaces[key].extend(temp_elem)
+
+    temp_surface_areas = calc_surface_areas(surfaces)
+    constr_list = {m.Name: m for m in read_constructions(idf)}
+    slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
+    surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+    surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
+    # Andrea: adding two levels of basement
+    surfaces['slab1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+    surfaces['basement1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+    # Do not have to add surrogate internal walls as those are added already in the idf file
     return surfaces
 
 def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
