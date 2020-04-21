@@ -115,6 +115,7 @@ def apply_rule_from_excel(idf_f, res, en_replace):
             print("bam")
             continue
         for idfobj in idf_f.idfobjects[xls_value[1]['idfobject'].upper()]:
+        # TODO: Seems like this skips replacement of values for MFH? Check with NH if correct?
             if idfobj.Name not in ('*', xls_value[1].Name):
                 continue
             setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
@@ -149,7 +150,7 @@ def copy_scenario_files(fnames, replace=False):
                                        '-en-std-replaceme')
         idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'],
                                        '-res-replaceme')
-        # Andrea: Copy these out atm - as it is not implemented for the HR yet
+
         idf_f = apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
         idf_f = apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
@@ -394,6 +395,8 @@ def weighing_climate_region(res):
     for region in res.index.levels[0]:
         # Why u not update the column index pandas??
         for cr in set([c[1] for c in res.loc[region].dropna(axis=1)]):
+            if cr == '':
+                continue
             res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
                 res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
                 weights.loc[pd.IndexSlice[region, cr], 'share']
@@ -454,8 +457,8 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     writer.save()
     return res
 
-
-def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50}):
+# Andrea: assume the same for HR as for MFH for now...
+def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'HR': 75}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]

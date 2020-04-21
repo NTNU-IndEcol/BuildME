@@ -271,7 +271,10 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'wall_consol_layer-en-efficient': 'other',
                   'wall_consol_layer-en-ZEB': 'other',
                   'F13 Built-up roofing': 'other',
-                  'F08 Metal surface': 'other'}
+                  'F08 Metal surface': 'other',
+                  'Reinforcement_2perc_15cm': 'construction grade steel',
+                  'Reinforcement_3perc_15cm': 'construction grade steel',
+                  'Reinforcement_2perc_20cm': 'construction grade steel'}
 
 odym_regions = {'USA': 'R32USA',
                 'CA': 'R32CAN',
