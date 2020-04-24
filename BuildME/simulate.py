@@ -233,6 +233,16 @@ def calculate_materials(fnames=None):
         if 'RES2.1' in fnames[folder]['RES'][2]:
             postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
             res[postbeam[0]] += postbeam[1]
+
+        # Adding columns to construction if high-rise (say 15 floor..)
+        if res['floor_area_wo_basement']/res['footprint_area'] > 15:
+            columns = add_surrogate_columns(fnames[folder]['RES'][2], res['floor_area_wo_basement'], res['footprint_area'])
+        # Iterating through columns dict with concrete and steel since reinforced concrete
+            for k, v in columns.items():
+                # If concrete and steel already in res, add material value
+                if k in res:
+                   res[k] += v
+
         material.save_materials(res, run_path)
 
 
@@ -256,6 +266,32 @@ def add_surrogate_postbeams(res, area, distance=0.6,):
     res_vol = res_dict[res]['vol'] * side_length * number_beams
     mass = res_vol * res_dict[res]['density']
     return res_dict[res]['Material'], mass
+
+def add_surrogate_columns(res, floor_area, footprint_area, distance=9, room_h = 3, reinforcement_ratio = 0.01):
+    """
+    Function to add columns to the perimeter of the building. Dimensions taken from book "Design of Tall Buildings"
+    :param res: scenario, RES0, RES2.1 etc.
+    :param floor_area: total floor area of building
+    :param footprint_area: footprint area of building
+    :param distance: spacing between columns in meters
+    param room_h: height of room
+    :return: returns materials of columns and total mass
+    """
+    # TODO: check value of concrete density to use
+    # TODO: ASSUME 3% reinforcement in columns (have to check) and about 270 kg/m3 concrete
+    res_dict = {'RES0': {'Material': {'construction grade steel': {'vol': 0.03 * .965 * .864 * room_h, 'density': 7850},
+                                      'concrete': {'vol': .965 * .864 * room_h, 'density': 2400}}}}
+
+    perimeter = footprint_area ** 0.5 * 4
+    floors = floor_area/footprint_area
+    number_columns = (perimeter / distance + 1)*floors
+
+    concrete_vol = res_dict[res]['Material']['concrete']['vol'] * number_columns
+    steel_vol = res_dict[res]['Material']['construction grade steel']['vol'] * number_columns
+    mass_concrete = concrete_vol * res_dict[res]['Material']['concrete']['density']
+    mass_steel = steel_vol * res_dict[res]['Material']['construction grade steel']['density']
+
+    return dict(zip(['concrete', 'construction grade steel'], [mass_concrete, mass_steel]))
 
 
 def calculate_energy(fnames=None):
