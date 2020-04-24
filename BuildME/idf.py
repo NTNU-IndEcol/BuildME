@@ -249,8 +249,10 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
     surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
     # Andrea: adding two levels of basement
     surfaces['slab1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
-    surfaces['basement1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+    surfaces['basement1'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
     # Do not have to add surrogate internal walls as those are added already in the idf file
+    shear_constr = constr_list['Shear_wall-' + 'RES0'].Name
+    surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
     return surfaces
 
 def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
@@ -291,6 +293,20 @@ def create_surrogate_basement(floor_area, construction, room_h=2.8):
         'area': floor_area ** 0.5 * 4 * room_h
     }
     return [SurrogateElement(basem)]
+
+def create_surrogate_shear_wall(floor_area, construction):
+    """
+    TODO: need to update the numbers here, for both shear wall area per floor area and steel assumptions
+    Based on the book: Design of tall buildings and https://www.researchgate.net/publication/273370060_Effect_of_Shear_Wall_Area_to_Floor_Area_Ratio_on_the_Seismic_Behavior_of_Reinforced_Concrete_Buildings
+    the area of shear walls are defined as 1.5 % of the total floor area of the building. Book on shear-frame structures ca. 1 % for 25 storey. Assume 4% steel in shear wall structures Jinjie et al. """
+    shear_walls = {
+        'key': 'DummyBuildingSurface',
+        'Name': 'surrogate_slab',
+        'Building_Surface_Name': None,
+        'Construction_Name': construction,
+        'area': 0.015*floor_area
+    }
+    return [SurrogateElement(shear_walls)]
 
 
 def calc_surface_areas(surfaces, floor_area=['int_floor', 'ext_floor']):
