@@ -40,7 +40,7 @@ testing_combinations = {
         {'occupation': ['HR'],
          'energy standard': ['standard'],
          'RES': ['RES0'],
-         'climate_region': ['8'],
+         'climate_region': ['5A'],
          'climate_scenario': ['2015']}}
 
 debug_combinations = {
@@ -241,6 +241,10 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'OSB_5/8in': 'wood and wood products',
                   'Stucco_1in': 'cement',
                   'F07 25mm stucco': 'cement',
+                  'F07 50mm stucco': 'cement',
+                  'F07 10mm stucco': 'cement',
+                  'Concrete_tiles_25mm': 'concrete',
+                  'Bitumen_20mm': 'other',
                   'sheathing_consol_layer': 'wood and wood products',
                   'Drywall_1/2in': 'wood and wood products',
                   # TODO: check if gypsum board should be mapped to wood and wood prod
@@ -274,7 +278,9 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'F08 Metal surface': 'other',
                   'Reinforcement_2perc_15cm': 'construction grade steel',
                   'Reinforcement_3perc_15cm': 'construction grade steel',
-                  'Reinforcement_2perc_20cm': 'construction grade steel'}
+                  'Reinforcement_2perc_20cm': 'construction grade steel',
+                  'Reinforcement_4perc_30cm': 'construction grade steel',
+                  'Concrete_30cm': 'concrete'}
 
 odym_regions = {'USA': 'R32USA',
                 'CA': 'R32CAN',
