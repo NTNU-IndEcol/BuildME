@@ -33,7 +33,7 @@ def calc_mat_vol_m2(constructions, materials_dict, fallback_mat):
                 thickness = materials_dict[layers[layer]].Thickness
             else:
                 thickness = fallback_mat.loc[layers[layer], 'thickness']
-            if layer not in res[construction.Name]:
+            if layers[layer] not in res[construction.Name]:
                 res[construction.Name][layers[layer]] = thickness
             else:
                 res[construction.Name][layers[layer]] += thickness
