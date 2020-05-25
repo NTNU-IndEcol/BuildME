@@ -110,6 +110,7 @@ def run_energyplus_single(tmp_path):
     # 1. Run `./ExpandObjects`
     os.chdir(os.path.join(settings.tmp_path, tmp_path))
     # for exec in ['./ExpandObjects', './Basement', './energyplus']:
+
     with open("log_ExpandObjects.txt", 'w') as log_file:
         subprocess.call('ExpandObjects', shell=True, stdout=log_file, stderr=log_file)
     if os.path.exists('BasementGHTIn.idf'):

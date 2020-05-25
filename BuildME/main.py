@@ -1,14 +1,8 @@
 
-import collections
-import datetime
-import multiprocessing as mp
-import os
-import shutil
-import pickle
-from time import sleep
-
 import pandas as pd
+import numpy as np
 from tqdm import tqdm
+import encodings
 
 from BuildME import settings, idf, material, energy, simulate, __version__
 
@@ -20,11 +14,58 @@ simulate.nuke_folders(simulation_files) #deletes only the folder with the case y
 
 #copy scenarios .idf to the correct folder
 simulate.copy_scenario_files(simulation_files)
-simulate.calculate_energy()
-simulate.calculate_materials()
+# create run file
+#simulate.create_sq_job(simulation_files)
+
+#simulate.calculate_energy()
+simulate.calculate_materials(simulation_files)
 
 #res_energy = simulate.collect_energy(simulation_files)
-#res_mat = simulate.load_material(simulation_files)
+res_mat = simulate.load_material(simulation_files)
+
+#simulate.save_ei_result(res_energy, res_mat)
+#simulate.save_mi_result(res_mat)
+
+#simulate.save_ei_for_odym(res_energy)
+#simulate.save_ei_for_odym(res_mat)
+
+floor_area = res_mat['PL_HR_standard_RES2.1_Poland_2015']['floor_area_wo_basement']
+energy_intensity = {k: v / floor_area for k, v in res_mat['PL_HR_standard_RES2.1_Poland_2015'].items()}
+''''''
+simulate.save_ei_result(res_energy, res_mat)
+simulate.save_mi_result(res_mat)
+fname = [x for x in tqdm(simulation_files, leave=True)][0]
+idff = idf.read_idf('data/archetype/ES/HR.idf')
+res = ['USA', 'MFH', 'non-standard']
+en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
+idf_f = simulate.apply_rule_from_excel(idff, ['USA', 'HR', 'standard'], en_replace)
+xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
+    if not 'RES' in res[2]:
+        assert len(xls_values) > 0, "Did not find an energy replacement for '%s" % res
+    for xls_value in xls_values.iterrows():
+        if xls_value[1]['Value'] == 'skip':
+            print("bam")
+            continue
+        for idfobj in idff.idfobjects[xls_value[1]['idfobject'].upper()]:
+            #print(idfobj)
+            #print(xls_value[1].Name)
+            if idfobj.Name not in ('*', xls_value[1].Name):
+                print(idfobj.Name)
+                continue
+            setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
+
+for idfobj in idff.idfobjects[xls_value[1]['idfobject'].upper()]:
+    print(idfobj)
+    if idfobj.Name not in ('*', xls_value[1].Name):
+        continue
+    setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value']
+
+#ener = res_energy['USA_MFH_standard_RES0_5A_2015']
+#ener = {k: a/10e6 for k,a in ener.items()}
+#ener_m2 = {k: a/2174 for k,a in ener.items()}
+
+#mat = res_mat['USA_MFH_standard_RES0_8_2015']
+#res_mat_m2 = {k: a/2174 for k,a in mat.items()}
 
 print("Extracting materials and surfaces...")
     if not simulation_files:
@@ -46,127 +87,30 @@ print("Extracting materials and surfaces...")
 
 
         #works until here
-        '''
-        surfaces = material.get_surfaces(idff, simulation_files[folder]['energy_standard'][2],
+
+        surfaces = material.get_surfaces_with_zone_multiplier(idff, simulation_files[folder]['energy_standard'][2],
                                          simulation_files[folder]['RES'][2])
-        
+
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
-        odym_mat = translate_to_odym_mat(total_material_mass)
+
+        odym_mat = simulate.translate_to_odym_mat(total_material_mass)
         surface_areas = material.calc_surface_areas(surfaces)
-        # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
+
         res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
-        loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
+
+        #ER HER NÅ!
+        loadbeam = simulate.add_surrogate_beams(simulation_files[folder]['RES'][2], res['floor_area_wo_basement'])
         if loadbeam[0] in res:
             res[loadbeam[0]] += loadbeam[1]
         else:
             res[loadbeam[0]] = loadbeam[1]
-        if 'RES2.1' in fnames[folder]['RES'][2]:
-            postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
+        if 'RES2.1' in simulation_files[folder]['RES'][2]:
+            postbeam = simulate.add_surrogate_beams(simulation_files[folder]['RES'][2], surface_areas['ext_wall'])
             res[postbeam[0]] += postbeam[1]
         material.save_materials(res, run_path)
 
-surfaces_to_count = ['Window', 'BuildingSurface:Detailed', 'Door']
-total_no_surfaces = [[s for s in idf.idfobjects[st.upper()]] for st in surfaces_to_count]
-
-
-en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
-tq = tqdm(simulation_files, leave=True)
-for fname in tq:
-    # tq.set_description(fname)
-    fpath = os.path.join(settings.tmp_path, fname)
-    # create folder
-    os.makedirs(fpath)
-
-    # copy climate file
-    shutil.copy(simulation_files[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
-
-    # copy IDF archetype file
-    idf_f = idf.read_idf(simulation_files[fname]['archetype_file'])
-
-    idf_f = simulate.apply_obj_name_change(idf_f, simulation_files[fname]['energy_standard'],
-                                  '-en-std-replaceme')
-    idf_f.saveas(os.path.join(fpath, 'in.idf'))
-    fnames = simulation_files
-    idf_f = simulate.apply_obj_name_change(idf_f, fnames[fname]['RES'],
-                                  '-res-replaceme')
-
-    #idf_f = simulate.apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
-    #idf_f = simulate.apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
-    idf_f.idfobjects['Building'.upper()][0].Name = fname
-    idf_f.saveas(os.path.join(fpath, 'in.idf'))
-
-# save list of all folders
-scenarios_filename = os.path.join(settings.tmp_path, datetime.datetime.now().strftime("%y%m%d-%H%M%S") + '.run')
-# pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
-pickle.dump(fnames, open(scenarios_filename, "wb"))
-return scenarios_filename'''
-
+        # TODO: ALT KJØRER, MEN SE OM JEG FINNER NOE DATA FOR BEAMS REQUIRED!!
 '''
-#calculate the materials
-simulate.calculate_materials()
-
-#collects the required energy plus files, copy to folder to be able to run the energy plus simulation with the files in the scenario folder
-simulate.calculate_energy()
-
-
-res_mat = simulate.load_material(simulation_files)'''
-
-idf = idff
-surfaces = {}
-# Different for the HR compared to SFH and MFH
-surfaces_to_count = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
-
-# Extracting all surfaces from idf file
-surfaces_idf = [[s for s in idf.idfobjects[st.upper()]] for st in surfaces_to_count]
-# Flatten list
-surfaces_idf = [item for sublist in surfaces_idf for item in sublist]
-# Need to account for the zone multiplier
-# Finding the multiplier used
-list_of_multipliers = [x.Multiplier for x in idf.idfobjects["ZONE"] if x.Multiplier is not '']
-# Checking if only one floor is modeled with multiplier, if multiple floors have zone multiplier this can not be handle yet
-if list_of_multipliers.count(list_of_multipliers[0]) != len(list_of_multipliers):
-    raise Exception('Function can not handle multiple floors with zone multiplier')
-else:
-    zone_multiplier = list_of_multipliers[0]
-
-# List of surfaces for the middle floor modeled with zone multipliers
-surfaces_multiplier = [x for x in surfaces_idf if x.Name.startswith('m')]*zone_multiplier
-
-# Removing all surfaces with multiplier
-total_no_surfaces = [x for x in surfaces_idf if not x.Name.startswith('m')]
-total_no_surfaces.extend(surfaces_multiplier)
-
-
-
-#Need to account for zone multiplier
-surfaces['ext_wall'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Outdoors'], ['Wall'])
-surfaces['int_wall'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Surface'], ['Wall'])
-surfaces['window'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['FenestrationSurface:Detailed'], [''], ['Window'])
-surfaces['int_floor'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor']) + \
-                            extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
-surfaces['int_ceiling'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling']) +\
-                            extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Ceiling'])
-surfaces['ext_floor'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
-                        extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Outdoors'], ['Floor'])
-surfaces['roof'] = extract_surfaces_zone_multiplier(total_no_surfaces, ['BuildingSurface:Detailed'], ['Outdoors'], ['Roof'])
-
-# TODO: ADD A CHECK SIMILAR TO BELOW
-'''
-check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in material.flatten_surfaces(surfaces)]]
-assert len(check) == 0, "Following elements were not found: %s" % check'''
-
-# Need to account for the zone multiplier here
-temp_surface_areas = material.calc_surface_areas(surfaces)
-constr_list = {m.Name: m for m in material.read_constructions(idf)}
-# TODO: WHAT TO DO WITH INTERNAL WALLS? SLAB?
-# TODO: ok to skip the basement
-int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
-surfaces['int_wall'] = surfaces['int_wall'] +\
-                       (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr))
-slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
-surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
-#surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)

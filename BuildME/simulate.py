@@ -219,7 +219,7 @@ def calculate_materials(fnames=None):
 
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
-        print(total_material_mass)
+       # print(total_material_mass)
         odym_mat = translate_to_odym_mat(total_material_mass)
         surface_areas = material.calc_surface_areas(surfaces)
         # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
@@ -239,7 +239,7 @@ def calculate_materials(fnames=None):
         # Adding columns and deep foundation to construction if high-rise (say 15 floor..)
         if res['floor_area_wo_basement']/res['footprint_area'] > 15:
             columns = add_surrogate_columns(fnames[folder]['RES'][2], res['floor_area_wo_basement'], res['footprint_area'])
-            print(columns)
+           # print(columns)
             foundation = add_foundation(res['footprint_area'])
         # Iterating through columns dict with concrete and steel since reinforced concrete
             for k, v in columns.items():
@@ -280,6 +280,15 @@ def add_surrogate_beams(res, area, distance=0.6,):
     mass = res_vol * res_dict[res]['density']
     return res_dict[res]['Material'], mass
 
+#TODO: reinforced concrete beams for floors according to Gan et al.(2019)
+def add_surrogate_beams_slabs(res, area, distance=0.2,):
+    res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050},
+                'RES2.2': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050}}
+    side_length = area ** 0.5
+    number_beams = side_length / distance + 1
+    res_vol = res_dict[res]['vol'] * side_length * number_beams
+    mass = res_vol * res_dict[res]['density']
+    return res_dict[res]['Material'], mass
 
 def add_surrogate_postbeams(res, area, distance=0.6,):
     res_dict = {'RES2.1': {'Material': 'wood and wood products', 'vol': .1*.05, 'density': 500},

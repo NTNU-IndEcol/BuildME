@@ -186,47 +186,6 @@ ScheduleTypeLimits,
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:COMPACT ===========
 
 Schedule:Compact,
-    OCC_APT_SCH,             !- Name
-    Fraction,                !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: AllDays,            !- Field 2
-    Until: 7:00,             !- Field 3
-    1.0,                     !- Field 4
-    Until: 8:00,             !- Field 5
-    0.85,                    !- Field 6
-    Until: 9:00,             !- Field 7
-    0.39,                    !- Field 8
-    Until: 16:00,            !- Field 9
-    0.25,                    !- Field 10
-    Until: 17:00,            !- Field 11
-    0.3,                     !- Field 12
-    Until: 18:00,            !- Field 13
-    0.52,                    !- Field 14
-    Until: 21:00,            !- Field 15
-    0.87,                    !- Field 16
-    Until: 24:00,            !- Field 17
-    1.0;                     !- Field 18
-
-Schedule:Compact,
-    OCC_OFF_SCH,             !- Name
-    Fraction,                !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: Weekdays,           !- Field 2
-    Until: 8:00,             !- Field 3
-    0.0,                     !- Field 4
-    Until: 12:00,            !- Field 5
-    1.0,                     !- Field 6
-    Until: 13:00,            !- Field 7
-    0.5,                     !- Field 8
-    Until: 17:00,            !- Field 9
-    1.0,                     !- Field 10
-    Until: 24:00,            !- Field 11
-    0.0,                     !- Field 12
-    For AllOtherDays,        !- Field 13
-    Until: 24:00,            !- Field 14
-    0.0;                     !- Field 15
-
-Schedule:Compact,
     LTG_APT_SCH,             !- Name
     Fraction,                !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
@@ -1065,6 +1024,22 @@ Schedule:Compact,
     UNTIL: 24:00,            !- Field 3
     21.7;                    !- Field 4
 
+Schedule:Compact,
+    INF_APT_SCH_SUMMER,      !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,            !- Field 3
+    1.0;                     !- Field 4
+
+Schedule:Compact,
+    window_shades,           !- Name
+    fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until 24:00,             !- Field 3
+    0.836;                   !- Field 4
+
 
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL ===========
 
@@ -1186,11 +1161,10 @@ Material,
     0.7,                     !- Solar Absorptance
     0.7;                     !- Visible Absorptance
 
-
 Material,
     F07 50mm stucco,         !- Name
     Smooth,                  !- Roughness
-    0.05,                  !- Thickness {m}
+    0.05,                    !- Thickness {m}
     0.72,                    !- Conductivity {W/m-K}
     1856,                    !- Density {kg/m3}
     840,                     !- Specific Heat {J/kg-K}
@@ -1232,6 +1206,25 @@ Material,
     0.7;                     !- Visible Absorptance
 
 Material,
+    High pressure laminate panel,  !- Name
+    MediumSmooth,            !- Roughness
+    0.01,                    !- Thickness {m}
+    0.3,                     !- Conductivity {W/m-K}
+    1350,                    !- Density {kg/m3}
+    1000,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
+
+Material,
+    OSB_5/8in,               !- Name
+    MediumSmooth,            !- Roughness
+    0.015875032180756,       !- Thickness {m}
+    0.1163,                  !- Conductivity {W/m-K}
+    544.627399310259,        !- Density {kg/m3}
+    1213.36000918149;        !- Specific Heat {J/kg-K}
+
+Material,
     6 in. Normalweight Concrete Floor,  !- Name
     MediumRough,             !- Roughness
     0.1524,                  !- Thickness {m}
@@ -1256,7 +1249,7 @@ Material,
 Material,
     F08 Metal surface,       !- Name
     Smooth,                  !- Roughness
-    0.0008,                  !- Thickness {m}
+    0.001,                   !- Thickness {m}
     45.2800000000001,        !- Conductivity {W/m-K}
     7823.99999999999,        !- Density {kg/m3}
     500,                     !- Specific Heat {J/kg-K}
@@ -1334,14 +1327,29 @@ Material,
     Rough,                   !- Roughness
     0.3,                     !- Thickness {m}
     1.312098,                !- Conductivity {W/m-K}
-    !- check if i need to change density and specific heat
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_60cm,           !- Name
+    Rough,                   !- Roughness
+    0.6,                     !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
     2242.8,                  !- Density {kg/m3}
     465.2;                   !- Specific Heat {J/kg-K}
 
 Material,
     200mm Normalweight concrete floor,  !- Name
     MediumRough,             !- Roughness
-    0.2032,                  !- Thickness {m}
+    0.20,                    !- Thickness {m}
+    2.31,                    !- Conductivity {W/m-K}
+    2322,                    !- Density {kg/m3}
+    832;                     !- Specific Heat {J/kg-K}
+
+Material,
+    175mm Normalweight concrete floor,  !- Name
+    MediumRough,             !- Roughness
+    0.175,                   !- Thickness {m}
     2.31,                    !- Conductivity {W/m-K}
     2322,                    !- Density {kg/m3}
     832;                     !- Specific Heat {J/kg-K}
@@ -1390,12 +1398,12 @@ Material,
     0.7;                     !- Solar Absorptance
 
 Material,
-    Bitumen_20mm,    !- Name
+    Bitumen_20mm,            !- Name
     Rough,                   !- Roughness
-    0.02,                  !- Thickness {m}
+    0.02,                    !- Thickness {m}
     0.17,                    !- Conductivity {W/m-K}
     1010,                    !- Density {kg/m3}
-    920,                    !- Specific Heat {J/kg-K}
+    920,                     !- Specific Heat {J/kg-K}
     0.9,                     !- Thermal Absorptance
     0.7;                     !- Solar Absorptance
 
@@ -1414,6 +1422,14 @@ Material,
     Reinforcement_1perc_15cm,!- Name
     Rough,                   !- Roughness
     0.0015,                  !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_2perc_17cm,!- Name
+    Rough,                   !- Roughness
+    0.0034,                  !- Thickness {m}
     1.312098,                !- Conductivity {W/m-K}
     7850,                    !- Density {kg/m3}
     465.2;                   !- Specific Heat {J/kg-K}
@@ -1451,6 +1467,38 @@ Material,
     465.2;                   !- Specific Heat {J/kg-K}
 
 Material,
+    Concrete_10cm,           !- Name
+    Rough,                   !- Roughness
+    0.10,                    !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_4cm,            !- Name
+    Rough,                   !- Roughness
+    0.04,                    !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_5cm,            !- Name
+    Rough,                   !- Roughness
+    0.05,                    !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_10cm,!- Name
+    Rough,                   !- Roughness
+    0.001,                   !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
     Reinforcement_2perc_15cm,!- Name
     Rough,                   !- Roughness
     0.003,                   !- Thickness {m}
@@ -1467,21 +1515,36 @@ Material,
     465.2;                   !- Specific Heat {J/kg-K}
 
 Material,
-    Reinforcement_4perc_30cm,!- Name
+    Reinforcement_2perc_30cm,!- Name
     Rough,                   !- Roughness
-    0.012,                  !- Thickness {m}
+    0.006,                   !- Thickness {m}
     1.312098,                !- Conductivity {W/m-K}
     7850,                    !- Density {kg/m3}
     465.2;                   !- Specific Heat {J/kg-K}
 
 Material,
-    Concrete_tiles_25mm,           !- Name
+    Reinforcement_1perc_60cm,!- Name
     Rough,                   !- Roughness
-    0.025,                    !- Thickness {m}
+    0.006,                   !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_tiles_25mm,     !- Name
+    Rough,                   !- Roughness
+    0.025,                   !- Thickness {m}
     1.312098,                !- Conductivity {W/m-K}
     2242.8,                  !- Density {kg/m3}
     465.2;                   !- Specific Heat {J/kg-K}
 
+Material,
+    CLT_170mm,               !- Name
+    Rough,                   !- Roughness
+    0.17,                    !- Thickness {m}
+    0.12,                    !- Conductivity {W/m-K}
+    450,                     !- Density {kg/m3}
+    1600;                    !- Specific Heat {J/kg-K}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL:NOMASS ===========
@@ -1517,6 +1580,26 @@ WindowMaterial:SimpleGlazingSystem,
     0.8,                     !- U-Factor {W/m2-K}
     0.4,                     !- Solar Heat Gain Coefficient
     0.88;                    !- Visible Transmittance
+
+
+!-   ===========  ALL OBJECTS IN CLASS: WINDOWMATERIAL:SHADE ===========
+
+WindowMaterial:Shade,
+    ext_blind_test,          !- Name
+    0.1,                     !- Solar Transmittance {dimensionless}
+    0.5,                     !- Solar Reflectance {dimensionless}
+    0.1,                     !- Visible Transmittance {dimensionless}
+    0.5,                     !- Visible Reflectance {dimensionless}
+    0.9,                     !- Infrared Hemispherical Emissivity {dimensionless}
+    0.0,                     !- Infrared Transmittance {dimensionless}
+    0.005,                   !- Thickness {m}
+    0.1,                     !- Conductivity {W/m-K}
+    0.05,                    !- Shade to Glass Distance {m}
+    0.5,                     !- Top Opening Multiplier
+    0.5,                     !- Bottom Opening Multiplier
+    0.5,                     !- Left-Side Opening Multiplier
+    0.5,                     !- Right-Side Opening Multiplier
+    0.0;                     !- Airflow Permeability {dimensionless}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: CONSTRUCTION ===========
@@ -1562,6 +1645,110 @@ Construction,
     G01 16mm gypsum board;   !- Layer 7
 
 Construction,
+    ext-wall-non-standard-RES2.2,  !- Name
+    F07 25mm stucco,         !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,           !- Layer 4
+    Reinforcement_1perc_12cm,!- Layer 5
+    wall_consol_layer-en-non-standard,  !- Layer 6
+    G01 16mm gypsum board;   !- Layer 7
+
+Construction,
+    ext-wall-standard-RES2.2,!- Name
+    F07 25mm stucco,         !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,           !- Layer 4
+    Reinforcement_1perc_12cm,!- Layer 5
+    wall_consol_layer-en-standard,  !- Layer 6
+    G01 16mm gypsum board;   !- Layer 7
+
+Construction,
+    ext-wall-efficient-RES2.2,  !- Name
+    F07 25mm stucco,         !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,           !- Layer 4
+    Reinforcement_1perc_12cm,!- Layer 5
+    wall_consol_layer-en-efficient,  !- Layer 6
+    G01 16mm gypsum board;   !- Layer 7
+
+Construction,
+    ext-wall-ZEB-RES2.2,     !- Name
+    F07 25mm stucco,         !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    Concrete_12cm,           !- Layer 4
+    Reinforcement_1perc_12cm,!- Layer 5
+    wall_consol_layer-en-ZEB,!- Layer 6
+    G01 16mm gypsum board;   !- Layer 7
+
+Construction,
+    ext-wall-non-standard-RES2.1,  !- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-non-standard,  !- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
+    ext-wall-standard-RES2.1,!- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-standard,  !- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
+    ext-wall-efficient-RES2.1,  !- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-efficient,  !- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
+    ext-wall-ZEB-RES2.1,     !- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-ZEB,!- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
+    ext-wall-non-standard-RES2.1+RES2.2,  !- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-non-standard,  !- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
+    ext-wall-standard-RES2.1+RES2.2,  !- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-standard,  !- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
+    ext-wall-efficient-RES2.1+RES2.2,  !- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-efficient,  !- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
+    ext-wall-ZEB-RES2.1+RES2.2,  !- Name
+    High pressure laminate panel,  !- Outside Layer
+    Bldg_paper_felt,         !- Layer 2
+    sheathing_consol_layer,  !- Layer 3
+    wall_consol_layer-en-ZEB,!- Layer 4
+    G01 16mm gypsum board;   !- Layer 5
+
+Construction,
     int_wall,                !- Name
     G01 13mm gypsum board,   !- Outside Layer
     G01 13mm gypsum board;   !- Layer 2
@@ -1595,24 +1782,184 @@ Construction,
     Carpet_n_pad;            !- Layer 4
 
 Construction,
+    ext-floor-non-standard-RES2.2,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    200mm Normalweight concrete floor,  !- Layer 2
+    Reinforcement_1perc_20cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-standard-RES2.2,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    200mm Normalweight concrete floor,  !- Layer 2
+    Reinforcement_1perc_20cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-efficient-RES2.2,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    200mm Normalweight concrete floor,  !- Layer 2
+    Reinforcement_1perc_20cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-ZEB-RES2.2,    !- Name
+    floor_consol_layer,      !- Outside Layer
+    200mm Normalweight concrete floor,  !- Layer 2
+    Reinforcement_1perc_20cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-non-standard-RES2.1,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-standard-RES2.1,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-efficient-RES2.1,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-ZEB-RES2.1,    !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-non-standard-RES2.1+RES2.2,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-standard-RES2.1+RES2.2,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-efficient-RES2.1+RES2.2,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
+    ext-floor-ZEB-RES2.1+RES2.2,  !- Name
+    floor_consol_layer,      !- Outside Layer
+    Concrete_12cm,           !- Layer 2
+    Reinforcement_1perc_12cm,!- Layer 3
+    Carpet_n_pad;            !- Layer 4
+
+Construction,
     int-floor-non-standard-RES0,  !- Name
-    Concrete_20cm,  !- Outside Layer
-    G01 13mm gypsum board;            !- Layer 2
+    200mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_20cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
 
 Construction,
     int-floor-standard-RES0, !- Name
-    Concrete_20cm,  !- Outside Layer
-    G01 13mm gypsum board;            !- Layer 2
+    200mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_20cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
 
 Construction,
     int-floor-efficient-RES0,!- Name
-    Concrete_20cm,  !- Outside Layer
-    G01 13mm gypsum board;            !- Layer 2
+    200mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_20cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
 
 Construction,
     int-floor-ZEB-RES0,      !- Name
-    Concrete_20cm,  !- Outside Layer
-    G01 13mm gypsum board;            !- Layer 2
+    200mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_20cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.2,  !- Name
+    175mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_17cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.2,  !- Name
+    175mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_17cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.2,  !- Name
+    175mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_17cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.2,    !- Name
+    175mm Normalweight concrete floor,  !- Outside Layer
+    Reinforcement_2perc_17cm,!- Layer 2
+    G01 13mm gypsum board;   !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.1,  !- Name
+    Concrete_5cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.1,  !- Name
+    Concrete_5cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.1,  !- Name
+    Concrete_5cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.1,    !- Name
+    Concrete_5cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.1+RES2.2,  !- Name
+    Concrete_4cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.1+RES2.2,  !- Name
+    Concrete_4cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.1+RES2.2,  !- Name
+    Concrete_4cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.1+RES2.2,  !- Name
+    Concrete_4cm,            !- Outside Layer
+    G01 13mm gypsum board,   !- Layer 2
+    CLT_170mm;               !- Layer 3
 
 Construction,
     ext-window-non-standard, !- Name
@@ -1634,56 +1981,142 @@ Construction,
     InteriorFurnishings,     !- Name
     Std Wood 6inch;          !- Outside Layer
 
-!- Construction,
-  !-  roof-non-standard,       !- Name
-  !-  F13 Built-up roofing,    !- Outside Layer
-  !-  ceil_consol_layer-en-non-standard,  !- Layer 2
-  !-  F08 Metal surface;       !- Layer 3
+Construction,
+    roof-non-standard-RES0,  !- Name
+    Concrete_tiles_25mm,     !- Outside Layer
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-non-standard,  !- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
 
 Construction,
-    roof-non-standard,       !- Name
+    roof-standard-RES0,      !- Name
     Concrete_tiles_25mm,     !- Outside Layer
-    Bitumen_20mm,            !- Layer 1 
-    F07 50mm stucco,         !- Layer 2 
-    Concrete_15cm,           !- Layer 3 
-    ceil_consol_layer-en-non-standard,  !- Layer 4
-    G01 13mm gypsum board;       !- Layer 5
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-standard,  !- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
 
 Construction,
-    roof-standard,           !- Name
+    roof-efficient-RES0,     !- Name
     Concrete_tiles_25mm,     !- Outside Layer
-    Bitumen_20mm,            !- Layer 1 
-    F07 50mm stucco,         !- Layer 2 
-    Concrete_15cm,           !- Layer 3 
-    ceil_consol_layer-en-standard,  !- Layer 4
-    G01 13mm gypsum board;       !- Layer 5
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-efficient,  !- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
 
 Construction,
-    roof-efficient,          !- Name
+    roof-ZEB-RES0,           !- Name
     Concrete_tiles_25mm,     !- Outside Layer
-    Bitumen_20mm,            !- Layer 1 
-    F07 50mm stucco,         !- Layer 2 
-    Concrete_15cm,           !- Layer 3 
-    ceil_consol_layer-en-efficient,  !- Layer 4
-    G01 13mm gypsum board;       !- Layer 5
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-ZEB,!- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
 
 Construction,
-    roof-ZEB,                !- Name
+    roof-non-standard-RES2.2,!- Name
     Concrete_tiles_25mm,     !- Outside Layer
-    Bitumen_20mm,            !- Layer 1 
-    F07 50mm stucco,         !- Layer 2 
-    Concrete_15cm,           !- Layer 3 
-    ceil_consol_layer-en-ZEB,  !- Layer 4
-    G01 13mm gypsum board;   !- Layer 5
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-non-standard,  !- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
+
+Construction,
+    roof-standard-RES2.2,    !- Name
+    Concrete_tiles_25mm,     !- Outside Layer
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-standard,  !- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
+
+Construction,
+    roof-efficient-RES2.2,   !- Name
+    Concrete_tiles_25mm,     !- Outside Layer
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-efficient,  !- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
+
+Construction,
+    roof-ZEB-RES2.2,         !- Name
+    Concrete_tiles_25mm,     !- Outside Layer
+    Bitumen_20mm,            !- Layer 2
+    F07 50mm stucco,         !- Layer 3
+    Concrete_15cm,           !- Layer 4
+    ceil_consol_layer-en-ZEB,!- Layer 5
+    G01 13mm gypsum board;   !- Layer 6
+
+Construction,
+    roof-non-standard-RES2.1,!- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-non-standard,  !- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
+
+Construction,
+    roof-standard-RES2.1,    !- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-standard,  !- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
+
+Construction,
+    roof-efficient-RES2.1,   !- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-efficient,  !- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
+
+Construction,
+    roof-ZEB-RES2.1,         !- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-ZEB,!- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
+
+Construction,
+    roof-non-standard-RES2.1+RES2.2,  !- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-non-standard,  !- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
+
+Construction,
+    roof-standard-RES2.1+RES2.2,  !- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-standard,  !- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
+
+Construction,
+    roof-efficient-RES2.1+RES2.2,  !- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-efficient,  !- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
+
+Construction,
+    roof-ZEB-RES2.1+RES2.2,  !- Name
+    Bitumen_20mm,            !- Outside Layer
+    ceil_consol_layer-en-ZEB,!- Layer 2
+    OSB_5/8in,               !- Layer 3
+    F08 Metal surface;       !- Layer 4
 
 Construction,
     Typical Insulated Basement Mass Wall,  !- Name
     8 in. Concrete Block Basement Wall;  !- Outside Layer
 
 Construction,
-    int_ceiling,        !- Name
-    Carpet_n_pad,       !- Outside Layer
-    F07 10mm stucco;    !- Layer 1
+    int_ceiling,             !- Name
+    Carpet_n_pad,            !- Outside Layer
+    F07 10mm stucco;         !- Layer 2
 
 Construction,
     Typical Interior Door,   !- Name
@@ -1706,14 +2139,40 @@ Construction,
     Reinforcement_1perc_12cm;!- Layer 3
 
 Construction,
+    interiorwall-RES2.2,     !- Name
+    G01 13mm gypsum board,   !- Outside Layer
+    Concrete_10cm,           !- Layer 2
+    Reinforcement_1perc_10cm;!- Layer 3
+
+Construction,
+    interiorwall-RES2.1,     !- Name
+    G01 16mm gypsum board,   !- Outside Layer
+    G01 16mm gypsum board;   !- Layer 2
+
+Construction,
+    interiorwall-RES2.1+RES2.2,  !- Name
+    G01 16mm gypsum board,   !- Outside Layer
+    G01 16mm gypsum board;   !- Layer 2
+
+Construction,
     Surrogate_slab-RES0,     !- Name
     Concrete_20cm,           !- Outside Layer
     Reinforcement_1perc_20cm;!- Layer 2
 
 Construction,
     Surrogate_slab-RES2.1,   !- Name
-    Concrete_15cm,           !- Outside Layer
-    Reinforcement_1perc_15cm;!- Layer 2
+    Concrete_20cm,           !- Outside Layer
+    Reinforcement_1perc_20cm;!- Layer 2
+
+Construction,
+    Concrete_floor_slab-RES2.1,  !- Name
+    Concrete_60cm,           !- Outside Layer
+    Reinforcement_1perc_60cm;!- Layer 2
+
+Construction,
+    Concrete_floor_slab-RES2.1+RES2.2,  !- Name
+    Concrete_60cm,           !- Outside Layer
+    Reinforcement_1perc_60cm;!- Layer 2
 
 Construction,
     Surrogate_slab-RES2.2,   !- Name
@@ -1722,13 +2181,42 @@ Construction,
 
 Construction,
     Surrogate_slab-RES2.1+RES2.2,  !- Name
-    Concrete_15cm,           !- Outside Layer
-    Reinforcement_1perc_15cm;!- Layer 2
+    Concrete_20cm,           !- Outside Layer
+    Reinforcement_1perc_20cm;!- Layer 2
 
 Construction,
-    Shear_wall-RES0, !- Name
-    Concrete_30cm, !- Outside Layer
-    Reinforcement_4perc_30cm; !- Layer 2
+    Shear_wall-RES0,         !- Name
+    Concrete_15cm,           !- Outside Layer
+    Concrete_30cm,           !- Layer 2
+    Reinforcement_2perc_15cm,!- Layer 3
+    Reinforcement_2perc_30cm;!- Layer 4
+
+Construction,
+    Shear_wall-RES2.2,       !- Name
+    Concrete_15cm,           !- Outside Layer
+    Concrete_30cm,           !- Layer 2
+    Reinforcement_2perc_15cm,!- Layer 3
+    Reinforcement_2perc_30cm;!- Layer 4
+
+Construction,
+    Shear_wall-RES2.1+RES2.2,!- Name
+    Concrete_15cm,           !- Outside Layer
+    Concrete_30cm,           !- Layer 2
+    Reinforcement_2perc_15cm,!- Layer 3
+    Reinforcement_2perc_30cm;!- Layer 4
+
+Construction,
+    Shear_wall-RES2.1,       !- Name
+    Concrete_15cm,           !- Outside Layer
+    Concrete_30cm,           !- Layer 2
+    Reinforcement_2perc_15cm,!- Layer 3
+    Reinforcement_2perc_30cm;!- Layer 4
+
+Construction,
+    window_w_blinds,         !- Name
+    ext_blind_test,          !- Outside Layer
+    Glass-en-standard;       !- Layer 2
+
 
 !-   ===========  ALL OBJECTS IN CLASS: GLOBALGEOMETRYRULES ===========
 
@@ -2288,7 +2776,7 @@ Zone,
 BuildingSurface:Detailed,
     g Ceiling C,             !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G Corridor ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2576,7 +3064,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin N1A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G N1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2720,7 +3208,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin N2A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G N2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -2864,7 +3352,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin NEA,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G NE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3008,7 +3496,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin NWA,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G NW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3152,7 +3640,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin S1A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G S1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3296,7 +3784,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin S2A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G S2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3440,7 +3928,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin SWA,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     G SW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3584,7 +4072,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceiling C,             !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M Corridor ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3632,7 +4120,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Floor C,               !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M Corridor ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3872,7 +4360,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin N1A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M N1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -3944,7 +4432,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor N1A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M N1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4016,7 +4504,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin N2A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M N2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4088,7 +4576,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor N2A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M N2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4160,7 +4648,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin NEA,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M NE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4232,7 +4720,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor NEA,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M NE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4304,7 +4792,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin NWA,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M NW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4352,7 +4840,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor NWA,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M NW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4448,7 +4936,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin S1A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M S1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4520,7 +5008,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor S1A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M S1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4592,7 +5080,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin S2A,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M S2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4664,7 +5152,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor S2A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M S2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4736,7 +5224,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin SEA,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M SE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4808,7 +5296,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor SEA,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M SE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4880,7 +5368,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m Ceilin SWA,            !- Name
     Ceiling,                 !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M SW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4928,7 +5416,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m GFloor SWA,            !- Name
     Floor,                   !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M SW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5024,7 +5512,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceiling C,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 Corridor ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5072,7 +5560,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Floor C,              !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 Corridor ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5312,7 +5800,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin N1A,           !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 N1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5384,7 +5872,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor N1A,           !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 N1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5456,7 +5944,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin N2A,           !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 N2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5528,7 +6016,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor N2A,           !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 N2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5600,7 +6088,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin NEA,           !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 NE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5672,7 +6160,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor NEA,           !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 NE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5744,7 +6232,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin NWA,           !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 NW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5792,7 +6280,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor NWA,           !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 NW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5888,7 +6376,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin S1A,           !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 S1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5960,7 +6448,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor S1A,           !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 S1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6032,7 +6520,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin S2A,           !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 S2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6104,7 +6592,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor S2A,           !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 S2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6176,7 +6664,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin SEA,           !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 SE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6248,7 +6736,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor SEA,           !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 SE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6320,7 +6808,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 Ceilin SWA,           !- Name
     Ceiling,                 !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     M2 SW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6368,7 +6856,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     m2 GFloor SWA,           !- Name
     Floor,                   !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     M2 SW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6464,7 +6952,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     g Ceilin SEA,            !- Name
     Ceiling,                 !- Surface Type
-    int_ceiling,        !- Construction Name
+    int_ceiling,             !- Construction Name
     Office ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6632,7 +7120,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Floor C,               !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T Corridor ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6752,7 +7240,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof C,                !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T Corridor ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6944,7 +7432,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor N1A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T N1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -6992,7 +7480,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof N1A,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T N1 Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7088,7 +7576,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor N2A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T N2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7136,7 +7624,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof N2A,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T N2 Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7232,7 +7720,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor NEA,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T NE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7280,7 +7768,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof NEA,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T NE Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7352,7 +7840,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor NWA,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T NW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7400,7 +7888,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof NWA,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T NW Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7520,7 +8008,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor S1A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T S1 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7568,7 +8056,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof S1A,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T S1 Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7664,7 +8152,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor S2A,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T S2 Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7712,7 +8200,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof S2A,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T S2 Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7808,7 +8296,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor SEA,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T SE Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7856,7 +8344,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof SEA,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T SE Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7928,7 +8416,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t GFloor SWA,            !- Name
     Floor,                   !- Surface Type
-    int-floor-en-std-replaceme-res-replaceme,          !- Construction Name
+    int-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     T SW Apartment ZN Thermal Zone,  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -7976,7 +8464,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     t Roof SWA,              !- Name
     Roof,                    !- Surface Type
-    roof-en-std-replaceme,   !- Construction Name
+    roof-en-std-replaceme-res-replaceme,  !- Construction Name
     T SW Apartment ZN Thermal Zone,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -8104,12 +8592,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !-10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8129,12 +8615,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-    !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8155,12 +8639,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    !-1.1,                     !- Vertex 1 Y-coordinate {m}
-    4,                   !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-   !- 1.1,                     !- Vertex 2 Y-coordinate {m}
-    4,                   !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -8179,12 +8661,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8204,12 +8684,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8236,12 +8714,10 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    !- 0.785679133858268,       !- Vertex 3 Y-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    !- 0.785679133858268,       !- Vertex 4 Y-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
 
 FenestrationSurface:Detailed,
@@ -8254,12 +8730,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !-1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                  !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-    !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8279,12 +8753,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !-1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                  !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-    !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8304,12 +8776,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-     !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8336,10 +8806,10 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    4,       !- Vertex 4 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
 
 FenestrationSurface:Detailed,
@@ -8398,12 +8868,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8423,12 +8891,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8449,10 +8915,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    4,                     !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-    4,                     !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -8471,12 +8937,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8496,12 +8960,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8528,10 +8990,10 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    4,       !- Vertex 4 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
 
 FenestrationSurface:Detailed,
@@ -8544,12 +9006,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8569,12 +9029,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8595,10 +9053,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    4,                     !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-    4,                     !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -8617,12 +9075,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8642,12 +9098,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8674,10 +9128,10 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    4,       !- Vertex 4 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
 
 !.- adding windows for the second floor with zone multiplier
@@ -8737,12 +9191,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-    !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8762,12 +9214,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-    !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8788,10 +9238,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    4,                     !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-    4,                     !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -8810,12 +9260,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-    !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8835,12 +9283,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-    !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -8867,10 +9313,10 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    4,       !- Vertex 4 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
 
 FenestrationSurface:Detailed,
@@ -8883,12 +9329,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8908,12 +9352,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8934,10 +9376,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    4,                     !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-    4,                     !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -8956,12 +9398,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -8981,12 +9421,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -9013,10 +9451,10 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    4,       !- Vertex 4 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
 
 FenestrationSurface:Detailed,
@@ -9030,10 +9468,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    4,                     !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-    4,                     !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -9052,12 +9490,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -9123,12 +9559,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -9148,12 +9582,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -9174,10 +9606,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    4,                     !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-    4,                     !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -9196,12 +9628,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -9221,12 +9651,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 10.5,                    !- Vertex 1 X-coordinate {m}
-    6.155,                    !- Vertex 1 X-coordinate {m}
+    6.155,                   !- Vertex 1 X-coordinate {m}
     7.6196,                  !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 10.5,                    !- Vertex 2 X-coordinate {m}
-    6.155,                    !- Vertex 2 X-coordinate {m}
+    6.155,                   !- Vertex 2 X-coordinate {m}
     7.6196,                  !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     1.81422244094488,        !- Vertex 3 X-coordinate {m}
@@ -9253,10 +9681,10 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    4,       !- Vertex 4 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
 
 FenestrationSurface:Detailed,
@@ -9269,12 +9697,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -9294,12 +9720,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -9320,10 +9744,10 @@ FenestrationSurface:Detailed,
     1,                       !- Multiplier
     ,                        !- Number of Vertices
     11.5818,                 !- Vertex 1 X-coordinate {m}
-    4,                     !- Vertex 1 Y-coordinate {m}
+    4,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
     11.5818,                 !- Vertex 2 X-coordinate {m}
-    4,                     !- Vertex 2 Y-coordinate {m}
+    4,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     11.5818,                 !- Vertex 3 X-coordinate {m}
     6.81432086614173,        !- Vertex 3 Y-coordinate {m}
@@ -9342,12 +9766,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -9367,12 +9789,10 @@ FenestrationSurface:Detailed,
     ,                        !- Frame and Divider Name
     1,                       !- Multiplier
     ,                        !- Number of Vertices
-   !- 1.4476,                  !- Vertex 1 X-coordinate {m}
-    5.79,                      !- Vertex 1 X-coordinate {m}
+    5.79,                    !- Vertex 1 X-coordinate {m}
     0,                       !- Vertex 1 Y-coordinate {m}
     2.1731,                  !- Vertex 1 Z-coordinate {m}
-   !- 1.4476,                  !- Vertex 2 X-coordinate {m}
-    5.79,                      !- Vertex 2 X-coordinate {m}
+    5.79,                    !- Vertex 2 X-coordinate {m}
     0,                       !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     10.133380019685,         !- Vertex 3 X-coordinate {m}
@@ -9399,11 +9819,170 @@ FenestrationSurface:Detailed,
     6.5,                     !- Vertex 2 Y-coordinate {m}
     0.9539,                  !- Vertex 2 Z-coordinate {m}
     0,                       !- Vertex 3 X-coordinate {m}
-    4,       !- Vertex 3 Y-coordinate {m}
+    4,                       !- Vertex 3 Y-coordinate {m}
     0.9539,                  !- Vertex 3 Z-coordinate {m}
     0,                       !- Vertex 4 X-coordinate {m}
-    4,       !- Vertex 4 Y-coordinate {m}
+    4,                       !- Vertex 4 Y-coordinate {m}
     2.1731;                  !- Vertex 4 Z-coordinate {m}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: WINDOWSHADINGCONTROL ===========
+
+WindowShadingControl,
+    Shades-G_Corridor,       !- Name
+    G Corridor ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    ENTRANCE DOOR,           !- Fenestration Surface 1 Name
+    GWindow13;               !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-G_N1,             !- Name
+    G N1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    GWindow9;                !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-G_N2,             !- Name
+    G N2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    GWindow10;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-G_NE,             !- Name
+    G NE Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    GWindow5,                !- Fenestration Surface 1 Name
+    GWindow7;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-G_NW,             !- Name
+    G NW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    GWindow6,                !- Fenestration Surface 1 Name
+    GWindow4;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-G_S1,             !- Name
+    G S1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    GWindow11;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-G_S2,             !- Name
+    G S2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    GWindow12;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-G_SW,             !- Name
+    G SW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    GWindow3,                !- Fenestration Surface 1 Name
+    GWindow2;                !- Fenestration Surface 2 Name
 
 
 !-   ===========  ALL OBJECTS IN CLASS: INTERNALMASS ===========
@@ -9608,7 +10187,7 @@ People,
     G SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.5,                     !- Fraction Radiant
@@ -9620,7 +10199,7 @@ People,
     G NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9632,7 +10211,7 @@ People,
     Office ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_OFF_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9644,7 +10223,7 @@ People,
     G NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9656,7 +10235,7 @@ People,
     G N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9668,7 +10247,7 @@ People,
     G N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9680,7 +10259,7 @@ People,
     G S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9692,7 +10271,7 @@ People,
     G S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9704,7 +10283,7 @@ People,
     T SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9716,7 +10295,7 @@ People,
     T NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9728,7 +10307,7 @@ People,
     T SE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9740,7 +10319,7 @@ People,
     T NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9752,7 +10331,7 @@ People,
     T N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9764,7 +10343,7 @@ People,
     T N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9776,7 +10355,7 @@ People,
     T S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9788,7 +10367,7 @@ People,
     T S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9800,7 +10379,7 @@ People,
     M SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9812,7 +10391,7 @@ People,
     M NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9824,7 +10403,7 @@ People,
     M SE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9836,7 +10415,7 @@ People,
     M NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9848,7 +10427,7 @@ People,
     M N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9860,7 +10439,7 @@ People,
     M N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9872,7 +10451,7 @@ People,
     M S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9884,7 +10463,7 @@ People,
     M S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9896,7 +10475,7 @@ People,
     M2 SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9908,7 +10487,7 @@ People,
     M2 NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9920,7 +10499,7 @@ People,
     M2 SE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9932,7 +10511,7 @@ People,
     M2 NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9944,7 +10523,7 @@ People,
     M2 N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9956,7 +10535,7 @@ People,
     M2 N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9968,7 +10547,7 @@ People,
     M2 S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
@@ -9980,7 +10559,7 @@ People,
     M2 S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
     OCC_APT_SCH,             !- Number of People Schedule Name
     People,                  !- Number of People Calculation Method
-    1.2000,                  !- Number of People
+    2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
     0.3000,                  !- Fraction Radiant
