@@ -2457,7 +2457,7 @@
 
   Construction,
     window_w_blinds,         !- Name
-    int_blind,              !- Outside Layer
+    ext_blind,              !- Outside Layer
     Glass-en-standard;               !- Layer 2
 
   Construction,
