@@ -385,7 +385,7 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR:AllDays,             !- Field 2
     UNTIL: 24:00,            !- Field 3
-    25.5;                    !- Field 4
+    26;                      !- Field 4
 
 Schedule:Compact,
     HTGSETP_DESIGN_OFF_SCH,  !- Name
@@ -401,7 +401,7 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR:AllDays,             !- Field 2
     UNTIL: 24:00,            !- Field 3
-    23.9;                    !- Field 4
+    26;                      !- Field 4
 
 Schedule:Compact,
     HTGSETP_OFF_SCH_No_Optimum,  !- Name
@@ -507,7 +507,7 @@ Schedule:Compact,
     UNTIL: 8:00,             !- Field 5
     26.7,                    !- Field 6
     UNTIL:17:00,             !- Field 7
-    23.9,                    !- Field 8
+    25.9,                    !- Field 8
     UNTIL: 18:00,            !- Field 9
     26.7,                    !- Field 10
     UNTIL: 24:00,            !- Field 11
@@ -516,9 +516,9 @@ Schedule:Compact,
     UNTIL: 7:00,             !- Field 14
     29.4,                    !- Field 15
     UNTIL: 8:00,             !- Field 16
-    23.9,                    !- Field 17
+    25.9,                    !- Field 17
     UNTIL:17:00,             !- Field 18
-    23.9,                    !- Field 19
+    25.9,                    !- Field 19
     UNTIL: 18:00,            !- Field 20
     26.7,                    !- Field 21
     UNTIL: 24:00,            !- Field 22
@@ -537,7 +537,7 @@ Schedule:Compact,
     UNTIL: 8:00,             !- Field 5
     26.7,                    !- Field 6
     UNTIL:17:00,             !- Field 7
-    23.9,                    !- Field 8
+    25.9,                    !- Field 8
     UNTIL: 18:00,            !- Field 9
     26.7,                    !- Field 10
     UNTIL: 24:00,            !- Field 11
@@ -550,7 +550,7 @@ Schedule:Compact,
     UNTIL: 9:00,             !- Field 18
     25.6,                    !- Field 19
     UNTIL: 17:00,            !- Field 20
-    23.9,                    !- Field 21
+    25.9,                    !- Field 21
     UNTIL: 18:00,            !- Field 22
     26.7,                    !- Field 23
     UNTIL: 24:00,            !- Field 24
@@ -569,7 +569,7 @@ Schedule:Compact,
     UNTIL: 8:00,             !- Field 5
     26.7,                    !- Field 6
     UNTIL:17:00,             !- Field 7
-    23.9,                    !- Field 8
+    25.9,                    !- Field 8
     UNTIL: 18:00,            !- Field 9
     26.7,                    !- Field 10
     UNTIL: 24:00,            !- Field 11
@@ -582,7 +582,7 @@ Schedule:Compact,
     UNTIL: 9:00,             !- Field 18
     25.6,                    !- Field 19
     UNTIL: 17:00,            !- Field 20
-    23.9,                    !- Field 21
+    25.9,                    !- Field 21
     UNTIL: 18:00,            !- Field 22
     26.7,                    !- Field 23
     UNTIL: 24:00,            !- Field 24
@@ -601,7 +601,7 @@ Schedule:Compact,
     UNTIL: 8:00,             !- Field 5
     26.7,                    !- Field 6
     UNTIL:17:00,             !- Field 7
-    23.9,                    !- Field 8
+    25.9,                    !- Field 8
     UNTIL: 18:00,            !- Field 9
     26.7,                    !- Field 10
     UNTIL: 24:00,            !- Field 11
@@ -612,14 +612,14 @@ Schedule:Compact,
     UNTIL: 8:00,             !- Field 16
     23.9,                    !- Field 17
     UNTIL:17:00,             !- Field 18
-    23.9,                    !- Field 19
+    25.9,                    !- Field 19
     UNTIL: 18:00,            !- Field 20
-    23.9,                    !- Field 21
+    25.9,                    !- Field 21
     UNTIL: 24:00,            !- Field 22
-    23.9,                    !- Field 23
+    25.9,                    !- Field 23
     FOR: AllOtherDays,       !- Field 24
     UNTIL: 24:00,            !- Field 25
-    23.9;                    !- Field 26
+    25.9;                    !- Field 26
 
 Schedule:Compact,
     Activity Schedule,       !- Name
@@ -986,11 +986,11 @@ Schedule:Compact,
     0,                       !- Field 4
     For: Allotherdays,       !- Field 5
     Until: 6:00,             !- Field 6
-    0,                       !- Field 7
+    1,                       !- Field 7
     Until: 22:00,            !- Field 8
     1,                       !- Field 9
     Until: 24:00,            !- Field 10
-    0;                       !- Field 11
+    1;                       !- Field 11
 
 Schedule:Compact,
     S HTGSETP_APT_SCH,       !- Name
@@ -998,7 +998,7 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR:AllDays,             !- Field 2
     UNTIL: 24:00,            !- Field 3
-    21.7;                    !- Field 4
+    22.22;                    !- Field 4
 
 Schedule:Compact,
     S CLGSETP_APT_SCH,       !- Name
@@ -1006,7 +1006,7 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR:AllDays,             !- Field 2
     UNTIL: 24:00,            !- Field 3
-    24.4;                    !- Field 4
+    26;                      !- Field 4
 
 Schedule:Compact,
     N CLGSETP_APT_SCH,       !- Name
@@ -1014,7 +1014,7 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR:AllDays,             !- Field 2
     UNTIL: 24:00,            !- Field 3
-    24.4;                    !- Field 4
+    26;                      !- Field 4
 
 Schedule:Compact,
     N HTGSETP_APT_SCH,       !- Name
@@ -1022,7 +1022,7 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR:AllDays,             !- Field 2
     UNTIL: 24:00,            !- Field 3
-    21.7;                    !- Field 4
+    22.22;                    !- Field 4
 
 Schedule:Compact,
     INF_APT_SCH_SUMMER,      !- Name
@@ -1039,6 +1039,65 @@ Schedule:Compact,
     For: AllDays,            !- Field 2
     Until 24:00,             !- Field 3
     0.836;                   !- Field 4
+
+Schedule:Compact,
+    OCC_APT_SCH,             !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 7:00,             !- Field 3
+    1.0,                     !- Field 4
+    Until: 8:00,             !- Field 5
+    0.85,                    !- Field 6
+    Until: 9:00,             !- Field 7
+    0.39,                    !- Field 8
+    Until: 16:00,            !- Field 9
+    0.25,                    !- Field 10
+    Until: 17:00,            !- Field 11
+    0.3,                     !- Field 12
+    Until: 18:00,            !- Field 13
+    0.52,                    !- Field 14
+    Until: 21:00,            !- Field 15
+    0.87,                    !- Field 16
+    Until: 24:00,            !- Field 17
+    1.0;                     !- Field 18
+
+Schedule:Compact,
+    OCC_OFF_SCH,             !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: Weekdays,           !- Field 2
+    Until: 8:00,             !- Field 3
+    0.0,                     !- Field 4
+    Until: 12:00,            !- Field 5
+    1.0,                     !- Field 6
+    Until: 13:00,            !- Field 7
+    0.5,                     !- Field 8
+    Until: 17:00,            !- Field 9
+    1.0,                     !- Field 10
+    Until: 24:00,            !- Field 11
+    0.0,                     !- Field 12
+    For AllOtherDays,        !- Field 13
+    Until: 24:00,            !- Field 14
+    0.0;                     !- Field 15
+
+Schedule:Compact,
+    summer_infiltration,     !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 04/30,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 24:00,            !- Field 3
+    0.5,                     !- Field 4
+    Through: 08/30,          !- Field 5
+    For: AllDays ,           !- Field 6
+    Until: 06:00 ,           !- Field 7
+    1,                       !- Field 8
+    Until: 24:00,            !- Field 9
+     0,                      !- Field 10
+    Through: 12/31,          !- Field 11
+    For: AllDays ,           !- Field 12
+    Until 24:00 ,            !- Field 13
+    1;                       !- Field 14
 
 
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL ===========
@@ -1582,24 +1641,38 @@ WindowMaterial:SimpleGlazingSystem,
     0.88;                    !- Visible Transmittance
 
 
-!-   ===========  ALL OBJECTS IN CLASS: WINDOWMATERIAL:SHADE ===========
+!-   ===========  ALL OBJECTS IN CLASS: WINDOWMATERIAL:BLIND ===========
 
-WindowMaterial:Shade,
+WindowMaterial:Blind,
     ext_blind_test,          !- Name
-    0.1,                     !- Solar Transmittance {dimensionless}
-    0.5,                     !- Solar Reflectance {dimensionless}
-    0.1,                     !- Visible Transmittance {dimensionless}
-    0.5,                     !- Visible Reflectance {dimensionless}
-    0.9,                     !- Infrared Hemispherical Emissivity {dimensionless}
-    0.0,                     !- Infrared Transmittance {dimensionless}
-    0.005,                   !- Thickness {m}
-    0.1,                     !- Conductivity {W/m-K}
-    0.05,                    !- Shade to Glass Distance {m}
-    0.5,                     !- Top Opening Multiplier
-    0.5,                     !- Bottom Opening Multiplier
-    0.5,                     !- Left-Side Opening Multiplier
-    0.5,                     !- Right-Side Opening Multiplier
-    0.0;                     !- Airflow Permeability {dimensionless}
+    Horizontal,              !- Slat Orientation
+    0.025,                   !- Slat Width {m}
+    0.01875,                 !- Slat Separation {m}
+    0.001,                   !- Slat Thickness {m}
+    45.0,                    !- Slat Angle {deg}
+    221,                     !- Slat Conductivity {W/m-K}
+    0.0,                     !- Slat Beam Solar Transmittance
+    0.5,                     !- Front Side Slat Beam Solar Reflectance
+    0.5,                     !- Back Side Slat Beam Solar Reflectance
+    0.0,                     !- Slat Diffuse Solar Transmittance
+    0.5,                     !- Front Side Slat Diffuse Solar Reflectance
+    0.5,                     !- Back Side Slat Diffuse Solar Reflectance
+    0.0,                     !- Slat Beam Visible Transmittance
+    0.5,                     !- Front Side Slat Beam Visible Reflectance
+    0.5,                     !- Back Side Slat Beam Visible Reflectance
+    0.0,                     !- Slat Diffuse Visible Transmittance
+    0.5,                     !- Front Side Slat Diffuse Visible Reflectance
+    0.5,                     !- Back Side Slat Diffuse Visible Reflectance
+    0.0,                     !- Slat Infrared Hemispherical Transmittance
+    0.9,                     !- Front Side Slat Infrared Hemispherical Emissivity
+    0.9,                     !- Back Side Slat Infrared Hemispherical Emissivity
+    0.050,                   !- Blind to Glass Distance {m}
+    0.5,                     !- Blind Top Opening Multiplier
+    0.5,                     !- Blind Bottom Opening Multiplier
+    0.5,                     !- Blind Left Side Opening Multiplier
+    0.5,                     !- Blind Right Side Opening Multiplier
+    ,                        !- Minimum Slat Angle {deg}
+    ;                        !- Maximum Slat Angle {deg}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: CONSTRUCTION ===========
@@ -9834,10 +9907,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9854,10 +9927,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9873,10 +9946,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9892,10 +9965,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9912,10 +9985,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9932,10 +10005,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9951,10 +10024,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9970,10 +10043,10 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -9983,6 +10056,534 @@ WindowShadingControl,
     Sequential,              !- Multiple Surface Control Type
     GWindow3,                !- Fenestration Surface 1 Name
     GWindow2;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M_Corr,           !- Name
+    M Corridor ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow14,               !- Fenestration Surface 1 Name
+    MWindow13;               !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M_NW,             !- Name
+    M NW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow4,                !- Fenestration Surface 1 Name
+    MWindow6;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M_N1,             !- Name
+    M N1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow9;                !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M_N2,             !- Name
+    M N2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow10;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M_NE,             !- Name
+    M NE Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow5,                !- Fenestration Surface 1 Name
+    MWindow7;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M_S1,             !- Name
+    M S1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow11;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M_S2,             !- Name
+    M S2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow12;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M_SE,             !- Name
+    M SE Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow8,                !- Fenestration Surface 1 Name
+    MWindow1;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M_SW,             !- Name
+    M SW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    MWindow3,                !- Fenestration Surface 1 Name
+    MWindow2;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M2_Corr,          !- Name
+    M2 Corridor ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window13,              !- Fenestration Surface 1 Name
+    M2Window14;              !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M2_N1,            !- Name
+    M2 N1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window9;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M2_N2,            !- Name
+    M2 N2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window10;              !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M2_NE,            !- Name
+    M2 NE Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window7,               !- Fenestration Surface 1 Name
+    M2Window5;               !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M2_NW,            !- Name
+    M2 NW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window4,               !- Fenestration Surface 1 Name
+    M2Window6;               !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M2_S1,            !- Name
+    M2 S1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window11;              !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M2_S2,            !- Name
+    M2 S2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window12;              !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-M2_SE,            !- Name
+    M2 SE Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window8,               !- Fenestration Surface 1 Name
+    M2Window1;               !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-M2_SW,            !- Name
+    M2 SW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    M2Window2,               !- Fenestration Surface 1 Name
+    M2Window3;               !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-T_Corr,           !- Name
+    T Corridor ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow14,               !- Fenestration Surface 1 Name
+    TWindow13;               !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-T_N1,             !- Name
+    T N1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow9;                !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-T_N2,             !- Name
+    T N2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow10;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-T_NE,             !- Name
+    T NE Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow5,                !- Fenestration Surface 1 Name
+    TWindow7;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-T_NW,             !- Name
+    T NW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow6,                !- Fenestration Surface 1 Name
+    TWindow4;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-T_S1,             !- Name
+    T S1 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow12;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-T_S2,             !- Name
+    T S2 Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow11;               !- Fenestration Surface 1 Name
+
+WindowShadingControl,
+    Shades-T_SE,             !- Name
+    T SE Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow1,                !- Fenestration Surface 1 Name
+    TWindow8;                !- Fenestration Surface 2 Name
+
+WindowShadingControl,
+    Shades-T_SW,             !- Name
+    T SW Apartment ZN Thermal Zone,  !- Zone Name
+    1,                       !- Shading Control Sequence Number
+    ExteriorBlind,           !- Shading Type
+    window_w_blinds,         !- Construction with Shading Name
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
+    No,                      !- Shading Control Is Scheduled
+    No,                      !- Glare Control Is Active
+    ,                        !- Shading Device Material Name
+    ,                        !- Type of Slat Angle Control for Blinds
+    ,                        !- Slat Angle Schedule Name
+    ,                        !- Setpoint 2 {W/m2 or deg C}
+    ,                        !- Daylighting Control Object Name
+    Sequential,              !- Multiple Surface Control Type
+    TWindow2,                !- Fenestration Surface 1 Name
+    TWindow3;                !- Fenestration Surface 2 Name
 
 
 !-   ===========  ALL OBJECTS IN CLASS: INTERNALMASS ===========
@@ -12025,12 +12626,12 @@ ElectricEquipment,
 ZoneInfiltration:DesignFlowRate,
     G Corridor door Infiltration,  !- Name
     G Corridor ZN Thermal Zone,  !- Zone or ZoneList Name
-    INFIL_Door_Opening_SCH,  !- Schedule Name
-    Flow/Zone,               !- Design Flow Rate Calculation Method
-    1.523916863,             !- Design Flow Rate {m3/s}
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
+    0,                       !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
     ,                        !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0.5,                     !- Air Changes per Hour {1/hr}
     ,                        !- Constant Term Coefficient
     ,                        !- Temperature Term Coefficient
     ,                        !- Velocity Term Coefficient
@@ -12039,12 +12640,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G Corridor Infiltration, !- Name
     G Corridor ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12053,12 +12654,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G N1 Apartment Infiltration,  !- Name
     G N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12067,12 +12668,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G N2 Apartment Infiltration,  !- Name
     G N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12081,12 +12682,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G NE Apartment Infiltration,  !- Name
     G NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12095,12 +12696,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G NW Apartment Infiltration,  !- Name
     G NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12109,12 +12710,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G S1 Apartment Infiltration,  !- Name
     G S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12123,12 +12724,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G S2 Apartment Infiltration,  !- Name
     G S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12137,12 +12738,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     G SW Apartment Infiltration,  !- Name
     G SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12151,12 +12752,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M Corridor Infiltration, !- Name
     M Corridor ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12165,12 +12766,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M N1 Apartment Infiltration,  !- Name
     M N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12179,12 +12780,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M N2 Apartment Infiltration,  !- Name
     M N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12193,12 +12794,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M NE Apartment Infiltration,  !- Name
     M NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12207,12 +12808,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M NW Apartment Infiltration,  !- Name
     M NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12221,12 +12822,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M S1 Apartment Infiltration,  !- Name
     M S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12235,12 +12836,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M S2 Apartment Infiltration,  !- Name
     M S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12249,12 +12850,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M SE Apartment Infiltration,  !- Name
     M SE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12263,12 +12864,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M SW Apartment Infiltration,  !- Name
     M SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12277,12 +12878,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     Office Infiltration,     !- Name
     Office ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12291,12 +12892,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T Corridor Infiltration, !- Name
     T Corridor ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0001192113522,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12305,12 +12906,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T N1 Apartment Infiltration,  !- Name
     T N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0002929207115,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12319,12 +12920,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T N2 Apartment Infiltration,  !- Name
     T N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0002929207115,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12333,12 +12934,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T NE Apartment Infiltration,  !- Name
     T NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0004087917852,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12347,12 +12948,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T NW Apartment Infiltration,  !- Name
     T NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0004087917852,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12361,12 +12962,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T S1 Apartment Infiltration,  !- Name
     T S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0002929207115,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12375,12 +12976,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T S2 Apartment Infiltration,  !- Name
     T S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0002929207115,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12389,12 +12990,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T SE Apartment Infiltration,  !- Name
     T SE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0004087917852,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12403,12 +13004,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     T SW Apartment Infiltration,  !- Name
     T SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0004087917852,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12417,12 +13018,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 Corridor Infiltration,!- Name
     M2 Corridor ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12431,12 +13032,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 N1 Apartment Infiltration,  !- Name
     M2 N1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12445,12 +13046,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 N2 Apartment Infiltration,  !- Name
     M2 N2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12459,12 +13060,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 NE Apartment Infiltration,  !- Name
     M2 NE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12473,12 +13074,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 NW Apartment Infiltration,  !- Name
     M2 NW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12487,12 +13088,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 S1 Apartment Infiltration,  !- Name
     M2 S1 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12501,12 +13102,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 S2 Apartment Infiltration,  !- Name
     M2 S2 Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12515,12 +13116,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 SE Apartment Infiltration,  !- Name
     M2 SE Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12529,12 +13130,12 @@ ZoneInfiltration:DesignFlowRate,
 ZoneInfiltration:DesignFlowRate,
     M2 SW Apartment Infiltration,  !- Name
     M2 SW Apartment ZN Thermal Zone,  !- Zone or ZoneList Name
-    INF_APT_SCH,             !- Schedule Name
-    Flow/ExteriorArea,       !- Design Flow Rate Calculation Method
+    INF_APT_SCH,     !- Schedule Name
+    AirChanges/Hour,         !- Design Flow Rate Calculation Method
     ,                        !- Design Flow Rate {m3/s}
     ,                        !- Flow per Zone Floor Area {m3/s-m2}
-    0.0010252321013,         !- Flow per Exterior Surface Area {m3/s-m2}
-    ,                        !- Air Changes per Hour {1/hr}
+    0,                       !- Flow per Exterior Surface Area {m3/s-m2}
+    0.5,                     !- Air Changes per Hour {1/hr}
     0,                       !- Constant Term Coefficient
     0,                       !- Temperature Term Coefficient
     0.224,                   !- Velocity Term Coefficient
@@ -12554,13 +13155,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12575,13 +13176,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12596,13 +13197,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    26,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    30,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12617,13 +13218,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12638,13 +13239,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12659,13 +13260,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12680,13 +13281,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12701,13 +13302,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12722,13 +13323,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12743,13 +13344,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12764,13 +13365,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12785,13 +13386,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12806,13 +13407,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12827,13 +13428,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12848,13 +13449,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12869,13 +13470,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12890,13 +13491,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12911,13 +13512,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12932,13 +13533,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12953,13 +13554,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12974,13 +13575,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -12995,13 +13596,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13016,13 +13617,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13037,13 +13638,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13058,13 +13659,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13079,13 +13680,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13100,13 +13701,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13121,13 +13722,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13142,13 +13743,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13163,13 +13764,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13184,13 +13785,13 @@ ZoneVentilation:WindandStackOpenArea,
     autocalculate,           !- Discharge Coefficient for Opening
     18.89,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
-    25.56,                   !- Maximum Indoor Temperature {C}
+    30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
-    -100,                    !- Delta Temperature {deltaC}
+    0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
-    26.67,                   !- Maximum Outdoor Temperature {C}
+    26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
     40;                      !- Maximum Wind Speed {m/s}
 
@@ -13223,7 +13824,7 @@ DesignSpecification:OutdoorAir,
     SZ DSOA Office,          !- Name
     Flow/Area,               !- Outdoor Air Method
     ,                        !- Outdoor Air Flow per Person {m3/s-person}
-    0.000507968;             !- Outdoor Air Flow per Zone Floor Area {m3/s-m2}
+    0.000294083;             !- Outdoor Air Flow per Zone Floor Area {m3/s-m2}
 
 DesignSpecification:OutdoorAir,
     SZ DSOA G NE Apartment,  !- Name
@@ -26192,6 +26793,26 @@ Output:Table:Monthly,
     Cooling Coil Total Cooling Rate,  !- Variable or Meter 3 Name
     SumOrAverage;            !- Aggregation Type for Variable or Meter 3
 
+Output:Table:Monthly,
+    Window Report,           !- Name
+    ,                        !- Digits After Decimal
+    Surface Window Transmitted Solar Radiation Rate,  !- Variable or Meter 1 Name
+    SumOrAverage,            !- Aggregation Type for Variable or Meter 1
+    Surface Window Transmitted Beam Solar Radiation Rate,  !- Variable or Meter 2 Name
+    SumOrAverage,            !- Aggregation Type for Variable or Meter 2
+    Surface Window Transmitted Diffuse Solar Radiation Rate,  !- Variable or Meter 3 Name
+    SumOrAverage,            !- Aggregation Type for Variable or Meter 3
+    Surface Window Heat Gain Rate,  !- Variable or Meter 4 Name
+    SumOrAverage,            !- Aggregation Type for Variable or Meter 4
+    Surface Window Heat Loss Rate,  !- Variable or Meter 5 Name
+    SumOrAverage,            !- Aggregation Type for Variable or Meter 5
+    Surface Window Inside Face Glazing Condensation Status,  !- Variable or Meter 6 Name
+    HoursNonZero,            !- Aggregation Type for Variable or Meter 6
+    Surface Shading Device Is On Time Fraction,  !- Variable or Meter 7 Name
+    HoursNonZero,            !- Aggregation Type for Variable or Meter 7
+    Surface Storm Window On Off Status,  !- Variable or Meter 8 Name
+    HoursNonZero;            !- Aggregation Type for Variable or Meter 8
+
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUTCONTROL:TABLE:STYLE ===========
 
@@ -26237,6 +26858,25 @@ Output:Variable,
     Heating Coil Heating Rate,  !- Variable Name
     hourly;                  !- Reporting Frequency
 
+Output:Variable,
+    *,                       !- Key Value
+    Fraction of Time Shading Device Is On,  !- Variable Name
+    timestep;                !- Reporting Frequency
+
+!- Output:Variable, 
+  !- *,  !- Key Value
+   !- Zone Infiltration Air Change Rate, !- Variable Name 
+   !- hourly; !- Reporting Frequency
+
+!-Output:Variable, 
+ !-   *,  !- Key Value
+  !-  Zone Mechanical Ventilation Air Changes per Hour, !- Variable Name 
+  !-  hourly; !- Reporting Frequency
+
+!-Output:Variable, 
+ !-   *,  !- Key Value
+  !-  Zone Ventilation Air Change Rate, !- Variable Name 
+  !-  hourly; !- Reporting Frequency
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:METER ===========
 

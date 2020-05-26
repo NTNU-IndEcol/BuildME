@@ -9907,9 +9907,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -9927,9 +9927,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -9946,9 +9946,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -9965,9 +9965,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -9985,9 +9985,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10005,9 +10005,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10024,9 +10024,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10043,9 +10043,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10063,9 +10063,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10083,9 +10083,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10103,9 +10103,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10122,9 +10122,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10141,9 +10141,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10161,9 +10161,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10180,9 +10180,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10199,9 +10199,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10219,9 +10219,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10239,9 +10239,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10259,9 +10259,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10278,9 +10278,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10297,9 +10297,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10317,9 +10317,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10337,9 +10337,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10356,9 +10356,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10375,9 +10375,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10395,9 +10395,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10415,9 +10415,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10435,9 +10435,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10454,9 +10454,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10473,9 +10473,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10493,9 +10493,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10513,9 +10513,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10532,9 +10532,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10551,9 +10551,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -10571,9 +10571,9 @@ WindowShadingControl,
     1,                       !- Shading Control Sequence Number
     ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighSolarOnWindow,   !- Shading Control Type
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
-    350,                     !- Setpoint {W/m2, W or deg C}
+    25,                     !- Setpoint {W/m2, W or deg C}
     No,                      !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -13159,7 +13159,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13180,7 +13180,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13201,7 +13201,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     30,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13222,7 +13222,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13243,7 +13243,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13264,7 +13264,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13285,7 +13285,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13306,7 +13306,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13327,7 +13327,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13348,7 +13348,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13369,7 +13369,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13390,7 +13390,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13411,7 +13411,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13432,7 +13432,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13453,7 +13453,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13474,7 +13474,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13495,7 +13495,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13516,7 +13516,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13537,7 +13537,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13558,7 +13558,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13579,7 +13579,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13600,7 +13600,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13621,7 +13621,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13642,7 +13642,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13663,7 +13663,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13684,7 +13684,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13705,7 +13705,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13726,7 +13726,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13747,7 +13747,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13768,7 +13768,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -13789,7 +13789,7 @@ ZoneVentilation:WindandStackOpenArea,
     ,                        !- Maximum Indoor Temperature Schedule Name
     0.5,                     !- Delta Temperature {deltaC}
     ,                        !- Delta Temperature Schedule Name
-    15.56,                   !- Minimum Outdoor Temperature {C}
+    18,                   !- Minimum Outdoor Temperature {C}
     ,                        !- Minimum Outdoor Temperature Schedule Name
     26,                      !- Maximum Outdoor Temperature {C}
     ,                        !- Maximum Outdoor Temperature Schedule Name
@@ -26863,6 +26863,20 @@ Output:Variable,
     Fraction of Time Shading Device Is On,  !- Variable Name
     timestep;                !- Reporting Frequency
 
+!- Output:Variable, 
+  !- *,  !- Key Value
+   !- Zone Infiltration Air Change Rate, !- Variable Name 
+   !- hourly; !- Reporting Frequency
+
+!-Output:Variable, 
+ !-   *,  !- Key Value
+  !-  Zone Mechanical Ventilation Air Changes per Hour, !- Variable Name 
+  !-  hourly; !- Reporting Frequency
+
+!-Output:Variable, 
+ !-   *,  !- Key Value
+  !-  Zone Ventilation Air Change Rate, !- Variable Name 
+  !-  hourly; !- Reporting Frequency
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:METER ===========
 
