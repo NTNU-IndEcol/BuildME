@@ -1891,7 +1891,7 @@
 !
 
   WindowMaterial:Blind,
-    int_blind,               !- Name
+    ext_blind,               !- Name
     Horizontal,              !- Slat Orientation
     0.025,                   !- Slat Width {m}
     0.01875,                 !- Slat Separation {m}
@@ -2457,8 +2457,8 @@
 
   Construction,
     window_w_blinds,         !- Name
-    Glass-en-standard,       !- Outside Layer
-    int_blind;               !- Layer 2
+    int_blind,              !- Outside Layer
+    Glass-en-standard;               !- Layer 2
 
   Construction,
     Insulated Pipe,          !- Name
@@ -5339,7 +5339,7 @@
     Shades-living_unit1_FrontRow_BottomFloor,  !- Name
     living_unit1_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5359,7 +5359,7 @@
     Shades-living_unit2_FrontRow_BottomFloor,  !- Name
     living_unit2_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5378,7 +5378,7 @@
     Shades-living_unit3_FrontRow_BottomFloor,  !- Name
     living_unit3_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5398,7 +5398,7 @@
     Shades-living_unit1_BackRow_BottomFloor,  !- Name
     living_unit1_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5418,7 +5418,7 @@
     Shades-living_unit2_BackRow_BottomFloor,  !- Name
     living_unit2_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5437,7 +5437,7 @@
     Shades-living_unit3_BackRow_BottomFloor,  !- Name
     living_unit3_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5457,7 +5457,7 @@
     Shades-living_unit1_FrontRow_MiddleFloor,  !- Name
     living_unit1_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5477,7 +5477,7 @@
     Shades-living_unit2_FrontRow_MiddleFloor,  !- Name
     living_unit2_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5496,7 +5496,7 @@
     Shades-living_unit3_FrontRow_MiddleFloor,  !- Name
     living_unit3_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5516,7 +5516,7 @@
     Shades-living_unit1_BackRow_MiddleFloor,  !- Name
     living_unit1_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5536,7 +5536,7 @@
     Shades-living_unit2_BackRow_MiddleFloor,  !- Name
     living_unit2_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5555,7 +5555,7 @@
     Shades-living_unit3_BackRow_MiddleFloor,  !- Name
     living_unit3_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5575,7 +5575,7 @@
     Shades-living_unit1_FrontRow_TopFloor,  !- Name
     living_unit1_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5595,7 +5595,7 @@
     Shades-living_unit2_FrontRow_TopFloor,  !- Name
     living_unit2_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5614,7 +5614,7 @@
     Shades-living_unit3_FrontRow_TopFloor,  !- Name
     living_unit3_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5634,7 +5634,7 @@
     Shades-living_unit1_BackRow_TopFloor,  !- Name
     living_unit1_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5654,7 +5654,7 @@
     Shades-living_unit2_BackRow_TopFloor,  !- Name
     living_unit2_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
@@ -5673,7 +5673,7 @@
     Shades-living_unit3_BackRow_TopFloor,  !- Name
     living_unit3_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
