@@ -36,12 +36,13 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 #   Example: USA.SFH_standard.RES0.
 
 testing_combinations = {
-    'PL':
+    'Oth-MAF-Sub-Sahara':
         {'occupation': ['HR'],
-         'energy standard': ['standard'],
-         'RES': ['RES2.1'],
-         'climate_region': ['Poland'],
-         'climate_scenario': ['2015']}}
+         'energy standard': ['ZEB', 'efficient', 'standard', 'non-standard'],
+         'RES': ['RES0'],
+         'climate_region': ['Nigeria'],
+         'climate_scenario': ['2015']},
+}
 
 fsacombinations = {
         'Oth-R32EU15':
@@ -254,7 +255,55 @@ combinations = \
              'climate_region':
                  ['Oth-R32EU12-H'],
              'climate_scenario': ['2015']
-             }
+             },
+        'Oth-Asia':
+            {'occupation': ['HR'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Indonesia'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-LAM':
+            {'occupation': ['HR'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Brazil'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-MAF':
+            {'occupation': ['HR'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Egypt'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-MAF-Sub-Sahara':
+            {'occupation': ['HR'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Nigeria'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-OECD':
+            {'occupation': ['HR'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Turkey'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-REF':
+            {'occupation': ['HR'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Russia'],
+             'climate_scenario': ['2015']
+             },
     }
 
 climate_stations = {
@@ -307,16 +356,13 @@ climate_stations = {
     'UK': {'UK': 'Aughton-hour.epw'},
     'Oth-R32EU15': {'Oth-R32EU15': 'PL-Warszawa-hour.epw'},
     'Oth-R32EU12-H': {'Oth-R32EU12-H': 'PL-Warszawa-hour.epw'},
+    'Oth-OECD': {'Turkey': 'Istanbul_TU-hour.epw'},
+    'Oth-REF': {'Russia': 'MOSKVA_RS-hour.epw'},
+    'Oth-Asia': {'Indonesia': 'JAKARTA_ID-hour.epw'},
+    'Oth-MAF': {'Egypt': 'CAIRO_EG-hour.epw'},
+    'Oth-MAF-Sub-Sahara': {'Nigeria': 'BENIN_NI-hour.epw'},
+    'Oth-LAM': {'Brazil': 'Rio_de_Janeiro_BR-hour.epw'}
 }
-  #  #TODO: Change these!!!!
-'''   'Oth-OECD': {
-        'Istanbul': 'PARIS_FR-hour.epw',
-        },
-    'Oth-REF': {'Oth-REF': 'PARIS_FR-hour.epw'},
-    'Oth-Asia': {'Oth-Asia': 'PARIS_FR-hour.epw'},
-    'Oth-MAF': {'Oth-MAF': 'PARIS_FR-hour.epw'},
-    'Oth-LAM': {'Oth-LAM': 'PARIS_FR-hour.epw'}
-}'''
 
 odym_materials = {'Asphalt_shingle': 'other',
                   'Air_4_in_vert': 'other',
@@ -397,5 +443,6 @@ odym_regions = {'USA': 'R32USA',
                 'Oth-OECD': 'R5.2OECD_Other',
                 'Oth-REF': 'R5.2REF_Other',
                 'Oth-Asia': 'R5.2ASIA_Other',
+                'Oth-MAF-Sub-Sahara': 'R5.2MAF_Other_Sub_Sahara',
                 'Oth-MAF': 'R5.2MAF_Other',
                 'Oth-LAM': 'R5.2LAM_Other'}
