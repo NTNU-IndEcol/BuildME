@@ -393,7 +393,7 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR:AllDays,             !- Field 2
     UNTIL: 24:00,            !- Field 3
-    21.1;                    !- Field 4
+    22.22;                    !- Field 4
 
 Schedule:Compact,
     CLGSETP_DESIGN_OFF_SCH,  !- Name
@@ -409,29 +409,29 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR: WinterDesignDay SummerDesignDay,  !- Field 2
     UNTIL: 7:00,             !- Field 3
-    15.6,                    !- Field 4
+    22.22,                    !- Field 4
     UNTIL: 8:00,             !- Field 5
-    18.3,                    !- Field 6
+    22.22,                    !- Field 6
     UNTIL:17:00,             !- Field 7
-    21.1,                    !- Field 8
+    22.22,                    !- Field 8
     UNTIL: 18:00,            !- Field 9
-    18.3,                    !- Field 10
+    22.22,                    !- Field 10
     UNTIL: 24:00,            !- Field 11
-    15.6,                    !- Field 12
+    22.22,                    !- Field 12
     FOR:Weekdays,            !- Field 13
     UNTIL: 7:00,             !- Field 14
-    15.6,                    !- Field 15
+    22.22,                    !- Field 15
     UNTIL: 8:00,             !- Field 16
-    21.1,                    !- Field 17
+    22.22,                    !- Field 17
     UNTIL:17:00,             !- Field 18
-    21.1,                    !- Field 19
+    22.22,                    !- Field 19
     UNTIL: 18:00,            !- Field 20
-    18.3,                    !- Field 21
+    22.22,                    !- Field 21
     UNTIL: 24:00,            !- Field 22
-    15.6,                    !- Field 23
+    22.22,                    !- Field 23
     FOR: AllOtherDays,       !- Field 24
     UNTIL: 24:00,            !- Field 25
-    15.6;                    !- Field 26
+    22.22;                    !- Field 26
 
 Schedule:Compact,
     HTGSETP_OFF_SCH_Yes_Optimum,  !- Name
@@ -439,31 +439,31 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR: WinterDesignDay SummerDesignDay,  !- Field 2
     UNTIL: 7:00,             !- Field 3
-    15.6,                    !- Field 4
+    22.22,                    !- Field 4
     UNTIL: 8:00,             !- Field 5
-    18.3,                    !- Field 6
+    22.22,                    !- Field 6
     UNTIL: 17:00,            !- Field 7
-    21.1,                    !- Field 8
+    22.22,                    !- Field 8
     UNTIL: 18:00,            !- Field 9
-    18.3,                    !- Field 10
+    22.22,                    !- Field 10
     UNTIL: 24:00,            !- Field 11
-    15.6,                    !- Field 12
+    22.22,                    !- Field 12
     FOR:Weekdays,            !- Field 13
     UNTIL: 7:00,             !- Field 14
-    15.6,                    !- Field 15
+    22.22,                    !- Field 15
     UNTIL: 8:00,             !- Field 16
-    17.8,                    !- Field 17
+    22.22,                    !- Field 17
     UNTIL: 9:00,             !- Field 18
-    20.0,                    !- Field 19
+    22.22,                    !- Field 19
     UNTIL: 17:00,            !- Field 20
-    21.1,                    !- Field 21
+    22.22,                    !- Field 21
     UNTIL: 18:00,            !- Field 22
-    18.3,                    !- Field 23
+    22.22,                    !- Field 23
     UNTIL: 24:00,            !- Field 24
-    15.6,                    !- Field 25
+    22.22,                    !- Field 25
     FOR: AllOtherDays,       !- Field 26
     UNTIL: 24:00,            !- Field 27
-    15.6;                    !- Field 28
+    22.22;                    !- Field 28
 
 Schedule:Compact,
     HTGSETP_OFF_SCH_Yes_Optimum_Original,  !- Name
@@ -471,31 +471,31 @@ Schedule:Compact,
     THROUGH: 12/31,          !- Field 1
     FOR: WinterDesignDay SummerDesignDay,  !- Field 2
     UNTIL: 7:00,             !- Field 3
-    15.6,                    !- Field 4
+    22.22,                    !- Field 4
     UNTIL: 8:00,             !- Field 5
-    18.3,                    !- Field 6
+    22.22,                    !- Field 6
     UNTIL: 17:00,            !- Field 7
-    21.1,                    !- Field 8
+    22.22,                    !- Field 8
     UNTIL: 18:00,            !- Field 9
-    18.3,                    !- Field 10
+    22.22,                    !- Field 10
     UNTIL: 24:00,            !- Field 11
-    15.6,                    !- Field 12
+    22.22,                    !- Field 12
     FOR:Weekdays,            !- Field 13
     UNTIL: 7:00,             !- Field 14
-    15.6,                    !- Field 15
+    22.22,                    !- Field 15
     UNTIL: 8:00,             !- Field 16
-    17.8,                    !- Field 17
+    22.22,                    !- Field 17
     UNTIL: 9:00,             !- Field 18
-    20.0,                    !- Field 19
+    22.22,                    !- Field 19
     UNTIL: 17:00,            !- Field 20
-    21.1,                    !- Field 21
+    22.22,                    !- Field 21
     UNTIL: 18:00,            !- Field 22
-    18.3,                    !- Field 23
+    22.22,                    !- Field 23
     UNTIL: 24:00,            !- Field 24
-    15.6,                    !- Field 25
+    22.22,                    !- Field 25
     FOR: AllOtherDays,       !- Field 26
     UNTIL: 24:00,            !- Field 27
-    15.6;                    !- Field 28
+    22.22;                    !- Field 28
 
 Schedule:Compact,
     CLGSETP_OFF_SCH_No_Optimum,  !- Name
@@ -13153,7 +13153,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13174,7 +13174,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13195,7 +13195,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     26,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13216,7 +13216,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13237,7 +13237,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13258,7 +13258,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13279,7 +13279,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13300,7 +13300,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13321,7 +13321,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13342,7 +13342,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13363,7 +13363,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13384,7 +13384,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13405,7 +13405,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13426,7 +13426,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13447,7 +13447,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13468,7 +13468,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13489,7 +13489,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13510,7 +13510,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13531,7 +13531,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13552,7 +13552,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13573,7 +13573,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13594,7 +13594,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13615,7 +13615,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13636,7 +13636,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13657,7 +13657,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13678,7 +13678,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13699,7 +13699,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13720,7 +13720,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13741,7 +13741,7 @@ ZoneVentilation:WindandStackOpenArea,
     0,                       !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13762,7 +13762,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
@@ -13783,7 +13783,7 @@ ZoneVentilation:WindandStackOpenArea,
     180,                     !- Effective Angle {deg}
     15.2393,                 !- Height Difference {m}
     autocalculate,           !- Discharge Coefficient for Opening
-    18.89,                   !- Minimum Indoor Temperature {C}
+    22.22,                   !- Minimum Indoor Temperature {C}
     ,                        !- Minimum Indoor Temperature Schedule Name
     30,                      !- Maximum Indoor Temperature {C}
     ,                        !- Maximum Indoor Temperature Schedule Name
