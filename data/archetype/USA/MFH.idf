@@ -1306,7 +1306,7 @@
     Temperature,             !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
-    Until: 24:00,26;       !- Field 3
+    Until: 24:00,25.5;       !- Field 3
 
   Schedule:Compact,
     fan_cycle,               !- Name
@@ -1891,7 +1891,7 @@
 !
 
   WindowMaterial:Blind,
-    ext_blind,               !- Name
+    int_blind,               !- Name
     Horizontal,              !- Slat Orientation
     0.025,                   !- Slat Width {m}
     0.01875,                 !- Slat Separation {m}
@@ -2457,8 +2457,8 @@
 
   Construction,
     window_w_blinds,         !- Name
-    ext_blind,              !- Outside Layer
-    Glass-en-standard;               !- Layer 2
+    Glass-en-standard,       !- Outside Layer
+    int_blind;               !- Layer 2
 
   Construction,
     Insulated Pipe,          !- Name
@@ -5339,12 +5339,12 @@
     Shades-living_unit1_FrontRow_BottomFloor,  !- Name
     living_unit1_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5359,12 +5359,12 @@
     Shades-living_unit2_FrontRow_BottomFloor,  !- Name
     living_unit2_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5378,12 +5378,12 @@
     Shades-living_unit3_FrontRow_BottomFloor,  !- Name
     living_unit3_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5398,12 +5398,12 @@
     Shades-living_unit1_BackRow_BottomFloor,  !- Name
     living_unit1_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5418,12 +5418,12 @@
     Shades-living_unit2_BackRow_BottomFloor,  !- Name
     living_unit2_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5437,12 +5437,12 @@
     Shades-living_unit3_BackRow_BottomFloor,  !- Name
     living_unit3_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5457,12 +5457,12 @@
     Shades-living_unit1_FrontRow_MiddleFloor,  !- Name
     living_unit1_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5477,12 +5477,12 @@
     Shades-living_unit2_FrontRow_MiddleFloor,  !- Name
     living_unit2_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5496,12 +5496,12 @@
     Shades-living_unit3_FrontRow_MiddleFloor,  !- Name
     living_unit3_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5516,12 +5516,12 @@
     Shades-living_unit1_BackRow_MiddleFloor,  !- Name
     living_unit1_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5536,12 +5536,12 @@
     Shades-living_unit2_BackRow_MiddleFloor,  !- Name
     living_unit2_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5555,12 +5555,12 @@
     Shades-living_unit3_BackRow_MiddleFloor,  !- Name
     living_unit3_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5575,12 +5575,12 @@
     Shades-living_unit1_FrontRow_TopFloor,  !- Name
     living_unit1_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5595,12 +5595,12 @@
     Shades-living_unit2_FrontRow_TopFloor,  !- Name
     living_unit2_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5614,12 +5614,12 @@
     Shades-living_unit3_FrontRow_TopFloor,  !- Name
     living_unit3_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5634,12 +5634,12 @@
     Shades-living_unit1_BackRow_TopFloor,  !- Name
     living_unit1_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5654,12 +5654,12 @@
     Shades-living_unit2_BackRow_TopFloor,  !- Name
     living_unit2_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5673,12 +5673,12 @@
     Shades-living_unit3_BackRow_TopFloor,  !- Name
     living_unit3_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    ExteriorBlind,           !- Shading Type
+    InteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
-    ,                        !- Schedule Name
-    25,                     !- Setpoint {W/m2, W or deg C}
-    No,                     !- Shading Control Is Scheduled
+    OnIfScheduleAllows,      !- Shading Control Type
+    window_shades,           !- Schedule Name
+    ,                        !- Setpoint {W/m2, W or deg C}
+    Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -20301,26 +20301,6 @@
     Cooling Coil Total Cooling Rate,  !- Variable or Meter 3 Name
     SumOrAverage;            !- Aggregation Type for Variable or Meter 3
 
-Output:Table:Monthly,
-    Window Report,           !- Name
-    ,                        !- Digits After Decimal
-    Surface Window Transmitted Solar Radiation Rate,  !- Variable or Meter 1 Name
-    SumOrAverage,            !- Aggregation Type for Variable or Meter 1
-    Surface Window Transmitted Beam Solar Radiation Rate,  !- Variable or Meter 2 Name
-    SumOrAverage,            !- Aggregation Type for Variable or Meter 2
-    Surface Window Transmitted Diffuse Solar Radiation Rate,  !- Variable or Meter 3 Name
-    SumOrAverage,            !- Aggregation Type for Variable or Meter 3
-    Surface Window Heat Gain Rate,  !- Variable or Meter 4 Name
-    SumOrAverage,            !- Aggregation Type for Variable or Meter 4
-    Surface Window Heat Loss Rate,  !- Variable or Meter 5 Name
-    SumOrAverage,            !- Aggregation Type for Variable or Meter 5
-    Surface Window Inside Face Glazing Condensation Status,  !- Variable or Meter 6 Name
-    HoursNonZero,            !- Aggregation Type for Variable or Meter 6
-    Surface Shading Device Is On Time Fraction,  !- Variable or Meter 7 Name
-    HoursNonZero,            !- Aggregation Type for Variable or Meter 7
-    Surface Storm Window On Off Status,  !- Variable or Meter 8 Name
-    HoursNonZero;            !- Aggregation Type for Variable or Meter 8
-
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUTCONTROL:TABLE:STYLE ===========
 
   OutputControl:Table:Style,
@@ -20342,11 +20322,6 @@ Output:Table:Monthly,
   Output:Variable,*,Cooling Coil Total Cooling Rate,hourly;
 
   Output:Variable,*,Heating Coil Heating Rate,hourly;
-
-  Output:Variable,
-    *,                       !- Key Value
-    Fraction of Time Shading Device Is On,  !- Variable Name
-    timestep;                !- Reporting Frequency
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:METER ===========
 

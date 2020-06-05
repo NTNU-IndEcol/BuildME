@@ -9,8 +9,8 @@ import platform
 
 ep_version = '9.2.0'
 basepath = os.path.abspath('.')
-ep_path = os.path.abspath("./bin/EnergyPlusV9-2-0/")
-ep_idd = os.path.abspath("./bin/EnergyPlusV9-2-0/Energy+.idd")
+ep_path = os.path.abspath("./bin/EnergyPlus-9-2-0/")
+ep_idd = os.path.abspath("./bin/EnergyPlus-9-2-0/Energy+.idd")
 
 # Checking OS and modify files to copy
 if platform.system() == 'Windows':
@@ -35,6 +35,7 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 # The combinations
 #   Example: USA.SFH_standard.RES0.
 
+
 debug_combinations = {
     'USA':
         {'occupation': ['SFH', 'MFH'],
@@ -42,74 +43,6 @@ debug_combinations = {
          'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
          'climate_region': ['8'],
          'climate_scenario': ['2015']}}
-
-combinations1 = \
-    {
-        'DE':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['Germany'],
-             'climate_scenario': ['2015']
-             },
-        'CN':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['I', 'II', 'III', 'IV', 'V'],
-             'climate_scenario': ['2015']
-             },
-        'IT':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['Italy'],
-             'climate_scenario': ['2015']
-             },
-        'FR':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['France'],
-             'climate_scenario': ['2015']
-             },
-        'PL':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['Poland'],
-             'climate_scenario': ['2015']
-             },
-        'IN':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['IN1', 'IN2', 'IN3', 'IN4', 'IN5'],
-             'climate_scenario': ['2015']
-             },
-        'ES':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['Spain'],
-             'climate_scenario': ['2015']
-             },
-        'UK':
-            {'occupation': ['HR', 'MFH', 'SFH'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['UK'],
-             'climate_scenario': ['2015']
-             },
-    }
 
 combinations = \
     {
@@ -276,6 +209,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
     }
+
 
 climate_stations = {
     'USA': {
