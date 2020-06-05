@@ -10,10 +10,10 @@ from BuildME import settings, idf, material, energy, simulate, __version__
 simulation_files = simulate.create_combinations(settings.testing_combinations)
 
 #deletes exisitng folders that contains simulation results
-simulate.nuke_folders(simulation_files) #deletes only the folder with the case you try to simulate
+#simulate.nuke_folders(simulation_files) #deletes only the folder with the case you try to simulate
 
 #copy scenarios .idf to the correct folder
-simulate.copy_scenario_files(simulation_files)
+#simulate.copy_scenario_files(simulation_files)
 # create run file
 #simulate.create_sq_job(simulation_files)
 
@@ -27,15 +27,33 @@ res_mat = simulate.load_material(simulation_files)
 #simulate.save_mi_result(res_mat)
 
 #simulate.save_ei_for_odym(res_energy)
-#simulate.save_ei_for_odym(res_mat)
+#simulate.save_mi_for_odym(res_mat)
 
-floor_area = res_mat['PL_HR_standard_RES2.1_Poland_2015']['floor_area_wo_basement']
-energy_intensity = {k: v / floor_area for k, v in res_mat['PL_HR_standard_RES2.1_Poland_2015'].items()}
+floor_area = res_mat['Oth-REF_HR_standard_RES2.1_Russia_2015']['floor_area_wo_basement']
+energy_intensity = {k: v / floor_area for k, v in res_mat['Oth-REF_HR_standard_RES2.1_Russia_2015'].items()}
 ''''''
+
+for region in res.index.levels[0]:
+    # Why u not update the column index pandas??
+    for cr in set([c[1] for c in res.loc[region].dropna(axis=1)]):
+        if region == 'Oth-LAM':
+            print('this is')
+        if cr == '':
+            continue
+        res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
+            res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
+            weights.loc[pd.IndexSlice[region, cr], 'share']
+
+
 simulate.save_ei_result(res_energy, res_mat)
 simulate.save_mi_result(res_mat)
 fname = [x for x in tqdm(simulation_files, leave=True)][0]
 idff = idf.read_idf('data/archetype/ES/HR.idf')
+
+surfaces = material.get_surfaces_with_zone_multiplier(idff, 'standard', 'RES0')
+
+
+
 res = ['USA', 'MFH', 'non-standard']
 en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
 idf_f = simulate.apply_rule_from_excel(idff, ['USA', 'HR', 'standard'], en_replace)

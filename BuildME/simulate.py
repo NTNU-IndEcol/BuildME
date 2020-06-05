@@ -508,6 +508,7 @@ def collect_energy(fnames):
     res = {}
     for folder in tqdm(fnames):
         energy_res = energy.ep_result_collector(os.path.join(fnames[folder]['run_folder']))
+
         res[folder] = energy_res.to_dict()
     return res
 
@@ -534,6 +535,7 @@ def weighing_climate_region(res):
     :return:
     """
     weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
+    print(weights)
     # making sure index is all strings
     weights.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in weights.index.tolist()])
     # I know looping DFs is lame, but who can figure out this fricking syntax?!
@@ -543,6 +545,13 @@ def weighing_climate_region(res):
         for cr in set([c[1] for c in res.loc[region].dropna(axis=1)]):
             if cr == '':
                 continue
+            if cr == 'Brazil':
+                region = 'Oth-LAM'
+                cr = 'Brazil'
+                res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
+                    res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
+                    weights.loc[pd.IndexSlice[region, cr], 'share']
+
             res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
                 res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
                 weights.loc[pd.IndexSlice[region, cr], 'share']

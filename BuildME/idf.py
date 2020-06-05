@@ -234,12 +234,19 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
         temp_elem = []
         for elem in surfaces[key]:
             if elem.Surface_Type == 'Window':
-                if elem.Building_Surface_Name.upper().startswith('M'):
-                    #TODO: change this to account for the zone multiplier!!!
-                    temp_elem.extend(np.repeat(elem, 14 - 1).tolist())
+                surface_name = elem.Building_Surface_Name
+                for ext_wall_surface in surfaces['ext_wall']:
+                    if ext_wall_surface.Name == surface_name:
+                        zone_name = ext_wall_surface.Zone_Name
             else:
-                if elem.Zone_Name in multipliers.keys():
-                    temp_elem.extend(np.repeat(elem, multipliers[elem.Zone_Name] - 1).tolist())
+                zone_name = elem.Zone_Name
+
+               # if elem.Building_Surface_Name.upper().startswith('M'):
+               #     #TODO: change this to account for the zone multiplier!!!
+               #     temp_elem.extend(np.repeat(elem, 14 - 1).tolist())
+#            else:
+            if zone_name in multipliers.keys():
+                temp_elem.extend(np.repeat(elem, multipliers[zone_name] - 1).tolist())
         surfaces[key].extend(temp_elem)
 
     temp_surface_areas = calc_surface_areas(surfaces)
