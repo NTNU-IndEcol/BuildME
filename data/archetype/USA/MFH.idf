@@ -5344,7 +5344,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5364,7 +5364,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5383,7 +5383,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5403,7 +5403,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5423,7 +5423,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5442,7 +5442,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5462,7 +5462,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5482,7 +5482,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5501,7 +5501,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5521,7 +5521,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5541,7 +5541,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5560,7 +5560,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5580,7 +5580,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5600,7 +5600,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5619,7 +5619,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5639,7 +5639,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5659,7 +5659,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
@@ -5678,7 +5678,7 @@
     OnIfHighOutdoorAirTemperature,   !- Shading Control Type
     ,                        !- Schedule Name
     25,                     !- Setpoint {W/m2, W or deg C}
-    Yes,                     !- Shading Control Is Scheduled
+    No,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
     ,                        !- Type of Slat Angle Control for Blinds
