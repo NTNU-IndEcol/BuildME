@@ -35,37 +35,6 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 # The combinations
 #   Example: USA.SFH_standard.RES0.
 
-testing_combinations = {
-    'Oth-REF':
-        {'occupation': ['HR'],
-         'energy standard': ['standard'],
-         'RES': ['RES2.1'],
-         'climate_region':
-             ['Russia'],
-         'climate_scenario': ['2015']
-         },
-}
-
-fsacombinations = {
-        'Oth-R32EU15':
-            {'occupation': ['HR'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['Oth-R32EU15'],
-             'climate_scenario': ['2015']
-             },
-        'Oth-R32EU12-H':
-            {'occupation': ['HR'],
-             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_region':
-                 ['Oth-R32EU12-H'],
-             'climate_scenario': ['2015']
-             }
-    }
-
-
 debug_combinations = {
     'USA':
         {'occupation': ['SFH', 'MFH'],

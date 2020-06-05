@@ -154,12 +154,12 @@ def get_surfaces(idf, energy_standard, res_scenario):
 
 def extract_surfaces_zone_multiplier(list_surfaces, element_type, boundary, surface_type):
     """
-    Function to extract the surfaces if a zone_multiplier is used. Need to use the list of surfaces instead of the
-    idf file.
-    list_surfaces: list of all surfaces
-    element_type: BuildingSurface:Detailed or FenestrationSurface:Detailed
-    boundary: Outdoors, Grounds etc.
-    surface_type: Wall, Window etc.
+    Function to extract the surfaces if a zone multiplier is used. Can't use the idf file and need to use a list
+    of surfaces instead.
+    :param list_surfaces: list of all surfaces
+    :param element_type: BuildingSurface:Detailed or FenestrationSurface:Detailed
+    :param boundary: Outdoors, Grounds etc.
+    :param surface_type: Wall, Window etc.
     """
     surfaces = []
     for e in element_type:
@@ -174,38 +174,26 @@ def extract_surfaces_zone_multiplier(list_surfaces, element_type, boundary, surf
 
 def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
     """
-    Function to extract surfaces if zone multiplier is used, for high-rise. Also different as windows and doors are modeled
-    in FenestrationSurface:Detailed.
-    idf file
-    energy_standard - not used yet!
-    res_scenario - not used yet!
+    Function to extract surfaces for RT, as zone multiplier is used and windows are modeled in the FenestrationSurface:Detailed object.
+    :param idf: The IDF file
+    :param energy_standard:
+    :param res_scenario:
+    :return: list of surfaces accounting for zone multipliers
     """
     surfaces = {}
 
-    # Different for the HR compared to SFH and MFH
     surfaces_to_count = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
 
     # Extracting all surfaces from idf file
     surfaces_idf = [[s for s in idf.idfobjects[st.upper()]] for st in surfaces_to_count]
+
     # Flatten list
     surfaces_idf = [item for sublist in surfaces_idf for item in sublist]
-    # Need to account for the zone multiplier
+
     # Finding the multiplier used
     list_of_multipliers = [x.Multiplier for x in idf.idfobjects["ZONE"] if x.Multiplier is not '']
     zones_multipliers = [x.Name for x in idf.idfobjects["ZONE"] if x.Multiplier is not '']
     multipliers = dict(zip(zones_multipliers,list_of_multipliers))
-   # TODO: CHECK if multiple floors with zone multiplier and implement this
-   # if list_of_multipliers.count(list_of_multipliers[0]) != len(list_of_multipliers):
-   #     raise Exception('Function can not handle multiple floors with zone multiplier')
-   # else:
-   #     zone_multiplier = list_of_multipliers[0]
-
-    # List of surfaces for the middle floor modeled with zone multipliers
-   # surfaces_multiplier = [x for x in surfaces_idf if x.Name.startswith('m') or x.Name.startswith('M')] * zone_multiplier
-
-    # Removing all surfaces with multiplier
-    #total_no_surfaces = [x for x in surfaces_idf if not x.Name.startswith('m')]
-    #total_no_surfaces.extend(surfaces_multiplier)
 
     # Need to account for zone multiplier
     surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
@@ -228,8 +216,7 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
                                                              ['Outdoors'], ['Floor'])
     surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'],
                                                         ['Roof'])
-    surfaces_with_multiplier = {}
-    # accounting for zone multiplier
+
     for key in surfaces.keys():
         temp_elem = []
         for elem in surfaces[key]:
@@ -241,10 +228,6 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
             else:
                 zone_name = elem.Zone_Name
 
-               # if elem.Building_Surface_Name.upper().startswith('M'):
-               #     #TODO: change this to account for the zone multiplier!!!
-               #     temp_elem.extend(np.repeat(elem, 14 - 1).tolist())
-#            else:
             if zone_name in multipliers.keys():
                 temp_elem.extend(np.repeat(elem, multipliers[zone_name] - 1).tolist())
         surfaces[key].extend(temp_elem)
@@ -266,7 +249,7 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
         surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
         surfaces['slab1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
 
-    # Do not have to add surrogate internal walls as those are added already in the idf file
+    # Do not have to add surrogate internal walls as those are added already in the idf file, but shear walls
     shear_constr = constr_list['Shear_wall-' + res_scenario].Name
     surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
     return surfaces
@@ -314,8 +297,8 @@ def create_surrogate_shear_wall(floor_area, construction):
     """
     The HR archetype need shear/core walls for lateral load resistance.
     Based on Taranath: Reinforced Concrete Design of Tall Buildings p. 144: 0.08 m per 1.0 m2 floor area is assumed.
-    Assuming room height of 3 m, this yields 0.24 m2 per m2 floor area. Based on Foraboschi et al. 2014 reinforcement ratio (area)
-    is 1.9%
+    Assuming room height of 3 m, this yields 0.24 m2 per m2 floor area.
+
     :return: List of one surface which can be added to the surfaces variable in get_surfaces().
     """
     shear_walls = {

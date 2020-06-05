@@ -84,7 +84,7 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
     :param replacer:
     """
 
-    #if the building if a HR - the windows are modeled in fenestrationsurface:detailed, so change objects
+    # If HR archetype - the windows are modeled in FenestrationSurface:Detailed instead of Window object
     if replacer[1] == 'HR':
         objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
     else:
@@ -115,7 +115,7 @@ def apply_rule_from_excel(idf_f, res, en_replace):
             print("bam")
             continue
         for idfobj in idf_f.idfobjects[xls_value[1]['idfobject'].upper()]:
-        # TODO: Seems like this skips replacement of values for MFH? Check with NH if correct?
+        # TODO: Seems like this skips replacement of values for MFH? Changed replace.xlsx file..
             if idfobj.Name not in ('*', xls_value[1].Name):
                 continue
             setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
@@ -210,6 +210,7 @@ def calculate_materials(fnames=None):
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
+        # If HR archetype, need to account for zone multipliers
         if fnames[folder]['energy_standard'][1] == 'HR':
             surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'][2],
                                              fnames[folder]['RES'][2])
@@ -219,13 +220,16 @@ def calculate_materials(fnames=None):
 
         mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
-       # print(total_material_mass)
+
         odym_mat = translate_to_odym_mat(total_material_mass)
         surface_areas = material.calc_surface_areas(surfaces)
         # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
         res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
+
+        # If building with less than 15 floors: modeled as MFH and SFH with beams
+        # TODO: change this somehow??
         if res['floor_area_wo_basement'] / res['footprint_area'] < 15:
             loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
             if loadbeam[0] in res:
@@ -236,12 +240,12 @@ def calculate_materials(fnames=None):
                 postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
                 res[postbeam[0]] += postbeam[1]
 
-        # Adding columns and deep foundation to construction if high-rise (say 15 floor..)
+        # If building with more than 15 floors: modeled with columns, shear walls, flat slabs and larger foundation..
         if res['floor_area_wo_basement']/res['footprint_area'] > 15:
             columns = add_surrogate_columns(fnames[folder]['RES'][2], res['floor_area_wo_basement'], res['footprint_area'])
-           # print(columns)
             foundation = add_foundation(res['footprint_area'])
-        # Iterating through columns dict with concrete and steel since reinforced concrete
+
+            # Iterating through columns dict with concrete and steel since reinforced concrete
             for k, v in columns.items():
                 if k in res:
                     res[k] += v
@@ -253,7 +257,7 @@ def calculate_materials(fnames=None):
                     res[k] += v
                 else:
                     res[k] = v
-
+            # If wooden version light wall steel studs and steel beams are added for the roof
             if fnames[folder]['RES'][2] == 'RES2.1' or fnames[folder]['RES'][2] == 'RES2.1+RES2.2':
                 lightwall_steel = add_steel_lightwall(fnames[folder]['RES'][2], res['floor_area_wo_basement'], res['footprint_area'])
                 roof_beams = add_surrogate_roof_beams(fnames[folder]['RES'][2], res['footprint_area'])
@@ -280,15 +284,15 @@ def add_surrogate_beams(res, area, distance=0.6,):
     mass = res_vol * res_dict[res]['density']
     return res_dict[res]['Material'], mass
 
-#TODO: reinforced concrete beams for floors according to Gan et al.(2019)
-def add_surrogate_beams_slabs(res, area, distance=0.2,):
+#TODO: Change floor system to slab + beam instead of flat slab? See Gan et al.(2019)
+'''def add_surrogate_beams_slabs(res, area, distance=0.2,):
     res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050},
                 'RES2.2': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050}}
     side_length = area ** 0.5
     number_beams = side_length / distance + 1
     res_vol = res_dict[res]['vol'] * side_length * number_beams
     mass = res_vol * res_dict[res]['density']
-    return res_dict[res]['Material'], mass
+    return res_dict[res]['Material'], mass'''
 
 def add_surrogate_postbeams(res, area, distance=0.6,):
     res_dict = {'RES2.1': {'Material': 'wood and wood products', 'vol': .1*.05, 'density': 500},
@@ -301,17 +305,17 @@ def add_surrogate_postbeams(res, area, distance=0.6,):
 
 def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
     """
-    Function to add columns to the perimeter of the building. Dimensions taken from book "Design of Tall Buildings"
+    Function to add columns to the perimeter of the building. Dimensions for HR is taken from Taranth: Reinforced concrete
+    buildings, p. 219. Use the average column size of the middle floor approx.
+    Reinforcement ratio in columns is assumed to be 2.5-3% of the volume of concrete, based on Foraboschi et al. (2014).
+    #TODO: parameterise the size of columns depending on height of the buildings, spacing between columns etc.
     :param res: scenario, RES0, RES2.1 etc.
     :param floor_area: total floor area of building
     :param footprint_area: footprint area of building
     :param distance: spacing between columns in meters, book "Design of Tall Buildings" and Kim et al. (2008)
     param room_h: height of room
     :return: returns materials of columns and total mass
-    Reinforcement ratio in columns is assumed to be 2.5-3% of the volume of concrete, based on Foraboschi et al. (2014).
-    Use the avearge column size of the middle floor approx.
     """
-    # TODO: Wood - have to add more columns and concrete columns for the first floor
     res_dict = {'RES0': {'Material': {'construction grade steel': {'vol': 0.03 * .950 * .750 * room_h, 'density': 7850},
                                       'concrete': {'vol': .950 * .750 * room_h, 'density': 2400}}},
                 'RES2.1': {
@@ -348,9 +352,13 @@ def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
             mat.update({outer_k: outer_v['vol'] * outer_v['density'] * number_columns})
 
     return mat
-    #return dict(zip(['concrete', 'construction grade steel'], [mass_concrete, mass_steel]))
+
 
 def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 3):
+    """
+    Function to add light gauge steel wall for the wooden versions of the HR building.
+
+    """
     res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .15 * .0005, 'density': 8050},
                 'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .15 * .0005, 'density': 8050}}
     perimeter = footprint_area ** 0.5 * 4
@@ -358,11 +366,14 @@ def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 
 
     number_vertical = perimeter / distance + 1
     mass_horizontal_members = res_dict[res]['vol'] * room_h * number_vertical * res_dict[res]['density'] * floors
-    mass_vertical_members = res_dict[res]['vol'] * perimeter * 2 * res_dict[res]['density'] * floors # adding at top and bottom
+    mass_vertical_members = res_dict[res]['vol'] * perimeter * 2 * res_dict[res]['density'] * floors
 
     return res_dict[res]['Material'], mass_horizontal_members+mass_vertical_members
 
 def add_surrogate_roof_beams(res, footprint_area, distance=3,):
+    """
+    Function to add surrogate roof beams as for wooden HR building (as in Tallwood House, see doc)
+    """
     res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .25*.25, 'density': 8050},
                 'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .20*.20, 'density': 8050}}
 
@@ -373,30 +384,13 @@ def add_surrogate_roof_beams(res, footprint_area, distance=3,):
 
     return res_dict[res]['Material'], mass
 
-def add_surrogate_foundations(number_piles=20):
-
-    diam_pile = 1.5 # pile diameter is 0.45 - asume 1.5 instead of 2, since 30 storey instead of 40
-    height_pile = 40 #20 m pile
-    density_concrete = 2242.8
-    density_steel = 7850
-
-    volume_pile = (diam_pile/2)**2*3.14*height_pile
-    mass_concrete_pile = density_concrete*volume_pile*number_piles
-    mass_steel_pile = 15*volume_pile*number_piles #number taken from LCA on deep foundations (EU code)
-    number_caps = number_piles
-    volume_pile_cap = 2/3 #taken from EU code, 2m3
-    mass_concrete_cap = density_concrete*volume_pile_cap*number_caps
-    mass_steel_cap = 145*volume_pile_cap*number_caps #145 kg/m3 steel for cap
-
-    mass_steel = mass_steel_pile + mass_steel_cap
-    mass_concrete = mass_concrete_pile + mass_concrete_cap
-
-    # This results in 1.8 % steel use in foundation. LCA from China yields 3.4 %
-    return dict(zip(['concrete', 'construction grade steel'], [mass_concrete, mass_steel]))
-
 def add_foundation(footprint_area):
+    """
+    Function to add foundation for the high-rise buildings. 0.6 m3 concrete per footprint area and
+    100 kg steel per m3 concrete based on lit.review, see doc.
+    """
     concrete_intensity = 0.6 # m3 concrete per footprint area
-    steel_intensity = 100 #kg steel per m3 concrete
+    steel_intensity = 100 # kg steel per m3 concrete
     density_concrete = 2400
     vol_concrete = footprint_area * concrete_intensity
     mass_concrete = vol_concrete * density_concrete
@@ -416,7 +410,7 @@ def calculate_energy(fnames=None):
         # TODO: Change Building !- Name
         tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
         energy.run_energyplus_single(tmp)
-        #energy.delete_ep_files(copy_us, tmp)
+        energy.delete_ep_files(copy_us, tmp)
 
 
 def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
