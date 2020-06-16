@@ -295,7 +295,7 @@ def create_surrogate_basement(floor_area, construction, room_h=2.8):
 
 def create_surrogate_shear_wall(floor_area, construction):
     """
-    The HR archetype need shear/core walls for lateral load resistance.
+    The RT archetype need shear/core walls for lateral load resistance.
     Based on Taranath: Reinforced Concrete Design of Tall Buildings p. 144: 0.08 m per 1.0 m2 floor area is assumed.
     Assuming room height of 3 m, this yields 0.24 m2 per m2 floor area.
 

@@ -84,8 +84,8 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
     :param replacer:
     """
 
-    # If HR archetype - the windows are modeled in FenestrationSurface:Detailed instead of Window object
-    if replacer[1] == 'HR':
+    # If RT archetype - the windows are modeled in FenestrationSurface:Detailed instead of Window object
+    if replacer[1] == 'RT':
         objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
     else:
         objects = ['Window', 'BuildingSurface:Detailed', 'Door']
@@ -210,8 +210,8 @@ def calculate_materials(fnames=None):
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
-        # If HR archetype, need to account for zone multipliers
-        if fnames[folder]['energy_standard'][1] == 'HR':
+        # If RT archetype, need to account for zone multipliers
+        if fnames[folder]['energy_standard'][1] == 'RT':
             surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'][2],
                                              fnames[folder]['RES'][2])
         else:
@@ -305,7 +305,7 @@ def add_surrogate_postbeams(res, area, distance=0.6,):
 
 def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
     """
-    Function to add columns to the perimeter of the building. Dimensions for HR is taken from Taranth: Reinforced concrete
+    Function to add columns to the perimeter of the building. Dimensions for RT is taken from Taranth: Reinforced concrete
     buildings, p. 219. Use the average column size of the middle floor approx.
     Reinforcement ratio in columns is assumed to be 2.5-3% of the volume of concrete, based on Foraboschi et al. (2014).
     #TODO: parameterise the size of columns depending on height of the buildings, spacing between columns etc.
@@ -356,7 +356,7 @@ def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
 
 def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 3):
     """
-    Function to add light gauge steel wall for the wooden versions of the HR building.
+    Function to add light gauge steel wall for the wooden versions of the RT building.
 
     """
     res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .15 * .0005, 'density': 8050},
@@ -372,7 +372,7 @@ def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 
 
 def add_surrogate_roof_beams(res, footprint_area, distance=3,):
     """
-    Function to add surrogate roof beams as for wooden HR building (as in Tallwood House, see doc)
+    Function to add surrogate roof beams as for wooden RT building (as in Tallwood House, see doc)
     """
     res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .25*.25, 'density': 8050},
                 'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .20*.20, 'density': 8050}}
@@ -606,8 +606,8 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     writer.save()
     return res
 
-# Andrea: assume the same for HR as for MFH for now...
-def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'HR': 75}):
+# Andrea: assume the same for RT as for MFH for now...
+def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]

@@ -38,16 +38,16 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 debug_combinations = {
     'USA':
-        {'occupation': ['SFH', 'MFH'],
-         'energy standard': ['standard', 'efficient', 'ZEB'],
-         'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+        {'occupation': ['RT'],
+         'energy standard': ['standard'],
+         'RES': ['RES0', 'RES2.1'],
          'climate_region': ['8'],
          'climate_scenario': ['2015']}}
 
 combinations = \
     {
         'USA':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -57,7 +57,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'DE':
-            {'occupation': ['HR'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -65,7 +65,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'CN':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -73,7 +73,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'JP':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -81,7 +81,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'IT':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -89,7 +89,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'FR':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -97,7 +97,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'PL':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -105,7 +105,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'CA':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -113,7 +113,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'R32EU12-M':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -121,7 +121,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'IN':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -129,7 +129,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'ES':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -137,7 +137,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'UK':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -145,7 +145,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-R32EU15':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -153,7 +153,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-R32EU12-H':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -161,7 +161,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-Asia':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -169,7 +169,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-LAM':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -177,7 +177,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-MAF':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -185,7 +185,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-MAF-Sub-Sahara':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -193,7 +193,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-OECD':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -201,7 +201,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-REF':
-            {'occupation': ['HR', 'MFH', 'SFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':

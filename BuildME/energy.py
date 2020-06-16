@@ -125,7 +125,7 @@ def run_energyplus_single(tmp_path):
     else:
         run_idf = 'expanded.idf'
 
-    # For HR, ExpandObjects wont run?? So testing to add in.idf as run_idf
+    # For RT, ExpandObjects wont run?? So testing to add in.idf as run_idf
     if not os.path.exists('expanded.idf'):
         run_idf = 'in.idf'
 
