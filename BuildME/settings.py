@@ -262,7 +262,7 @@ climate_stations = {
     'Oth-R32EU15': {'Oth-R32EU15': 'PL-Warszawa-hour.epw'},
     'Oth-R32EU12-H': {'Oth-R32EU12-H': 'PL-Warszawa-hour.epw'},
     'Oth-OECD': {'Turkey': 'Istanbul_TU-hour.epw'},
-    'Oth-REF': {'Russia': 'Astana_KZ-hour.epw'},
+    'Oth-REF': {'Russia': 'MOSKVA_RS-hour.epw'},
     'Oth-Asia': {'Indonesia': 'JAKARTA_ID-hour.epw'},
     'Oth-MAF': {'Egypt': 'CAIRO_EG-hour.epw'},
     'Oth-MAF-Sub-Sahara': {'Nigeria': 'BENIN_NI-hour.epw'},
