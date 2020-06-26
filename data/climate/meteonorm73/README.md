@@ -4,8 +4,8 @@
 ![mod](figures/modifications.PNG)
 
 ### Advanced settings tab
-![2015](figures/settings_2015.png)
+![2015](figures/settings_2015.PNG)
 
-![2030](figures/settings_2030.png)
+![2030](figures/settings_2030.PNG)
 
-![2050](figures/settings_2050.png)
+![2050](figures/settings_2050.PNG)
