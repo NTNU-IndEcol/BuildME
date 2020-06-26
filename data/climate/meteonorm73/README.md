@@ -1,7 +1,7 @@
 # Settings in Meteonorm
 
 ### Modifications tab 
-![mod](figures/modifications.png)
+![mod](figures/modifications.PNG)
 
 ### Advanced settings tab
 ![2015](figures/settings_2015.png)
