@@ -110,6 +110,7 @@ def run_energyplus_single(tmp_path):
     # 1. Run `./ExpandObjects`
     os.chdir(os.path.join(settings.tmp_path, tmp_path))
     # for exec in ['./ExpandObjects', './Basement', './energyplus']:
+
     with open("log_ExpandObjects.txt", 'w') as log_file:
         subprocess.call('ExpandObjects', shell=True, stdout=log_file, stderr=log_file)
     if os.path.exists('BasementGHTIn.idf'):
@@ -123,6 +124,11 @@ def run_energyplus_single(tmp_path):
             run_idf = 'merged.idf'
     else:
         run_idf = 'expanded.idf'
+
+    # For RT, ExpandObjects wont run?? So testing to add in.idf as run_idf
+    if not os.path.exists('expanded.idf'):
+        run_idf = 'in.idf'
+
     with open("log_energyplus.txt", 'w+') as log_file:
         subprocess.call('energyplus -r %s' % run_idf,
                         shell=True, stdout=log_file, stderr=log_file)

@@ -38,26 +38,16 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 debug_combinations = {
     'USA':
-        {'occupation': ['SFH', 'MFH'],
-         'energy standard': ['standard', 'efficient', 'ZEB'],
-         'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+        {'occupation': ['RT'],
+         'energy standard': ['standard'],
+         'RES': ['RES0', 'RES2.1'],
          'climate_region': ['8'],
          'climate_scenario': ['2015']}}
 
 combinations = \
     {
-        'all':  # maybe not necessary
-            {'occupation_types':
-                 ['SFH_non-standard', 'SFH_standard', 'SFH_efficient', 'SFH_ZEB',
-                  'MFH_non-standard', 'MFH_standard', 'MFH_efficient', 'MFH_ZEB',
-                  'informal_non-standard'],
-             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
-             'climate_scenario':
-                 ['2015',
-                  '2030_A1B', '2030_A2', '2030_B1',
-                  '2050_A1B', '2050_A2', '2050_B1']},
         'USA':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -67,7 +57,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'DE':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -75,7 +65,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'CN':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -83,7 +73,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'JP':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -91,7 +81,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'IT':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -99,7 +89,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'FR':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -107,7 +97,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'PL':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -115,7 +105,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'CA':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -123,7 +113,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'R32EU12-M':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -131,7 +121,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'IN':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -139,7 +129,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'ES':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -147,7 +137,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'UK':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -155,7 +145,7 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-R32EU15':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
@@ -163,14 +153,63 @@ combinations = \
              'climate_scenario': ['2015']
              },
         'Oth-R32EU12-H':
-            {'occupation': ['SFH', 'MFH'],
+            {'occupation': ['RT', 'MFH', 'SFH'],
              'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Oth-R32EU12-H'],
              'climate_scenario': ['2015']
-             }
+             },
+        'Oth-Asia':
+            {'occupation': ['RT', 'MFH', 'SFH'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Indonesia'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-LAM':
+            {'occupation': ['RT', 'MFH', 'SFH'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Brazil'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-MAF':
+            {'occupation': ['RT', 'MFH', 'SFH'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Egypt'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-MAF-Sub-Sahara':
+            {'occupation': ['RT', 'MFH', 'SFH'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Nigeria'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-OECD':
+            {'occupation': ['RT', 'MFH', 'SFH'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Turkey'],
+             'climate_scenario': ['2015']
+             },
+        'Oth-REF':
+            {'occupation': ['RT', 'MFH', 'SFH'],
+             'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+             'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+             'climate_region':
+                 ['Russia'],
+             'climate_scenario': ['2015']
+             },
     }
+
 
 climate_stations = {
     'USA': {
@@ -221,7 +260,13 @@ climate_stations = {
     'ES': {'Spain': 'Madrid_Barajas-hour.epw'},
     'UK': {'UK': 'Aughton-hour.epw'},
     'Oth-R32EU15': {'Oth-R32EU15': 'PL-Warszawa-hour.epw'},
-    'Oth-R32EU12-H': {'Oth-R32EU12-H': 'PL-Warszawa-hour.epw'}
+    'Oth-R32EU12-H': {'Oth-R32EU12-H': 'PL-Warszawa-hour.epw'},
+    'Oth-OECD': {'Turkey': 'Istanbul_TU-hour.epw'},
+    'Oth-REF': {'Russia': 'MOSKVA_RS-hour.epw'},
+    'Oth-Asia': {'Indonesia': 'JAKARTA_ID-hour.epw'},
+    'Oth-MAF': {'Egypt': 'CAIRO_EG-hour.epw'},
+    'Oth-MAF-Sub-Sahara': {'Nigeria': 'BENIN_NI-hour.epw'},
+    'Oth-LAM': {'Brazil': 'Rio_de_Janeiro_BR-hour.epw'}
 }
 
 odym_materials = {'Asphalt_shingle': 'other',
@@ -233,8 +278,15 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'OSB_1/2in': 'wood and wood products',
                   'OSB_5/8in': 'wood and wood products',
                   'Stucco_1in': 'cement',
+                  'F07 25mm stucco': 'cement',
+                  'F07 50mm stucco': 'cement',
+                  'F07 10mm stucco': 'cement',
+                  'Concrete_tiles_25mm': 'concrete',
+                  'Bitumen_20mm': 'other',
                   'sheathing_consol_layer': 'wood and wood products',
                   'Drywall_1/2in': 'wood and wood products',
+                  'G01 16mm gypsum board': 'other',
+                  'G01 13mm gypsum board': 'other',
                   'ceil_consol_layer-en-non-standard': 'other',
                   'ceil_consol_layer-en-standard': 'other',
                   'ceil_consol_layer-en-efficient': 'other',
@@ -252,11 +304,32 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'Concrete_15cm': 'concrete',
                   'Reinforcement_1perc_15cm': 'construction grade steel',
                   'Concrete_12cm': 'concrete',
+                  '100mm Normalweight concrete floor': 'concrete',
+                  '175mm Normalweight concrete floor': 'concrete',
+                  '200mm Normalweight concrete floor': 'concrete',
                   'Reinforcement_1perc_12cm': 'construction grade steel',
                   'wall_consol_layer-en-non-standard': 'other',
                   'wall_consol_layer-en-standard': 'other',
                   'wall_consol_layer-en-efficient': 'other',
-                  'wall_consol_layer-en-ZEB': 'other'}
+                  'wall_consol_layer-en-ZEB': 'other',
+                  'F13 Built-up roofing': 'other',
+                  'F08 Metal surface': 'other',
+                  'Reinforcement_2perc_15cm': 'construction grade steel',
+                  'Reinforcement_3perc_15cm': 'construction grade steel',
+                  'Reinforcement_2perc_20cm': 'construction grade steel',
+                  'Reinforcement_2perc_30cm': 'construction grade steel',
+                  'Concrete_30cm': 'concrete',
+                  'Concrete_10cm': 'concrete',
+                  'Reinforcement_1perc_10cm': 'construction grade steel',
+                  'Concrete_18cm': 'concrete',
+                  'Reinforcement_2perc_17cm': 'construction grade steel',
+                  'CLT_170mm': 'wood and wood products',
+                  'Concrete_60cm': 'concrete',
+                  'Reinforcement_1perc_60cm': 'construction grade steel',
+                  'High pressure laminate panel': 'other',
+                  'Concrete_4cm': 'concrete',
+                  'Concrete_5cm': 'concrete'
+                  }
 
 odym_regions = {'USA': 'R32USA',
                 'CA': 'R32CAN',
@@ -271,4 +344,10 @@ odym_regions = {'USA': 'R32USA',
                 'ES': 'Spain',
                 'UK': 'UK',
                 'Oth-R32EU15': 'Oth-R32EU15',
-                'Oth-R32EU12-H': 'Oth-R32EU12-H'}
+                'Oth-R32EU12-H': 'Oth-R32EU12-H',
+                'Oth-OECD': 'R5.2OECD_Other',
+                'Oth-REF': 'R5.2REF_Other',
+                'Oth-Asia': 'R5.2ASIA_Other',
+                'Oth-MAF-Sub-Sahara': 'R5.2MAF_Other_Sub_Sahara',
+                'Oth-MAF': 'R5.2MAF_Other',
+                'Oth-LAM': 'R5.2LAM_Other'}

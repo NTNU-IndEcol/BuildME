@@ -7,6 +7,7 @@ import collections
 import os
 
 import pandas as pd
+import numpy as np
 from eppy.modeleditor import IDF
 
 from BuildME import settings
@@ -59,8 +60,12 @@ def extract_surfaces(idf, element_type, boundary, surface_type):
     surfaces = []
     for e in element_type:
         for s in idf.idfobjects[e.upper()]:
-            if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
-                surfaces.append(s)
+            if s.Surface_Type != 'Window':
+                if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
+                    surfaces.append(s)
+            else:
+                if s.Outside_Boundary_Condition_Object in boundary and s.Surface_Type in surface_type:
+                    surfaces.append(s)
     return surfaces
 
 
@@ -147,6 +152,107 @@ def get_surfaces(idf, energy_standard, res_scenario):
     surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
     return surfaces
 
+def extract_surfaces_zone_multiplier(list_surfaces, element_type, boundary, surface_type):
+    """
+    Function to extract the surfaces if a zone multiplier is used. Can't use the idf file and need to use a list
+    of surfaces instead.
+    :param list_surfaces: list of all surfaces
+    :param element_type: BuildingSurface:Detailed or FenestrationSurface:Detailed
+    :param boundary: Outdoors, Grounds etc.
+    :param surface_type: Wall, Window etc.
+    """
+    surfaces = []
+    for e in element_type:
+        for s in list_surfaces:
+            if s.Surface_Type != 'Window':
+                if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
+                    surfaces.append(s)
+            else:
+                if s.Outside_Boundary_Condition_Object in boundary and s.Surface_Type in surface_type:
+                    surfaces.append(s)
+    return surfaces
+
+def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
+    """
+    Function to extract surfaces for RT, as zone multiplier is used and windows are modeled in the FenestrationSurface:Detailed object.
+    :param idf: The IDF file
+    :param energy_standard:
+    :param res_scenario:
+    :return: list of surfaces accounting for zone multipliers
+    """
+    surfaces = {}
+
+    surfaces_to_count = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
+
+    # Extracting all surfaces from idf file
+    surfaces_idf = [[s for s in idf.idfobjects[st.upper()]] for st in surfaces_to_count]
+
+    # Flatten list
+    surfaces_idf = [item for sublist in surfaces_idf for item in sublist]
+
+    # Finding the multiplier used
+    list_of_multipliers = [x.Multiplier for x in idf.idfobjects["ZONE"] if x.Multiplier is not '']
+    zones_multipliers = [x.Name for x in idf.idfobjects["ZONE"] if x.Multiplier is not '']
+    multipliers = dict(zip(zones_multipliers,list_of_multipliers))
+
+    # Need to account for zone multiplier
+    surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                            ['Outdoors'], ['Wall'])
+    surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                            ['Surface'], ['Wall'])
+    surfaces['window'] = extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''],
+                                                          ['Window'])
+    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                             ['Adiabatic'], ['Floor']) + \
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                             ['Surface'], ['Floor'])
+    surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                               ['Surface'], ['Ceiling']) + \
+                              extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                               ['Adiabatic'], ['Ceiling'])
+    surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                             ['Ground'], ['Floor']) + \
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                             ['Outdoors'], ['Floor'])
+    surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'],
+                                                        ['Roof'])
+
+    for key in surfaces.keys():
+        temp_elem = []
+        for elem in surfaces[key]:
+            if elem.Surface_Type == 'Window':
+                surface_name = elem.Building_Surface_Name
+                for ext_wall_surface in surfaces['ext_wall']:
+                    if ext_wall_surface.Name == surface_name:
+                        zone_name = ext_wall_surface.Zone_Name
+            else:
+                zone_name = elem.Zone_Name
+
+            if zone_name in multipliers.keys():
+                temp_elem.extend(np.repeat(elem, multipliers[zone_name] - 1).tolist())
+        surfaces[key].extend(temp_elem)
+
+    temp_surface_areas = calc_surface_areas(surfaces)
+    constr_list = {m.Name: m for m in read_constructions(idf)}
+    slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
+
+    if res_scenario == 'RES2.1' or res_scenario == 'RES2.1+RES2.2':
+        floor_slab_constr = constr_list['Concrete_floor_slab-' + res_scenario].Name
+        surfaces['int_floor_second_floor'] = create_surrogate_slab(temp_surface_areas['footprint_area'], floor_slab_constr)
+        surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['basement1'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['slab1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+    else:
+        surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['basement1'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['slab1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+
+    # Do not have to add surrogate internal walls as those are added already in the idf file, but shear walls
+    shear_constr = constr_list['Shear_wall-' + res_scenario].Name
+    surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
+    return surfaces
 
 def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
     """
@@ -186,6 +292,23 @@ def create_surrogate_basement(floor_area, construction, room_h=2.8):
         'area': floor_area ** 0.5 * 4 * room_h
     }
     return [SurrogateElement(basem)]
+
+def create_surrogate_shear_wall(floor_area, construction):
+    """
+    The RT archetype need shear/core walls for lateral load resistance.
+    Based on Taranath: Reinforced Concrete Design of Tall Buildings p. 144: 0.08 m per 1.0 m2 floor area is assumed.
+    Assuming room height of 3 m, this yields 0.24 m2 per m2 floor area.
+
+    :return: List of one surface which can be added to the surfaces variable in get_surfaces().
+    """
+    shear_walls = {
+        'key': 'DummyBuildingSurface',
+        'Name': 'surrogate_shear_wall',
+        'Building_Surface_Name': None,
+        'Construction_Name': construction,
+        'area': 0.24*floor_area
+    }
+    return [SurrogateElement(shear_walls)]
 
 
 def calc_surface_areas(surfaces, floor_area=['int_floor', 'ext_floor']):
