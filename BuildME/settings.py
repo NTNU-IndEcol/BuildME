@@ -38,10 +38,10 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 debug_combinations = {
     'USA':
-        {'occupation': ['RT'],
+        {'occupation': ['Office'],
          'energy standard': ['standard'],
-         'RES': ['RES0', 'RES2.1'],
-         'climate_region': ['8'],
+         'RES': ['RES0'],
+         'climate_region': ['5A'],
          'climate_scenario': ['2015']}}
 
 combinations = \
@@ -328,7 +328,13 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'Reinforcement_1perc_60cm': 'construction grade steel',
                   'High pressure laminate panel': 'other',
                   'Concrete_4cm': 'concrete',
-                  'Concrete_5cm': 'concrete'
+                  'Concrete_5cm': 'concrete',
+                  'Reinforcement_2perc_10cm': 'construction grade steel',
+                  'roof_consol_layer-en-standard': 'other',
+                  'Cement_plaster_0.012': 'cement',
+                  'Brick - fired clay - 1120 kg/m3 - 102mm': 'brick',
+                  'Brick inner 105 mm_0.1': 'brick',
+                  'Roof Tile_0.01': 'other'
                   }
 
 odym_regions = {'USA': 'R32USA',

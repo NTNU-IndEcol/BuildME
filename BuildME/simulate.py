@@ -210,8 +210,8 @@ def calculate_materials(fnames=None):
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
-        # If RT archetype, need to account for zone multipliers
-        if fnames[folder]['energy_standard'][1] == 'RT':
+        # If RT OR office archetype, need to account for zone multipliers
+        if fnames[folder]['energy_standard'][1] == 'RT' or fnames[folder]['energy_standard'][1] == 'Office':
             surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'][2],
                                              fnames[folder]['RES'][2])
         else:
@@ -230,7 +230,7 @@ def calculate_materials(fnames=None):
 
         # If building with less than 15 floors: modeled as MFH and SFH with beams
         # TODO: change this somehow??
-        if res['floor_area_wo_basement'] / res['footprint_area'] < 15:
+        if res['floor_area_wo_basement'] / res['footprint_area'] < 8:
             loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
             if loadbeam[0] in res:
                 res[loadbeam[0]] += loadbeam[1]
@@ -241,7 +241,7 @@ def calculate_materials(fnames=None):
                 res[postbeam[0]] += postbeam[1]
 
         # If building with more than 15 floors: modeled with columns, shear walls, flat slabs and larger foundation..
-        if res['floor_area_wo_basement']/res['footprint_area'] > 15:
+        if res['floor_area_wo_basement']/res['footprint_area'] > 8:
             columns = add_surrogate_columns(fnames[folder]['RES'][2], res['floor_area_wo_basement'], res['footprint_area'])
             foundation = add_foundation(res['footprint_area'])
 
@@ -529,7 +529,6 @@ def weighing_climate_region(res):
     :return:
     """
     weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
-    print(weights)
     # making sure index is all strings
     weights.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in weights.index.tolist()])
     # I know looping DFs is lame, but who can figure out this fricking syntax?!
@@ -607,7 +606,7 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     return res
 
 # Andrea: assume the same for RT as for MFH for now...
-def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75}):
+def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'Office': 15}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]

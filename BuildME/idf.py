@@ -250,8 +250,9 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
         surfaces['slab1'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
 
     # Do not have to add surrogate internal walls as those are added already in the idf file, but shear walls
-    shear_constr = constr_list['Shear_wall-' + res_scenario].Name
-    surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
+    if 'Shear_wall-' + res_scenario in [x for x in constr_list]:
+        shear_constr = constr_list['Shear_wall-' + res_scenario].Name
+        surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
     return surfaces
 
 def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
