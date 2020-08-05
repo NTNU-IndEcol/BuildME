@@ -2957,45 +2957,6 @@ ElectricEquipment,
     Misc;                     !- EndUse Subcategory
 
 ElectricEquipment,
-    Clothes Washer1,          !- Name
-    Main_room,                !- Zone or ZoneList Name
-    ClothesWasher,            !- Schedule Name
-    EquipmentLevel,           !- Design Level Calculation Method
-    29.5818312328767,         !- Design Level
-    ,                         !- Watts per Zone Floor Area
-    ,                         !- Watts per Person
-    0,                        !- Fraction Latent
-    0.48,                     !- Fraction Radiant
-    0.2,                      !- Fraction Lost
-    Appl;                     !- EndUse Subcategory
-
-ElectricEquipment,
-    Clothes Dryer1,           !- Name
-    Main_room,                !- Zone or ZoneList Name
-    ClothesDryer,             !- Schedule Name
-    EquipmentLevel,           !- Design Level Calculation Method
-    222.112928219178,         !- Design Level
-    ,                         !- Watts per Zone Floor Area
-    ,                         !- Watts per Person
-    0.05,                     !- Fraction Latent
-    0.09,                     !- Fraction Radiant
-    0.8,                      !- Fraction Lost
-    Appl;                     !- EndUse Subcategory
-
-ElectricEquipment,
-    Dishwasher1,              !- Name
-    Main_room,                !- Zone or ZoneList Name
-    Dishwasher,               !- Schedule Name
-    EquipmentLevel,           !- Design Level Calculation Method
-    68.3275708931507,         !- Design Level
-    ,                         !- Watts per Zone Floor Area
-    ,                         !- Watts per Person
-    0.15,                     !- Fraction Latent
-    0.36,                     !- Fraction Radiant
-    0.25,                     !- Fraction Lost
-    Appl;                     !- EndUse Subcategory
-
-ElectricEquipment,
     Misc Elec Load21,         !- Name
     Main_room,                !- Zone or ZoneList Name
     always_avail,             !- Schedule Name

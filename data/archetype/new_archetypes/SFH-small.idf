@@ -1857,7 +1857,6 @@ Material,
     1600,                    !- Density {kg/m3}
     790;                     !- Specific Heat {J/kg-K}
 
-
 Material,
     Brick - fired clay - 1600 kg/m3 - 102mm,  !- Name
     MediumRough,             !- Roughness
@@ -1876,7 +1875,6 @@ Material,
     0.9,                     !- Thermal Absorptance
     0.6,                     !- Solar Absorptance
     0.6;                     !- Visible Absorptance
-
 
 
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL:NOMASS ===========
@@ -2070,6 +2068,7 @@ Construction,
     window_w_blinds,         !- Name
     Glass-en-standard,       !- Outside Layer
     int_blind;               !- Layer 2
+
 
 !-   ===========  ALL OBJECTS IN CLASS: GLOBALGEOMETRYRULES ===========
 
@@ -3078,45 +3077,6 @@ ElectricEquipment,
     0.41190936353998,        !- Fraction Radiant
     0.251045347957769,       !- Fraction Lost
     Misc;                    !- End-Use Subcategory
-
-ElectricEquipment,
-    Clothes Washer1,         !- Name
-    Main_room,               !- Zone or ZoneList Name
-    ClothesWasher,           !- Schedule Name
-    EquipmentLevel,          !- Design Level Calculation Method
-    29.5818312328767,        !- Design Level {W}
-    ,                        !- Watts per Zone Floor Area {W/m2}
-    ,                        !- Watts per Person {W/person}
-    0,                       !- Fraction Latent
-    0.48,                    !- Fraction Radiant
-    0.2,                     !- Fraction Lost
-    Appl;                    !- End-Use Subcategory
-
-ElectricEquipment,
-    Clothes Dryer1,          !- Name
-    Main_room,               !- Zone or ZoneList Name
-    ClothesDryer,            !- Schedule Name
-    EquipmentLevel,          !- Design Level Calculation Method
-    222.112928219178,        !- Design Level {W}
-    ,                        !- Watts per Zone Floor Area {W/m2}
-    ,                        !- Watts per Person {W/person}
-    0.05,                    !- Fraction Latent
-    0.09,                    !- Fraction Radiant
-    0.8,                     !- Fraction Lost
-    Appl;                    !- End-Use Subcategory
-
-ElectricEquipment,
-    Dishwasher1,             !- Name
-    Main_room,               !- Zone or ZoneList Name
-    Dishwasher,              !- Schedule Name
-    EquipmentLevel,          !- Design Level Calculation Method
-    68.3275708931507,        !- Design Level {W}
-    ,                        !- Watts per Zone Floor Area {W/m2}
-    ,                        !- Watts per Person {W/person}
-    0.15,                    !- Fraction Latent
-    0.36,                    !- Fraction Radiant
-    0.25,                    !- Fraction Lost
-    Appl;                    !- End-Use Subcategory
 
 ElectricEquipment,
     Misc Elec Load21,        !- Name
