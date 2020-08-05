@@ -227,10 +227,8 @@ def calculate_materials(fnames=None):
         res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
-
-        # If building with less than 15 floors: modeled as MFH and SFH with beams
-        # TODO: change this somehow??
-        if res['floor_area_wo_basement'] / res['footprint_area'] < 15:
+        # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
+        if 2 <= res['floor_area_wo_basement'] / res['footprint_area'] < 15:
             loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
             if loadbeam[0] in res:
                 res[loadbeam[0]] += loadbeam[1]
@@ -529,7 +527,6 @@ def weighing_climate_region(res):
     :return:
     """
     weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
-    print(weights)
     # making sure index is all strings
     weights.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in weights.index.tolist()])
     # I know looping DFs is lame, but who can figure out this fricking syntax?!
@@ -607,7 +604,7 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     return res
 
 # Andrea: assume the same for RT as for MFH for now...
-def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75}):
+def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'SFH-small-masonry': 50, 'SFH-small-wood': 50}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]

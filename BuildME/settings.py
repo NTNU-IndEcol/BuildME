@@ -38,7 +38,7 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 debug_combinations = {
     'USA':
-        {'occupation': ['SFH'],
+        {'occupation': ['SFH', 'SFH-small-concrete', 'SFH-small-wood', 'SFH-small-masonry'],
          'energy standard': ['standard'],
          'RES': ['RES0'],
          'climate_region': ['5A'],
@@ -334,7 +334,9 @@ odym_materials = odym_materials = {'Asphalt_shingle': 'other',
                   'Cement_plaster_0.012': 'cement',
                   'Brick - fired clay - 1920 kg/m3 - 200mm': 'brick',
                   'Brick - fired clay - 1920 kg/m3 - 300mm': 'brick',
-                  }
+                  'Brick - fired clay - 1600 kg/m3 - 102mm': 'brick',
+                  'Brick - fired clay - 1600 kg/m3 - 230mm': 'brick',
+                  'Metal_surface': 'other'}
 
 odym_regions = {'USA': 'R32USA',
                 'CA': 'R32CAN',
