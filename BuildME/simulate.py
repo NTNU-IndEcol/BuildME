@@ -227,6 +227,12 @@ def calculate_materials(fnames=None):
         res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
+
+        # If small wooden, add wood post and beams
+        if fnames[folder]['energy_standard'][1] == 'SFH-small-wood':
+            postbeam = add_surrogate_beams('RES2.1', surface_areas['ext_wall'])
+            res[postbeam[0]] += postbeam[1]
+
         # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
         if 2 <= res['floor_area_wo_basement'] / res['footprint_area'] < 15:
             loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
