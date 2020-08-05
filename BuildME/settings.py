@@ -38,7 +38,7 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 debug_combinations = {
     'USA':
-        {'occupation': ['SFH', 'SFH-small-concrete', 'SFH-small-wood', 'SFH-small-masonry'],
+        {'occupation': ['SFH-small-wood'],
          'energy standard': ['standard'],
          'RES': ['RES0'],
          'climate_region': ['5A'],
