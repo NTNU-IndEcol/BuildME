@@ -38,10 +38,10 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 debug_combinations = {
     'USA':
-        {'occupation': ['RT'],
+        {'occupation': ['MFH'],
          'energy standard': ['standard'],
-         'RES': ['RES0', 'RES2.1'],
-         'climate_region': ['8'],
+         'RES': ['RES0'],
+         'climate_region': ['5A'],
          'climate_scenario': ['2015']}}
 
 combinations = \
@@ -269,7 +269,7 @@ climate_stations = {
     'Oth-LAM': {'Brazil': 'Rio_de_Janeiro_BR-hour.epw'}
 }
 
-odym_materials = {'Asphalt_shingle': 'other',
+odym_materials = odym_materials = {'Asphalt_shingle': 'other',
                   'Air_4_in_vert': 'other',
                   'Bldg_paper_felt': 'paper and cardboard',
                   'Std Wood 6inch': 'wood and wood products',
@@ -328,7 +328,11 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'Reinforcement_1perc_60cm': 'construction grade steel',
                   'High pressure laminate panel': 'other',
                   'Concrete_4cm': 'concrete',
-                  'Concrete_5cm': 'concrete'
+                  'Concrete_5cm': 'concrete',
+                  'Concrete_7cm': 'concrete',
+                  'Reinforcement_1perc_7cm': 'construction grade steel',
+                  'Cement_plaster_0.012': 'cement',
+                  'Brick - fired clay - 1920 kg/m3 - 200mm': 'brick',
                   }
 
 odym_regions = {'USA': 'R32USA',

@@ -144,8 +144,10 @@ def get_surfaces(idf, energy_standard, res_scenario):
     assert len(check) == 0, "Following elements were not found: %s" % check
     temp_surface_areas = calc_surface_areas(surfaces)
     constr_list = {m.Name: m for m in read_constructions(idf)}
-    int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
-    surfaces['int_wall'] = surfaces['int_wall'] +\
+    if 'attic-ceiling-' + energy_standard in [x for x in constr_list]:
+        print('yes')
+        int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
+        surfaces['int_wall'] = surfaces['int_wall'] +\
                            (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr))
     slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
     surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
