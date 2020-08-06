@@ -1337,7 +1337,7 @@ Schedule:Compact,
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
     Until: 24:00,            !- Field 3
-    25.5;                    !- Field 4
+    26;                    !- Field 4
 
 Schedule:Compact,
     fan_cycle,               !- Name
@@ -1963,8 +1963,8 @@ WindowMaterial:Glazing,
 
 !*** Properties for blinds taken from E+ dataset for 'Blinds with Medium Reflectivity Slats'***
 !
-WindowMaterial:Blind,
-    int_blind,               !- Name
+  WindowMaterial:Blind,
+    ext_blind,               !- Name
     Horizontal,              !- Slat Orientation
     0.025,                   !- Slat Width {m}
     0.01875,                 !- Slat Separation {m}
@@ -1993,7 +1993,6 @@ WindowMaterial:Blind,
     0.5,                     !- Blind Right Side Opening Multiplier
     ,                        !- Minimum Slat Angle {deg}
     ;                        !- Maximum Slat Angle {deg}
-
 
 !-   ===========  ALL OBJECTS IN CLASS: CONSTRUCTION ===========
 
@@ -2212,40 +2211,36 @@ Construction,
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-non-standard,  !- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Brick - fired clay - 1920 kg/m3 - 200mm,  !- Layer 4
+    wall_consol_layer-en-non-standard,!- Layer 5
+    Drywall_1/2in;           !- Layer 6
 
 Construction,
     ext-wall-standard-RES2.2,!- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-standard,  !- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Brick - fired clay - 1920 kg/m3 - 200mm,  !- Layer 4
+    wall_consol_layer-en-standard,!- Layer 5
+    Drywall_1/2in;           !- Layer 6
 
 Construction,
     ext-wall-efficient-RES2.2,  !- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-efficient,  !- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Brick - fired clay - 1920 kg/m3 - 200mm,  !- Layer 4
+    wall_consol_layer-en-efficient,!- Layer 5
+    Drywall_1/2in;           !- Layer 6
 
 Construction,
     ext-wall-ZEB-RES2.2,     !- Name
     Stucco_1in,              !- Outside Layer
     Bldg_paper_felt,         !- Layer 2
     sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-ZEB,!- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Brick - fired clay - 1920 kg/m3 - 200mm,  !- Layer 4
+    wall_consol_layer-en-ZEB, !- Layer 5
+    Drywall_1/2in;           !- Layer 6
 
 Construction,
     ext-wall-non-standard-RES2.1+RES2.2,  !- Name
@@ -2298,9 +2293,9 @@ Construction,
 
 Construction,
     interiorwall-RES2.2,     !- Name
-    Drywall_1/2in,           !- Outside Layer
-    Concrete_12cm,           !- Layer 2
-    Reinforcement_1perc_12cm;!- Layer 3
+    Cement_plaster_0.012,    !- Outside Layer
+    Brick - fired clay - 1920 kg/m3 - 200mm, !- Layer 2
+    Cement_plaster_0.012;    !- Layer 3
 
 Construction,
     interiorwall-RES2.1+RES2.2,  !- Name
@@ -2316,53 +2311,32 @@ Construction,
     Drywall_1/2in;           !- Layer 3
 
 Construction,
-    roof-non-standard-RES0,      !- Name
+    roof-non-standard,      !- Name
     Concrete_tiles_25mm,     !- Outside Layer
     Concrete_15cm,           !- Layer 1
     Reinforcement_1perc_15cm, !- Layer 2
     ceil_consol_layer-en-non-standard; !- Layer 3
 
 Construction,
-    roof-standard-RES0,      !- Name
+    roof-standard,      !- Name
     Concrete_tiles_25mm,     !- Outside Layer
     Concrete_15cm,           !- Layer 1
     Reinforcement_1perc_15cm, !- Layer 2
     ceil_consol_layer-en-standard; !- Layer 3
 
-
 Construction,
-    roof-efficient-RES0,     !- Name
+    roof-efficient,     !- Name
     Concrete_tiles_25mm,     !- Outside Layer
     Concrete_15cm,           !- Layer 1
     Reinforcement_1perc_15cm, !- Layer 2
     ceil_consol_layer-en-efficient; !- Layer 3
 
 Construction,
-    roof-ZEB-RES0,           !- Name
+    roof-ZEB,           !- Name
     Concrete_tiles_25mm,     !- Outside Layer
     Concrete_15cm,           !- Layer 1
     Reinforcement_1perc_15cm, !- Layer 2
     ceil_consol_layer-en-ZEB; !- Layer 3
-
-Construction,
-    ext-roof-non-standard,   !- Name
-    Asphalt_shingle,         !- Outside Layer
-    OSB_1/2in;               !- Layer 2
-
-Construction,
-    ext-roof-standard,       !- Name
-    Asphalt_shingle,         !- Outside Layer
-    OSB_1/2in;               !- Layer 2
-
-Construction,
-    ext-roof-efficient,      !- Name
-    Asphalt_shingle,         !- Outside Layer
-    OSB_1/2in;               !- Layer 2
-
-Construction,
-    ext-roof-ZEB,            !- Name
-    Asphalt_shingle,         !- Outside Layer
-    OSB_1/2in;               !- Layer 2
 
 Construction,
     ext-window-non-standard, !- Name
@@ -2419,8 +2393,8 @@ Construction,
 
 Construction,
     window_w_blinds,         !- Name
-    Glass-en-standard,       !- Outside Layer
-    int_blind;               !- Layer 2
+    ext_blind,              !- Outside Layer
+    Glass-en-standard;               !- Layer 2
 
 Construction,
     Insulated Pipe,          !- Name
@@ -2446,7 +2420,7 @@ Construction,
 Construction,
     Surrogate_slab-RES0,     !- Name
     Concrete_20cm,           !- Outside Layer
-    Reinforcement_1perc_15cm;!- Layer 2
+    Reinforcement_1perc_20cm;!- Layer 2
 
 Construction,
     Surrogate_slab-RES2.1,   !- Name
@@ -3855,7 +3829,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     BreezewayRoof,           !- Name
     Roof,                 !- Surface Type
-    roof-en-std-replaceme-res-replaceme,  !- Construction Name
+    roof-en-std-replaceme,  !- Construction Name
     Breezeway,               !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4634,7 +4608,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     ceiling_unit3_BackRow_TopFloor,  !- Name
     Roof,                 !- Surface Type
-    roof-en-std-replaceme-res-replaceme,  !- Construction Name
+    roof-en-std-replaceme,  !- Construction Name
     living_unit3_BackRow_TopFloor,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4805,7 +4779,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     ceiling_unit3_FrontRow_TopFloor,  !- Name
     Roof,                 !- Surface Type
-    roof-en-std-replaceme-res-replaceme,  !- Construction Name
+    roof-en-std-replaceme,  !- Construction Name
     living_unit3_FrontRow_TopFloor,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -4928,7 +4902,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     ceiling_unit1_FrontRow_TopFloor,  !- Name
     Roof,                 !- Surface Type
-    roof-en-std-replaceme-res-replaceme,  !- Construction Name
+    roof-en-std-replaceme,  !- Construction Name
     living_unit1_FrontRow_TopFloor,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5025,7 +4999,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     ceiling_unit2_BackRow_TopFloor,  !- Name
     Roof,                 !- Surface Type
-    roof-en-std-replaceme-res-replaceme,  !- Construction Name
+    roof-en-std-replaceme,  !- Construction Name
     living_unit2_BackRow_TopFloor,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5170,7 +5144,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     ceiling_unit2_FrontRow_TopFloor,  !- Name
     Roof,                 !- Surface Type
-    roof-en-std-replaceme-res-replaceme,  !- Construction Name
+    roof-en-std-replaceme,  !- Construction Name
     living_unit2_FrontRow_TopFloor,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5342,7 +5316,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     ceiling_unit1_BackRow_TopFloor,  !- Name
     Roof,                 !- Surface Type
-    roof-en-std-replaceme-res-replaceme,  !- Construction Name
+    roof-en-std-replaceme,  !- Construction Name
     living_unit1_BackRow_TopFloor,  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -5927,18 +5901,17 @@ Door,
     0.9146,                  !- Length {m}
     2.13414634146341;        !- Height {m}
 
-
 !-   ===========  ALL OBJECTS IN CLASS: WINDOWSHADINGCONTROL ===========
 
 WindowShadingControl,
     Shades-living_unit1_FrontRow_BottomFloor,  !- Name
     living_unit1_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -5954,11 +5927,11 @@ WindowShadingControl,
     Shades-living_unit2_FrontRow_BottomFloor,  !- Name
     living_unit2_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -5973,11 +5946,11 @@ WindowShadingControl,
     Shades-living_unit3_FrontRow_BottomFloor,  !- Name
     living_unit3_FrontRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -5993,11 +5966,11 @@ WindowShadingControl,
     Shades-living_unit1_BackRow_BottomFloor,  !- Name
     living_unit1_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6013,11 +5986,11 @@ WindowShadingControl,
     Shades-living_unit2_BackRow_BottomFloor,  !- Name
     living_unit2_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6032,11 +6005,11 @@ WindowShadingControl,
     Shades-living_unit3_BackRow_BottomFloor,  !- Name
     living_unit3_BackRow_BottomFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6052,11 +6025,11 @@ WindowShadingControl,
     Shades-living_unit1_FrontRow_MiddleFloor,  !- Name
     living_unit1_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6072,11 +6045,11 @@ WindowShadingControl,
     Shades-living_unit2_FrontRow_MiddleFloor,  !- Name
     living_unit2_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6091,11 +6064,11 @@ WindowShadingControl,
     Shades-living_unit3_FrontRow_MiddleFloor,  !- Name
     living_unit3_FrontRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6111,11 +6084,11 @@ WindowShadingControl,
     Shades-living_unit1_BackRow_MiddleFloor,  !- Name
     living_unit1_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6131,11 +6104,11 @@ WindowShadingControl,
     Shades-living_unit2_BackRow_MiddleFloor,  !- Name
     living_unit2_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6150,11 +6123,11 @@ WindowShadingControl,
     Shades-living_unit3_BackRow_MiddleFloor,  !- Name
     living_unit3_BackRow_MiddleFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6170,11 +6143,11 @@ WindowShadingControl,
     Shades-living_unit1_FrontRow_TopFloor,  !- Name
     living_unit1_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6190,11 +6163,11 @@ WindowShadingControl,
     Shades-living_unit2_FrontRow_TopFloor,  !- Name
     living_unit2_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6209,11 +6182,11 @@ WindowShadingControl,
     Shades-living_unit3_FrontRow_TopFloor,  !- Name
     living_unit3_FrontRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6229,11 +6202,11 @@ WindowShadingControl,
     Shades-living_unit1_BackRow_TopFloor,  !- Name
     living_unit1_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6249,11 +6222,11 @@ WindowShadingControl,
     Shades-living_unit2_BackRow_TopFloor,  !- Name
     living_unit2_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name
@@ -6268,11 +6241,11 @@ WindowShadingControl,
     Shades-living_unit3_BackRow_TopFloor,  !- Name
     living_unit3_BackRow_TopFloor,  !- Zone Name
     1,                       !- Shading Control Sequence Number
-    InteriorBlind,           !- Shading Type
+    ExteriorBlind,           !- Shading Type
     window_w_blinds,         !- Construction with Shading Name
-    OnIfScheduleAllows,      !- Shading Control Type
-    window_shades,           !- Schedule Name
-    ,                        !- Setpoint {W/m2, W or deg C}
+    OnIfHighOutdoorAirTemperature,   !- Shading Control Type
+    ,                        !- Schedule Name
+    25,                     !- Setpoint {W/m2, W or deg C}
     Yes,                     !- Shading Control Is Scheduled
     No,                      !- Glare Control Is Active
     ,                        !- Shading Device Material Name

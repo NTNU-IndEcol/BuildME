@@ -1306,7 +1306,7 @@
     Temperature,             !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
-    Until: 24:00,25.5;       !- Field 3
+    Until: 24:00,26;       !- Field 3
 
   Schedule:Compact,
     fan_cycle,               !- Name
@@ -2203,49 +2203,45 @@
 
   Construction,
     ext-wall-non-standard-RES2.2,  !- Name
-    Stucco_1in,              !- Outside Layer
-    Bldg_paper_felt,         !- Layer 2
-    sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-non-standard,  !- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Brick - fired clay - 1920 kg/m3 - 300mm,    !- Layer 4
+    wall_consol_layer-en-non-standard,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
 
     !- Exterior Wall,           !- Name
 
   Construction,
     ext-wall-standard-RES2.2,!- Name
-    Stucco_1in,              !- Outside Layer
-    Bldg_paper_felt,         !- Layer 2
-    sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-standard,  !- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Brick - fired clay - 1920 kg/m3 - 300mm,    !- Layer 4
+    wall_consol_layer-en-standard,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
 
     !- Exterior Wall,           !- Name
 
   Construction,
     ext-wall-efficient-RES2.2,  !- Name
-    Stucco_1in,              !- Outside Layer
-    Bldg_paper_felt,         !- Layer 2
-    sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-efficient,  !- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Brick - fired clay - 1920 kg/m3 - 300mm,    !- Layer 4
+    wall_consol_layer-en-efficient,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
 
     !- Exterior Wall,           !- Name
 
   Construction,
     ext-wall-ZEB-RES2.2,     !- Name
-    Stucco_1in,              !- Outside Layer
-    Bldg_paper_felt,         !- Layer 2
-    sheathing_consol_layer,  !- Layer 3
-    Concrete_12cm,           !- Layer 4
-    Reinforcement_1perc_12cm,!- Layer 5
-    wall_consol_layer-en-ZEB,!- Layer 6
-    Drywall_1/2in;           !- Layer 7
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Brick - fired clay - 1920 kg/m3 - 300mm,    !- Layer 4
+    wall_consol_layer-en-ZEB,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
 
     !- Exterior Wall,           !- Name
 
@@ -2469,7 +2465,7 @@
   Construction,
     Surrogate_slab-RES0,     !- Name
     Concrete_20cm,           !- Outside Layer
-    Reinforcement_1perc_15cm;!- Layer 2
+    Reinforcement_1perc_20cm;!- Layer 2
 
   Construction,
     Surrogate_slab-RES2.1,   !- Name
