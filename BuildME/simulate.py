@@ -84,8 +84,8 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
     :param replacer:
     """
 
-    # If RT archetype - the windows are modeled in FenestrationSurface:Detailed instead of Window object
-    if replacer[1] == 'RT':
+    # If the windows are modeled in FenestrationSurface:Detailed instead of Window object
+    if 'FENESTRATIONSURFACE:DETAILED' in [x for x in idf_data.idfobjects]:
         objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
     else:
         objects = ['Window', 'BuildingSurface:Detailed', 'Door']
@@ -228,10 +228,11 @@ def calculate_materials(fnames=None):
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
 
-        # If small wooden, add wood post and beams
-        if fnames[folder]['energy_standard'][1] == 'SFH-small-wood':
-            postbeam = add_surrogate_beams('RES2.1', surface_areas['ext_wall'])
-            res[postbeam[0]] += postbeam[1]
+        # TODO: generalise the addition of structural components
+        if fnames[folder]['energy_standard'][1] == 'SFH-small-concrete' or fnames[folder]['energy_standard'][1] == 'SFH-small-masonry':
+            if 'RES2.1' in fnames[folder]['RES'][2]:
+                postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
+                res[postbeam[0]] += postbeam[1]
 
         # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
         if 2 <= res['floor_area_wo_basement'] / res['footprint_area'] < 15:

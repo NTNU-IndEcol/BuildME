@@ -1315,7 +1315,7 @@ Schedule:Compact,
     Through: 12/31,           !- Field 1
     For: AllDays,             !- Field 2
     Until: 24:00,             !- Field 3
-    25.5;                     !- Field 4
+    26;                     !- Field 4
 
 Schedule:Compact,
     fan_cycle,                !- Name
@@ -1891,88 +1891,8 @@ WindowMaterial:Blind,
     ;                         !- Maximum Slat Angle
 
 Construction,
-    InteriorFurnishings,      !- Name
-    Std Wood 6inch;           !- Outside Layer
-
-Construction,
-    ceiling-floor-layer,      !- Name
-    Lumber_2x4;               !- Outside Layer
-
-Construction,
-    ext-floor-standard-RES0,    !- Name
-    floor_consol_layer,       !- Outside Layer
-    Concrete_10cm,            !- Layer 2
-    Reinforcement_1perc_10cm,    !- Layer 3
-    Carpet_n_pad;             !- Layer 4
-
-Construction,
-    Interior Floor,           !- Name
-    Plywood_3/4in,            !- Outside Layer
-    Carpet_n_pad;             !- Layer 2
-
-Construction,
-    int-floor-basement-non-standard,    !- Name
-    Plywood_3/4in,            !- Outside Layer
-    Carpet_n_pad;             !- Layer 2
-
-Construction,
-    int-floor-basement-standard,    !- Name
-    Plywood_3/4in,            !- Outside Layer
-    Carpet_n_pad;             !- Layer 2
-
-Construction,
-    int-floor-basement-efficient,    !- Name
-    Plywood_3/4in,            !- Outside Layer
-    Carpet_n_pad;             !- Layer 2
-
-Construction,
-    int-floor-basement-ZEB,    !- Name
-    Plywood_3/4in,            !- Outside Layer
-    Carpet_n_pad;             !- Layer 2
-
-Construction,
-    ext-wall-standard-RES0,    !- Name
-    Stucco_1in,               !- Outside Layer
-    Bldg_paper_felt,          !- Layer 2
-    sheathing_consol_layer,    !- Layer 3
-    Brick - fired clay - 1600 kg/m3 - 230mm,    !- Layer 4
-    wall_consol_layer-en-standard,    !- Layer 5
-    Drywall_1/2in;            !- Layer 6
-
-Construction,
-    interiorwall,             !- Name
-    Drywall_1/2in,            !- Outside Layer
-    OSB_5/8in,                !- Layer 2
-    Drywall_1/2in;            !- Layer 3
-
-Construction,
-    Interior Wall,            !- Name
-    Drywall_1/2in,            !- Outside Layer
-    Air_4_in_vert,            !- Layer 2
-    Drywall_1/2in;            !- Layer 3
-
-Construction,
-    ext-roof-standard,        !- Name
-    Metal_surface,            !- Outside Layer
-    OSB_1/2in,                !- Layer 2
-    ceil_consol_layer-en-standard,    !- Layer 3
-    Drywall_1/2in;            !- Layer 4
-
-Construction,
-    ext-window-non-standard,    !- Name
-    Glass-en-non-standard;    !- Outside Layer
-
-Construction,
-    ext-window-standard,      !- Name
-    Glass-en-standard;        !- Outside Layer
-
-Construction,
-    ext-window-efficient,     !- Name
-    Glass-en-efficient;       !- Outside Layer
-
-Construction,
-    ext-window-ZEB,           !- Name
-    Glass-en-ZEB;             !- Outside Layer
+    InteriorFurnishings,     !- Name
+    Std Wood 6inch;          !- Outside Layer
 
 Construction,
     ext-door-non-standard,    !- Name
@@ -2000,21 +1920,189 @@ Construction,
     int_blind;                !- Layer 2
 
 CONSTRUCTION,
-    FLOOR_CONSTRUCTION-standard-RES0,    !- Name
+    FLOOR_CONSTRUCTION-RES0,    !- Name
+    floor_consol_layer,       !- Outside Layer
+    Concrete_15cm,            !- Layer 2
+    Reinforcement_1perc_15cm,    !- Layer 3
+    Carpet_n_pad;             !- Layer 4
+
+!- in the wooden version, a RC slab is still assumed
+CONSTRUCTION,
+    FLOOR_CONSTRUCTION-RES2.1,    !- Name
+    floor_consol_layer,       !- Outside Layer
+    Concrete_15cm,            !- Layer 2
+    Reinforcement_1perc_15cm,    !- Layer 3
+    Carpet_n_pad;             !- Layer 4
+
+CONSTRUCTION,
+    FLOOR_CONSTRUCTION-RES2.1+RES2.2,    !- Name
     floor_consol_layer,       !- Outside Layer
     Concrete_10cm,            !- Layer 2
     Reinforcement_1perc_10cm,    !- Layer 3
     Carpet_n_pad;             !- Layer 4
 
 CONSTRUCTION,
+    FLOOR_CONSTRUCTION-RES2.2,    !- Name
+    floor_consol_layer,       !- Outside Layer
+    Concrete_10cm,            !- Layer 2
+    Reinforcement_1perc_10cm,    !- Layer 3
+    Carpet_n_pad;             !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-non-standard-RES0,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-non-standard;    !- Layer 3
+
+CONSTRUCTION,
     ROOF_CONSTRUCTION-standard-RES0,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-standard;    !- Layer 3
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-efficient-RES0,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-efficient;    !- Layer 3
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-ZEB-RES0,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-ZEB;    !- Layer 3
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-non-standard-RES2.1,    !- Name
+    Metal_surface,            !- Outside Layer
+    OSB_1/2in,                !- Layer 2
+    ceil_consol_layer-en-non-standard,    !- Layer 3
+    Drywall_1/2in;            !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-standard-RES2.1,    !- Name
     Metal_surface,            !- Outside Layer
     OSB_1/2in,                !- Layer 2
     ceil_consol_layer-en-standard,    !- Layer 3
     Drywall_1/2in;            !- Layer 4
 
 CONSTRUCTION,
+    ROOF_CONSTRUCTION-efficient-RES2.1,    !- Name
+    Metal_surface,            !- Outside Layer
+    OSB_1/2in,                !- Layer 2
+    ceil_consol_layer-en-efficient,    !- Layer 3
+    Drywall_1/2in;            !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-ZEB-RES2.1,    !- Name
+    Metal_surface,            !- Outside Layer
+    OSB_1/2in,                !- Layer 2
+    ceil_consol_layer-en-ZEB,    !- Layer 3
+    Drywall_1/2in;            !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-non-standard-RES2.1+RES2.2,    !- Name
+    Metal_surface,            !- Outside Layer
+    OSB_1/2in,                !- Layer 2
+    ceil_consol_layer-en-non-standard,    !- Layer 3
+    Drywall_1/2in;            !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-standard-RES2.1+RES2.2,    !- Name
+    Metal_surface,            !- Outside Layer
+    OSB_1/2in,                !- Layer 2
+    ceil_consol_layer-en-standard,    !- Layer 3
+    Drywall_1/2in;            !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-efficient-RES2.1+RES2.2,    !- Name
+    Metal_surface,            !- Outside Layer
+    OSB_1/2in,                !- Layer 2
+    ceil_consol_layer-en-efficient,    !- Layer 3
+    Drywall_1/2in;            !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-ZEB-RES2.1+RES2.2,    !- Name
+    Metal_surface,            !- Outside Layer
+    OSB_1/2in,                !- Layer 2
+    ceil_consol_layer-en-ZEB,    !- Layer 3
+    Drywall_1/2in;            !- Layer 4
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-non-standard-RES2.2,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-non-standard;    !- Layer 3
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-standard-RES2.2,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-standard;    !- Layer 3
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-efficient-RES2.2,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-efficient;    !- Layer 3
+
+CONSTRUCTION,
+    ROOF_CONSTRUCTION-ZEB-RES2.2,    !- Name
+    Concrete_15cm,            !- Outside Layer
+    Reinforcement_1perc_15cm,    !- Layer 2
+    ceil_consol_layer-en-ZEB;    !- Layer 3
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-non-standard-RES0,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-non-standard,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
     EXT_WALL_CONSTRUCTION-standard-RES0,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-standard,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-efficient-RES0,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-efficient,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-ZEB-RES0,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-ZEB,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-non-standard-RES2.1,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    OSB_5/8in,                !- Layer 4
+    wall_consol_layer-en-non-standard,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-standard-RES2.1,    !- Name
     Stucco_1in,               !- Outside Layer
     Bldg_paper_felt,          !- Layer 2
     sheathing_consol_layer,    !- Layer 3
@@ -2023,10 +2111,138 @@ CONSTRUCTION,
     Drywall_1/2in;            !- Layer 6
 
 CONSTRUCTION,
-    INT_WALL_CONSTRUCTION-standard-RES0,    !- Name
+    EXT_WALL_CONSTRUCTION-efficient-RES2.1,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    OSB_5/8in,                !- Layer 4
+    wall_consol_layer-en-efficient,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-ZEB-RES2.1,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    OSB_5/8in,                !- Layer 4
+    wall_consol_layer-en-ZEB,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-non-standard-RES2.1+RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    OSB_5/8in,                !- Layer 4
+    wall_consol_layer-en-non-standard,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-standard-RES2.1+RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    OSB_5/8in,                !- Layer 4
+    wall_consol_layer-en-non-standard,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-efficient-RES2.1+RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    OSB_5/8in,                !- Layer 4
+    wall_consol_layer-en-efficient,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-ZEB-RES2.1+RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    OSB_5/8in,                !- Layer 4
+    wall_consol_layer-en-ZEB,    !- Layer 5
+    Drywall_1/2in;            !- Layer 6
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-non-standard-RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-non-standard,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-standard-RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-standard,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-efficient-RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-efficient,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
+    EXT_WALL_CONSTRUCTION-ZEB-RES2.2,    !- Name
+    Stucco_1in,               !- Outside Layer
+    Bldg_paper_felt,          !- Layer 2
+    sheathing_consol_layer,    !- Layer 3
+    Concrete_15cm,            !- Layer 4
+    Reinforcement_1perc_15cm,    !- Layer 5
+    wall_consol_layer-en-ZEB,    !- Layer 6
+    Drywall_1/2in;            !- Layer 7
+
+CONSTRUCTION,
+    INT_WALL_CONSTRUCTION-RES0,    !- Name
+    Cement_plaster_0.012,     !- Outside Layer
+    Brick - fired clay - 1600 kg/m3 - 102mm,    !- Layer 2
+    Cement_plaster_0.012;     !- Layer 3
+
+CONSTRUCTION,
+    INT_WALL_CONSTRUCTION-RES2.1,    !- Name
     Drywall_1/2in,            !- Outside Layer
     OSB_5/8in,                !- Layer 2
     Drywall_1/2in;            !- Layer 3
+
+CONSTRUCTION,
+    INT_WALL_CONSTRUCTION-RES2.1+RES2.2,    !- Name
+    Drywall_1/2in,            !- Outside Layer
+    OSB_5/8in,                !- Layer 2
+    Drywall_1/2in;            !- Layer 3
+
+CONSTRUCTION,
+    INT_WALL_CONSTRUCTION-RES2.2,    !- Name
+    Cement_plaster_0.012,     !- Outside Layer
+    Brick - fired clay - 1600 kg/m3 - 102mm,    !- Layer 2
+    Cement_plaster_0.012;     !- Layer 3
+
+Construction,
+    ext-window-non-standard, !- Name
+    Glass-en-non-standard;   !- Outside Layer
+
+Construction,
+    ext-window-standard,     !- Name
+    Glass-en-standard;       !- Outside Layer
+
+Construction,
+    ext-window-efficient,    !- Name
+    Glass-en-efficient;      !- Outside Layer
+
+Construction,
+    ext-window-ZEB,          !- Name
+    Glass-en-ZEB;            !- Outside Layer
 
 GlobalGeometryRules,
     UpperLeftCorner,          !- Starting Vertex Position
@@ -2070,7 +2286,7 @@ ZoneList,
 BuildingSurface:Detailed,
     Ext_floor_bedroom_one,    !- Name
     Floor,                    !- Surface Type
-    FLOOR_CONSTRUCTION-standard-RES0,    !- Construction Name
+    FLOOR_CONSTRUCTION-res-replaceme,    !- Construction Name
     Bedroom_one,              !- Zone Name
     Ground,                   !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2094,7 +2310,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_front_wall_bedroom_one,    !- Name
     Wall,                     !- Surface Type
-    EXT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    EXT_WALL_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Bedroom_one,              !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2118,7 +2334,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_roof_bedroom_one,     !- Name
     Roof,                     !- Surface Type
-    ROOF_CONSTRUCTION-standard-RES0,    !- Construction Name
+    ROOF_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Bedroom_one,              !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2142,7 +2358,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_side_wall_bedroom_one,    !- Name
     Wall,                     !- Surface Type
-    EXT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    EXT_WALL_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Bedroom_one,              !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2166,7 +2382,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Int_wall_bedroom_one,     !- Name
     Wall,                     !- Surface Type
-    INT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    INT_WALL_CONSTRUCTION-res-replaceme,    !- Construction Name
     Bedroom_one,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Int_wall_bedroom_two 1,    !- Outside Boundary Condition Object
@@ -2190,7 +2406,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Int_wall_bedroom_one 1,    !- Name
     Wall,                     !- Surface Type
-    INT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    INT_WALL_CONSTRUCTION-res-replaceme,    !- Construction Name
     Bedroom_one,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Int_wall_main_room 1,     !- Outside Boundary Condition Object
@@ -2214,7 +2430,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_floor_bedroom_two,    !- Name
     Floor,                    !- Surface Type
-    FLOOR_CONSTRUCTION-standard-RES0,    !- Construction Name
+    FLOOR_CONSTRUCTION-res-replaceme,    !- Construction Name
     Bedroom_two,              !- Zone Name
     Ground,                   !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2238,7 +2454,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_roof_bedroom_two,     !- Name
     Roof,                     !- Surface Type
-    ROOF_CONSTRUCTION-standard-RES0,    !- Construction Name
+    ROOF_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Bedroom_two,              !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2262,7 +2478,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_wall_back_bedroom_two,    !- Name
     Wall,                     !- Surface Type
-    EXT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    EXT_WALL_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Bedroom_two,              !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2286,7 +2502,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_wall_side_bedroom_two,    !- Name
     Wall,                     !- Surface Type
-    EXT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    EXT_WALL_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Bedroom_two,              !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2310,7 +2526,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Int_wall_bedroom_two,     !- Name
     Wall,                     !- Surface Type
-    INT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    INT_WALL_CONSTRUCTION-res-replaceme,    !- Construction Name
     Bedroom_two,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Int_wall_main_room,       !- Outside Boundary Condition Object
@@ -2334,7 +2550,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Int_wall_bedroom_two 1,    !- Name
     Wall,                     !- Surface Type
-    INT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    INT_WALL_CONSTRUCTION-res-replaceme,    !- Construction Name
     Bedroom_two,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Int_wall_bedroom_one,     !- Outside Boundary Condition Object
@@ -2358,7 +2574,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_floor_main_room,      !- Name
     Floor,                    !- Surface Type
-    FLOOR_CONSTRUCTION-standard-RES0,    !- Construction Name
+    FLOOR_CONSTRUCTION-res-replaceme,    !- Construction Name
     Main_room,                !- Zone Name
     Ground,                   !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2382,7 +2598,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_roof_main_room,       !- Name
     Roof,                     !- Surface Type
-    ROOF_CONSTRUCTION-standard-RES0,    !- Construction Name
+    ROOF_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Main_room,                !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2406,7 +2622,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_wall_back_main_room,    !- Name
     Wall,                     !- Surface Type
-    EXT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    EXT_WALL_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Main_room,                !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2430,7 +2646,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_wall_front_main_room,    !- Name
     Wall,                     !- Surface Type
-    EXT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    EXT_WALL_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Main_room,                !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2454,7 +2670,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Ext_wall_side_main_room,    !- Name
     Wall,                     !- Surface Type
-    EXT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    EXT_WALL_CONSTRUCTION-en-std-replaceme-res-replaceme,    !- Construction Name
     Main_room,                !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -2478,7 +2694,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Int_wall_main_room,       !- Name
     Wall,                     !- Surface Type
-    INT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    INT_WALL_CONSTRUCTION-res-replaceme,    !- Construction Name
     Main_room,                !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Int_wall_bedroom_two,     !- Outside Boundary Condition Object
@@ -2502,7 +2718,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Int_wall_main_room 1,     !- Name
     Wall,                     !- Surface Type
-    INT_WALL_CONSTRUCTION-standard-RES0,    !- Construction Name
+    INT_WALL_CONSTRUCTION-res-replaceme,    !- Construction Name
     Main_room,                !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Int_wall_bedroom_one 1,    !- Outside Boundary Condition Object
@@ -2526,7 +2742,7 @@ BuildingSurface:Detailed,
 FenestrationSurface:Detailed,
     Window_bedroom_one,       !- Name
     Window,                   !- Surface Type
-    ext-window-standard,      !- Construction Name
+    ext-window-en-std-replaceme,      !- Construction Name
     Ext_front_wall_bedroom_one,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -2549,7 +2765,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Window_bedroom_two,       !- Name
     Window,                   !- Surface Type
-    ext-window-standard,      !- Construction Name
+    ext-window-en-std-replaceme,      !- Construction Name
     Ext_wall_side_bedroom_two,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -2572,7 +2788,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Window_main_room_back,    !- Name
     Window,                   !- Surface Type
-    ext-window-standard,      !- Construction Name
+    ext-window-en-std-replaceme,      !- Construction Name
     Ext_wall_back_main_room,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -2618,7 +2834,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Window_main_room_front,    !- Name
     Window,                   !- Surface Type
-    ext-window-standard,      !- Construction Name
+    ext-window-en-std-replaceme,      !- Construction Name
     Ext_wall_front_main_room,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -2641,7 +2857,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Window_main_room_side,    !- Name
     Window,                   !- Surface Type
-    ext-window-standard,      !- Construction Name
+    ext-window-en-std-replaceme,      !- Construction Name
     Ext_wall_side_main_room,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
