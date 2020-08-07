@@ -529,7 +529,6 @@ def weighing_climate_region(res):
     :return:
     """
     weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
-    print(weights)
     # making sure index is all strings
     weights.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in weights.index.tolist()])
     # I know looping DFs is lame, but who can figure out this fricking syntax?!

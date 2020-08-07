@@ -37,11 +37,11 @@ climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 
 debug_combinations = {
-    'USA':
-        {'occupation': ['RT'],
-         'energy standard': ['standard'],
-         'RES': ['RES0', 'RES2.1'],
-         'climate_region': ['8'],
+    'Oth-Asia':
+        {'occupation': ['SFH', 'MFH'],
+         'energy standard': ['standard', 'efficient'],
+         'RES': ['RES0'],
+         'climate_region': ['Indonesia'],
          'climate_scenario': ['2015']}}
 
 combinations = \
