@@ -86,7 +86,7 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
 
     # If the windows are modeled in FenestrationSurface:Detailed instead of Window object
     if 'FENESTRATIONSURFACE:DETAILED' in [x for x in idf_data.idfobjects]:
-        objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
+        objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed', 'Door', 'Window']
     else:
         objects = ['Window', 'BuildingSurface:Detailed', 'Door']
     # Load IDF file
