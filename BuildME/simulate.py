@@ -84,9 +84,9 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
     :param replacer:
     """
 
-    # If RT archetype - the windows are modeled in FenestrationSurface:Detailed instead of Window object
-    if replacer[1] == 'RT':
-        objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed']
+    # If the windows are modeled in FenestrationSurface:Detailed instead of Window object
+    if 'FENESTRATIONSURFACE:DETAILED' in [x for x in idf_data.idfobjects]:
+        objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed', 'Door', 'Window']
     else:
         objects = ['Window', 'BuildingSurface:Detailed', 'Door']
     # Load IDF file
@@ -228,9 +228,14 @@ def calculate_materials(fnames=None):
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
 
-        # If building with less than 15 floors: modeled as MFH and SFH with beams
-        # TODO: change this somehow??
-        if res['floor_area_wo_basement'] / res['footprint_area'] < 15:
+        # TODO: generalise the addition of structural components
+        if fnames[folder]['energy_standard'][1] == 'SFH-small-concrete' or fnames[folder]['energy_standard'][1] == 'SFH-small-masonry':
+            if 'RES2.1' in fnames[folder]['RES'][2]:
+                postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
+                res[postbeam[0]] += postbeam[1]
+
+        # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
+        if 2 <= res['floor_area_wo_basement'] / res['footprint_area'] < 15:
             loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
             if loadbeam[0] in res:
                 res[loadbeam[0]] += loadbeam[1]
@@ -606,7 +611,7 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     return res
 
 # Andrea: assume the same for RT as for MFH for now...
-def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75}):
+def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75, 'SFH-masonry': 50}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]
