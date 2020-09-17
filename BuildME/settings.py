@@ -42,6 +42,12 @@ debug_combinations = {
          'energy standard': ['non-standard','standard'],
          'RES': ['RES0', 'RES2.1'],
          'climate_region': ['IN3'],
+         'climate_scenario': ['2015']},
+    'Oth-Asia':
+        {'occupation': ['SFH', 'MFH'],
+         'energy standard': ['standard', 'efficient'],
+         'RES': ['RES0'],
+         'climate_region': ['Indonesia'],
          'climate_scenario': ['2015']}}
 
 combinations = \

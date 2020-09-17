@@ -23,8 +23,6 @@
     res_energy = simulate.collect_energy(simulation_files)
     res_mat = simulate.load_material(simulation_files)
 
+    
     simulate.save_ei_result(res_energy, res_mat)
     simulate.save_mi_result(res_mat)
-
-
-
