@@ -10,22 +10,14 @@ dependencies:
   - libcblas=3.8.0=15_mkl
   - liblapack=3.8.0=15_mkl
   - mkl=2020.0=166
-  - numpy=1.18.1=py37hc71023c_0
-  - openssl=1.1.1f=hfa6e2cd_0
-  - pandas=1.0.2=py37h9b59f54_0
   - pip=20.0.2=py_2
-  - python=3.7.6=h5b45d93_4_cpython
   - python-dateutil=2.8.1=py_0
   - python_abi=3.7=1_cp37m
   - pytz=2019.3=py_0
   - setuptools=46.0.0=py37hc8dfbb8_2
   - six=1.14.0=py_1
-  - sqlite=3.30.1=hfa6e2cd_0
   - tqdm=4.43.0=py_0
-  - vc=14.1=h0510ff6_4
-  - vs2015_runtime=14.16.27012=hf0eaf9b_1
   - wheel=0.34.2=py_1
-  - wincertstore=0.2=py37_1003
   - xlrd=1.2.0=py_0
   - xlsxwriter=1.2.8=py_0
   - pip:
@@ -39,6 +31,14 @@ dependencies:
     - pyparsing==2.4.6
     - soupsieve==2.0
     - tinynumpy==1.2.1
+    - pandas==1.0.2
+    - python==3.7.6
+    - vs2015_runtime==14.16.27012
+    - sqlite==3.30.1
+    - numpy==1.18.1
+    - openssl==1.1.1f
+    - vc==14.1
+    - wincertstore==0.2
 
 
 
