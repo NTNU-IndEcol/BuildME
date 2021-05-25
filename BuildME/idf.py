@@ -424,5 +424,11 @@ def extract_layers(construction):
     return res
 
 
-
+def get_fenestration_objects_from_surface(idf, surface_obj):
+    surface = surface_obj.Name
+    fenestration = []
+    for item in ['Window', 'Door', 'FenestrationSurface:Detailed']:
+        new = [obj for obj in idf.idfobjects[item] if obj.Building_Surface_Name == surface]
+        fenestration.extend(new)
+    return fenestration
 
