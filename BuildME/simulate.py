@@ -218,7 +218,7 @@ def calculate_materials(fnames=None):
             surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2],
                                              fnames[folder]['RES'][2])
 
-        mat_vol_bdg = material.calc_mat_vol_bdg(surfaces, mat_vol_m2)
+        mat_vol_bdg = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
 
         odym_mat = translate_to_odym_mat(total_material_mass)

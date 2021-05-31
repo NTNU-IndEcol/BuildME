@@ -40,7 +40,7 @@ def calc_mat_vol_m2(constructions, materials_dict, fallback_mat):
     return res
 
 
-def calc_mat_vol_bdg(surfaces, mat_m2):
+def calc_mat_vol_bdg(idff, surfaces, mat_m2):
     """
     Calculate building's total material intensity.
     :param surfaces:
@@ -50,9 +50,20 @@ def calc_mat_vol_bdg(surfaces, mat_m2):
     mat_vol = {}
     flat_surfaces = flatten_surfaces(surfaces)
     for surface in flat_surfaces:
+        fenestration = get_fenestration_objects_from_surface(idff, surface)
+        if fenestration is None:
+            area = surface.area
+        else:
+            fenestration_area = 0
+            for item in fenestration:
+                try:
+                    fenestration_area += item.area
+                except:
+                    fenestration_area += SurrogateElement(item).area
+            area = surface.area - fenestration_area
         for material in mat_m2[surface.Construction_Name]:
             # thickness * surface
-            mat_in_element = mat_m2[surface.Construction_Name][material] * surface.area
+            mat_in_element = mat_m2[surface.Construction_Name][material] * area
             if material not in mat_vol:
                 mat_vol[material] = mat_in_element
             else:

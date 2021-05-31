@@ -127,8 +127,8 @@ def get_surfaces(idf, energy_standard, res_scenario):
     total_no_surfaces = [item for sublist in total_no_surfaces for item in sublist]
     surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Wall'])
     surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Wall'])
-    surfaces['door'] = extract_doors(idf)
-    surfaces['window'] = extract_windows(idf)
+    surfaces['door'] = extract_doors(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Door'])
+    surfaces['window'] = extract_windows(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window'])
     surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor']) + \
                                 extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
     surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling'])
@@ -424,5 +424,11 @@ def extract_layers(construction):
     return res
 
 
-
+def get_fenestration_objects_from_surface(idf, surface_obj):
+    surface = surface_obj.Name
+    fenestration = []
+    for item in ['Window', 'Door', 'FenestrationSurface:Detailed']:
+        new = [obj for obj in idf.idfobjects[item] if obj.Building_Surface_Name == surface]
+        fenestration.extend(new)
+    return fenestration
 
