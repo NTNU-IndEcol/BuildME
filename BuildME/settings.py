@@ -16,6 +16,7 @@ ep_idd = os.path.abspath("./bin/EnergyPlus-9-2-0/Energy+.idd")
 if platform.system() == 'Windows':
     ep_exec_files = ["energyplus.exe", "Energy+.idd", "EPMacro.exe", "ExpandObjects.exe",
                      "PreProcess/GrndTempCalc/Basement.exe", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                     "PreProcess/GrndTempCalc/Slab.exe", "PreProcess/GrndTempCalc/SlabGHT.idd",
                      "PostProcess/ReadVarsESO.exe", "energyplusapi.dll"
                      ]
 elif platform.system() == 'Darwin':
@@ -23,6 +24,7 @@ elif platform.system() == 'Darwin':
                  "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
                  "libgfortran.3.dylib", "libquadmath.0.dylib",  # required by ExpandObjects
                  "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                 "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
                  "PostProcess/ReadVarsESO"
                  ]
 else:
