@@ -33,24 +33,22 @@ else:
 archetypes = os.path.abspath("./data/archetype/")
 tmp_path = os.path.abspath("./tmp/")
 climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
+shielding = 'medium'  # wind shielding, needed for MMV simulations; set to low, medium or high
 
 # The combinations
 #   Example: USA.SFH_standard.RES0.
 
 
 debug_combinations = {
-    'IN':
-        {'occupation': ['SFH-small-concrete', 'SFH-small-masonry'],
-         'energy standard': ['non-standard','standard'],
-         'RES': ['RES0', 'RES2.1'],
-         'climate_region': ['IN3'],
-         'climate_scenario': ['2015']},
-    'Oth-Asia':
-        {'occupation': ['SFH', 'MFH'],
-         'energy standard': ['standard', 'efficient'],
+    'USA':
+        {'occupation': ['MFH'],
+         'energy standard': ['standard'],
          'RES': ['RES0'],
-         'climate_region': ['Indonesia'],
-         'climate_scenario': ['2015']}}
+         'climate_region': ['1A'],
+         'climate_scenario': ['2015'],
+         'cooling': ['MMV']
+         }
+}
 
 combinations = \
     {
@@ -62,7 +60,8 @@ combinations = \
                  ['1A', '2A', '2B', '3A', '3B-Coast', '3B', '3C',
                   '4A', '4B', '4C',
                   '5A', '5B', '6A', '6B', '7', '8'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'DE':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -70,7 +69,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Germany'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'CN':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -78,7 +78,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['I', 'II', 'III', 'IV', 'V'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'JP':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -86,7 +87,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['JP1', 'JP2', 'JP3', 'JP4', 'JP5', 'JP6', 'JP7', 'JP8'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'IT':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -94,7 +96,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Italy'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'FR':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -102,7 +105,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['France'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'PL':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -110,7 +114,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Poland'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'CA':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -118,7 +123,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['CA5A', 'CA6A', 'CA7'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'R32EU12-M':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -126,7 +132,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['R32EU12-M'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'IN':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -134,7 +141,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['IN1', 'IN2', 'IN3', 'IN4', 'IN5'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'ES':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -142,7 +150,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Spain'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'UK':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -150,7 +159,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['UK'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-R32EU15':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -158,7 +168,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Oth-R32EU15'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-R32EU12-H':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -166,7 +177,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Oth-R32EU12-H'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-Asia':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -174,7 +186,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Indonesia'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-LAM':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -182,7 +195,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Brazil'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-MAF':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -190,7 +204,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Egypt'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-MAF-Sub-Sahara':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -198,7 +213,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Nigeria'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-OECD':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -206,7 +222,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Turkey'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
         'Oth-REF':
             {'occupation': ['RT', 'MFH', 'SFH'],
@@ -214,7 +231,8 @@ combinations = \
              'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
              'climate_region':
                  ['Russia'],
-             'climate_scenario': ['2015']
+             'climate_scenario': ['2015'],
+             'cooling': ['HVAC', 'MMV']
              },
     }
 
