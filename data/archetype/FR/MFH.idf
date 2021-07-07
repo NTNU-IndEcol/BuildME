@@ -181,34 +181,6 @@ ScheduleTypeLimits,
 
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:DAY:HOURLY ===========
 
-Schedule:Day:Hourly,
-    S-Lighting-day,          !- Name
-    Fraction,                !- Schedule Type Limits Name
-    0.16,                    !- Hour 1
-    0.15,                    !- Hour 2
-    0.16,                    !- Hour 3
-    0.18,                    !- Hour 4
-    0.23,                    !- Hour 5
-    0.45,                    !- Hour 6
-    0.4,                     !- Hour 7
-    0.26,                    !- Hour 8
-    0.19,                    !- Hour 9
-    0.16,                    !- Hour 10
-    0.12,                    !- Hour 11
-    0.11,                    !- Hour 12
-    0.16,                    !- Hour 13
-    0.17,                    !- Hour 14
-    0.25,                    !- Hour 15
-    0.27,                    !- Hour 16
-    0.34,                    !- Hour 17
-    0.55,                    !- Hour 18
-    0.55,                    !- Hour 19
-    0.88,                    !- Hour 20
-    1,                       !- Hour 21
-    0.86,                    !- Hour 22
-    0.51,                    !- Hour 23
-    0.28;                    !- Hour 24
-
 !
 ! *** Occupancy and Lighting factors taken from NREL's benchmark model ***
 !
@@ -221,52 +193,24 @@ Schedule:Day:Hourly,
     1.00000,                 !- Hour 4
     1.00000,                 !- Hour 5
     1.00000,                 !- Hour 6
-    1.00000,                 !- Hour 7
-    0.88310,                 !- Hour 8
-    0.40861,                 !- Hour 9
-    0.24189,                 !- Hour 10
-    0.24189,                 !- Hour 11
-    0.24189,                 !- Hour 12
-    0.24189,                 !- Hour 13
-    0.24189,                 !- Hour 14
-    0.24189,                 !- Hour 15
-    0.24189,                 !- Hour 16
-    0.29498,                 !- Hour 17
-    0.55310,                 !- Hour 18
-    0.89693,                 !- Hour 19
-    0.89693,                 !- Hour 20
-    0.89693,                 !- Hour 21
-    1.00000,                 !- Hour 22
+    0.5,                     !- Hour 7
+    0.5,                     !- Hour 8
+    0.5,                     !- Hour 9
+    0.1,                     !- Hour 10
+    0.1,                     !- Hour 11
+    0.1,                     !- Hour 12
+    0.1,                     !- Hour 13
+    0.2,                     !- Hour 14
+    0.2,                     !- Hour 15
+    0.2,                     !- Hour 16
+    0.5,                     !- Hour 17
+    0.5,                     !- Hour 18
+    0.5,                     !- Hour 19
+    0.8,                     !- Hour 20
+    0.8,                     !- Hour 21
+    0.8,                     !- Hour 22
     1.00000,                 !- Hour 23
     1.00000;                 !- Hour 24
-
-Schedule:Day:Hourly,
-    LightingProfileDay,      !- Name
-    Fraction,                !- Schedule Type Limits Name
-    0.0625,                  !- Hour 1
-    0.0625,                  !- Hour 2
-    0.0625,                  !- Hour 3
-    0.0625,                  !- Hour 4
-    0.1875,                  !- Hour 5
-    0.390625,                !- Hour 6
-    0.4375,                  !- Hour 7
-    0.390625,                !- Hour 8
-    0.171875,                !- Hour 9
-    0.1171875,               !- Hour 10
-    0.1171875,               !- Hour 11
-    0.1171875,               !- Hour 12
-    0.1171875,               !- Hour 13
-    0.1171875,               !- Hour 14
-    0.1171875,               !- Hour 15
-    0.203125,                !- Hour 16
-    0.4375,                  !- Hour 17
-    0.609375,                !- Hour 18
-    0.8203125,               !- Hour 19
-    0.984375,                !- Hour 20
-    1,                       !- Hour 21
-    0.6875,                  !- Hour 22
-    0.3828125,               !- Hour 23
-    0.15625;                 !- Hour 24
 
 Schedule:Day:Hourly,
     ExteriorLightingProfileDay,  !- Name
@@ -295,34 +239,6 @@ Schedule:Day:Hourly,
     1,                       !- Hour 22
     1,                       !- Hour 23
     1;                       !- Hour 24
-
-Schedule:Day:Hourly,
-    LightingProfileDay_EELighting,  !- Name
-    Fraction,                !- Schedule Type Limits Name
-    0.06875,                 !- Hour 1
-    0.06875,                 !- Hour 2
-    0.06875,                 !- Hour 3
-    0.06875,                 !- Hour 4
-    0.20625,                 !- Hour 5
-    0.4296875,               !- Hour 6
-    0.48125,                 !- Hour 7
-    0.4296875,               !- Hour 8
-    0.1890625,               !- Hour 9
-    0.12890625,              !- Hour 10
-    0.12890625,              !- Hour 11
-    0.12890625,              !- Hour 12
-    0.12890625,              !- Hour 13
-    0.12890625,              !- Hour 14
-    0.12890625,              !- Hour 15
-    0.2234375,               !- Hour 16
-    0.48125,                 !- Hour 17
-    0.6703125,               !- Hour 18
-    0.90234375,              !- Hour 19
-    1,                       !- Hour 20
-    1,                       !- Hour 21
-    0.75625,                 !- Hour 22
-    0.42109375,              !- Hour 23
-    0.171875;                !- Hour 24
 
 Schedule:Day:Hourly,
     RefrigeratorDay,         !- Name
@@ -968,13 +884,64 @@ Schedule:Day:Hourly,
     0.464292318119835,       !- Hour 23
     0.299867724445383;       !- Hour 24
 
+Schedule:Day:Hourly,
+    LightingProfileDay_EELighting,  !- Name
+    Fraction,                !- Schedule Type Limits Name
+    0,                       !- Hour 1
+    0,                       !- Hour 2
+    0,                       !- Hour 3
+    0,                       !- Hour 4
+    0,                       !- Hour 5
+    0,                       !- Hour 6
+    0.15,                    !- Hour 7
+    0.15,                    !- Hour 8
+    0.15,                    !- Hour 9
+    0.15,                    !- Hour 10
+    0.05,                    !- Hour 11
+    0.05,                    !- Hour 12
+    0.05,                    !- Hour 13
+    0.05,                    !- Hour 14
+    0.05,                    !- Hour 15
+    0.05,                    !- Hour 16
+    0.05,                    !- Hour 17
+    0.2,                     !- Hour 18
+    0.2,                     !- Hour 19
+    0.2,                     !- Hour 20
+    0.2,                     !- Hour 21
+    0.2,                     !- Hour 22
+    0.15,                    !- Hour 23
+    0.15;                    !- Hour 24
+
+Schedule:Day:Hourly,
+    LightingProfileDay,      !- Name
+    Fraction,                !- Schedule Type Limits Name
+    0,                       !- Hour 1
+    0,                       !- Hour 2
+    0,                       !- Hour 3
+    0,                       !- Hour 4
+    0,                       !- Hour 5
+    0,                       !- Hour 6
+    0.15,                    !- Hour 7
+    0.15,                    !- Hour 8
+    0.15,                    !- Hour 9
+    0.15,                    !- Hour 10
+    0.05,                    !- Hour 11
+    0.05,                    !- Hour 12
+    0.05,                    !- Hour 13
+    0.05,                    !- Hour 14
+    0.05,                    !- Hour 15
+    0.05,                    !- Hour 16
+    0.05,                    !- Hour 17
+    0.2,                     !- Hour 18
+    0.2,                     !- Hour 19
+    0.2,                     !- Hour 20
+    0.2,                     !- Hour 21
+    0.2,                     !- Hour 22
+    0.15,                    !- Hour 23
+    0.15;                    !- Hour 24
+
 
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:WEEK:COMPACT ===========
-
-Schedule:Week:Compact,
-    S-Lighting-week,         !- Name
-    AllDays,                 !- DayType List 1
-    S-Lighting-day;          !- Schedule:Day Name 1
 
 Schedule:Week:Compact,
     RefrigeratorWeek,        !- Name
@@ -1077,15 +1044,6 @@ Schedule:Week:Compact,
 
 
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:YEAR ===========
-
-Schedule:Year,
-    S-Lighting,              !- Name
-    fraction,                !- Schedule Type Limits Name
-    S-Lighting-week,         !- Schedule:Week Name 1
-    1,                       !- Start Month 1
-    1,                       !- Start Day 1
-    12,                      !- End Month 1
-    31;                      !- End Day 1
 
 Schedule:Year,
     Occupancy,               !- Name
@@ -3832,7 +3790,7 @@ BuildingSurface:Detailed,
     Floor,                   !- Surface Type
     ext-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     living_unit1_FrontRow_BottomFloor,  !- Zone Name
-    GroundSlabPreprocessorAverage,  !- Outside Boundary Condition
+    Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
     NoSun,                   !- Sun Exposure
     NoWind,                  !- Wind Exposure
@@ -3857,7 +3815,7 @@ BuildingSurface:Detailed,
     Floor,                   !- Surface Type
     ext-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     living_unit2_FrontRow_BottomFloor,  !- Zone Name
-    GroundSlabPreprocessorAverage,  !- Outside Boundary Condition
+    Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
     NoSun,                   !- Sun Exposure
     NoWind,                  !- Wind Exposure
@@ -3882,7 +3840,7 @@ BuildingSurface:Detailed,
     Floor,                   !- Surface Type
     ext-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     living_unit3_FrontRow_BottomFloor,  !- Zone Name
-    GroundSlabPreprocessorAverage,  !- Outside Boundary Condition
+    Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
     NoSun,                   !- Sun Exposure
     NoWind,                  !- Wind Exposure
@@ -3907,7 +3865,7 @@ BuildingSurface:Detailed,
     Floor,                   !- Surface Type
     ext-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     living_unit1_BackRow_BottomFloor,  !- Zone Name
-    GroundSlabPreprocessorAverage,  !- Outside Boundary Condition
+    Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
     NoSun,                   !- Sun Exposure
     NoWind,                  !- Wind Exposure
@@ -3932,7 +3890,7 @@ BuildingSurface:Detailed,
     Floor,                   !- Surface Type
     ext-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     living_unit2_BackRow_BottomFloor,  !- Zone Name
-    GroundSlabPreprocessorAverage,  !- Outside Boundary Condition
+    Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
     NoSun,                   !- Sun Exposure
     NoWind,                  !- Wind Exposure
@@ -3957,7 +3915,7 @@ BuildingSurface:Detailed,
     Floor,                   !- Surface Type
     ext-floor-en-std-replaceme-res-replaceme,  !- Construction Name
     living_unit3_BackRow_BottomFloor,  !- Zone Name
-    GroundSlabPreprocessorAverage,  !- Outside Boundary Condition
+    Ground,                  !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
     NoSun,                   !- Sun Exposure
     NoWind,                  !- Wind Exposure
@@ -6329,7 +6287,7 @@ WindowShadingControl,
 GroundHeatTransfer:Control,
     gtp_control,             !- Name
     no,                      !- Run Basement Preprocessor
-    Yes;                     !- Run Slab Preprocessor
+    No;                      !- Run Slab Preprocessor
 
 
 !-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:SLAB:MATERIALS ===========
@@ -6405,6 +6363,111 @@ GroundHeatTransfer:Slab:EquivalentSlab,
     0.1,                     !- SLABDEPTH: Thickness of slab on grade {m}
     15,                      !- CLEARANCE: Distance from edge of slab to domain edge {m}
     15;                      !- ZCLEARANCE: Distance from bottom of slab to domain bottom {m}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:SIMPARAMETERS ===========
+
+GroundHeatTransfer:Basement:SimParameters,
+    0.1,                     !- F: Multiplier for the ADI solution
+    15;                      !- IYRS: Maximum number of yearly iterations:
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:MATLPROPS ===========
+
+GroundHeatTransfer:Basement:MatlProps,
+    6,                       !- NMAT: Number of materials in this domain
+    2243,                    !- Density for Foundation Wall {kg/m3}
+    2243,                    !- density for Floor Slab {kg/m3}
+    311,                     !- density for Ceiling {kg/m3}
+    1500,                    !- density for Soil {kg/m3}
+    2000,                    !- density for Gravel {kg/m3}
+    449,                     !- density for Wood {kg/m3}
+    880,                     !- Specific heat for foundation wall {J/kg-K}
+    880,                     !- Specific heat for floor slab {J/kg-K}
+    1530,                    !- Specific heat for ceiling {J/kg-K}
+    840,                     !- Specific heat for soil {J/kg-K}
+    720,                     !- Specific heat for gravel {J/kg-K}
+    1530,                    !- Specific heat for wood {J/kg-K}
+    1.4,                     !- Thermal conductivity for foundation wall {W/m-K}
+    1.4,                     !- Thermal conductivity for floor slab {W/m-K}
+    0.09,                    !- Thermal conductivity for ceiling {W/m-K}
+    1.1,                     !- thermal conductivity for soil {W/m-K}
+    1.9,                     !- thermal conductivity for gravel {W/m-K}
+    0.12;                    !- thermal conductivity for wood {W/m-K}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:INSULATION ===========
+
+GroundHeatTransfer:Basement:Insulation,
+    2.28929665762688,        !- REXT: R Value of any exterior insulation {m2-K/W}
+    True;                    !- INSFULL: Flag: Is the wall fully insulated?
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:SURFACEPROPS ===========
+
+GroundHeatTransfer:Basement:SurfaceProps,
+    0.16,                    !- ALBEDO: Surface albedo for No snow conditions
+    0.4,                     !- ALBEDO: Surface albedo for snow conditions
+    0.94,                    !- EPSLN: Surface emissivity No Snow
+    0.86,                    !- EPSLN: Surface emissivity with Snow
+    6,                       !- VEGHT: Surface roughness No snow conditions {cm}
+    0.25,                    !- VEGHT: Surface roughness Snow conditions {cm}
+    False;                   !- PET: Flag, Potential evapotranspiration on?
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:BLDGDATA ===========
+
+GroundHeatTransfer:Basement:BldgData,
+    0.200000006162114,       !- DWALL: Wall thickness {m}
+    0.243828108701145,       !- DSLAB: Floor slab thickness {m}
+    0.3,                     !- DGRAVXY: Width of gravel pit beside basement wall {m}
+    0.2,                     !- DGRAVZN: Gravel depth extending above the floor slab {m}
+    0.1;                     !- DGRAVZP: Gravel depth below the floor slab {m}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:INTERIOR ===========
+
+GroundHeatTransfer:Basement:Interior,
+    True,                    !- COND: Flag: Is the basement conditioned?
+    0.92,                    !- HIN: Downward convection only heat transfer coefficient {W/m2-K}
+    4.04,                    !- HIN: Upward convection only heat transfer coefficient {W/m2-K}
+    3.08,                    !- HIN: Horizontal convection only heat transfer coefficient {W/m2-K}
+    6.13,                    !- HIN: Downward combined (convection and radiation) heat transfer coefficient {W/m2-K}
+    9.26,                    !- HIN: Upward combined (convection and radiation) heat transfer coefficient {W/m2-K}
+    8.29;                    !- HIN: Horizontal combined (convection and radiation) heat transfer coefficient {W/m2-K}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:COMBLDG ===========
+
+GroundHeatTransfer:Basement:ComBldg,
+    21,                      !- January average temperature {C}
+    21,                      !- February average temperature {C}
+    21,                      !- March average temperature {C}
+    21,                      !- April average temperature {C}
+    24,                      !- May average temperature {C}
+    24,                      !- June average temperature {C}
+    24,                      !- July average temperature {C}
+    24,                      !- August average temperature {C}
+    24,                      !- September average temperature {C}
+    24,                      !- October average temperature {C}
+    21,                      !- November average temperature {C}
+    21,                      !- December average temperature {C}
+    21;                      !- Daily variation sine wave amplitude {deltaC}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:EQUIVSLAB ===========
+
+GroundHeatTransfer:Basement:EquivSlab,
+    8.57295465898634,        !- APRatio: The area to perimeter ratio for this slab {m}
+    True;                    !- EquivSizing: Flag
+
+
+!-   ===========  ALL OBJECTS IN CLASS: GROUNDHEATTRANSFER:BASEMENT:EQUIVAUTOGRID ===========
+
+GroundHeatTransfer:Basement:EquivAutoGrid,
+    15,                      !- CLEARANCE: Distance from outside of wall to edge of 3-D ground domain {m}
+    0.1,                     !- SlabDepth: Thickness of the floor slab {m}
+    1.21914054350572;        !- BaseDepth: Depth of the basement wall below grade {m}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: PEOPLE ===========
@@ -6688,7 +6751,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.5,                     !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6701,7 +6764,7 @@ Lights,
     LightingProfile,         !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6714,7 +6777,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6727,7 +6790,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6740,7 +6803,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6753,7 +6816,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6766,7 +6829,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6779,7 +6842,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6792,7 +6855,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6805,7 +6868,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6818,7 +6881,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6831,7 +6894,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6844,7 +6907,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6857,7 +6920,7 @@ Lights,
     LightingProfile,         !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6870,7 +6933,7 @@ Lights,
     LightingProfile,         !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6883,7 +6946,7 @@ Lights,
     LightingProfile,         !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6896,7 +6959,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6909,7 +6972,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6922,7 +6985,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6935,7 +6998,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6948,7 +7011,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6961,7 +7024,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6974,7 +7037,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -6987,7 +7050,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7000,7 +7063,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7013,7 +7076,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7026,7 +7089,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7039,7 +7102,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7052,7 +7115,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7065,7 +7128,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7078,7 +7141,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7091,7 +7154,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7104,7 +7167,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7117,7 +7180,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7130,7 +7193,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    1.239,                   !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -7143,7 +7206,7 @@ Lights,
     LightingProfile_EELighting,  !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.3097,                  !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0,                       !- Return Air Fraction
     0.6,                     !- Fraction Radiant
@@ -17475,7 +17538,7 @@ Output:Table:Monthly,
 
 OutputControl:Table:Style,
     CommaAndHTML,            !- Column Separator
-    None;                    !- Unit Conversion
+    JtoMJ;                   !- Unit Conversion
 
 
 !-   ===========  ALL OBJECTS IN CLASS: OUTPUT:VARIABLE ===========
@@ -17493,12 +17556,12 @@ Output:Variable,
 Output:Variable,
     *,                       !- Key Value
     Zone Mean Air Temperature,  !- Variable Name
-    Detailed;                !- Reporting Frequency
+    Hourly;                  !- Reporting Frequency
 
 Output:Variable,
     *,                       !- Key Value
     Site Ground Temperature, !- Variable Name
-    Detailed;                !- Reporting Frequency
+    Hourly;                  !- Reporting Frequency
 
 Output:Variable,
     *,                       !- Key Value

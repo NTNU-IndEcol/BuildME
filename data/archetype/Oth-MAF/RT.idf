@@ -192,73 +192,12 @@ ScheduleTypeLimits,
 !-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:COMPACT ===========
 
 Schedule:Compact,
-    LTG_APT_SCH,             !- Name
-    Fraction,                !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: AllDays,            !- Field 2
-    Until: 4:00,             !- Field 3
-    0.02,                    !- Field 4
-    Until: 5:00,             !- Field 5
-    0.06,                    !- Field 6
-    Until: 6:00,             !- Field 7
-    0.13,                    !- Field 8
-    Until: 7:00,             !- Field 9
-    0.14,                    !- Field 10
-    Until: 8:00,             !- Field 11
-    0.13,                    !- Field 12
-    Until: 9:00,             !- Field 13
-    0.06,                    !- Field 14
-    Until: 15:00,            !- Field 15
-    0.04,                    !- Field 16
-    Until: 16:00,            !- Field 17
-    0.07,                    !- Field 18
-    Until: 17:00,            !- Field 19
-    0.14,                    !- Field 20
-    Until: 18:00,            !- Field 21
-    0.2,                     !- Field 22
-    Until: 19:00,            !- Field 23
-    0.27,                    !- Field 24
-    Until: 21:00,            !- Field 25
-    0.32,                    !- Field 26
-    Until: 22:00,            !- Field 27
-    0.22,                    !- Field 28
-    Until: 23:00,            !- Field 29
-    0.12,                    !- Field 30
-    Until: 24:00,            !- Field 31
-    0.05;                    !- Field 32
-
-Schedule:Compact,
     LTG_COR_SCH,             !- Name
     Fraction,                !- Schedule Type Limits Name
     Through: 12/31,          !- Field 1
     For: AllDays,            !- Field 2
     Until: 24:00,            !- Field 3
-    1;                       !- Field 4
-
-Schedule:Compact,
-    LTG_OFF_SCH,             !- Name
-    Fraction,                !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: SummerDesignDay,    !- Field 2
-    Until: 24:00,            !- Field 3
-    1,                       !- Field 4
-    For: WinterDesignDay,    !- Field 5
-    Until: 24:00,            !- Field 6
-    0,                       !- Field 7
-    For: Weekdays,           !- Field 8
-    Until: 8:00,             !- Field 9
-    0.18,                    !- Field 10
-    Until: 12:00,            !- Field 11
-    0.9,                     !- Field 12
-    Until: 13:00,            !- Field 13
-    0.8,                     !- Field 14
-    Until: 17:00,            !- Field 15
-    0.9,                     !- Field 16
-    Until: 24:00,            !- Field 17
-    0.18,                    !- Field 18
-    For: AllOtherDays,       !- Field 19
-    Until: 24:00,            !- Field 20
-    0.18;                    !- Field 21
+    0.5;                     !- Field 4
 
 Schedule:Compact,
     EQP_APT_SCH,             !- Name
@@ -1047,47 +986,6 @@ Schedule:Compact,
     0.836;                   !- Field 4
 
 Schedule:Compact,
-    OCC_APT_SCH,             !- Name
-    Fraction,                !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: AllDays,            !- Field 2
-    Until: 7:00,             !- Field 3
-    1.0,                     !- Field 4
-    Until: 8:00,             !- Field 5
-    0.85,                    !- Field 6
-    Until: 9:00,             !- Field 7
-    0.39,                    !- Field 8
-    Until: 16:00,            !- Field 9
-    0.25,                    !- Field 10
-    Until: 17:00,            !- Field 11
-    0.3,                     !- Field 12
-    Until: 18:00,            !- Field 13
-    0.52,                    !- Field 14
-    Until: 21:00,            !- Field 15
-    0.87,                    !- Field 16
-    Until: 24:00,            !- Field 17
-    1.0;                     !- Field 18
-
-Schedule:Compact,
-    OCC_OFF_SCH,             !- Name
-    Fraction,                !- Schedule Type Limits Name
-    Through: 12/31,          !- Field 1
-    For: Weekdays,           !- Field 2
-    Until: 8:00,             !- Field 3
-    0.0,                     !- Field 4
-    Until: 12:00,            !- Field 5
-    1.0,                     !- Field 6
-    Until: 13:00,            !- Field 7
-    0.5,                     !- Field 8
-    Until: 17:00,            !- Field 9
-    1.0,                     !- Field 10
-    Until: 24:00,            !- Field 11
-    0.0,                     !- Field 12
-    For AllOtherDays,        !- Field 13
-    Until: 24:00,            !- Field 14
-    0.0;                     !- Field 15
-
-Schedule:Compact,
     summer_infiltration,     !- Name
     Fraction,                !- Schedule Type Limits Name
     Through: 04/30,          !- Field 1
@@ -1136,6 +1034,108 @@ Schedule:Compact,
     For: AllDays,            !- Field 2
     Until: 24:00,            !- Field 3
     26;                      !- Field 4
+
+Schedule:Compact,
+    LTG_APT_SCH,             !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 7:00,             !- Field 3
+    0,                       !- Field 4
+    Until: 11:00,            !- Field 5
+    0.15,                    !- Field 6
+    Until: 16:00,            !- Field 7
+    0.05,                    !- Field 8
+    Until: 22:00,            !- Field 9
+    0.2,                     !- Field 10
+    Until: 24:00,            !- Field 11
+    0.15;                    !- Field 12
+
+Schedule:Compact,
+    OCC_APT_SCH,             !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: AllDays,            !- Field 2
+    Until: 7:00,             !- Field 3
+    1.0,                     !- Field 4
+    Until: 10:00,            !- Field 5
+    0.5,                     !- Field 6
+    Until: 14:00,            !- Field 7
+    0.1,                     !- Field 8
+    Until: 17:00,            !- Field 9
+    0.2,                     !- Field 10
+    Until: 20:00,            !- Field 11
+    0.5,                     !- Field 12
+    Until: 23:00,            !- Field 13
+    0.8,                     !- Field 14
+    Until: 24:00,            !- Field 15
+    1;                       !- Field 16
+
+Schedule:Compact,
+    OCC_OFF_SCH,             !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: SummerDesignDay,    !- Field 2
+    Until: 24:00,            !- Field 3
+    1,                       !- Field 4
+    For: WinterDesignDay,    !- Field 5
+    Until: 24:00,            !- Field 6
+    0,                       !- Field 7
+    For: Weekdays,           !- Field 8
+    Until: 7:00,             !- Field 9
+    0.2,                     !- Field 10
+    Until: 10:00,            !- Field 11
+    0.6,                     !- Field 12
+    Until: 12:00,            !- Field 13
+    0.7,                     !- Field 14
+    Until: 13:00,            !- Field 15
+    0.4,                     !- Field 16
+    Until: 14:00,            !- Field 17
+    0.6,                     !- Field 18
+    Until: 16:00,            !- Field 19
+    0.7,                     !- Field 20
+    Until: 17:00,            !- Field 21
+    0.6,                     !- Field 22
+    Until: 18:00,            !- Field 23
+    0.2,                     !- Field 24
+    Until: 24:00,            !- Field 25
+    0,                       !- Field 26
+    For: AllOtherDays,       !- Field 27
+    Until: 24:00,            !- Field 28
+    0.18;                    !- Field 29
+
+Schedule:Compact,
+    LTG_OFF_SCH,             !- Name
+    Fraction,                !- Schedule Type Limits Name
+    Through: 12/31,          !- Field 1
+    For: SummerDesignDay,    !- Field 2
+    Until: 24:00,            !- Field 3
+    1,                       !- Field 4
+    For: WinterDesignDay,    !- Field 5
+    Until: 24:00,            !- Field 6
+    0,                       !- Field 7
+    For: Weekdays,           !- Field 8
+    Until: 7:00,             !- Field 9
+    0.2,                     !- Field 10
+    Until: 10:00,            !- Field 11
+    0.6,                     !- Field 12
+    Until: 12:00,            !- Field 13
+    0.7,                     !- Field 14
+    Until: 13:00,            !- Field 15
+    0.4,                     !- Field 16
+    Until: 14:00,            !- Field 17
+    0.6,                     !- Field 18
+    Until: 16:00,            !- Field 19
+    0.7,                     !- Field 20
+    Until: 17:00,            !- Field 21
+    0.6,                     !- Field 22
+    Until: 18:00,            !- Field 23
+    0.2,                     !- Field 24
+    Until: 24:00,            !- Field 25
+    0,                       !- Field 26
+    For: AllOtherDays,       !- Field 27
+    Until: 24:00,            !- Field 28
+    0.18;                    !- Field 29
 
 
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL ===========
@@ -10829,7 +10829,7 @@ People,
     2.5,                     !- Number of People
     ,                        !- People per Zone Floor Area {person/m2}
     ,                        !- Zone Floor Area per Person {m2/person}
-    0.5,                     !- Fraction Radiant
+    0.3,                     !- Fraction Radiant
     autocalculate,           !- Sensible Heat Fraction
     Activity Schedule;       !- Activity Level Schedule Name
 
@@ -11214,7 +11214,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11229,7 +11229,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11244,7 +11244,7 @@ Lights,
     LTG_OFF_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    12,                      !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11259,7 +11259,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11274,7 +11274,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11289,7 +11289,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11304,7 +11304,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11319,7 +11319,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11334,7 +11334,7 @@ Lights,
     LTG_COR_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11349,7 +11349,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11364,7 +11364,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11379,7 +11379,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11394,7 +11394,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11409,7 +11409,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11424,7 +11424,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11439,7 +11439,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11454,7 +11454,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11469,7 +11469,7 @@ Lights,
     LTG_COR_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11484,7 +11484,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11499,7 +11499,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11514,7 +11514,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11529,7 +11529,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11544,7 +11544,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11559,7 +11559,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11574,7 +11574,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11589,7 +11589,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11604,7 +11604,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11619,7 +11619,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11634,7 +11634,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11649,7 +11649,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11664,7 +11664,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11679,7 +11679,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11694,7 +11694,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11709,7 +11709,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11724,7 +11724,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11739,7 +11739,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11754,7 +11754,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11769,7 +11769,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11784,7 +11784,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11799,7 +11799,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11814,7 +11814,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11829,7 +11829,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11844,7 +11844,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11859,7 +11859,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11874,7 +11874,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11889,7 +11889,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11904,7 +11904,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11919,7 +11919,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11934,7 +11934,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11949,7 +11949,7 @@ Lights,
     LTG_COR_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11964,7 +11964,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11979,7 +11979,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -11994,7 +11994,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12009,7 +12009,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12024,7 +12024,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12039,7 +12039,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12054,7 +12054,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12069,7 +12069,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    0.9687519,               !- Watts per Zone Floor Area {W/m2}
+    2,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12084,7 +12084,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12099,7 +12099,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12114,7 +12114,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12129,7 +12129,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12144,7 +12144,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12159,7 +12159,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12174,7 +12174,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12189,7 +12189,7 @@ Lights,
     LTG_APT_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
@@ -12204,7 +12204,7 @@ Lights,
     LTG_COR_SCH,             !- Schedule Name
     Watts/Area,              !- Design Level Calculation Method
     ,                        !- Lighting Level {W}
-    3.877067966,             !- Watts per Zone Floor Area {W/m2}
+    6,                       !- Watts per Zone Floor Area {W/m2}
     ,                        !- Watts per Person {W/person}
     0.0000,                  !- Return Air Fraction
     0.6000,                  !- Fraction Radiant
