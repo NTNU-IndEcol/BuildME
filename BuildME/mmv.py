@@ -1,3 +1,8 @@
+"""
+Functions to perform implementation of mixed-mode ventilation (MMV) i.e. cooling dependent on thermal comfort
+
+Copyright: Kamila Krych, 2021
+"""
 from eppy.modeleditor import IDF
 import pandas as pd
 import numpy as np
@@ -46,23 +51,26 @@ def create_zone_dicts(idf):
     :return zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
     :return zone_dict_non_hvac: Dictionary of zones without HVAC system (their names)
     """
-    idf_object = 'HVACTemplate:Zone:IdealLoadsAirSystem'
+    object_types = ['HVACTemplate:Zone:IdealLoadsAirSystem', 'ZoneHVAC:IdealLoadsAirSystem']
     zone_dict_hvac = {}
     i = 1
-    for obj in idf.idfobjects[idf_object]:
-        zone_dict_hvac[i] = {}
-        zone_dict_hvac[i]['Zone_Name'] = obj.Zone_Name
-        people_obj = [obj2.Name for obj2 in idf.idfobjects['People'] if obj2.Zone_or_ZoneList_Name == obj.Zone_Name]
-        if people_obj:
-            zone_dict_hvac[i]['People'] = people_obj[0]
-            i += 1
-        else:  # if no people in the zone, MMV cannot be implemented -> zone is treated as non-hvac
-            zone_dict_hvac.pop(i)
-    idf_object = 'Zone'
+    for obj_type in object_types:
+        for obj in idf.idfobjects[obj_type]:
+            zone_dict_hvac[i] = {}
+            zone_dict_hvac[i]['Zone_Name'] = obj.Zone_Name
+            people_obj = [obj2.Name for obj2 in idf.idfobjects['People'] if obj2.Zone_or_ZoneList_Name == obj.Zone_Name]
+            if people_obj:
+                zone_dict_hvac[i]['People'] = people_obj[0]
+                i += 1
+            else:  # if no people in the zone, MMV cannot be implemented -> zone is treated as non-hvac
+                zone_dict_hvac.pop(i)
+    if bool(zone_dict_hvac) is False:  # if
+        exit("There are no 'IdealLoadsAirSystem' objects. The code can only be executed if the HVAC system is "
+             "implemented through 'IdealLoads'.")
     zone_dict_non_hvac = {}
     zone_list_hvac = [k['Zone_Name'] for v, k in zone_dict_hvac.items()]
     i = 1
-    for obj in idf.idfobjects[idf_object]:
+    for obj in idf.idfobjects['Zone']:
         if obj.Name not in zone_list_hvac:
             zone_dict_non_hvac[i] = {}
             zone_dict_non_hvac[i]['Zone_Name'] = obj.Name
