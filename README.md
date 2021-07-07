@@ -15,6 +15,10 @@ The following revisions were used:
 
 The current version should work on macOS, probably Linux, and will need some adaptations for Windows, such as renaming executable names, etc.
 
+## Authors & contributions
+
+Niko Heeren, Andrea Nistad, Kamila Krych, Sahin Akin
 
 
-Copyright Niko Heeren, 2020
+
+Copyright Niko Heeren, 2021
