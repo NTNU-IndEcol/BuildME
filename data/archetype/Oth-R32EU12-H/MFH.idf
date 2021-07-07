@@ -10017,7 +10017,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10047,7 +10047,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10077,7 +10077,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10107,7 +10107,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10137,7 +10137,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10167,7 +10167,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10197,7 +10197,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10227,7 +10227,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10257,7 +10257,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10287,7 +10287,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10317,7 +10317,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10347,7 +10347,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10377,7 +10377,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10407,7 +10407,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10437,7 +10437,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10467,7 +10467,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10497,7 +10497,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
@@ -10527,7 +10527,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
     ,                        !- Humidification Setpoint {percent}
     Flow/Area,               !- Outdoor Air Method
     0,                       !- Outdoor Air Flow Rate per Person {m3/s}
-    0.00012,                 !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
+    0.000002,                !- Outdoor Air Flow Rate per Zone Floor Area {m3/s-m2}
     0,                       !- Outdoor Air Flow Rate per Zone {m3/s}
     ,                        !- Design Specification Outdoor Air Object Name
     None,                    !- Demand Controlled Ventilation Type
