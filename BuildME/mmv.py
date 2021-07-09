@@ -148,12 +148,12 @@ def create_surface_dict(idf):
         for obj in idf.idfobjects[idf_object]:
             wall_obj = get_wall_object_from_fenestration(idf, obj)
             if wall_obj.Outside_Boundary_Condition == 'Outdoors':
-                if check_if_window(idf_object):
+                if check_if_window(idf_object, obj):
                     surface_group = 'Windows external'
                 else:
                     surface_group = 'Doors external'
             else:
-                if check_if_window(idf_object):
+                if check_if_window(idf_object, obj):
                     surface_group = 'Windows internal'
                 else:
                     surface_group = 'Doors internal'
@@ -169,16 +169,17 @@ def create_surface_dict(idf):
     return surface_dict
 
 
-def check_if_window(idf_object):
+def check_if_window(idf_object, obj):
     """
     Checks if a given object is a window
-    :param idf_object: Idf object
+    :param idf_object: Idf object name
+    :param obj: Idf object
     :return window: Boolean telling if a given object is a window
     """
     if idf_object == 'Window':
         window = True
     elif idf_object == 'FenestrationSurface:Detailed':
-        if idf_object.Surface_Type == 'Window':
+        if obj.Surface_Type == 'Window':
             window = True
         else:
             window = False
@@ -523,39 +524,39 @@ def retrieve_WPC_values(name):
     LowRise_HighShield_roof_E = [-0.5, -0.3, -0.4, -0.3, -0.5, -0.3, 0.25, -0.3]
     LowRise_HighShield_roof_W = [-0.5, -0.3, 0.25, -0.3, -0.5, -0.3, -0.4, -0.3]
 
-    HighRise_degrees = [0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 337.5, 315, 337.5]
+    HighRise_degrees = [0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5]
     HighRise_HighShield_wall_N = [0.099, 0.078, 0.042, -0.018, -0.077, -0.147, -0.145, -0.11, -0.079, -0.11,
-                                  -0.145, -0.147, -0.077, -0.018, 0.042, 0.078, 0.099]
+                                  -0.145, -0.147, -0.077, -0.018, 0.042, 0.078]
     HighRise_HighShield_wall_S = [-0.079, -0.11, -0.145, -0.147, -0.077, -0.018, 0.042, 0.078, 0.099, 0.078,
-                                  0.042, -0.018, -0.077, -0.147, -0.145, -0.11, -0.079]
+                                  0.042, -0.018, -0.077, -0.147, -0.145, -0.11]
     HighRise_HighShield_wall_E = [-0.077, -0.147, -0.145, -0.11, -0.079, -0.11, -0.145, -0.147, -0.077, -0.018,
-                                  0.042, 0.078, 0.099, 0.078, 0.042, -0.018, -0.077]
+                                  0.042, 0.078, 0.099, 0.078, 0.042, -0.018]
     HighRise_HighShield_wall_W = [-0.077, -0.018, 0.042, 0.078, 0.099, 0.078, 0.042, -0.018, -0.077, -0.147,
-                                  -0.145, -0.11, -0.079, -0.11, -0.145, -0.147, -0.077]
+                                  -0.145, -0.11, -0.079, -0.11, -0.145, -0.147]
     HighRise_HighShield_roof = [-0.077, -0.077, -0.077, -0.077, -0.077, -0.077, -0.077, -0.077, -0.077, -0.077,
-                                -0.077, -0.077, -0.077, -0.077, -0.077, -0.077]
+                                -0.077, -0.077, -0.077, -0.077, -0.077]
 
     HighRise_LowShield_wall_N = [0.295, 0.233, 0.125, -0.053, -0.23, -0.438, -0.43, -0.328, -0.235, -0.328,
-                                 -0.43, -0.438, -0.23, -0.053, 0.125, 0.233, 0.295]
+                                 -0.43, -0.438, -0.23, -0.053, 0.125, 0.233]
     HighRise_LowShield_wall_S = [-0.235, -0.328, -0.43, -0.438, -0.23, -0.053, 0.125, 0.233, 0.295, 0.233,
-                                 0.125, -0.053, -0.23, -0.438, -0.43, -0.328, -0.235]
+                                 0.125, -0.053, -0.23, -0.438, -0.43, -0.328]
     HighRise_LowShield_wall_E = [-0.23, -0.438, -0.43, -0.328, -0.235, -0.328, -0.43, -0.438, -0.23, -0.053,
-                                 0.125, 0.233, 0.295, 0.233, 0.125, -0.053, -0.23]
+                                 0.125, 0.233, 0.295, 0.233, 0.125, -0.053]
     HighRise_LowShield_wall_W = [-0.23, -0.053, 0.125, 0.233, 0.295, 0.233, 0.125, -0.053, -0.23, -0.438,
-                                 -0.43, -0.328, -0.235, -0.328, -0.43, -0.438, -0.23]
+                                 -0.43, -0.328, -0.235, -0.328, -0.43, -0.438]
     HighRise_LowShield_roof = [-0.23, -0.23, -0.23, -0.23, -0.23, -0.23, -0.23, -0.23, -0.23, -0.23, -0.23, -0.23,
-                               -0.23, -0.23, -0.23, -0.23, -0.23]
+                               -0.23, -0.23, -0.23, -0.23]
 
     HighRise_MedShield_wall_N = [0.191, -0.149, 0.081, -0.034, -0.149, -0.283, -0.278, -0.212, -0.152, -0.212,
-                                 -0.278, -0.283, -0.149, -0.034, 0.081, -0.149, 0.191]
+                                 -0.278, -0.283, -0.149, -0.034, 0.081, -0.149]
     HighRise_MedShield_wall_S = [-0.152, -0.212, -0.278, -0.283, -0.149, -0.034, 0.081, -0.149, 0.191, -0.149,
-                                 0.081, -0.034, -0.149, -0.283, -0.278, -0.212, -0.152]
+                                 0.081, -0.034, -0.149, -0.283, -0.278, -0.212]
     HighRise_MedShield_wall_E = [-0.149, -0.283, -0.278, -0.212, -0.152, -0.212, -0.278, -0.283, -0.149, -0.034,
-                                 0.081, -0.149, 0.191, -0.149, 0.081, -0.034, -0.149]
+                                 0.081, -0.149, 0.191, -0.149, 0.081, -0.034]
     HighRise_MedShield_wall_W = [-0.149, -0.034, 0.081, -0.149, 0.191, -0.149, 0.081, -0.034, -0.149, -0.283,
-                                 -0.278, -0.212, -0.152, -0.212, -0.278, -0.283, -0.149]
+                                 -0.278, -0.212, -0.152, -0.212, -0.278, -0.283]
     HighRise_MedShield_roof = [-0.149, -0.149, -0.149, -0.149, -0.149, -0.149, -0.149, -0.149, -0.149, -0.149, -0.149,
-                               -0.149, -0.149, -0.149, -0.149, -0.149, -0.149]
+                               -0.149, -0.149, -0.149, -0.149, -0.149]
     try:
         values = locals()[name]
     except KeyError:
@@ -574,11 +575,11 @@ def create_WPC_curves(idf, zone_dict_hvac, shielding):
     WPC_prefix = create_WPC_prefix(idf, zone_dict_hvac, shielding)
     new_object = idf.newidfobject('AirflowNetwork:MultiZone:WindPressureCoefficientArray')
     rise = WPC_prefix.split("_")[0]
-    name_deg = rise+'_degrees'
+    name_deg = rise + '_degrees'
     values = retrieve_WPC_values(name_deg)
     new_object['Name'] = name_deg
     for i in range(0, len(values)):  # fill the WPC Array with values of degrees
-        new_object['Wind_Direction_' + str(i+1)] = values[i]
+        new_object['Wind_Direction_' + str(i + 1)] = values[i]
     for s in ['_wall_N', '_wall_S', '_wall_E', '_wall_W', '_roof_N', '_roof_S', '_roof_E', '_roof_W']:
         new_object = idf.newidfobject('AirflowNetwork:MultiZone:WindPressureCoefficientValues')
         name = WPC_prefix + s
@@ -748,10 +749,13 @@ def estimate_no_of_floors(idf, zone_dict_hvac):
         if obj.Zone_Name in hvac_zone_list:
             ceiling_height = max(pt[2] for pt in obj.coords)
             zone_obj = [z for z in idf.idfobjects['Zone'] if z.Name == obj.Zone_Name][0]
-            ceiling_height = ceiling_height*zone_obj.Multiplier+zone_obj.Z_Origin
+            multiplier = zone_obj.Multiplier
+            if multiplier == "":
+                multiplier = 1
+            ceiling_height = ceiling_height * multiplier + zone_obj.Z_Origin
             ceiling_heights.append(ceiling_height)
     max_height = max(ceiling_heights)
-    no_of_floors = round(max_height/2.6)  # assuming that the height of one floor is 2.6 m on average
+    no_of_floors = round(max_height / 2.6)  # assuming that the height of one floor is 2.6 m on average
     return no_of_floors
 
 
