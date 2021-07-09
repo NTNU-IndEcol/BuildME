@@ -19,15 +19,18 @@ def change_archetype_to_MMV(idf, fname):
     """
     shielding = settings.shielding
     xlsx_mmv = './data/mmv-implementation.xlsx'
+    # Create dictionaries needed for the MMV procedure
     zone_dict_hvac, zone_dict_non_hvac = create_zone_dicts(idf)
     window_dict = create_window_dict(idf)
     surface_dict = create_surface_dict(idf)
     surfaces_f_dict, surfaces_nf_dict = create_surface_group_dicts(surface_dict)
+    # Modify the idf file
     idf = create_WPC_curves(idf, zone_dict_hvac, shielding)
     idf = change_idf_objects(idf, xlsx_mmv, zone_dict_hvac)
     idf = create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window_dict,
                              surface_dict, surfaces_f_dict, surfaces_nf_dict, shielding)
     idf = write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict)
+    # Update the replace.xlsx file (only if necessary)
     update_replace_excel_if_needed(fname, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
     # idf.saveas('./files/with-MMV.idf')
     return idf
@@ -234,7 +237,7 @@ def fill_surface_group_dict(i, k, dic, unique, unique_inverse, surface_dict):
 
 def change_idf_objects(idf, xlsx_mmv, zone_dict_hvac):
     """
-    Takes an idf file and changes some of its objects according to MMV procedure instructions
+    Takes an idf file and changes some of its objects according to the MMV procedure instructions
     :param idf: The .idf file
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
     :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
@@ -257,7 +260,7 @@ def change_idf_objects(idf, xlsx_mmv, zone_dict_hvac):
 def create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window_dict, surface_dict,
                        surfaces_f_dict, surfaces_nf_dict, shielding):
     """
-    Takes an idf file and creates some new objects according to MMV procedure instructions
+    Takes an idf file and creates some new objects according to the MMV procedure instructions
     :param idf: The .idf file
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
     :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
@@ -562,7 +565,7 @@ def retrieve_WPC_values(name):
 
 def create_WPC_curves(idf, zone_dict_hvac, shielding):
     """
-    Create wind pressure coefficient (WPC) curves for given wind shielding
+    Create wind pressure coefficient (WPC) curves for a given wind shielding level
     :param idf: The .idf file
     :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
     :param shielding: the level of wind shielding (low, medium, high)
@@ -602,7 +605,7 @@ def calculate_area(obj):
 
 def write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict):
     """
-    Creates idf objects of type EnergyManagementSystem:Program (EMS program)
+    Creates idf objects of type EnergyManagementSystem:Program according to the MMV procedure
     :param idf: The .idf file
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
     :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
