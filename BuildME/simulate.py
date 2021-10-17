@@ -149,7 +149,7 @@ def copy_scenario_files(fnames, replace=False):
         # copy IDF archetype file
         idf_f = idf.read_idf(fnames[fname]['archetype_file'])
         if fnames[fname]['cooling'] == 'MMV':
-            print("\nChanging the archetype to one with MMV (cooling through HVAC + window opening)")
+            print("\nCreating the MMV archetype (cooling through HVAC + window opening)")
             idf_f = mmv.change_archetype_to_MMV(idf_f, fnames[fname])
         en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
         idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'],
@@ -304,6 +304,7 @@ def add_surrogate_beams(res, area, distance=0.6,):
     mass = res_vol * res_dict[res]['density']
     return res_dict[res]['Material'], mass'''
 
+
 def add_surrogate_postbeams(res, area, distance=0.6,):
     res_dict = {'RES2.1': {'Material': 'wood and wood products', 'vol': .1*.05, 'density': 500},
                 'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .1*.04, 'density': 500}}
@@ -312,6 +313,7 @@ def add_surrogate_postbeams(res, area, distance=0.6,):
     res_vol = res_dict[res]['vol'] * side_length * number_beams
     mass = res_vol * res_dict[res]['density']
     return res_dict[res]['Material'], mass
+
 
 def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
     """
@@ -380,6 +382,7 @@ def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 
 
     return res_dict[res]['Material'], mass_horizontal_members+mass_vertical_members
 
+
 def add_surrogate_roof_beams(res, footprint_area, distance=3,):
     """
     Function to add surrogate roof beams as for wooden RT building (as in Tallwood House, see doc)
@@ -394,6 +397,7 @@ def add_surrogate_roof_beams(res, footprint_area, distance=3,):
 
     return res_dict[res]['Material'], mass
 
+
 def add_foundation(footprint_area):
     """
     Function to add foundation for the high-rise buildings. 0.6 m3 concrete per footprint area and
@@ -407,6 +411,7 @@ def add_foundation(footprint_area):
     mass_steel = vol_concrete * steel_intensity
 
     return dict(zip(['concrete', 'construction grade steel'], [mass_concrete, mass_steel]))
+
 
 def calculate_energy(fnames=None):
     print("Perform energy simulation...")

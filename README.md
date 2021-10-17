@@ -2,7 +2,7 @@
 
 Framework to calculate building material & energy expenditures.
 
-This model was originally developed by Niko Heeren for the work on the [UNEP IRP report on Ressource Efficiency](https://www.unenvironment.org/resources/report/resource-efficiency-and-climate-change-material-efficiency-strategies-low-carbon).
+This model was originally developed by Niko Heeren for the work on the [UNEP IRP report on Ressource Efficiency](https://doi.org/10.5281/zenodo.3542680).
 
 ## Publications
 

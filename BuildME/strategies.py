@@ -7,7 +7,6 @@ Copyright: Niko Heeren, 2019
 """
 
 
-
 from . import *
 from eppy import modeleditor
 

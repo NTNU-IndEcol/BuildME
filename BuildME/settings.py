@@ -9,8 +9,8 @@ import platform
 
 ep_version = '9.2.0'
 basepath = os.path.abspath('.')
-ep_path = os.path.abspath("./bin/EnergyPlus-9-2-0/")
-ep_idd = os.path.abspath("./bin/EnergyPlus-9-2-0/Energy+.idd")
+ep_path = os.path.abspath("./bin/EnergyPlus-9-0-1/")
+ep_idd = os.path.abspath(os.path.join(ep_path, "Energy+.idd"))
 
 # Checking OS and modify files to copy
 if platform.system() == 'Windows':
@@ -21,14 +21,14 @@ if platform.system() == 'Windows':
                      ]
 elif platform.system() == 'Darwin':
     ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
-                 "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
-                 "libgfortran.3.dylib", "libquadmath.0.dylib",  # required by ExpandObjects
-                 "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
-                 "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
-                 "PostProcess/ReadVarsESO"
-                 ]
+                     "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
+                     "libgfortran.5.dylib", "libquadmath.0.dylib",  # required by ExpandObjects
+                     "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                     "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
+                     "PostProcess/ReadVarsESO"
+                    ]
 else:
-    print('OS is not supported!')
+    raise NotImplementedError('OS is not supported!')
 
 archetypes = os.path.abspath("./data/archetype/")
 tmp_path = os.path.abspath("./tmp/")
@@ -46,7 +46,7 @@ debug_combinations = {
          'RES': ['RES0'],
          'climate_region': ['1A'],
          'climate_scenario': ['2015'],
-         'cooling': ['MMV']
+         'cooling': ['HVAC', 'MMV']
          }
 }
 
@@ -235,7 +235,6 @@ combinations = \
              'cooling': ['HVAC', 'MMV']
              },
     }
-
 
 climate_stations = {
     'USA': {
