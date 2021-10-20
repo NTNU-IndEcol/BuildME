@@ -9,6 +9,7 @@ import multiprocessing as mp
 import os
 import shutil
 import pickle
+import subprocess
 from time import sleep
 
 import pandas as pd
@@ -413,6 +414,22 @@ def add_foundation(footprint_area):
     return dict(zip(['concrete', 'construction grade steel'], [mass_concrete, mass_steel]))
 
 
+def fix_macos_quarantine(foname):
+    """
+    macOS places executables into a quarantine. In order to execute energyplus the quarantine flag must be removed.
+    :param foname: executable folder name
+    :return: None
+    """
+    if settings.platform == "Darwin":
+        log_fname = os.path.join(foname, "log_xattr_macOS.txt")
+        with open(log_fname, 'w') as log_file:
+            print("Fixing quarantine issue for macOS")
+            cmd = "xattr -d -r com.apple.quarantine %s" % foname
+            print("Running '%s'" % cmd)
+            subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
+        log_file.close()
+
+
 def calculate_energy(fnames=None):
     print("Perform energy simulation...")
     if not fnames:
@@ -424,6 +441,7 @@ def calculate_energy(fnames=None):
         copy_us = energy.gather_files_to_copy()
         # TODO: Change Building !- Name
         tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
+        # fix_macos_quarantine(run_path)
         energy.run_energyplus_single(tmp)
         energy.delete_ep_files(copy_us, tmp)
 

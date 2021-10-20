@@ -7,6 +7,14 @@
 
 The current version should work on macOS and Windows. Linux support could easily be added by editing `ep_exec_files` in `settings.py`.
 
+### MacOS 
+
+macOS does not allow to run unnotarized apps. Therefore, it is necessary to allow energyplus to run. I am trying to find the best way to fix this at the moment.
+The script will run `fix_macos_quarantine()` to give necessary permissions, but this may not be enugh. If you have issues, try the following:
+- Open `System Preferences > Security & Privacy` If you see the button `Allow anyway`, click it. This step has to be repeated for each library and executable :(
+- Open `System Preferences > Security & Privacy > Privacy`, scroll to `Developper Tools` and add `Terminal.app` 
+- Run `sudo xattr -d -r com.apple.quarantine ./bin/EnergyPlus-9-6-0` on your energyplus folder.
+
 ## Environment
 
 We recommend using a dedicated [Python environment](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#managing-environments) using Miniconda. Learn more on how to install [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).

@@ -9,24 +9,25 @@ import platform
 
 ep_version = '9.2.0'
 basepath = os.path.abspath('.')
-ep_path = os.path.abspath("./bin/EnergyPlus-9-0-1/")
+ep_path = os.path.abspath("./bin/EnergyPlus-9-2-0/")
 ep_idd = os.path.abspath(os.path.join(ep_path, "Energy+.idd"))
 
 # Checking OS and modify files to copy
-if platform.system() == 'Windows':
+platform = platform.system()
+if platform == 'Windows':
     ep_exec_files = ["energyplus.exe", "Energy+.idd", "EPMacro.exe", "ExpandObjects.exe",
                      "PreProcess/GrndTempCalc/Basement.exe", "PreProcess/GrndTempCalc/BasementGHT.idd",
                      "PreProcess/GrndTempCalc/Slab.exe", "PreProcess/GrndTempCalc/SlabGHT.idd",
                      "PostProcess/ReadVarsESO.exe", "energyplusapi.dll"
                      ]
-elif platform.system() == 'Darwin':
+elif platform == 'Darwin':
     ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
                      "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
                      "libgfortran.5.dylib", "libquadmath.0.dylib",  # required by ExpandObjects
                      "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
                      "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
                      "PostProcess/ReadVarsESO"
-                    ]
+                     ]
 else:
     raise NotImplementedError('OS is not supported!')
 
@@ -46,7 +47,7 @@ debug_combinations = {
          'RES': ['RES0'],
          'climate_region': ['1A'],
          'climate_scenario': ['2015'],
-         'cooling': ['HVAC', 'MMV']
+         'cooling': ['HVAC']
          }
 }
 
@@ -236,6 +237,123 @@ combinations = \
              },
     }
 
+archetype_proxies = {
+    'DE':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'CN':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'JP':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'IT':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'FR':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'PL':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'CA':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'R32EU12-M':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'IN':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'ES':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'UK':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-R32EU15':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-R32EU12-H':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-Asia':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-LAM':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-MAF':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-MAF-Sub-Sahara':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-OECD':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         },
+    'Oth-REF':
+        {'MFH': 'USA/MFH.idf',
+         'SFH': 'USA/SFH.idf',
+         'RT': 'USA/RT.idf',
+         'informal': 'USA/informal.idf'
+         }
+}
+
 climate_stations = {
     'USA': {
         '1A': 'Miami_FL-hour.epw',
@@ -294,7 +412,7 @@ climate_stations = {
     'Oth-LAM': {'Brazil': 'Rio_de_Janeiro_BR-hour.epw'}
 }
 
-odym_materials = odym_materials = {'Asphalt_shingle': 'other',
+odym_materials = {'Asphalt_shingle': 'other',
                   'Air_4_in_vert': 'other',
                   'Bldg_paper_felt': 'paper and cardboard',
                   'Std Wood 6inch': 'wood and wood products',

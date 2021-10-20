@@ -108,14 +108,17 @@ def run_energyplus_single(tmp_path):
     :return:
     """
     # 1. Run `./ExpandObjects`
-    os.chdir(os.path.join(settings.tmp_path, tmp_path))
+    abs_path = os.path.join(settings.tmp_path, tmp_path)
+    os.chdir(abs_path)
     # for exec in ['./ExpandObjects', './Basement', './energyplus']:
 
     with open("log_ExpandObjects.txt", 'w') as log_file:
-        subprocess.call('ExpandObjects', shell=True, stdout=log_file, stderr=log_file)
+        cmd = abs_path + '/ExpandObjects'
+        subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
     if os.path.exists('BasementGHTIn.idf'):
         with open("log_Basement.txt", 'w') as log_file:
-            subprocess.call('Basement', shell=True, stdout=log_file, stderr=log_file)
+            cmd = abs_path + '/Basement'
+            subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         with open('merged.idf', 'w') as merged_idf:
             with open('expanded.idf', 'r') as expanded_idf:
                 merged_idf.write(expanded_idf.read())
@@ -124,7 +127,8 @@ def run_energyplus_single(tmp_path):
             run_idf = 'merged.idf'
     elif os.path.exists('GHTIn.idf'):
         with open("log_Slab.txt", 'w') as log_file:
-            subprocess.call('Slab', shell=True, stdout=log_file, stderr=log_file)
+            cmd = abs_path + '/Slab'
+            subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         with open('merged.idf', 'w') as merged_idf:
             with open('expanded.idf', 'r') as expanded_idf:
                 merged_idf.write(expanded_idf.read())
@@ -139,8 +143,8 @@ def run_energyplus_single(tmp_path):
         run_idf = 'in.idf'
 
     with open("log_energyplus.txt", 'w+') as log_file:
-        subprocess.call('energyplus -r %s' % run_idf,
-                        shell=True, stdout=log_file, stderr=log_file)
+        cmd = abs_path + '/energyplus -r %s' % run_idf
+        subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         log_file.seek(0)
         if log_file.readlines()[-1] != 'EnergyPlus Completed Successfully.\n':
             print("ERROR: '%s' energy simulation was not successful" % tmp_path)
