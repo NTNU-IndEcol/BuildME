@@ -47,7 +47,15 @@ debug_combinations = {
          'RES': ['RES0'],
          'climate_region': ['1A'],
          'climate_scenario': ['2015'],
-         'cooling': ['HVAC']
+         'cooling': ['HVAC']},
+    'IT':
+        {'occupation': ['RT', 'MFH', 'SFH'],
+         'energy standard': ['non-standard', 'standard', 'efficient', 'ZEB'],
+         'RES': ['RES0', 'RES2.1', 'RES2.2', 'RES2.1+RES2.2'],
+         'climate_region':
+             ['Italy'],
+         'climate_scenario': ['2015'],
+         'cooling': ['HVAC', 'MMV']
          }
 }
 
@@ -238,120 +246,83 @@ combinations = \
     }
 
 archetype_proxies = {
-    'DE':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'CN':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'JP':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'IT':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'FR':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'PL':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'CA':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'R32EU12-M':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'IN':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'ES':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'UK':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-R32EU15':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-R32EU12-H':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-Asia':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-LAM':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-MAF':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-MAF-Sub-Sahara':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-OECD':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         },
-    'Oth-REF':
-        {'MFH': 'USA/MFH.idf',
-         'SFH': 'USA/SFH.idf',
-         'RT': 'USA/RT.idf',
-         'informal': 'USA/informal.idf'
-         }
+    ('DE', 'SFH'): ('USA', 'SFH'),
+    ('DE', 'MFH'): ('USA', 'MFH'),
+    ('DE', 'RT'): ('USA', 'RT'),
+    ('DE', 'informal'): ('USA', 'informal'),
+    ('CN', 'SFH'): ('USA', 'SFH'),
+    ('CN', 'MFH'): ('USA', 'MFH'),
+    ('CN', 'RT'): ('USA', 'RT'),
+    ('CN', 'informal'): ('USA', 'informal'),
+    ('JP', 'SFH'): ('USA', 'SFH'),
+    ('JP', 'MFH'): ('USA', 'MFH'),
+    ('JP', 'RT'): ('USA', 'RT'),
+    ('JP', 'informal'): ('USA', 'informal'),
+    ('IT', 'SFH'): ('USA', 'SFH'),
+    ('IT', 'MFH'): ('USA', 'MFH'),
+    ('IT', 'RT'): ('USA', 'RT'),
+    ('IT', 'informal'): ('USA', 'informal'),
+    ('FR', 'SFH'): ('USA', 'SFH'),
+    ('FR', 'MFH'): ('USA', 'MFH'),
+    ('FR', 'RT'): ('USA', 'RT'),
+    ('FR', 'informal'): ('USA', 'informal'),
+    ('PL', 'SFH'): ('USA', 'SFH'),
+    ('PL', 'MFH'): ('USA', 'MFH'),
+    ('PL', 'RT'): ('USA', 'RT'),
+    ('PL', 'informal'): ('USA', 'informal'),
+    ('CA', 'SFH'): ('USA', 'SFH'),
+    ('CA', 'MFH'): ('USA', 'MFH'),
+    ('CA', 'RT'): ('USA', 'RT'),
+    ('CA', 'informal'): ('USA', 'informal'),
+    ('R32EU12-M', 'SFH'): ('USA', 'SFH'),
+    ('R32EU12-M', 'MFH'): ('USA', 'MFH'),
+    ('R32EU12-M', 'RT'): ('USA', 'RT'),
+    ('R32EU12-M', 'informal'): ('USA', 'informal'),
+    ('IN', 'SFH'): ('USA', 'SFH'),
+    ('IN', 'MFH'): ('USA', 'MFH'),
+    ('IN', 'RT'): ('USA', 'RT'),
+    ('IN', 'informal'): ('USA', 'informal'),
+    ('ES', 'SFH'): ('USA', 'SFH'),
+    ('ES', 'MFH'): ('USA', 'MFH'),
+    ('ES', 'RT'): ('USA', 'RT'),
+    ('ES', 'informal'): ('USA', 'informal'),
+    ('UK', 'SFH'): ('USA', 'SFH'),
+    ('UK', 'MFH'): ('USA', 'MFH'),
+    ('UK', 'RT'): ('USA', 'RT'),
+    ('UK', 'informal'): ('USA', 'informal'),
+    ('Oth-R32EU15', 'SFH'): ('USA', 'SFH'),
+    ('Oth-R32EU15', 'MFH'): ('USA', 'MFH'),
+    ('Oth-R32EU15', 'RT'): ('USA', 'RT'),
+    ('Oth-R32EU15', 'informal'): ('USA', 'informal'),
+    ('Oth-R32EU12-H', 'SFH'): ('USA', 'SFH'),
+    ('Oth-R32EU12-H', 'MFH'): ('USA', 'MFH'),
+    ('Oth-R32EU12-H', 'RT'): ('USA', 'RT'),
+    ('Oth-R32EU12-H', 'informal'): ('USA', 'informal'),
+    ('Oth-Asia', 'SFH'): ('USA', 'SFH'),
+    ('Oth-Asia', 'MFH'): ('USA', 'MFH'),
+    ('Oth-Asia', 'RT'): ('USA', 'RT'),
+    ('Oth-Asia', 'informal'): ('USA', 'informal'),
+    ('Oth-LAM', 'SFH'): ('USA', 'SFH'),
+    ('Oth-LAM', 'MFH'): ('USA', 'MFH'),
+    ('Oth-LAM', 'RT'): ('USA', 'RT'),
+    ('Oth-LAM', 'informal'): ('USA', 'informal'),
+    ('Oth-MAF', 'SFH'): ('USA', 'SFH'),
+    ('Oth-MAF', 'MFH'): ('USA', 'MFH'),
+    ('Oth-MAF', 'RT'): ('USA', 'RT'),
+    ('Oth-MAF', 'informal'): ('USA', 'informal'),
+
+    ('Oth-MAF-Sub-Sahara', 'SFH'): ('USA', 'SFH'),
+    ('Oth-MAF-Sub-Sahara', 'MFH'): ('USA', 'MFH'),
+    ('Oth-MAF-Sub-Sahara', 'RT'): ('USA', 'RT'),
+    ('Oth-MAF-Sub-Sahara', 'informal'): ('USA', 'informal'),
+    ('Oth-OECD', 'SFH'): ('USA', 'SFH'),
+    ('Oth-OECD', 'MFH'): ('USA', 'MFH'),
+    ('Oth-OECD', 'RT'): ('USA', 'RT'),
+    ('Oth-OECD', 'informal'): ('USA', 'informal'),
+    ('Oth-REF', 'SFH'): ('USA', 'SFH'),
+    ('Oth-REF', 'MFH'): ('USA', 'MFH'),
+    ('Oth-REF', 'RT'): ('USA', 'RT'),
+    ('Oth-REF', 'informal'): ('USA', 'informal')
 }
 
 climate_stations = {

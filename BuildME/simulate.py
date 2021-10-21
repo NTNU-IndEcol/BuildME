@@ -46,11 +46,18 @@ def create_combinations(comb=settings.combinations):
                         for climate_scen in comb[region]['climate_scenario']:
                             for cool in comb[region]['cooling']:
                                 fname = '_'.join([region, occ_type, energy_std, res, climate_reg, climate_scen, cool])
+                                if (region,occ_type) in settings.archetype_proxies:
+                                    archetype_choice = os.path.join(settings.archetypes,
+                                                                    settings.archetype_proxies[(region,occ_type)][0],
+                                                                    settings.archetype_proxies[(region,occ_type)][1]
+                                                                    + '.idf')
+                                else:
+                                    archetype_choice = os.path.join(settings.archetypes, region, occ_type + '.idf')
                                 fnames[fname] = \
                                     {
                                     'climate_file': os.path.join(settings.climate_files_path, climate_scen,
                                                                  settings.climate_stations[region][climate_reg]),
-                                    'archetype_file': os.path.join(settings.archetypes, region, occ_type + '.idf'),
+                                    'archetype_file': archetype_choice,
                                     'energy_standard': [region, occ_type, energy_std],
                                     'RES': [region, occ_type, res],
                                     'region': region,
