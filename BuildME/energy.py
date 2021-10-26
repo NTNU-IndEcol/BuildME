@@ -147,7 +147,8 @@ def run_energyplus_single(tmp_path):
         subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         log_file.seek(0)
         if log_file.readlines()[-1] != 'EnergyPlus Completed Successfully.\n':
-            print("ERROR: '%s' energy simulation was not successful" % tmp_path)
+            # print("ERROR: '%s' energy simulation was not successful" % tmp_path)
+            raise AssertionError("ERROR: '%s' energy simulation was not successful" % tmp_path)
         log_file.close()
     os.chdir(settings.basepath)
 
