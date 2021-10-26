@@ -116,8 +116,9 @@ def read_idf(in_file):
 def get_surfaces(idf, energy_standard, res_scenario):
     """
     A function to derive all surfaces from the IDF file.
+
     Source: https://unmethours.com/question/15574/how-to-list-and-measure-area-surfaces/?answer=15604#post-id-15604
-    The post also explains a method to calculate the external areas by orientation (not implemented here).
+    NB: The post also explains a method to calculate the external areas by orientation (not implemented here).
     :return: A dictionary for each surface type, e.g. {'ext_wall': [..., ...], 'roof': [...]}
     """
     surfaces = {}
@@ -136,10 +137,12 @@ def get_surfaces(idf, energy_standard, res_scenario):
                                                      ['GroundBasementPreprocessorAverageWall'], ['Wall'])
     surfaces['basement_int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Floor'])
     surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['GroundSlabPreprocessorAverage'],
+                                             ['Floor']) + \
                             extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Floor'])
-
     surfaces['ceiling_roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Ceiling'])
     surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Roof'])
+    # Check what surfaces are present in `total_no_surfaces` but were missed in `surfaces`
     check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in flatten_surfaces(surfaces)]]
     assert len(check) == 0, "Following elements were not found: %s" % check
     temp_surface_areas = calc_surface_areas(surfaces)
