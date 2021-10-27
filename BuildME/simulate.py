@@ -10,6 +10,7 @@ import os
 import shutil
 import pickle
 import subprocess
+import sys
 from time import sleep
 
 import pandas as pd
@@ -146,7 +147,7 @@ def copy_scenario_files(fnames, replace=False):
         nuke_folders(fnames)
     print("Copying files...")
     res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
-    tq = tqdm(fnames, leave=True)
+    tq = tqdm(fnames, leave=True, desc="copy")
     for fname in tq:
         # tq.set_description(fname)
         fpath = os.path.join(settings.tmp_path, fname)
@@ -557,7 +558,7 @@ def disaggregate_scenario_str(in_dict, unstack_cols):
     """
     res = pd.DataFrame.from_dict(in_dict, orient='index')
     res.index = pd.MultiIndex.from_tuples(tuple(res.index.str.split('_')))
-    res.index.names = ['region', 'occupation', 'energy_std', 'RES', 'climate_reg', 'IPCC_scen']
+    res.index.names = ['region', 'occupation', 'energy_std', 'RES', 'climate_reg', 'IPCC_scen', 'cooling']
     res = res.unstack(unstack_cols)
     return res
 
