@@ -224,8 +224,8 @@ def calculate_materials(fnames=None):
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
-        # If RT archetype, need to account for zone multipliers
-        if fnames[folder]['energy_standard'][1] == 'RT':
+        # If RT OR office archetype, need to account for zone multipliers
+        if fnames[folder]['energy_standard'][1] in ('RT', 'Office'):
             surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'][2],
                                              fnames[folder]['RES'][2])
         else:
@@ -646,8 +646,10 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     writer.save()
     return res
 
+
 # Andrea: assume the same for RT as for MFH for now...
-def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75, 'SFH-masonry': 50}):
+def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'Office': 15,
+                          'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75, 'SFH-masonry': 50}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]

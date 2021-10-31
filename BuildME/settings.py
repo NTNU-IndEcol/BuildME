@@ -450,7 +450,13 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'Brick - fired clay - 1920 kg/m3 - 300mm': 'brick',
                   'Brick - fired clay - 1600 kg/m3 - 102mm': 'brick',
                   'Brick - fired clay - 1600 kg/m3 - 230mm': 'brick',
-                  'Metal_surface': 'other'}
+                  'Metal_surface': 'other',
+                  'Reinforcement_2perc_10cm': 'construction grade steel',
+                  'roof_consol_layer-en-standard': 'other',
+                  'Brick - fired clay - 1120 kg/m3 - 102mm': 'brick',
+                  'Brick inner 105 mm_0.1': 'brick',
+                  'Roof Tile_0.01': 'other'
+                  }
 
 odym_regions = {'USA': 'R32USA',
                 'CA': 'R32CAN',
