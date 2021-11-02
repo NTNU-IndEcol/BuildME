@@ -29,6 +29,7 @@ def create_combinations(comb=settings.combinations):
     :return:
     """
     print("Creating scenario combinations")
+    run = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
     fnames = {}
     # 1 Region
     for region in [r for r in comb if r != 'all']:
@@ -64,15 +65,15 @@ def create_combinations(comb=settings.combinations):
                                     'region': region,
                                     'occupation': occ_type,
                                     'cooling': cool,
-                                    'run_folder': os.path.join(settings.tmp_path, fname)
+                                    'run_folder': os.path.join(settings.tmp_path, run, fname)
                                     }
                                 # make sure no underscores are used in the pathname, because this could cause issues later
                                 assert list(fnames)[-1].count('_') == 6, \
                                     "Scenario combination names mustn't use underscores: '%s'" % fnames[-1]
-    return fnames
+    return fnames, run
 
 
-def nuke_folders(fnames, forgive=True):
+def nuke_folders(fnames, run, forgive=True):
     """
     Deletes all folders specified in the `fnames` variable.
     :param forgive: will continue also if certain folder's don't exist
@@ -134,7 +135,7 @@ def apply_rule_from_excel(idf_f, res, en_replace):
     return idf_f
 
 
-def copy_scenario_files(fnames, replace=False):
+def copy_scenario_files(fnames, run, replace=False):
     """
     Creates scenario folders and copies the necessary files (climate and IDF file) into them. Further,
     it applies the energy standard and RES scenario to the IDF archetype.
@@ -150,7 +151,7 @@ def copy_scenario_files(fnames, replace=False):
     tq = tqdm(fnames, leave=True, desc="copy")
     for fname in tq:
         # tq.set_description(fname)
-        fpath = os.path.join(settings.tmp_path, fname)
+        fpath = os.path.join(settings.tmp_path, run, fname)
         # create folder
         os.makedirs(fpath)
         # copy climate file
@@ -170,7 +171,7 @@ def copy_scenario_files(fnames, replace=False):
         idf_f.idfobjects['Building'.upper()][0].Name = fname
         idf_f.saveas(os.path.join(fpath, 'in.idf'))
     # save list of all folders
-    scenarios_filename = os.path.join(settings.tmp_path, datetime.datetime.now().strftime("%y%m%d-%H%M%S") + '.run')
+    scenarios_filename = os.path.join(settings.tmp_path, run + '.run')
     # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
     pickle.dump(fnames, open(scenarios_filename, "wb"))
     return scenarios_filename
@@ -185,7 +186,7 @@ def find_last_run(path=settings.tmp_path):
     candidates = [f for f in os.listdir(path) if f.endswith('.run')]
     if len(candidates) == 0:
         raise FileNotFoundError("Couldn't find any .run files in %s" % path)
-    return os.path.join(path, sorted(candidates)[-1])
+    return os.path.join(path, sorted(candidates)[-1]), sorted(candidates)[-1].rstrip('.run')
 
 
 def load_run_data_file(filename):
@@ -208,15 +209,16 @@ def translate_to_odym_mat(total_material_mass):
     return res
 
 
-def calculate_materials(fnames=None):
+def calculate_materials(run, fnames=None):
     print("Extracting materials and surfaces...")
     if not fnames:
-        fnames = load_run_data_file(find_last_run())
+        fnames, run = find_last_run()
+        fnames = load_run_data_file(fnames)
     fallback_materials = material.load_material_data()
     tq = tqdm(fnames, desc='Initiating...', leave=True)
     for folder in tq:
         tq.set_description(folder)
-        run_path = os.path.join(settings.tmp_path, folder)
+        run_path = os.path.join(settings.tmp_path, run, folder)
         idff = material.read_idf(os.path.join(run_path, 'in.idf'))
         materials = material.read_materials(idff)
         materials_dict = material.make_materials_dict(materials)
@@ -441,14 +443,16 @@ def fix_macos_quarantine(foname):
 def calculate_energy(fnames=None):
     print("Perform energy simulation...")
     if not fnames:
-        fnames = load_run_data_file(find_last_run())
+        fnames, run = find_last_run()
+        fnames = load_run_data_file(fnames)
     tq = tqdm(fnames, desc='Initiating...', leave=True)
     for folder in tq:
         run_path = os.path.join(settings.tmp_path, folder)
         tq.set_description(folder)
         copy_us = energy.gather_files_to_copy()
         # TODO: Change Building !- Name
-        tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
+        sfolder = os.path.join(run, folder)
+        tmp = energy.copy_files(copy_us, tmp_run_path=sfolder, create_dir=False)
         # fix_macos_quarantine(run_path)
         energy.run_energyplus_single(tmp)
         energy.delete_ep_files(copy_us, tmp)
@@ -457,7 +461,8 @@ def calculate_energy(fnames=None):
 def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
     print("Perform energy simulation on %s CPUs..." % cpus)
     if not fnames:
-        fnames = load_run_data_file(find_last_run())
+        fnames, rfolder = find_last_run()
+        fnames = load_run_data_file(fnames)
     pool = mp.Pool(processes=cpus)
     m = mp.Manager()
     q = m.Queue()
@@ -622,7 +627,7 @@ def divide_by_area(energy, material_surfaces, multi=1.0, ref_area='floor_area_wo
     return res
 
 
-def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement'):
+def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basement'):
     """
 
     :param res:
@@ -633,7 +638,8 @@ def save_ei_result(energy, material_surfaces, ref_area='floor_area_wo_basement')
     res = disaggregate_scenario_str(res, ['climate_reg'])
     res = weighing_climate_region(res)
     res = add_DHW(res)
-    writer = pd.ExcelWriter(find_last_run().replace('.run', '_ei.xlsx'), engine='xlsxwriter')
+    fname = os.path.join(settings.tmp_path, run, run + '_ei.xlsx')
+    writer = pd.ExcelWriter(fname, engine='xlsxwriter')
     res.to_excel(writer, 'all')
     res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
     res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
@@ -656,10 +662,11 @@ def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-s
     return ei
 
 
-def save_mi_result(material_surfaces):
+def save_mi_result(run, material_surfaces):
     res = divide_by_area(material_surfaces, material_surfaces)
     res = disaggregate_scenario_str(res, ['climate_reg'])
-    res.to_excel(find_last_run().replace('.run', '_mi.xlsx'))
+    fname = os.path.join(settings.tmp_path, run, run + '_mi.xlsx')
+    res.to_excel(fname)
     return res
 
 
