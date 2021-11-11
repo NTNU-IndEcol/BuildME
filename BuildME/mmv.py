@@ -10,7 +10,7 @@ import openpyxl
 from . import settings
 
 
-def change_archetype_to_MMV(idf, fname):
+def change_archetype_to_MMV(idf, region, occupation):
     """
     Converts an idf file to one with mixed mode ventilation (MMV) i.e. cooling both through HVAC and window opening
     :param idf: The .idf file
@@ -32,7 +32,7 @@ def change_archetype_to_MMV(idf, fname):
     idf = delete_idf_objects(idf, xlsx_mmv)
     idf = write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict)
     # Update the replace.xlsx file (only if necessary)
-    update_replace_excel_if_needed(fname, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
+    update_replace_excel_if_needed(region, occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
     # idf.saveas('./files/with-MMV.idf')
     return idf
 
@@ -769,7 +769,7 @@ def estimate_no_of_floors(idf, zone_dict_hvac):
     return no_of_floors
 
 
-def update_replace_excel_if_needed(fname, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict):
+def update_replace_excel_if_needed(region, occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict):
     """
     Checks the replace.xlsx file for the needed coefficients - if they are not there, updates the xlsx file
     (if just some parameters are missing, the function will not catch that)
@@ -778,9 +778,8 @@ def update_replace_excel_if_needed(fname, xlsx_mmv, surfaces_f_dict, surfaces_nf
     :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
     :param surfaces_nf_dict: Dictionary of non-fenestration surfaces (area, surface group, list of surfaces' names)
     """
-    en_st = fname['energy_standard']
     en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-    xls_values = en_replace.loc(axis=0)[[en_st[0]], [en_st[1]]]
+    xls_values = en_replace.loc(axis=0)[[region], [occupation]]
     update_replace = True
     for xls_row in xls_values.iterrows():
         if xls_row[1]['idfobject'] == 'AirflowNetwork:MultiZone:Component:DetailedOpening':
@@ -788,8 +787,6 @@ def update_replace_excel_if_needed(fname, xlsx_mmv, surfaces_f_dict, surfaces_nf
             break
     if update_replace:
         print("Updating replace.xlsx file")
-        region = fname['region']
-        occupation = fname['occupation']
         xlsx_replace = './data/replace.xlsx'
         write_excel_replace(xlsx_replace, xlsx_mmv, region, occupation, surfaces_f_dict, surfaces_nf_dict)
     return

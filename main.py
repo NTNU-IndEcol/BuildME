@@ -8,6 +8,7 @@ from BuildME import settings, pre, idf, material, energy, simulate, __version__
 
 # Some pre-processing
 pre.validate_ep_version()
+pre.create_mmv_variants(comb=settings.debug_combinations)
 
 # Creating the corresponding .idf file given an energy standard and a resource efficiency strategy
 #  and copy file into folder

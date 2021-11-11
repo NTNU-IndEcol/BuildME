@@ -48,13 +48,18 @@ def create_combinations(comb=settings.combinations):
                         for climate_scen in comb[region]['climate_scenario']:
                             for cool in comb[region]['cooling']:
                                 fname = '_'.join([region, occ_type, energy_std, res, climate_reg, climate_scen, cool])
+                                if cool == 'MMV':
+                                    cool_str = '_auto-MMV'
+                                else:
+                                    cool_str = ''
                                 if (region,occ_type) in settings.archetype_proxies:
                                     archetype_choice = os.path.join(settings.archetypes,
                                                                     settings.archetype_proxies[(region,occ_type)][0],
                                                                     settings.archetype_proxies[(region,occ_type)][1]
-                                                                    + '.idf')
+                                                                    + cool_str + '.idf')
                                 else:
-                                    archetype_choice = os.path.join(settings.archetypes, region, occ_type + '.idf')
+                                    archetype_choice = os.path.join(settings.archetypes, region, occ_type
+                                                                    + cool_str + '.idf')
                                 fnames[fname] = \
                                     {
                                     'climate_file': os.path.join(settings.climate_files_path, climate_scen,
@@ -158,9 +163,6 @@ def copy_scenario_files(fnames, run, replace=False):
         shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
         idf_f = idf.read_idf(fnames[fname]['archetype_file'])
-        if fnames[fname]['cooling'] == 'MMV':
-            print("\nCreating the MMV archetype (cooling through HVAC + window opening)")
-            idf_f = mmv.change_archetype_to_MMV(idf_f, fnames[fname])
         en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
         idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'],
                                        '-en-std-replaceme')
