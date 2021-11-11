@@ -29,6 +29,7 @@ def change_archetype_to_MMV(idf, fname):
     idf = change_idf_objects(idf, xlsx_mmv, zone_dict_hvac)
     idf = create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window_dict,
                              surface_dict, surfaces_f_dict, surfaces_nf_dict, shielding)
+    idf = delete_idf_objects(idf, xlsx_mmv)
     idf = write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict)
     # Update the replace.xlsx file (only if necessary)
     update_replace_excel_if_needed(fname, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
@@ -298,6 +299,15 @@ def create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window
             j += 1
             if not more_loops_j:  # if there are no more objects of this type to be created
                 break
+    return idf
+
+
+def delete_idf_objects(idf, xlsx_mmv):
+    df = load_xlsx_data(xlsx_mmv, 'delete')
+    for idf_object in df['idfobject']:
+        objs = idf.idfobjects[idf_object]
+        while objs:
+            idf.removeidfobject(objs[0])
     return idf
 
 
