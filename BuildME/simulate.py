@@ -117,15 +117,18 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
     return idf_data
 
 
-def apply_rule_from_excel(idf_f, res, en_replace):
+def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
     """
 
     :param idf_f:
     :param res:
     :param en_replace: Excel replacement rules
+    :param en_replace: Excel replacement rules related to MMV cooling type
     :return:
     """
-    xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
+    xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
+    xls_values2 = mmv_en_replace.loc(axis=0)[:, [res[1]], [res[2]]]
+    xls_values = pd.concat([xls_values1, xls_values2])
     if not 'RES' in res[2]:
         assert len(xls_values) > 0, "Did not find an energy replacement for '%s" % res
     for xls_value in xls_values.iterrows():
@@ -153,6 +156,7 @@ def copy_scenario_files(fnames, run, replace=False):
     print("Copying files...")
     res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
     en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
+    mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
     tq = tqdm(fnames, leave=True, desc="copy")
     for fname in tq:
         # tq.set_description(fname)
@@ -173,8 +177,8 @@ def copy_scenario_files(fnames, run, replace=False):
         else:
             en_str = [region, occ_type, fnames[fname]['energy_standard']]
             res_str = [region, occ_type, fnames[fname]['RES']]
-        idf_f = apply_rule_from_excel(idf_f, en_str, en_replace)
-        idf_f = apply_rule_from_excel(idf_f, res_str, res_replace)
+        idf_f = apply_rule_from_excel(idf_f, en_str, en_replace, mmv_en_replace)
+        idf_f = apply_rule_from_excel(idf_f, res_str, res_replace, mmv_en_replace)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
         idf_f.saveas(os.path.join(fpath, 'in.idf'))
     # save list of all folders

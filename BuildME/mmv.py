@@ -8,9 +8,11 @@ import pandas as pd
 import numpy as np
 import openpyxl
 from . import settings
+import os
+import datetime
 
 
-def change_archetype_to_MMV(idf, region, occupation):
+def change_archetype_to_MMV(idf, occupation):
     """
     Converts an idf file to one with mixed mode ventilation (MMV) i.e. cooling both through HVAC and window opening
     :param idf: The .idf file
@@ -32,7 +34,7 @@ def change_archetype_to_MMV(idf, region, occupation):
     idf = delete_idf_objects(idf, xlsx_mmv)
     idf = write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict)
     # Update the replace.xlsx file (only if necessary)
-    update_replace_excel_if_needed(region, occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
+    create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
     # idf.saveas('./files/with-MMV.idf')
     return idf
 
@@ -655,18 +657,15 @@ def write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict):
     return idf
 
 
-def write_excel_replace(xlsx_replace, xlsx_mmv, region, occupation, surfaces_f_dict, surfaces_nf_dict):
+def write_to_excel_replace(ws, xlsx_mmv, occupation, surfaces_f_dict, surfaces_nf_dict):
     """
     Adds MMV-specific information (infiltration values) to the energy standard sheet of the xlsx_replace file
-    :param xlsx_replace: The .xlsx file with replacement instructions for BuildME archetypes
+    :param ws: The worksheet of the replace_mmv.xlsx file
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
-    :param region: Region name (USA, India etc.)
-    :param occupation: Occupation type (SFH, MFH etc.)
+    :param occupation: the occupation of the chosen archetype (e.g. SFH)
     :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
     :param surfaces_nf_dict: Dictionary of non-fenestration surfaces (area, surface group, list of surfaces' names)
     """
-    wb = openpyxl.load_workbook(filename=xlsx_replace)
-    ws = wb['en-standard']
     df = load_xlsx_data(xlsx_mmv, 'AFN')
     last_row = ws.max_row
     c = 1
@@ -683,8 +682,7 @@ def write_excel_replace(xlsx_replace, xlsx_mmv, region, occupation, surfaces_f_d
                 else:
                     objectfield = 'Air_Mass_Flow_Exponent_When_Opening_is_Closed'
                 value = find_value_in_AFN_df(df, surface_group, en_st, var)
-                ws = fill_excel_replace_row(ws, last_row + c, region, occupation, en_st,
-                                            idfobject, name, objectfield, value)
+                ws = fill_excel_replace_row(ws, last_row + c, occupation, en_st, idfobject, name, objectfield, value)
                 c += 1
     for k, v in surfaces_nf_dict.items():  # multiplication for coefficients is needed, units 'kg/s.m2' -> 'kg/s'
         surface_group = v['Surface_Group']
@@ -698,21 +696,18 @@ def write_excel_replace(xlsx_replace, xlsx_mmv, region, occupation, surfaces_f_d
                 else:
                     objectfield = 'Air_Mass_Flow_Exponent'
                     value = find_value_in_AFN_df(df, surface_group, en_st, var)
-                ws = fill_excel_replace_row(ws, last_row + c, region, occupation, en_st,
-                                            idfobject, name, objectfield, value)
+                ws = fill_excel_replace_row(ws, last_row + c, occupation, en_st, idfobject, name, objectfield, value)
                 c += 1
-    wb.save(filename=xlsx_replace)
-    wb.close()
+
     return
 
 
-def fill_excel_replace_row(ws, row, region, occupation, energy_standard, idfobject, name, objectfield, value):
+def fill_excel_replace_row(ws, row, occupation, energy_standard, idfobject, name, objectfield, value):
     """
     Fills one row of the energy standard sheet of the xlsx_replace file
     :param ws: Worksheet
     :param row: Row number
-    :param region: Region name (USA, India etc.)
-    :param occupation: Occupation type (SFH, MFH etc.)
+    :param occupation: the occupation of the chosen archetype (e.g. SFH)
     :param energy_standard: Energy standard name
     :param idfobject: Idf object type
     :param name: Idf object name
@@ -720,13 +715,12 @@ def fill_excel_replace_row(ws, row, region, occupation, energy_standard, idfobje
     :param value: Value for a given idf object field
     :return ws: Worksheet with new row
     """
-    ws.cell(column=1, row=row, value=region)
-    ws.cell(column=2, row=row, value=occupation)
-    ws.cell(column=3, row=row, value=energy_standard)
-    ws.cell(column=4, row=row, value=idfobject)
-    ws.cell(column=5, row=row, value=name)
-    ws.cell(column=6, row=row, value=objectfield)
-    ws.cell(column=7, row=row, value=value)
+    ws.cell(column=1, row=row, value=occupation)
+    ws.cell(column=2, row=row, value=energy_standard)
+    ws.cell(column=3, row=row, value=idfobject)
+    ws.cell(column=4, row=row, value=name)
+    ws.cell(column=5, row=row, value=objectfield)
+    ws.cell(column=6, row=row, value=value)
     return ws
 
 
@@ -769,24 +763,38 @@ def estimate_no_of_floors(idf, zone_dict_hvac):
     return no_of_floors
 
 
-def update_replace_excel_if_needed(region, occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict):
+def create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict):
     """
-    Checks the replace.xlsx file for the needed coefficients - if they are not there, updates the xlsx file
-    (if just some parameters are missing, the function will not catch that)
-    :param fname: Information about the executed file
+    Checks if the excel replace_mmv.xlsx file exists, creates/opens it to write data about the chosen archetype,
+    the data is necessary to adjust the archetype to different energy standards
+    :param occupation: the occupation of the chosen archetype (e.g. SFH)
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
     :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
     :param surfaces_nf_dict: Dictionary of non-fenestration surfaces (area, surface group, list of surfaces' names)
     """
-    en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-    xls_values = en_replace.loc(axis=0)[[region], [occupation]]
-    update_replace = True
-    for xls_row in xls_values.iterrows():
-        if xls_row[1]['idfobject'] == 'AirflowNetwork:MultiZone:Component:DetailedOpening':
-            update_replace = False
-            break
-    if update_replace:
-        print("Updating replace.xlsx file")
-        xlsx_replace = './data/replace.xlsx'
-        write_excel_replace(xlsx_replace, xlsx_mmv, region, occupation, surfaces_f_dict, surfaces_nf_dict)
+    dir_replace_mmv = './data/replace_mmv.xlsx'
+    if os.path.exists(dir_replace_mmv):
+        wb = openpyxl.load_workbook(filename=dir_replace_mmv)
+        ws_info = wb['info']
+        ws_info.cell(column=2, row=2, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
+        ws = wb['en-standard']
+    else:
+        wb = openpyxl.Workbook()
+        ws_info = wb.active
+        ws_info.title = "info"
+        ws_info.cell(column=1, row=1, value="Created:")
+        ws_info.cell(column=1, row=2, value="Modified:")
+        ws_info.cell(column=2, row=1, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
+        ws_info.cell(column=2, row=2, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
+        ws = wb.create_sheet('en-standard')
+        ws.cell(column=1, row=1, value="Occupation")
+        ws.cell(column=2, row=1, value="standard")
+        ws.cell(column=3, row=1, value="idfobject")
+        ws.cell(column=4, row=1, value="Name")
+        ws.cell(column=5, row=1, value="objectfield")
+        ws.cell(column=6, row=1, value="Value")
+    print("Updating replace_mmv.xlsx file")
+    write_to_excel_replace(ws, xlsx_mmv, occupation, surfaces_f_dict, surfaces_nf_dict)
+    wb.save(filename=dir_replace_mmv)
+    wb.close()
     return
