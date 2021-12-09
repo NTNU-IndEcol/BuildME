@@ -3,10 +3,7 @@
 bin/EnergyPlus*
 tmp/
 debug.py
-data/replace_mmv.xlsx
-data/archetype/USA/SFH_auto-MMV.idf
-data/archetype/USA/MFH_auto-MMV.idf
-data/archetype/USA/RT_auto-MMV.idf
+
 
 # OS stuff
 .DS_Store
