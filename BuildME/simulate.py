@@ -65,8 +65,8 @@ def create_combinations(comb=settings.combinations):
                                     'climate_file': os.path.join(settings.climate_files_path, climate_scen,
                                                                  settings.climate_stations[region][climate_reg]),
                                     'archetype_file': archetype_choice,
-                                    'energy_standard': [region, occ_type, energy_std],
-                                    'RES': [region, occ_type, res],
+                                    'energy_standard': energy_std,
+                                    'RES': res,
                                     'region': region,
                                     'occupation': occ_type,
                                     'cooling': cool,
@@ -112,25 +112,27 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
         for obj in idf_data.idfobjects[obj_type.upper()]:
             if replace_str in obj.Construction_Name:
                 # replace the item
-                obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + replacer[2])
+                obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + replacer)
     # idf_data.idfobjects['Building'.upper()][0].Name = '.'.join(replacer)
     return idf_data
 
 
-def apply_rule_from_excel(idf_f, res, en_replace):
+def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
     """
 
     :param idf_f:
     :param res:
     :param en_replace: Excel replacement rules
+    :param en_replace: Excel replacement rules related to MMV cooling type
     :return:
     """
-    xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
+    xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
+    xls_values2 = mmv_en_replace.loc(axis=0)[:, [res[1]], [res[2]]]
+    xls_values = pd.concat([xls_values1, xls_values2])
     if not 'RES' in res[2]:
         assert len(xls_values) > 0, "Did not find an energy replacement for '%s" % res
     for xls_value in xls_values.iterrows():
         if xls_value[1]['Value'] == 'skip':
-            print("bam")
             continue
         for idfobj in idf_f.idfobjects[xls_value[1]['idfobject'].upper()]:
         # TODO: Seems like this skips replacement of values for MFH? Changed replace.xlsx file..
@@ -153,6 +155,8 @@ def copy_scenario_files(fnames, run, replace=False):
         nuke_folders(fnames)
     print("Copying files...")
     res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
+    en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
+    mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
     tq = tqdm(fnames, leave=True, desc="copy")
     for fname in tq:
         # tq.set_description(fname)
@@ -163,13 +167,18 @@ def copy_scenario_files(fnames, run, replace=False):
         shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
         idf_f = idf.read_idf(fnames[fname]['archetype_file'])
-        en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-        idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'],
-                                       '-en-std-replaceme')
-        idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'],
-                                       '-res-replaceme')
-        idf_f = apply_rule_from_excel(idf_f, fnames[fname]['energy_standard'], en_replace)
-        idf_f = apply_rule_from_excel(idf_f, fnames[fname]['RES'], res_replace)
+        idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'], '-en-std-replaceme')
+        idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'], '-res-replaceme')
+        region = fnames[fname]['region']
+        occ_type = fnames[fname]['occupation']
+        if (region, occ_type) in settings.archetype_proxies:
+            en_str = [*settings.archetype_proxies[(region,occ_type)], fnames[fname]['energy_standard']]
+            res_str = [*settings.archetype_proxies[(region,occ_type)], fnames[fname]['RES']]
+        else:
+            en_str = [region, occ_type, fnames[fname]['energy_standard']]
+            res_str = [region, occ_type, fnames[fname]['RES']]
+        idf_f = apply_rule_from_excel(idf_f, en_str, en_replace, mmv_en_replace)
+        idf_f = apply_rule_from_excel(idf_f, res_str, res_replace, mmv_en_replace)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
         idf_f.saveas(os.path.join(fpath, 'in.idf'))
     # save list of all folders
