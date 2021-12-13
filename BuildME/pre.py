@@ -8,7 +8,7 @@ import os
 from BuildME import settings
 from tqdm import tqdm
 from BuildME.idf import read_idf
-from BuildME.mmv import change_archetype_to_MMV
+from BuildME.mmv import change_archetype_to_MMV, create_empty_replace_mmv
 
 
 def validate_ep_version(folders=settings.archetypes,crash=False):
@@ -64,6 +64,12 @@ def create_mmv_variants(comb=settings.combinations):
                         idf_f = read_idf(archetype_wt_ext + '.idf')
                         idf_mmv = change_archetype_to_MMV(idf_f, occ_type)
                         idf_mmv.saveas(path)
+                else:
+                    dir_replace_mmv = './data/replace_mmv.xlsx'
+                    if not os.path.exists(dir_replace_mmv):
+                        wb, ws = create_empty_replace_mmv()
+                        wb.save(filename=dir_replace_mmv)
+                        wb.close()
     return
 
 

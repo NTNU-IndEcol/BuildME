@@ -779,22 +779,30 @@ def create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfac
         ws_info.cell(column=2, row=2, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
         ws = wb['en-standard']
     else:
-        wb = openpyxl.Workbook()
-        ws_info = wb.active
-        ws_info.title = "info"
-        ws_info.cell(column=1, row=1, value="Created:")
-        ws_info.cell(column=1, row=2, value="Modified:")
-        ws_info.cell(column=2, row=1, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
-        ws_info.cell(column=2, row=2, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
-        ws = wb.create_sheet('en-standard')
-        ws.cell(column=1, row=1, value="Occupation")
-        ws.cell(column=2, row=1, value="standard")
-        ws.cell(column=3, row=1, value="idfobject")
-        ws.cell(column=4, row=1, value="Name")
-        ws.cell(column=5, row=1, value="objectfield")
-        ws.cell(column=6, row=1, value="Value")
+        wb, ws = create_empty_replace_mmv()
     print("Updating replace_mmv.xlsx file")
     write_to_excel_replace(ws, xlsx_mmv, occupation, surfaces_f_dict, surfaces_nf_dict)
     wb.save(filename=dir_replace_mmv)
     wb.close()
     return
+
+
+def create_empty_replace_mmv():
+    """
+    Creates an empty replace_mmv.xlsx file. It contains no data, just metadata and column names
+    """
+    wb = openpyxl.Workbook()
+    ws_info = wb.active
+    ws_info.title = "info"
+    ws_info.cell(column=1, row=1, value="Created:")
+    ws_info.cell(column=1, row=2, value="Modified:")
+    ws_info.cell(column=2, row=1, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
+    ws_info.cell(column=2, row=2, value=datetime.datetime.now().strftime("%b-%d-%Y, %H:%M"))
+    ws = wb.create_sheet('en-standard')
+    ws.cell(column=1, row=1, value="Occupation")
+    ws.cell(column=2, row=1, value="standard")
+    ws.cell(column=3, row=1, value="idfobject")
+    ws.cell(column=4, row=1, value="Name")
+    ws.cell(column=5, row=1, value="objectfield")
+    ws.cell(column=6, row=1, value="Value")
+    return wb, ws
