@@ -127,7 +127,7 @@ def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
     :return:
     """
     xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
-    xls_values2 = mmv_en_replace.loc(axis=0)[:, [res[1]], [res[2]]]
+    xls_values2 = mmv_en_replace.loc(axis=0)[[res[1]], [res[2]]]
     xls_values = pd.concat([xls_values1, xls_values2])
     if not 'RES' in res[2]:
         assert len(xls_values) > 0, "Did not find an energy replacement for '%s" % res
@@ -238,12 +238,12 @@ def calculate_materials(run, fnames=None):
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
         # If RT OR office archetype, need to account for zone multipliers
-        if fnames[folder]['energy_standard'][1] in ('RT', 'Office'):
-            surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'][2],
-                                             fnames[folder]['RES'][2])
+        if fnames[folder]['occupation'] in ('RT', 'Office'):
+            surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'],
+                                             fnames[folder]['RES'])
         else:
-            surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'][2],
-                                             fnames[folder]['RES'][2])
+            surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'],
+                                             fnames[folder]['RES'])
 
         mat_vol_bdg = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
@@ -256,25 +256,25 @@ def calculate_materials(run, fnames=None):
         res['footprint_area'] = surface_areas['footprint_area']
 
         # TODO: generalise the addition of structural components
-        if fnames[folder]['energy_standard'][1] == 'SFH-small-concrete' or fnames[folder]['energy_standard'][1] == 'SFH-small-masonry':
-            if 'RES2.1' in fnames[folder]['RES'][2]:
-                postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
+        if fnames[folder]['occupation'] == 'SFH-small-concrete' or fnames[folder]['occupation'] == 'SFH-small-masonry':
+            if 'RES2.1' in fnames[folder]['RES']:
+                postbeam = add_surrogate_beams(fnames[folder]['RES'], surface_areas['ext_wall'])
                 res[postbeam[0]] += postbeam[1]
 
         # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
         if 2 <= res['floor_area_wo_basement'] / res['footprint_area'] < 15:
-            loadbeam = add_surrogate_beams(fnames[folder]['RES'][2], res['floor_area_wo_basement'])
+            loadbeam = add_surrogate_beams(fnames[folder]['RES'], res['floor_area_wo_basement'])
             if loadbeam[0] in res:
                 res[loadbeam[0]] += loadbeam[1]
             else:
                 res[loadbeam[0]] = loadbeam[1]
-            if 'RES2.1' in fnames[folder]['RES'][2]:
-                postbeam = add_surrogate_beams(fnames[folder]['RES'][2], surface_areas['ext_wall'])
+            if 'RES2.1' in fnames[folder]['RES']:
+                postbeam = add_surrogate_beams(fnames[folder]['RES'], surface_areas['ext_wall'])
                 res[postbeam[0]] += postbeam[1]
 
         # If building with more than 15 floors: modeled with columns, shear walls, flat slabs and larger foundation..
         if res['floor_area_wo_basement']/res['footprint_area'] > 15:
-            columns = add_surrogate_columns(fnames[folder]['RES'][2], res['floor_area_wo_basement'], res['footprint_area'])
+            columns = add_surrogate_columns(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
             foundation = add_foundation(res['footprint_area'])
 
             # Iterating through columns dict with concrete and steel since reinforced concrete
@@ -290,9 +290,9 @@ def calculate_materials(run, fnames=None):
                 else:
                     res[k] = v
             # If wooden version light wall steel studs and steel beams are added for the roof
-            if fnames[folder]['RES'][2] == 'RES2.1' or fnames[folder]['RES'][2] == 'RES2.1+RES2.2':
-                lightwall_steel = add_steel_lightwall(fnames[folder]['RES'][2], res['floor_area_wo_basement'], res['footprint_area'])
-                roof_beams = add_surrogate_roof_beams(fnames[folder]['RES'][2], res['footprint_area'])
+            if fnames[folder]['RES'] == 'RES2.1' or fnames[folder]['RES'] == 'RES2.1+RES2.2':
+                lightwall_steel = add_steel_lightwall(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
+                roof_beams = add_surrogate_roof_beams(fnames[folder]['RES'], res['footprint_area'])
                 if lightwall_steel[0] in res:
                     res[lightwall_steel[0]] += lightwall_steel[1]
                 else:
