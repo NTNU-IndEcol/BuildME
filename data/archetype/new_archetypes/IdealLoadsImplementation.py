@@ -9,9 +9,8 @@ import eppy
 import os
 import platform
 ep_version = '9.2.0'
-basepath = os.path.abspath('.')
-ep_path = os.path.abspath("C:\\Users\\sahina\\PycharmProjects\\BuildME-master\\bin\\EnergyPlus-9-2-0")
-ep_idd = os.path.abspath("C:\\Users\\sahina\\PycharmProjects\\BuildME-master\\bin\\EnergyPlus-9-2-0\\Energy+.idd")
+ep_path = "C:\\Users\\sahina\\PycharmProjects\\BuildME-master\\bin\\EnergyPlus-9-2-0"
+ep_idd = "C:\\Users\\sahina\\PycharmProjects\\BuildME-master\\bin\\EnergyPlus-9-2-0\\Energy+.idd"
 IDF.setiddname(ep_idd)
 # Checking OS and modify files to copy
 platform = platform.system()
