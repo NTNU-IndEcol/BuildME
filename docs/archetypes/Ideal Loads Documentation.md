@@ -52,7 +52,8 @@ objects specifically. The parameters in Table 1 do not contain any DHW objects
 and can be deleted automatically for all IDF files. The parameter list reported
 here does not cover all advanced HVAC objects, therefore based on the user’s
 original IDF elements, this list can be expanded.
-
+| Simulation Parameters                       |                                               |
+|---------------------------------------------|-----------------------------------------------|
 | "DESIGNSPECIFICATION:OUTDOORAIR",           | "UNITARYSYSTEMPERFORMANCE:MULTISPEED",        |
 | "DESIGNSPECIFICATION:ZONEAIRDISTRIBUTION",  | "CONTROLLER:WATERCOIL",                       |
 | "SIZING:ZONE",                              | "CONTROLLER:OUTDOORAIR",                      |
@@ -96,7 +97,8 @@ the run. Therefore, manual manipulation to winnow out HVAC objects is
 recommended for the common parameters shared with DHW systems. As stated
 previously, this list can be expanded based on the advanced HVAC type in the
 original IDF file.
-
+| Simulation Parameters                            |                                     |
+|--------------------------------------------------|-------------------------------------|
 | "SCHEDULE:CONSTANT ",                            | "ENERGYMANAGEMENTSYSTEM:SENSOR ",   |
 | "SETPOINTMANAGER:SCHEDULED ",                    | "ENERGYMANAGEMENTSYSTEM:ACTUATOR ", |
 | "ENERGYMANAGEMENTSYSTEM:PROGRAMCALLINGMANAGER ", | "PUMP:CONSTANTSPEED ",              |
@@ -106,7 +108,7 @@ original IDF file.
 | "PLANTEQUIPMENTOPERATION:HEATINGLOAD ",          | "BRANCHLIST ",                      |
 | "PLANTEQUIPMENTOPERATION:COOLINGLOAD ",          | "CONNECTOR:SPLITTER",               |
 | "PLANTEQUIPMENTOPERATIONSCHEMES ",               | "CONNECTOR:MIXER",                  |
-|                                                  | "CONNECTOR:LIST ",                  |
+| "CONNECTOR:LIST ",                                                 |                                     |
 
 Table 2. Advanced HVAC parameters shared with DHW systems
 
