@@ -26,7 +26,7 @@ a consistent pattern to be controlled by a code. In addition, generally advanced
 HVAC system parameters are shared with some other domestic-hot water (DHW)
 systems, increasing the complexity of the detangling process. For these reasons,
 the ILHS conversion process is designed in a semi-automated way, reducing manual
-intervention.
+intervention as much as possible.
 
 The code contains two functions where *delete_cmplx_HVAC* deletes the unique
 simulation parameters containing only the HVAC objects, and
