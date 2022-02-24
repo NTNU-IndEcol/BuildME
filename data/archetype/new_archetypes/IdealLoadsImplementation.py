@@ -2,8 +2,7 @@
 # however there are some other things should be intervened manually
 # (i.e. common objects between DHW and HVAC)
 
-
-
+########Required for standalone run
 from eppy import modeleditor
 from eppy.modeleditor import IDF
 import eppy
@@ -32,18 +31,17 @@ elif platform == 'Darwin':
                      ]
 else:
     raise NotImplementedError('OS is not supported!')
-
-
-
+##########
 
 
 #Location of the edited idf (manually deleted idf file)
 editedidf_path = "C:\\Users\\sahina\\PycharmProjects\\BuildME-master\\data\\archetype\\new_archetypes\\New folder\\OfficeM.idf"
 #Location of the original idf with complex HVAC
 originalidf_path= "C:\\Users\\sahina\\PycharmProjects\\BuildME-master\\data\\archetype\\new_archetypes\\OfficeM.idf"
+
 idf1=IDF(editedidf_path)
 idforg=IDF(originalidf_path)
-#idf1.saveas("IdealLoads_idf")
+
 
 
 
