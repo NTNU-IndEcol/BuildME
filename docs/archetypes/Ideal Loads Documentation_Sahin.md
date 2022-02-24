@@ -5,7 +5,7 @@
 This document summarizes the implementation of the Ideal Loads HVAC system
 (ILHS) on the IDF files, which are modeled using advanced HVAC systems (i.e.,
 heat pumps, fans, coils). ILHS is a theoretical HVAC system that fulfills the
-amount of system energy to meetzones' cooling and heating loads ideally[^1].
+amount of system energy to meet zones' cooling and heating loads ideally[^1].
 ILHS can be modeled with as few as three simulation parameters, significantly
 reducing simulation time. Apart from that, ILHS is a prerequisite for the
 mixed-mode ventilation calculations in BuildME.
@@ -14,7 +14,7 @@ mixed-mode ventilation calculations in BuildME.
     https://bigladdersoftware.com/epx/docs/8-0/engineering-reference/.
 
 The workflow presented here should be visited if one wants to run IDF files
-modeled with HVAC systems other than IDHS in the mixed-mode option on BuildME.
+modeled with HVAC systems other than ILHS in the mixed-mode option on BuildME.
 Otherwise, the IDF files can be used by setting the cooling option in the
 debugging combination located at *settings.py* to"HVAC”.
 
