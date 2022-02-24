@@ -1,6 +1,6 @@
 **Documentation on Ideal Loads Implementation**
 
-1.  **Introduction and Motivation**
+**1.  Introduction and Motivation**
 
 This document summarizes the implementation of the Ideal Loads HVAC system
 (ILHS) on the IDF files, which are modeled using advanced HVAC systems (i.e.,
@@ -34,12 +34,12 @@ simulation parameters containing only the HVAC objects, and
 the old values in the advanced HVAC objects from the original IDF file. In the
 upcoming sections, these functions will be introduced thoroughly.
 
-2.  **Workflow**
+**2.  Workflow**
 
 The conversion workflow comprises two stages, namely the deletion and creation
 stage.
 
-2.1.  *Deletion stage*
+*2.1.  Deletion stage*
 
 The deletion stage consists of two parts, where the first part is automatically
 conducted, while the second one requires manual manipulation.
@@ -112,7 +112,7 @@ original IDF file.
 
 Table 2. Advanced HVAC parameters shared with DHW systems
 
-2.2  *Creation stage*
+*2.2  Creation stage*
 
 For ILHS conversion, one needs to define or have at least three objects in
 total, these are:
@@ -148,7 +148,7 @@ the remaining two parameters, a fully automated workflow is followed.
 Figure 1. Creating a new object and filling its missing fields automatically
 with the values from the original IDF file
 
-3.  **Final Remarks**
+**3.  Final Remarks**
 
 The functions introduced in this document are optional to use. A user can
 perform the conversion process either by following a completely manual workflow
