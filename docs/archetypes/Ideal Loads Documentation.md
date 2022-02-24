@@ -54,7 +54,6 @@ here does not cover all advanced HVAC objects, therefore based on the user’s
 original IDF elements, this list can be expanded.
 
 | "DESIGNSPECIFICATION:OUTDOORAIR",           | "UNITARYSYSTEMPERFORMANCE:MULTISPEED",        |
-|---------------------------------------------|-----------------------------------------------|
 | "DESIGNSPECIFICATION:ZONEAIRDISTRIBUTION",  | "CONTROLLER:WATERCOIL",                       |
 | "SIZING:ZONE",                              | "CONTROLLER:OUTDOORAIR",                      |
 | "SIZING:SYSTEM",                            | "CONTROLLER:MECHANICALVENTILATION",           |
@@ -99,7 +98,6 @@ previously, this list can be expanded based on the advanced HVAC type in the
 original IDF file.
 
 | "SCHEDULE:CONSTANT ",                            | "ENERGYMANAGEMENTSYSTEM:SENSOR ",   |
-|--------------------------------------------------|-------------------------------------|
 | "SETPOINTMANAGER:SCHEDULED ",                    | "ENERGYMANAGEMENTSYSTEM:ACTUATOR ", |
 | "ENERGYMANAGEMENTSYSTEM:PROGRAMCALLINGMANAGER ", | "PUMP:CONSTANTSPEED ",              |
 | "ENERGYMANAGEMENTSYSTEM:PROGRAM ",               | "PIPE:ADIABATIC ",                  |
