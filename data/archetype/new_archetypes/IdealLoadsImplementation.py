@@ -1,6 +1,6 @@
 #IDEAL LOADS IMPLEMENTATION (this code only includes the generic implementation of the Ideal Loads System to all IDF files,
 # however there are some other things should be intervened manually
-# (i.e. common objects between DHW and HVAC)
+# (i.e. common simulation parameters between DHW and HVAC)
 
 ########Required for standalone run
 from eppy import modeleditor
