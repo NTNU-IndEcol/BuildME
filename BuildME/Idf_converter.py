@@ -177,6 +177,14 @@ def convert_idf_to_BuildME(idf_path, save_folder_path, replacer_std="-en-non-sta
     for newcons in unique:
         idf1.copyidfobject(newcons)
 
+    if 'CONSTRUCTION:CFACTORUNDERGROUNDWALL' in [x for x in idf1.idfobjects]:
+        unique = reduce(lambda l, x: l.append(x) or l if x not in l else l,
+                            idf1.idfobjects["Construction:CfactorUndergroundWall".upper()], [])
+        idf1.removeallidfobjects("CONSTRUCTION:CFACTORUNDERGROUNDWALL")
+    for newcons in unique:
+        idf1.copyidfobject(newcons)
+
+
     # CONVERTING MATERIAL
     # For the en-non-standard version, values are replaced with %30 worse performing numbers based on the standard version.
     if replacer_std == "-en-non-standard":
@@ -191,7 +199,10 @@ def convert_idf_to_BuildME(idf_path, save_folder_path, replacer_std="-en-non-sta
             items.Name = f"{items.Name}-en-non-standard"
         if 'CONSTRUCTION:FFACTORGROUNDFLOOR' in [x for x in idf1.idfobjects]:
             for items in idf1.idfobjects["Construction:FfactorGroundFloor".upper()]:
-                items.FFactor = float(items.FFactor) * 1.3
+                items.FFactor = float(items.FFactor) * 0.7
+        if 'CONSTRUCTION:CFACTORUNDERGROUNDWALL' in [x for x in idf1.idfobjects]:
+            for items in idf1.idfobjects["Construction:CfactorUndergroundWall".upper()]:
+                items.CFactor = float(items.CFactor) * 1.3
     # Material names are changed as they represent different values across standards, some identifiers are added.
     else:
         for items in idf1.idfobjects["Material".upper()]:
@@ -258,6 +269,7 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
     matnomass_list = []
     matwin_list = []
     ffloor_list = []
+    cwall_list=[]
 
     # gets required objects in all idf files and puts in a list
     for idf in idflist:
@@ -273,6 +285,8 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
             matwin_list.append(matwin)
         for ffloor in idf.idfobjects["Construction:FfactorGroundFloor".upper()]:
             ffloor_list.append(ffloor)
+        for cwall in idf.idfobjects["Construction:CfactorUndergroundWall".upper()]:
+            cwall_list.append(cwall)
 
     # removes duplicate elements
     cons_list = reduce(lambda l, x: l.append(x) or l if x not in l else l, cons_list, [])
@@ -280,7 +294,8 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
     matnomass_list = reduce(lambda l, x: l.append(x) or l if x not in l else l, matnomass_list, [])
     matwin_list = reduce(lambda l, x: l.append(x) or l if x not in l else l, matwin_list, [])
     ffloor_list = reduce(lambda l, x: l.append(x) or l if x not in l else l, ffloor_list, [])
-    newobjects = cons_list + matnomass_list + matwin_list + ffloor_list + mat_list
+    cwall_list= reduce(lambda l, x: l.append(x) or l if x not in l else l, cwall_list, [])
+    newobjects = cons_list + matnomass_list + matwin_list + ffloor_list + mat_list + cwall_list
     reduced_newobjects = reduce(lambda l, x: l.append(x) or l if x not in l else l, newobjects, [])
 
     # finds standard version and uses it as a base to create new merged idf
@@ -295,6 +310,7 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
             idf.removeallidfobjects("MATERIAL:NOMASS")
             idf.removeallidfobjects("WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM")
             idf.removeallidfobjects("CONSTRUCTION:FFACTORGROUNDFLOOR")
+            idf.removeallidfobjects("CONSTRUCTION:CFACTORUNDERGROUNDWALL")
 
             # Checks if there are still duplicates
             seen = set()
