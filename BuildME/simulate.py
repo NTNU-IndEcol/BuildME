@@ -74,7 +74,7 @@ def create_combinations(comb=settings.combinations):
                                     }
                                 # make sure no underscores are used in the pathname, because this could cause issues later
                                 assert list(fnames)[-1].count('_') == 6, \
-                                    "Scenario combination names mustn't use underscores: '%s'" % fnames[-1]
+                                    "Scenario combination names mustn't use underscores: '%s'" % list(fnames)[-1]
     return fnames, run
 
 
