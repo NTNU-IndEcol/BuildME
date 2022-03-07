@@ -144,7 +144,7 @@ def get_surfaces(idf, energy_standard, res_scenario):
     surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Roof'])
     # Check what surfaces are present in `total_no_surfaces` but were missed in `surfaces`
     check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in flatten_surfaces(surfaces)]]
-    assert len(check) == 0, "Following elements were not found: %s" % check
+    assert len(check) == 0, "Following elements are not accounted for: %s" % check
     temp_surface_areas = calc_surface_areas(surfaces)
     constr_list = {m.Name: m for m in read_constructions(idf)}
     if 'attic-ceiling-' + energy_standard in [x for x in constr_list]:
@@ -158,6 +158,7 @@ def get_surfaces(idf, energy_standard, res_scenario):
         surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
         surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
     return surfaces
+
 
 def extract_surfaces_zone_multiplier(list_surfaces, element_type, boundary, surface_type):
     """
@@ -178,6 +179,7 @@ def extract_surfaces_zone_multiplier(list_surfaces, element_type, boundary, surf
                 if s.Outside_Boundary_Condition_Object in boundary and s.Surface_Type in surface_type:
                     surfaces.append(s)
     return surfaces
+
 
 def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
     """
@@ -264,6 +266,7 @@ def get_surfaces_with_zone_multiplier(idf, energy_standard, res_scenario):
         surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
     return surfaces
 
+
 def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
     """
     Since IDF files sometimes do not contain internal walls, this function will create surrogate internal walls.
@@ -302,6 +305,7 @@ def create_surrogate_basement(floor_area, construction, room_h=2.8):
         'area': floor_area ** 0.5 * 4 * room_h
     }
     return [SurrogateElement(basem)]
+
 
 def create_surrogate_shear_wall(floor_area, construction):
     """
@@ -399,13 +403,20 @@ def make_mat_density_dict(materials_dict, fallback_mat):
     :return:
     """
     densities = {}
+    oopsies = []
     for mat in materials_dict:
         # Some materials, such as Material:No Mass have no density attribute
         if hasattr(materials_dict[mat], 'Density'):
             densities[mat] = materials_dict[mat].Density
+        elif mat in fallback_mat.index:
+            densities[mat] = fallback_mat.loc[mat, 'density']
         else:
             # print(mat, materials_dict[mat].key)
-            densities[mat] = fallback_mat.loc[mat, 'density']
+            oopsies.append(mat)
+    if len(oopsies) != 0:
+        raise AssertionError("Following materials have no density defined in idf Constructions nor in "
+                             "data/materials.xlsx: %s"
+                             % oopsies)
     return densities
 
 
