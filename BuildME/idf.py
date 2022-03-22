@@ -60,7 +60,7 @@ def extract_surfaces(idf, element_type, boundary, surface_type):
     surfaces = []
     for e in element_type:
         for s in idf.idfobjects[e.upper()]:
-            if s.Surface_Type != 'Window':
+            if e not in ['Window', 'FenestrationSurface:Detailed']:
                 if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
                     surfaces.append(s)
             else:
