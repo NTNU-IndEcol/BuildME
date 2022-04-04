@@ -127,14 +127,18 @@ def get_surfaces(idf, energy_standard, res_scenario):
     # flatten the list
     total_no_surfaces = [item for sublist in total_no_surfaces for item in sublist]
     surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Wall'])
-    surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Wall'])
+    surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Wall']) + \
+                           extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Wall'])
     surfaces['door'] = extract_doors(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Door'])
     surfaces['window'] = extract_windows(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window'])
     surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor']) + \
                                 extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
-    surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling'])
+    surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling']) + \
+                              extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Ceiling'])
     surfaces['basement_ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
-                                                     ['GroundBasementPreprocessorAverageWall'], ['Wall'])
+                                                     ['GroundBasementPreprocessorAverageWall'], ['Wall']) + \
+                                    extract_surfaces(idf, ['BuildingSurface:Detailed'],
+                                                     ['GroundFCfactorMethod'], ['Wall'])
     surfaces['basement_int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Floor'])
     surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
                             extract_surfaces(idf, ['BuildingSurface:Detailed'], ['GroundSlabPreprocessorAverage'],
