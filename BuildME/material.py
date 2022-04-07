@@ -40,7 +40,7 @@ def calc_mat_vol_m2(constructions, materials_dict, fallback_mat):
     return res
 
 
-def calc_mat_vol_bdg(idff, surfaces, mat_m2):
+def calc_mat_vol_bdg(idff, surfaces, mat_m2, densities):
     """
     Calculate building's total material intensity.
     :param surfaces:
@@ -61,14 +61,26 @@ def calc_mat_vol_bdg(idff, surfaces, mat_m2):
                 except:
                     fenestration_area += SurrogateElement(item).area
             area = surface.area - fenestration_area
-        for material in mat_m2[surface.Construction_Name]:
-            # thickness * surface
-            mat_in_element = mat_m2[surface.Construction_Name][material] * area
-            if material not in mat_vol:
-                mat_vol[material] = mat_in_element
+        constr_name = surface.Construction_Name
+        if constr_name in mat_m2:
+            layers = mat_m2[constr_name]
+            for material in layers:
+                # thickness * surface
+                mat_in_element = mat_m2[constr_name][material] * area
+                if material not in mat_vol:
+                    mat_vol[material] = mat_in_element
+                else:
+                    mat_vol[material] += mat_in_element
+        else:
+            Ffactor_obj = [obj for obj in idff.idfobjects['Construction:FfactorGroundFloor'] if obj.Name == constr_name]
+            Cfactor_obj = [obj for obj in idff.idfobjects['Construction:CfactorUndergroundWall'] if obj.Name == constr_name]
+            if Ffactor_obj:
+                mat_vol, densities = add_ground_floor_ffactor(mat_vol, Ffactor_obj[0], area, densities)
+            elif Cfactor_obj:
+                mat_vol, densities = add_underground_wall_cfactor(mat_vol, Cfactor_obj[0], area, densities)
             else:
-                mat_vol[material] += mat_in_element
-    return mat_vol
+                print(f"Construction '{constr_name}' cannot be found")
+    return mat_vol, densities
 
 
 def calc_mat_mass_bdg(mat_vol_bdg, densities):

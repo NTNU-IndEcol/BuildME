@@ -5,7 +5,7 @@ Copyright: Niko Heeren, 2019
 """
 import collections
 import os
-
+import math
 import pandas as pd
 import numpy as np
 from eppy.modeleditor import IDF
@@ -459,3 +459,59 @@ def get_fenestration_objects_from_surface(idf, surface_obj):
         fenestration.extend(new)
     return fenestration
 
+
+def add_ground_floor_ffactor(mat_vol, obj, area, densities):
+    """
+    Adds ground floor material layers (concrete and insulation) based on the Ffactor method
+    https://bigladdersoftware.com/epx/docs/8-7/engineering-reference/ground-heat-transfer-calculations-using-c.html
+    + Table A6.3 Assembly F-Factors for Slab-on-Grade Floors from ASHRAE Energy standard for buildings except low rise residential buildings
+    (we assume 48 inch=1.22m vertical footing+insulation)
+    :param mat_vol: A dictionary with materials and their respective volumes
+    :return: the dictionary including Ffactor materials
+    """
+    material = 'Concrete' # 15 cm layer of concrete of the floor
+    densities[material] = 2200
+    if material not in mat_vol:
+        mat_vol[material] = 0.15*obj.Area
+    else:
+        mat_vol[material] += 0.15*obj.Area
+    mat_vol[material] += 0.15*1.22*obj.Perimeter_Exposed # 15 cm layer of concrete of the footing
+    material = 'Insulation' # fictious layer of insulation
+    densities[material] = 120
+    ffactor = obj.FFactor
+    # we derive an exponential regression line from Ffactor and insulation xsection (m2, height x thickness)
+    # based on ASHRAE Table A6.3, assuming conductivity of 0.036 W/m-K for converting R-values to insulation thickness
+    if 0.4<ffactor<0.65: # case for unheated slab, fit R^2 = 0.90
+        xsection = 93.732*math.exp(-14.25*ffactor)
+    elif 0.65<ffactor<1.1: # case for heated slab, fit R^2 = 0.90
+        xsection = 20.806*math.exp(-6.82*ffactor)
+    else:
+        xsection = 0 # we don't have ASHRAE values for these cases, skip insulation
+    if material not in mat_vol:
+        mat_vol[material] = xsection*obj.Perimeter_Exposed
+    else:
+        mat_vol[material] += xsection*obj.Perimeter_Exposed
+    return mat_vol, densities
+
+
+def add_underground_wall_cfactor(mat_vol, obj, area, densities):
+    """
+    Adds underground wall material layers (concrete and insulation) based on the Cfactor method
+    https://bigladdersoftware.com/epx/docs/8-7/engineering-reference/ground-heat-transfer-calculations-using-c.html
+    :param mat_vol: A dictionary with materials and their respective volumes
+    :return: the dictionary including Cfactor materials
+    """
+    material = 'Concrete' # 15 cm layer of concrete
+    densities[material] = 2200
+    if material not in mat_vol:
+        mat_vol[material] = 0.15*area
+    else:
+        mat_vol[material] += 0.15*area
+    material = 'Insulation' # fictious layer of insulation
+    densities[material] = 120
+    thickness = (1/obj.CFactor+0.0607+0.3479*obj.Height-0.15/1.95)*0.036
+    if material not in mat_vol:
+        mat_vol[material] = thickness*area
+    else:
+        mat_vol[material] += thickness*area
+    return mat_vol, densities
