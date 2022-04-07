@@ -153,7 +153,7 @@ def run_energyplus_single(tmp_path):
     os.chdir(settings.basepath)
 
 
-def ep_result_collector(ep_path, save='energy_intensity.csv'):
+def ep_result_collector(ep_path, save='energy_demand.csv'):
     """
     Reads the energy plus result file 'eplusout.csv' and returns the result (sum of entire column).
     :param ep_path: Absolute path of 'eplusout.csv'
