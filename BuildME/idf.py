@@ -8,6 +8,7 @@ import os
 import math
 import pandas as pd
 import numpy as np
+import logging
 from eppy.modeleditor import IDF
 
 from BuildME import settings
@@ -143,7 +144,8 @@ def get_surfaces(idf, energy_standard, res_scenario):
     surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
                             extract_surfaces(idf, ['BuildingSurface:Detailed'], ['GroundSlabPreprocessorAverage'],
                                              ['Floor']) + \
-                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Floor'])
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Floor']) + \
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['GroundFCfactorMethod'], ['Floor'])
     surfaces['ceiling_roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Ceiling'])
     surfaces['roof'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Roof'])
     # Check what surfaces are present in `total_no_surfaces` but were missed in `surfaces`
@@ -475,7 +477,7 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
         mat_vol[material] = 0.15*obj.Area
     else:
         mat_vol[material] += 0.15*obj.Area
-    mat_vol[material] += 0.15*1.22*obj.Perimeter_Exposed # 15 cm layer of concrete of the footing
+    mat_vol[material] += 0.15*1.22*obj.PerimeterExposed # 15 cm layer of concrete of the footing
     material = 'Insulation' # fictious layer of insulation
     densities[material] = 120
     ffactor = obj.FFactor
@@ -486,11 +488,12 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     elif 0.65<ffactor<1.1: # case for heated slab, fit R^2 = 0.90
         xsection = 20.806*math.exp(-6.82*ffactor)
     else:
+        logging.warning(f'The F-factor of the object {obj.Name} has a value outside of the known range. The insulation layer is skipped.')
         xsection = 0 # we don't have ASHRAE values for these cases, skip insulation
     if material not in mat_vol:
-        mat_vol[material] = xsection*obj.Perimeter_Exposed
+        mat_vol[material] = xsection*obj.PerimeterExposed
     else:
-        mat_vol[material] += xsection*obj.Perimeter_Exposed
+        mat_vol[material] += xsection*obj.PerimeterExposed
     return mat_vol, densities
 
 
