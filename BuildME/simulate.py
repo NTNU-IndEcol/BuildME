@@ -220,9 +220,9 @@ def translate_to_odym_mat(total_material_mass):
     return res
 
 
-def calculate_materials(run, fnames=None):
+def calculate_materials(run=None, fnames=None):
     print("Extracting materials and surfaces...")
-    if not fnames:
+    if not fnames or run:
         fnames, run = find_last_run()
         fnames = load_run_data_file(fnames)
     fallback_materials = material.load_material_data()
