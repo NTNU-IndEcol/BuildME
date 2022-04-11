@@ -455,7 +455,9 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'roof_consol_layer-en-standard': 'other',
                   'Brick - fired clay - 1120 kg/m3 - 102mm': 'brick',
                   'Brick inner 105 mm_0.1': 'brick',
-                  'Roof Tile_0.01': 'other'
+                  'Roof Tile_0.01': 'other',
+                  'Concrete': 'concrete',
+                  'Insulation': 'other'
                   }
 
 odym_regions = {'USA': 'R32USA',
