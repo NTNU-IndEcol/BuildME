@@ -13,7 +13,6 @@ from eppy.modeleditor import IDF
 
 from BuildME import settings
 
-
 class SurrogateElement:
     """
     A surrogate class for windows and doors, because e.g. idf.idfobjects['Window'.upper()] does not contain an 'area'
@@ -61,7 +60,8 @@ def extract_surfaces(idf, element_type, boundary, surface_type):
     surfaces = []
     for e in element_type:
         for s in idf.idfobjects[e.upper()]:
-            if e not in ['Window', 'FenestrationSurface:Detailed']:
+            #Some door objects also can be modeled with outside boundary condition object
+            if s.Surface_Type != 'Window' and s.Surface_Type != 'Door' and s.Surface_Type != 'GlassDoor':
                 if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
                     surfaces.append(s)
             else:
@@ -73,7 +73,7 @@ def extract_surfaces(idf, element_type, boundary, surface_type):
 def extract_windows(idf):
     """
     Need a special function here, because eppy doesn't know the 'Window' object.
-    If there are more use cases, this function can also be generlaized.
+    If there are more use cases, this function can also be generalized.
     :param idf:
     :return:
     """
@@ -85,7 +85,7 @@ def extract_windows(idf):
 def extract_doors(idf):
     """
     Need a special function here, because eppy doesn't know the 'Door' object.
-    If there are more use cases, this function can also be generlaized.
+    If there are more use cases, this function can also be generalized.
     :param idf:
     :return:
     """
@@ -114,6 +114,7 @@ def read_idf(in_file):
     return idf
 
 
+
 def get_surfaces(idf, energy_standard, res_scenario):
     """
     A function to derive all surfaces from the IDF file.
@@ -131,9 +132,9 @@ def get_surfaces(idf, energy_standard, res_scenario):
     surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Wall']) + \
                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Wall'])
     surfaces['door'] = extract_doors(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Door'])
-    surfaces['window'] = extract_windows(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window'])
-    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor']) + \
-                                extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
+    surfaces['window'] = extract_windows(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window']) + \
+                         extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['GlassDoor'])
+    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
     surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling']) + \
                               extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Ceiling'])
     surfaces['basement_ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
@@ -141,7 +142,8 @@ def get_surfaces(idf, energy_standard, res_scenario):
                                     extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                      ['GroundFCfactorMethod'], ['Wall'])
     surfaces['basement_int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Floor'])
-    surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
+    surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor']) + \
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
                             extract_surfaces(idf, ['BuildingSurface:Detailed'], ['GroundSlabPreprocessorAverage'],
                                              ['Floor']) + \
                             extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Floor']) + \
@@ -362,7 +364,7 @@ def calc_envelope(areas):
 def read_materials(idf):
     materials = []
     for mtype in ['Material', 'Material:NoMass', 'Material:AirGap',
-                  'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Blind',
+                  'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Blind','WindowMaterial:Shade',
                   'WindowMaterial:Glazing']:
         materials = materials + [i for i in idf.idfobjects[mtype.upper()]]
     find_duplicates(materials)
