@@ -7,10 +7,14 @@ Copyright: Niko Heeren, 2019
 import os
 import platform
 
+# Setting the required paths
 ep_version = '9.2.0'
 basepath = os.path.abspath('.')
 ep_path = os.path.abspath("./bin/EnergyPlus-9-2-0/")
 ep_idd = os.path.abspath(os.path.join(ep_path, "Energy+.idd"))
+archetypes = os.path.abspath("./data/archetype/")
+tmp_path = os.path.abspath("./tmp/")
+climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
 # Checking OS and modify files to copy
 platform = platform.system()
@@ -31,9 +35,7 @@ elif platform == 'Darwin':
 else:
     raise NotImplementedError('OS is not supported!')
 
-archetypes = os.path.abspath("./data/archetype/")
-tmp_path = os.path.abspath("./tmp/")
-climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
+
 shielding = 'medium'  # wind shielding, needed for MMV simulations; set to low, medium or high
 
 # The combinations
@@ -470,8 +472,8 @@ odym_regions = {'USA': 'R32USA',
                 'PL': 'Poland',
                 'ES': 'Spain',
                 'UK': 'UK',
-                'Oth-R32EU15': 'Oth-R32EU15',
-                'Oth-R32EU12-H': 'Oth-R32EU12-H',
+                'Oth-R32EU15': 'Oth_R32EU15',
+                'Oth-R32EU12-H': 'Oth_R32EU12-H',
                 'Oth-OECD': 'R5.2OECD_Other',
                 'Oth-REF': 'R5.2REF_Other',
                 'Oth-Asia': 'R5.2ASIA_Other',

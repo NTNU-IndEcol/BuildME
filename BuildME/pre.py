@@ -19,11 +19,16 @@ def validate_ep_version(folders=settings.archetypes,crash=False):
     :return:
     """
     # Check if energyplus version matches the one of the binary
-    # Fragile function assuming the version is separated by '-'
-    bin_ver = settings.ep_path.split('-')[-3:]
-    if '.'.join(bin_ver) != settings.ep_version:
+    try:
+        with open(settings.ep_idd, mode='r') as f:
+            bin_ver = f.readline().strip().split()[1]  # Extract the version from the IDD file's first line, e.g. '!IDD_Version 9.2.0'
+    except FileNotFoundError:
+        bin_ver = None
+        print("'Energy+.idd' can't be found.")
+
+    if bin_ver != settings.ep_version:
         err = "WARNING: energyplus version in settings (%s) does not match implied version (%s) from path (%s)" \
-              % (settings.ep_version, '.'.join(bin_ver), settings.ep_path)
+              % (settings.ep_version, bin_ver, settings.ep_idd)
         if crash:
             raise AssertionError(err)
         else:
