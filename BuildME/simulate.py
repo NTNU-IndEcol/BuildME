@@ -119,18 +119,31 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
 
 def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
     """
+    The function will use the values in data/replace.xlsx, as handed over in en_replace, and
+     replace them in the idf file. The function can be either applied for RES, e.g. ['USA', 'MFH', 'RES0'],
+     or en-standard, e.g. ['USA', 'MFH', 'standard'].
+     It is being called from copy_scenario_files().
 
-    :param idf_f:
-    :param res:
-    :param en_replace: Excel replacement rules
+    :param idf_f: Un-modified / original idf file
+    :param res: RES, e.g. ['USA', 'MFH', 'RES0'] or en_standard, e.g. ['USA', 'MFH', 'standard']
+    :param en_replace: Excel replacement rules from data/replace.xlsx, sheet 'en-standard' *or* 'RES'
     :param en_replace: Excel replacement rules related to MMV cooling type
-    :return:
+    :return: Modified idf file
     """
+    if tuple(res) not in en_replace.index:
+        print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
+        return idf_f
     xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
-    xls_values2 = mmv_en_replace.loc(axis=0)[[res[1]], [res[2]]]
-    xls_values = pd.concat([xls_values1, xls_values2])
+    # mmv_en_replace only applies for en-standard and not RES. Should fix / avoid #63
+    if 'RES' in res[2]:
+        xls_values = xls_values1
+    else:
+        xls_values2 = mmv_en_replace.loc(axis=0)[[res[1]], [res[2]]]
+        xls_values = pd.concat([xls_values1, xls_values2])
+    # Check if the combination has a value in replace.xlsx
     if not 'RES' in res[2]:
-        assert len(xls_values) > 0, "Did not find an energy replacement for '%s" % res
+        if len(xls_values) == 0:
+            print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
     for xls_value in xls_values.iterrows():
         if xls_value[1]['Value'] == 'skip':
             continue
@@ -177,6 +190,8 @@ def copy_scenario_files(fnames, run, replace=False):
         else:
             en_str = [region, occ_type, fnames[fname]['energy_standard']]
             res_str = [region, occ_type, fnames[fname]['RES']]
+        en_replace.sort_index(inplace=True)
+        res_replace.sort_index(inplace=True)
         idf_f = apply_rule_from_excel(idf_f, en_str, en_replace, mmv_en_replace)
         idf_f = apply_rule_from_excel(idf_f, res_str, res_replace, mmv_en_replace)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
