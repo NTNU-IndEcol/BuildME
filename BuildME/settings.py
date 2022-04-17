@@ -7,7 +7,7 @@ Copyright: Niko Heeren, 2019
 import os
 import platform
 
-# Setting the required paths
+# Path setting
 ep_version = '9.2.0'
 basepath = os.path.abspath('.')
 ep_path = os.path.abspath("./bin/EnergyPlus-9-2-0/")
@@ -16,7 +16,7 @@ archetypes = os.path.abspath("./data/archetype/")
 tmp_path = os.path.abspath("./tmp/")
 climate_files_path = os.path.abspath("./data/climate/meteonorm71/")
 
-# Checking OS and modify files to copy
+# Checking OS and define files to copy to the temporary folders
 platform = platform.system()
 if platform == 'Windows':
     ep_exec_files = ["energyplus.exe", "Energy+.idd", "EPMacro.exe", "ExpandObjects.exe",
@@ -27,20 +27,19 @@ if platform == 'Windows':
 elif platform == 'Darwin':
     ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
                      "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
-                     "libgfortran.5.dylib", "libquadmath.0.dylib",  # required by ExpandObjects
+                     "libgfortran.5.dylib", "libquadmath.0.dylib",  'libgcc_s.1.dylib',  # required by ExpandObjects
                      "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
                      "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
                      "PostProcess/ReadVarsESO"
                      ]
 else:
-    raise NotImplementedError('OS is not supported!')
+    raise NotImplementedError('OS is not supported! %s' % platform)
 
-
+# Modelling settings
 shielding = 'medium'  # wind shielding, needed for MMV simulations; set to low, medium or high
 
-# The combinations
-#   Example: USA.SFH_standard.RES0.
-
+# Combination settings
+#  Define the combinations to be created, e.g. USA.SFH_standard.RES0
 
 debug_combinations = {
     'USA':
@@ -247,6 +246,11 @@ combinations = \
              },
     }
 
+# Proxy settings
+#  Define archetypes to be used instead
+#  E.g. ('DE', 'SFH'): ('DE', 'MFH') will mean that the multi-family home will be used
+#  instead of the single-family home for the DE region
+
 archetype_proxies = {
     ('DE', 'SFH'): ('USA', 'SFH'),
     ('DE', 'MFH'): ('USA', 'MFH'),
@@ -312,7 +316,6 @@ archetype_proxies = {
     ('Oth-MAF', 'MFH'): ('USA', 'MFH'),
     ('Oth-MAF', 'RT'): ('USA', 'RT'),
     ('Oth-MAF', 'informal'): ('USA', 'informal'),
-
     ('Oth-MAF-Sub-Sahara', 'SFH'): ('USA', 'SFH'),
     ('Oth-MAF-Sub-Sahara', 'MFH'): ('USA', 'MFH'),
     ('Oth-MAF-Sub-Sahara', 'RT'): ('USA', 'RT'),
@@ -326,6 +329,9 @@ archetype_proxies = {
     ('Oth-REF', 'RT'): ('USA', 'RT'),
     ('Oth-REF', 'informal'): ('USA', 'informal')
 }
+
+# Climate station settings
+#  Defines sub-regions and allows assigning them climate files
 
 climate_stations = {
     'USA': {
@@ -384,6 +390,10 @@ climate_stations = {
     'Oth-MAF-Sub-Sahara': {'Nigeria': 'BENIN_NI-hour.epw'},
     'Oth-LAM': {'Brazil': 'Rio_de_Janeiro_BR-hour.epw'}
 }
+
+# Material settings
+#  Assign material categories to individual materials.
+#  This will be used in the final aggregation for material intensity.
 
 odym_materials = {'Asphalt_shingle': 'other',
                   'Air_4_in_vert': 'other',
@@ -459,6 +469,9 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'Brick inner 105 mm_0.1': 'brick',
                   'Roof Tile_0.01': 'other'
                   }
+
+# Region settings
+#  Translates BuildME regions to ODYM regions in the final result file
 
 odym_regions = {'USA': 'R32USA',
                 'CA': 'R32CAN',
