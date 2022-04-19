@@ -6,9 +6,12 @@ RES 1: Service sufficiency
 Copyright: Niko Heeren, 2019
 """
 
-
+import logging
 from . import *
 from eppy import modeleditor
+
+
+logger = logging.getLogger(__name__)
 
 
 def apply_material_substitution(idf, mat, mate_new):

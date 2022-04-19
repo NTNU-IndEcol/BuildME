@@ -6,12 +6,15 @@ Copyright: Niko Heeren, 2019
 
 import collections
 import os
-
+import logging
 import pandas as pd
 from eppy.modeleditor import IDF
 
 from BuildME import settings
 from BuildME.idf import *
+
+
+logger = logging.getLogger(__name__)
 
 
 def calc_mat_vol_m2(constructions, materials_dict, fallback_mat):

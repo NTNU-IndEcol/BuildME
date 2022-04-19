@@ -7,6 +7,7 @@ import datetime
 import shutil
 import os
 import subprocess
+import logging
 
 import pandas as pd
 from tqdm import tqdm
@@ -14,6 +15,7 @@ from tqdm import tqdm
 from BuildME import settings, idf
 
 
+logger = logging.getLogger(__name__)
 
 
 def launch_ep():

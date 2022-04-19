@@ -1,10 +1,13 @@
+import logging.config
 from BuildME import settings, pre, idf, material, energy, simulate, __version__
+
+logger = logging.getLogger('BuildME')
 
 
 def run_new():
     """Run new simulation from scratch"""
 
-    print("Running new simulation...")
+    logging.info("Running new simulation...")
     # Some pre-processing
     pre.validate_ep_version()
     pre.create_mmv_variants(comb=settings.debug_combinations)
@@ -42,7 +45,7 @@ def continue_previous(run_eplus=False):
     """
 
     # Find and load last simulation
-    print("Continuing previous simulation...")
+    logging.info("Continuing previous simulation...")
     fnames, run = simulate.find_last_run()
     fnames = simulate.load_run_data_file(fnames)
     if run_eplus:
@@ -58,7 +61,9 @@ def continue_previous(run_eplus=False):
 
 
 if __name__ == "__main__":
+    logging.config.dictConfig(settings.LOGGING_CONFIG)
+    logging.info("BuildME is starting...")
     # Only run either of the following functions
     # run_new()
     continue_previous()
-    print("Done.")
+    logging.info("Done.")

@@ -6,6 +6,10 @@ Copyright: Niko Heeren, 2019
 
 import os
 import platform
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 # Path setting
 ep_version = '9.2.0'
@@ -493,3 +497,51 @@ odym_regions = {'USA': 'R32USA',
                 'Oth-MAF-Sub-Sahara': 'R5.2MAF_Other_Sub_Sahara',
                 'Oth-MAF': 'R5.2MAF_Other',
                 'Oth-LAM': 'R5.2LAM_Other'}
+
+# Logging settings
+# The logging settings were adapted from:
+# https://guicommits.com/how-to-log-in-python-like-a-pro/
+ERROR_LOG_FILENAME = '.BuildME-errors.log'  # TODO(cbreton026): Add specific path?
+
+LOGGING_CONFIG = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+            "datefmt": "%Y-%m-%d %H:%M:%S",  # How to display dates
+        },
+    },
+    'handlers': {
+        'default': {
+            'level': 'DEBUG',  # Originally 'INFO'
+            'formatter': 'standard',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stdout',  # Default is stderr
+        },
+        'logfile': {
+            'level': 'ERROR',
+            'formatter': 'standard',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': ERROR_LOG_FILENAME,
+            'maxBytes': 1048576,  # 1*1024*1024 or 1MB
+            'backupCount': 2,  # Keeps up to two 1MB logfiles
+        },
+    },
+    'loggers': {
+        'BuildME': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+        '__main__': {  # if __name__ == '__main__'
+            'handlers': ['default'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    },
+    'root': {
+        'level': 'INFO',  # Affects all, except defined loggers
+        'handlers': ['default', 'logfile'],
+    },
+}

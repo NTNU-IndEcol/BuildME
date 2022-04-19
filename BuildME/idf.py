@@ -4,13 +4,15 @@ Functions to manipulate the IDF files.
 Copyright: Niko Heeren, 2019
 """
 import collections
-import os
-
+import logging
 import pandas as pd
 import numpy as np
 from eppy.modeleditor import IDF
 
 from BuildME import settings
+
+
+logger = logging.getLogger(__name__)
 
 
 class SurrogateElement:
