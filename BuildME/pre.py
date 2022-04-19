@@ -11,20 +11,15 @@ from BuildME.idf import read_idf
 from BuildME.mmv import change_archetype_to_MMV, create_empty_replace_mmv
 
 
-def validate_ep_version(folders=settings.archetypes,crash=False):
+def validate_ep_version(folders=settings.archetypes, crash=True):
     """
     Walks through all archetype files and verify matching energyplus version
     :param folders: Folder with archetype files to check
     :param crash: Raise Error if true and an error is found. Else script will continue.
-    :return:
     """
     # Check if energyplus version matches the one of the binary
-    try:
-        with open(settings.ep_idd, mode='r') as f:
-            bin_ver = f.readline().strip().split()[1]  # Extract the version from the IDD file's first line, e.g. '!IDD_Version 9.2.0'
-    except FileNotFoundError:
-        bin_ver = None
-        print("'Energy+.idd' can't be found.")
+    with open(settings.ep_idd, mode='r') as f:
+        bin_ver = f.readline().strip().split()[1]  # Extract the version from the IDD file's first line, e.g. '!IDD_Version 9.2.0'
 
     if bin_ver != settings.ep_version:
         err = "WARNING: energyplus version in settings (%s) does not match implied version (%s) from path (%s)" \
