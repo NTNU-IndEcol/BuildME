@@ -12,11 +12,15 @@ import pickle
 import subprocess
 import sys
 from time import sleep
+import logging
 
 import pandas as pd
 from tqdm import tqdm
 
 from BuildME import settings, idf, material, energy, mmv, __version__
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_combinations(comb=settings.combinations):

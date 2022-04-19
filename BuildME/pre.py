@@ -4,11 +4,14 @@ Pre-processing funtions for BuildME.
 Copyright: Niko Heeren, 2021
 """
 import os
-
+import logging
 from BuildME import settings
 from tqdm import tqdm
 from BuildME.idf import read_idf
 from BuildME.mmv import change_archetype_to_MMV, create_empty_replace_mmv
+
+
+logger = logging.getLogger(__name__)
 
 
 def validate_ep_version(folders=settings.archetypes, crash=True):

@@ -10,6 +10,10 @@ import openpyxl
 from . import settings
 import os
 import datetime
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def change_archetype_to_MMV(idf, occupation):

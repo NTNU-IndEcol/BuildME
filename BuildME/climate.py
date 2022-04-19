@@ -4,6 +4,10 @@ Scripts for managing climate data
 Copyright: Niko Heeren, 2019
 """
 import pandas as pd
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def read_epw(epw_file):
