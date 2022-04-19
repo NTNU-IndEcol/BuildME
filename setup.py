@@ -22,7 +22,9 @@ def get_version(rel_path: str) -> str:
     raise RuntimeError("Unable to find version string.")
 
 
+# This was inspired from Patrick J Mineault & The Good Research Code Handbook Community (2021).
 # For more details on setup, see:
+# The Good Research Code Handbook. Zenodo. [doi:10.5281/zenodo.5796873](https://dx.doi.org/10.5281/zenodo.5796873)
 # https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/
 long_description = read("README.md")
 
