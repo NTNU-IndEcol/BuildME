@@ -3,15 +3,17 @@ Functions to convert IDFs with complex HVAC systems to create IDF versions with 
 
 Use these functions:
 to delete complex HVAC objects in IDF files,
+to delete complex HVAC objects in IDF files without intervening the DHW connections,
 to create new Ideal Loads objects,
 to fill out missing fields in new Ideal Loads objects with the values from the original complex HVAC IDFs
 
 Copyright: Sahin AKIN, 2022
+Version 2.0
 """
 
 import os
-from eppy.bunch_subclass import BadEPFieldError
 from eppy.modeleditor import IDF
+from functools import reduce
 
 # Make sure that you have selected the correct working directory (BUILDME)
 # Standalone Run Requirements
@@ -24,91 +26,137 @@ ep_idd = os.path.abspath("..\\bin\\EnergyPlus-9-2-0\\Energy+.idd")
 IDF.setiddname(ep_idd)
 
 
-def delete_cmplx_HVAC(originalidf_path):
+def delete_cmplx_HVAC(originalidf_path,savefolder_path):
     """
-    Deletes Unnecessary fields that are not shared with DHW systems
-    :param originalidf_path: Path for the original IDF with a complex HVAC data
-    :return: editedidf
-    """
-    originalidf = IDF(originalidf_path)
+    Deletes All HVAC fields
+    It is useful if there is no DHW system modeled in the IDF file
 
-    # The following objects can be deleted automatically.
-    delete_objects_list = [
-        "DESIGNSPECIFICATION:OUTDOORAIR",
-        "DESIGNSPECIFICATION:ZONEAIRDISTRIBUTION",
-        "SIZING:ZONE",
-        "SIZING:SYSTEM",
-        "ZONECONTROL:THERMOSTAT",
-        "THERMOSTATSETPOINT:DUALSETPOINT",
-        "ZONEHVAC:UNIHEATER",
-        "ZONEHVAC:FOURPIPEFANCOIL",
-        "AIRTERMINAL:SINGLEDUCT:UNCONTROLLED",
-        "AIRTERMINAL:SINGLEDUCT:VAV:REHEAT",
-        "ZONEHVAC:AIRDISTRIBUTIONUNIT",
-        "ZONEHVAC:EQUIPMENTLIST",
-        "ZONEHVAC:EQUIPMENTCONNECTIONS",
-        "FAN:VARIABLEVOLUME",
-        "FAN:CONSTANTVOLUME",
-        "FAN:SYSTEMMODEL",
-        "FAN:ONOFF",
-        "FAN:ZONEEXHAUST",
-        "COIL:COOLING:DX:TWOSPEED",
-        "COIL:COOLING:DX:MULTISPEED",
-        "COIL:COOLING:WATER",
-        "COIL:HEATING:WATER",
-        "COIL:HEATING:FUEL",
-        "COIL:HEATING:ELECTRIC",
-        "COILSYSTEM:COOLING:DX",
-        "HEATEXCHANGER:AIRTOAIR:SENSIBLEANDLATENT",
-        "AIRLOOPHVAC:UNITARYSYSTEM",
-        "UNITARYSYSTEMPERFORMANCE:MULTISPEED",
-        "CONTROLLER:WATERCOIL",
-        "CONTROLLER:OUTDOORAIR",
-        "CONTROLLER:MECHANICALVENTILATION",
-        "AIRLOOPHVAC:CONTROLLERLIST",
-        "AIRLOOPHVAC",
-        "AIRLOOPHVAC:OUTDOORAIRSYSTEM:EQUIPMENTLIST",
-        "AIRLOOPHVAC:OUTDOORAIRSYSTEM",
-        "OUTDOORAIR:MIXER",
-        "AIRLOOPHVAC:ZONESPLITTER",
-        "AIRLOOPHVAC:SUPPLYPATH",
-        "AIRLOOPHVAC:ZONEMIXER",
-        "AIRLOOPHVAC:RETURNPLENUM",
-        "AIRLOOPHVAC:RETURNPATH",
-        "NODELIST",
-        "OUTDOORAIR:NODE",
-        "OUTDOORAIR:NODELIST",
-        "PUMP:VARIABLESPEED",
-        "BOILER:HOTWATER",
-        "CHILLER:ELECTRIC:EIR",
-        "AVAILABILITYMANAGER:NIGHTCYCLE",
-        "AVAILABILITYMANAGERASSIGNMENTLIST",
-        "SETPOINTMANAGER:OUTDOORAIRRESET",
-        "SETPOINTMANAGER:SINGLEZONE:HEATING",
-        "SETPOINTMANAGER:SINGLEZONE:COOLING",
-        "SETPOINTMANAGER:MIXEDAIR",
-        "SETPOINTMANAGER:OUTDOORAIRPRETREAT",
-        "REFRIGERATION:CASE",
-        "REFRIGERATION:COMPORESSORRACK",
-        "REFRIGERATION:CASEANDWALKINLIST",
-        "CURVE:QUADRATIC",
-        "CURVE:BIQUADRATIC"
-    ]
-    for x in originalidf.idfobjects:
-        for y in delete_objects_list:
-            if str(x) == y:
-                originalidf.removeallidfobjects(x)
-    editedidf = originalidf
+    :param originalidf_path: Path for the original IDF with a complex HVAC data
+    :return: savefolder_path: Path to use where all converted files will be saved
+    """
+    # Backup
+    originalidf = IDF(originalidf_path)
+    building=originalidf.idfobjects["Building".upper()][0].Name
+    originalidf.saveas(f"{savefolder_path}\\{building}_BuildME_interim.idf")
+    idf=IDF(f"{savefolder_path}\\{building}_BuildME_interim.idf")
+
+    # Lets find out all available keys in the IDF file
+    allkeys = idfobjectkeys(idf)
+
+    # Getting all possible HVAC-related keys by filtering...
+    HVAC_related_list= allkeys[allkeys.index('HVACTEMPLATE:THERMOSTAT'):]
+    HVAC_related_list = HVAC_related_list[:HVAC_related_list.index('MATRIX:TWODIMENSION')]
+
+    # Deleting all HVAC and DHW objects in our filtered list
+    for HVAC_obj in HVAC_related_list:
+        idf.removeallidfobjects(HVAC_obj)
+
+    idf.saveas(f"{savefolder_path}\\{building}_BuildME_cleaned.idf")
+    editedidf=idf
+
     return editedidf
 
 
-def create_IdealLoads_objects(editedidf, originalidf_path):
+def idfobjectkeys(idf):
     """
-    :param editedidf: edited IDF file
-    :param originalidf_path: path for the original IDF file contains complex HVAC data
-    :return: an IDF with IdealLoads systems
+    Returns the object keys in the order they were in the IDD file
+    It is an ordered list
+    :param: idf: idf file"""
+    return idf.model.dtls
+
+def colored(r, g, b, text):
     """
+    Assigns color to terminal text based on given rgb values
+    :param r:
+    :param g:
+    :param b:
+    :param text:
+    :return:
+    """
+    return "\033[38;2;{};{};{}m{} \033[38;2;255;255;255m".format(r, g, b, text)
+
+def delete_cmplx_HVAC_keep_DHW(originalidf_path,savefolder_path):
+    """
+    An advanced automatic version of the delete_cmplx_HVAC() in version 1.0.
+    Now it is possible to seperate DHW and HVAC systems without manual intervention
+    The only requirement is that DHW elements should have an identifier, or common string throughout.
+    This could be "DHW" or "SHW" or any other string portion that is used repeatedly in all DHW objects.
+
+    Run Order:
+    1) Identify HVAC keys in IDF
+    2) Getting objects from the HVAC keys
+    3) Searching for DHW objects
+    4) Deleting all HVAC keys
+    5) Recreating DHW objects and defining into the IDF
+
+    :param originalidf_path: Path for the original IDF with a complex HVAC data
+    :param savefolder_path: Path to use where all converted files will be saved
+    :return:
+    """
+
+    # Backup
     originalidf = IDF(originalidf_path)
+    building=originalidf.idfobjects["Building".upper()][0].Name
+    originalidf.saveas(f"{savefolder_path}\\{building}_BuildME_interim.idf")
+    idf=IDF(f"{savefolder_path}\\{building}_BuildME_interim.idf")
+
+    name=input(colored(0, 255, 255, "Please enter str value for the common DHW naming used in your IDF file:"))
+
+    # Lets find out all available keys in the IDF file
+    allkeys = idfobjectkeys(idf)
+
+    # Getting all possible HVAC-related keys by filtering...
+    HVAC_related_list= allkeys[allkeys.index('HVACTEMPLATE:THERMOSTAT'):]
+    HVAC_related_list = HVAC_related_list[:HVAC_related_list.index('MATRIX:TWODIMENSION')]
+
+    findDHWlist=HVAC_related_list
+
+    # Gathering all objects individually in our HVAC list and creating a homogenous list
+    list=[]
+    for items in findDHWlist:
+        HVACobjects=idf.idfobjects[items.upper()]
+        for obj in HVACobjects:
+            list.append(obj)
+
+    # Finding all DHW fields and their corresponding overarching objects
+    objectswithDHW = []
+    allparameterfields=[]
+    for newobj in list:
+        for fields in newobj.fieldnames:
+            if newobj[fields]!="":
+                if type(newobj[fields])==str:
+                    if name in newobj[fields]:
+                        allparameterfields.append(newobj[fields])
+                        objectswithDHW.append(newobj)
+
+    # Deleting all HVAC and DHW objects in our filtered list
+    for HVAC_obj in HVAC_related_list:
+        idf.removeallidfobjects(HVAC_obj)
+    # Recreating DHW elements
+    objectswithDHW_reduced=reduce(lambda l, x: l.append(x) or l if x not in l else l, objectswithDHW, [])
+    for newobjects in objectswithDHW_reduced:
+        idf.copyidfobject(newobjects)
+
+    idf.saveas(f"{savefolder_path}\\{building}_BuildME_cleaned.idf")
+    editedidf=idf
+
+    return editedidf
+
+
+def create_IdealLoads_objects(originalidf_path,savefolder_path):
+    """
+    Function to get inputs from the interim file and using them to create new IdealLoads objects
+
+    :param originalidf_path: Path for the original IDF with a complex HVAC data
+    :param savefolder_path: Path to use where all converted files will be saved
+    :return:
+    """
+
+    # Backup
+    originalidf = IDF(originalidf_path)
+    building=originalidf.idfobjects["Building".upper()][0].Name
+    interimidf = IDF(f"{savefolder_path}\\{building}_BuildME_interim.idf")
+    editedidf= IDF(f"{savefolder_path}\\{building}_BuildME_cleaned.idf")
 
     zone_names = editedidf.idfobjects["Zone".upper()]
 
@@ -133,80 +181,42 @@ def create_IdealLoads_objects(editedidf, originalidf_path):
         newzone.Cooling_Limit = "LimitFlowRateAndCapacity"
 
         # Customization Part: Getting the approximate values from the complex HVAC version of the IDF
-        for items in originalidf.idfobjects["DesignSpecification:OutdoorAir".upper()]:
+        for items in interimidf.idfobjects["DesignSpecification:OutdoorAir".upper()]:
             if newzone.Zone_Name in items.Name:
                 newzone.Outdoor_Air_Flow_Rate_per_Zone_Floor_Area = items.Outdoor_Air_Flow_per_Zone_Floor_Area
                 newzone.Outdoor_Air_Method = items.Outdoor_Air_Method
-        for items in originalidf.idfobjects["Sizing:Zone".upper()]:
+        for items in interimidf.idfobjects["Sizing:Zone".upper()]:
             if newzone.Zone_Name == items.Zone_or_ZoneList_Name:
                 newzone.Minimum_Cooling_Supply_Air_Humidity_Ratio = items.Zone_Cooling_Design_Supply_Air_Humidity_Ratio
                 newzone.Maximum_Heating_Supply_Air_Humidity_Ratio = items.Zone_Heating_Design_Supply_Air_Humidity_Ratio
                 newzone.Minimum_Cooling_Supply_Air_Temperature = items.Zone_Cooling_Design_Supply_Air_Temperature
                 newzone.Maximum_Heating_Supply_Air_Temperature = items.Zone_Heating_Design_Supply_Air_Temperature
 
-        for items in originalidf.idfobjects["Controller:OutdoorAir".upper()]:
+        for items in interimidf.idfobjects["Controller:OutdoorAir".upper()]:
             newzone.Outdoor_Air_Economizer_Type = items.Economizer_Control_Type
 
-        for items in originalidf.idfobjects["AirLoopHVAC:UnitarySystem".upper()]:
+        for items in interimidf.idfobjects["AirLoopHVAC:UnitarySystem".upper()]:
             newzone.Dehumidification_Control_Type = items.Dehumidification_Control_Type
 
         # Warning: The following code creates missing fields if the schedule names do not correspond the zone name
-        for items in originalidf.idfobjects["ThermostatSetpoint:DualSetpoint".upper()]:
+        for items in interimidf.idfobjects["ThermostatSetpoint:DualSetpoint".upper()]:
             if newzone.Zone_Name in items.Name:
                 newthermos.Heating_Setpoint_Schedule_Name = items.Heating_Setpoint_Temperature_Schedule_Name
                 newthermos.Cooling_Setpoint_Schedule_Name = items.Cooling_Setpoint_Temperature_Schedule_Name
 
-        building = str(originalidf.idfobjects["Building".upper()][0].Name)
-        editedidf.saveas(f"IdealLoads_{building}.idf")
+        building = str(editedidf.idfobjects["Building".upper()][0].Name)
+        editedidf.saveas(f"IdealLoads_{building}_converted.idf")
 
-    return print("The process is completed, the new IDF is saved")
-
-
-def idfobjectkeys(idf):
-    """returns the object keys in the order they were in the IDD file
-    it is an ordered list of idf.idfobjects.keys()
-    keys of a dict are unordered, so idf.idfobjects.keys() will not work for this purpose"""
-    return idf.model.dtls
-
-
-def delete_cmplx_HVAC_keep_DHW(idf, **kwargs):
-    """return the object, if the Name or some other field is known.
-    send field in ``**kwargs`` as Name='a name', Roughness='smooth'
-    Returns the first find (field search is unordered)
-    objkeys -> if objkeys=['ZONE', 'Material'], search only those"""
-
-    # Lets find out all available keys in the IDF file
-    allkeys = idfobjectkeys(idf)
-    # Getting all possible HVAC-related keys by via filtering...
-    relavent_items = ["VER","DESIGNSPECIFICATION"]
-
-
-    for keys in allkeys:
-        for item in relavent_items:
-            mystr= f"{item}"
-            if mystr in keys:
-                allkeys.remove(f"{keys}")
-
-    filteredkeys = allkeys
-    print(filteredkeys)
-
-
-    objectswithDHW = []
-    for objkey in filteredkeys:
-        idfobjs = idf.idfobjects[objkey.upper()]
-        for idfobj in idfobjs:
-            for key, val in kwargs.items():
-                try:
-                    if val in idfobj[key]:
-                        objectswithDHW.append(idfobj)
-                except BadEPFieldError as e:
-                    continue
-    # now,lets delete everything and recreate all DHW objects!
-    return filteredkeys
+    os.remove(f"{savefolder_path}\\{building}_BuildME_interim.idf")
+    os.remove(f"{savefolder_path}\\{building}_BuildME_cleaned.idf")
+    return print("The conversion process is completed, the new IDF with Ideal Loads is saved")
 
 if __name__ == "__main__":
-    originalidf_path = "C:\\Users\\sahina\\PycharmProjects\\Kamila\\tools\\SchoolPrimary.idf"
-    idf1 = delete_cmplx_HVAC(originalidf_path)
-    # print(name2idfobject((delete_cmplx_HVAC(originalidf_path)),objkeys=["OUTPUT:"],field="Hourly"))
-    # print(idf1.getiddgroupdict())
-    print(delete_cmplx_HVAC_keep_DHW(idf1))
+
+    EXAMPLE CODE
+    originalidf_path = "...\\BuildME-master\\tools\\SchoolPrimary.idf"
+    savefolder_path ="...\\BuildME-master\\tools"
+
+    delete_cmplx_HVAC_keep_DHW(originalidf_path,savefolder_path)
+    create_IdealLoads_objects(originalidf_path, savefolder_path)
+
