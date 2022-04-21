@@ -1,6 +1,6 @@
-**Documentation on Ideal Loads Implementation**
+# **Documentation on Ideal Loads Implementation**
 
-**1.  Introduction and Motivation**
+## **1.  Introduction and Motivation**
 
 This document summarizes the implementation of the Ideal Loads HVAC system
 (ILHS) on the IDF files, which are modeled using advanced HVAC systems (i.e.,
@@ -19,100 +19,60 @@ Otherwise, the IDF files can be used by setting the cooling option in the
 debugging combination located at *settings.py* to"HVAC”.
 
 The conversion of the advanced HVAC systems to ILHS is based on deleting all the
-HVAC-related parameter objects and creating new ones corresponding to ILHS. ILHS
-implementation is not very suitable to be conducted by using a fully-automated
-workflow because HVAC systems can be modeled in various ways and may not follow
-a consistent pattern to be controlled by a code. In addition, generally advanced
-HVAC system parameters are shared with some other domestic-hot water (DHW)
-systems, increasing the complexity of the detangling process. For these reasons,
-the ILHS conversion process is designed in a semi-automated way, reducing manual
-intervention as much as possible.
+HVAC-related parameter objects and creating new ones corresponding to ILHS.
+HVAC systems can be modeled in various ways and these systems are generally shared with some other domestic-hot water (DHW)
+systems, which makes deleting only HVAC objects cumbersome. For these reasons, the detangling of the HVAC and DHW systems is required. 
+IdealLoads Converter is designed in an automated way, reducing manual
+intervention as much as possible. The only prerequisite is thath DHW elements should have an identifier, or common string throughout. This could be "DHW" or "SHW" or any other string portion that is used repeatedly in all DHW objects.
 
-The code contains two functions where *delete_cmplx_HVAC* deletes the unique
-simulation parameters containing only the HVAC objects, and
-*create_IdealLoads_objects* creates new simulation parameters for ILHS by using
+Ideal Loads Converter has several functions where *delete_cmplx_HVAC* deletes the unique
+simulation parameters containing only the HVAC objects, *delete_cmplx_HVAC_keep_DHW* deletes the HVAC objects without intervening the DHW systems
+and lastly, *create_IdealLoads_objects* creates new simulation parameters for ILHS by using
 the old values in the advanced HVAC objects from the original IDF file. In the
 upcoming sections, these functions will be introduced thoroughly.
 
-**2.  Workflow**
+## **2.  Workflow**
 
 The conversion workflow comprises two stages, namely the deletion and creation
 stage.
 
-*2.1.  Deletion stage*
+### *2.1.  Deletion stage*
 
-The deletion stage consists of two parts, where the first part is automatically
-conducted, while the second one requires manual manipulation.
+The deletion stage consists of two functions, where the first function is only applicable to the IDFs without DHW systems and the latter can be used if there is also an existing DHW system available in IDF.
 
--   *Deleting advanced HVAC simulation parameters via code*
-    (*delete_cmplx_HVAC):*
+#### *2.1.1 Deleting advanced HVAC simulation parameters*
+ ```delete_cmplx_HVAC(originalidf_path,savefolder_path)```:
 
-The function deletes the unnecessary parameters that only include advanced HVAC
-objects specifically. The parameters in Table 1 do not contain any DHW objects
-and can be deleted automatically for all IDF files. The parameter list reported
-here does not cover all advanced HVAC objects, therefore based on the user’s
-original IDF elements, this list can be expanded.
-|Simulation Parameters                        |                                               |
-|---------------------------------------------|-----------------------------------------------|
-| "DESIGNSPECIFICATION:OUTDOORAIR",           | "UNITARYSYSTEMPERFORMANCE:MULTISPEED",        |
-| "DESIGNSPECIFICATION:ZONEAIRDISTRIBUTION",  | "CONTROLLER:WATERCOIL",                       |
-| "SIZING:ZONE",                              | "CONTROLLER:OUTDOORAIR",                      |
-| "SIZING:SYSTEM",                            | "CONTROLLER:MECHANICALVENTILATION",           |
-| "ZONECONTROL:THERMOSTAT",                   | "AIRLOOPHVAC:CONTROLLERLIST",                 |
-| "THERMOSTATSETPOINT:DUALSETPOINT",          | "AIRLOOPHVAC",                                |
-| "ZONEHVAC:UNIHEATER",                       | "AIRLOOPHVAC:OUTDOORAIRSYSTEM:EQUIPMENTLIST", |
-| "ZONEHVAC:FOURPIPEFANCOIL",                 | "AIRLOOPHVAC:OUTDOORAIRSYSTEM",               |
-| "AIRTERMINAL:SINGLEDUCT:UNCONTROLLED",      | "OUTDOORAIR:MIXER",                           |
-| "AIRTERMINAL:SINGLEDUCT:VAV:REHEAT",        | "AIRLOOPHVAC:ZONESPLITTER",                   |
-| "ZONEHVAC:AIRDISTRIBUTIONUNIT",             | "AIRLOOPHVAC:SUPPLYPATH",                     |
-| "ZONEHVAC:EQUIPMENTLIST",                   | "AIRLOOPHVAC:ZONEMIXER",                      |
-| "ZONEHVAC:EQUIPMENTCONNECTIONS",            | "AIRLOOPHVAC:RETURNPLENUM",                   |
-| "FAN:VARIABLEVOLUME",                       | "AIRLOOPHVAC:RETURNPATH",                     |
-| "FAN:CONSTANTVOLUME",                       | "NODELIST",                                   |
-| "FAN:SYSTEMMODEL",                          | "OUTDOORAIR:NODE",                            |
-| "FAN:ONOFF",                                | "OUTDOORAIR:NODELIST",                        |
-| "FAN:ZONEEXHAUST",                          | "PUMP:VARIABLESPEED",                         |
-| "COIL:COOLING:DX:TWOSPEED",                 | "BOILER:HOTWATER",                            |
-| "COIL:COOLING:DX:MULTISPEED",               | "CHILLER:ELECTRIC:EIR",                       |
-| "COIL:COOLING:WATER",                       | "AVAILABILITYMANAGER:NIGHTCYCLE",             |
-| "COIL:HEATING:WATER",                       | "AVAILABILITYMANAGERASSIGNMENTLIST",          |
-| "COIL:HEATING:FUEL",                        | "SETPOINTMANAGER:OUTDOORAIRRESET",            |
-| "COIL:HEATING:ELECTRIC",                    | "SETPOINTMANAGER:SINGLEZONE:HEATING",         |
-| "COILSYSTEM:COOLING:DX",                    | "SETPOINTMANAGER:SINGLEZONE:COOLING",         |
-| "HEATEXCHANGER:AIRTOAIR:SENSIBLEANDLATENT", | "SETPOINTMANAGER:MIXEDAIR",                   |
-| "AIRLOOPHVAC:UNITARYSYSTEM",                | "SETPOINTMANAGER:OUTDOORAIRPRETREAT",         |
-| "REFRIGERATION:CASEANDWALKINLIST",          | "REFRIGERATION:CASE",                         |
-| "CURVE:QUADRATIC",                          | "REFRIGERATION:COMPORESSORRACK",              |
-| "CURVE:BIQUADRATIC"                         |                                               |
+The function deletes the unnecessary parameters that include advanced HVAC
+objects. The function should only be used if the IDF about to be converted does not contain any DHW objects. 
+All parameters between **'HVACTEMPLATE:THERMOSTAT** and **'MATRIX:TWODIMENSION'** will be deleted and a new IDF file will be saved to the save folder.
+There is also a backup routine implemented to avoid losses in the original IDF files. 
 
-Table 1. Advanced HVAC parameters
 
--   *Deleting advanced HVAC simulation parameters manually:*
+*Variables*:
 
-Manual editing is only required if IDF files also contain a DHW system along
-with the advanced HVAC objects. The following parameters are commonly used
-between DHW and HVAC (Table 2). As the naming of the object names depends on
-user choices, automation in this part does not guarantee a functional IDF after
-the run. Therefore, manual manipulation to winnow out HVAC objects is
-recommended for the common parameters shared with DHW systems. As stated
-previously, this list can be expanded based on the advanced HVAC type in the
-original IDF file.
-|Simulation Parameters                             |                                     |
-|--------------------------------------------------|-------------------------------------|
-| "SCHEDULE:CONSTANT ",                            | "ENERGYMANAGEMENTSYSTEM:SENSOR ",   |
-| "SETPOINTMANAGER:SCHEDULED ",                    | "ENERGYMANAGEMENTSYSTEM:ACTUATOR ", |
-| "ENERGYMANAGEMENTSYSTEM:PROGRAMCALLINGMANAGER ", | "PUMP:CONSTANTSPEED ",              |
-| "ENERGYMANAGEMENTSYSTEM:PROGRAM ",               | "PIPE:ADIABATIC ",                  |
-| "ENERGYMANAGEMENTSYSTEM:SENSOR ",                | "SIZING:PLANT ",                    |
-| "PLANTEQUIPMENTLIST ",                           | "BRANCH ",                          |
-| "PLANTEQUIPMENTOPERATION:HEATINGLOAD ",          | "BRANCHLIST ",                      |
-| "PLANTEQUIPMENTOPERATION:COOLINGLOAD ",          | "CONNECTOR:SPLITTER",               |
-| "PLANTEQUIPMENTOPERATIONSCHEMES ",               | "CONNECTOR:MIXER",                  |
-| "CONNECTOR:LIST ",                               |                                     |
+**originalidf_path**: Path for the original IDF with a complex HVAC data
 
-Table 2. Advanced HVAC parameters shared with DHW systems
+**savefolder_path**: Path to use where all converted files will be saved
 
-*2.2  Creation stage*
+#### *2.1.2 Deleting advanced HVAC simulation parameters exluding the DHW parameters*
+ ```delete_cmplx_HVAC_keep_DHW(originalidf_path,savefolder_path)```:
+
+This function is only required if IDF files also contain a DHW system along
+with the advanced HVAC objects.  The code makes it possible to separate DHW and HVAC systems without manual intervention.
+As the naming of the DHW object names depends on user choices, the only requirement is that DHW elements should have an identifier, or common string throughout.
+This could be "DHW" or "SHW" or any other string portion that is used repeatedly in all DHW objects. Users will be prompted to specify the repeating string portion in DHW objects when the code is run. All parameters between **'HVACTEMPLATE:THERMOSTAT** and **'MATRIX:TWODIMENSION'** will be checked if they contain any DHW parameter, then the HVAC objects will be deleted and a new IDF file will be saved to the save folder. There is also a backup routine implemented to avoid losses in the original IDF files. 
+
+*Variables*:
+
+**originalidf_path**: Path for the original IDF with a complex HVAC data
+
+**savefolder_path**: Path to use where all converted files will be saved
+
+
+
+
+### *2.2.  Creation stage*
 
 For ILHS conversion, one needs to define or have at least three objects in
 total, these are:
@@ -127,7 +87,11 @@ total, these are:
 IDF file so that the same parameter can be used without any intervention. For
 the remaining two parameters, a fully automated workflow is followed.
 
--   *“create_IdealLoads_objects”:* The function uses the original IDF file as
+
+#### *2.2.1 Creating new ILHS objects*
+ ```create_IdealLoads_objects(originalidf_path,savefolder_path)```:
+ 
+The function uses the original IDF file as
     the data source to fill the missing fields in the newly created ILHS objects
     (Figure 1). The function contains two subsections as generic and customized
     parameter definitions. Generic parameter definition is applied to all IDF
@@ -142,13 +106,19 @@ the remaining two parameters, a fully automated workflow is followed.
     includes the zone names. If the naming for the schedules does not contain
     zone names, then the function returns missing values for those particular
     schedules in the new IDF file.
+    
+*Variables*:
+
+**originalidf_path**: Path for the original IDF with a complex HVAC data
+
+**savefolder_path**: Path to use where all converted files will be saved
 
 ![image](https://user-images.githubusercontent.com/33637609/155561450-d85c7d8d-775a-4992-8c6a-64d1e641d97a.png)
                             
 Figure 1. Creating a new object and filling its missing fields automatically
 with the values from the original IDF file
 
-**3.  Final Remarks**
+## **3.  Final Remarks**
 
 The functions introduced in this document are optional to use. A user can
 perform the conversion process either by following a completely manual workflow
