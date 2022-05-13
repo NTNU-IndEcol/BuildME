@@ -9,6 +9,7 @@ data/archetype/USA/MFH_auto-MMV.idf
 data/archetype/USA/RT_auto-MMV.idf
 # sharing Meteonorm epw files ppublically may be illegal
 data/climate/meteonorm*/**/*.epw
+data/material_candidates.csv
 
 # OS stuff
 .DS_Store
