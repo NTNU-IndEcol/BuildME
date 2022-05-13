@@ -114,10 +114,14 @@ def run_energyplus_single(tmp_path):
 
     with open("log_ExpandObjects.txt", 'w') as log_file:
         cmd = abs_path + '/ExpandObjects'
+        log_file.write("%s\n\n" % cmd)
+        log_file.flush()
         subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
     if os.path.exists('BasementGHTIn.idf'):
         with open("log_Basement.txt", 'w') as log_file:
             cmd = abs_path + '/Basement'
+            log_file.write("%s\n\n" % cmd)
+            log_file.flush()
             subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         with open('merged.idf', 'w') as merged_idf:
             with open('expanded.idf', 'r') as expanded_idf:
@@ -144,12 +148,15 @@ def run_energyplus_single(tmp_path):
 
     with open("log_energyplus.txt", 'w+') as log_file:
         cmd = abs_path + '/energyplus -r %s' % run_idf
+        log_file.write("%s\n\n" % cmd)
+        log_file.flush()
         subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         log_file.seek(0)
         if log_file.readlines()[-1] != 'EnergyPlus Completed Successfully.\n':
             # print("ERROR: '%s' energy simulation was not successful" % tmp_path)
             raise AssertionError("ERROR: '%s' energy simulation was not successful" % tmp_path)
         log_file.close()
+    print("Energy simulation successful '%s'" % tmp_path)
     os.chdir(settings.basepath)
 
 
