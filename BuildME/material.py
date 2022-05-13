@@ -44,7 +44,8 @@ def calc_mat_vol_bdg(idff, surfaces, mat_m2):
     """
     Calculate building's total material intensity.
     :param surfaces:
-    :param mat_m2:
+    :param mat_m2: material thickness per element and layer,
+        e.g. { 'AtticRoofDeck': {'F12 Asphalt shingles': 0.0032, 'G02 16mm plywood': 0.0159}, ...}
     :return: Dictionary with material and volume
     """
     mat_vol = {}
