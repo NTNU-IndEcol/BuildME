@@ -18,18 +18,24 @@ def run_new():
 
     # Copy scenarios .idf to ./tmp
     simulate.copy_scenario_files(fnames, run)
+    print("Scenario combinations created: %i in total" % len(fnames))
 
     # Create run file for HPC
     # simulate.create_sq_job(fnames)
 
     simulate.calculate_energy()
+    print("Energy simulations done")
     simulate.calculate_materials(run, fnames)
+    print("Material extraction done")
 
     res_energy = simulate.collect_energy(fnames)
+    print("Energy results collected")
     res_mat = simulate.load_material(fnames)
+    print("Material results collected")
 
     simulate.save_ei_result(run, res_energy, res_mat)
     simulate.save_mi_result(run, res_mat)
+    print("Done.")
 
 
 def continue_previous(run_eplus=False):
@@ -48,17 +54,22 @@ def continue_previous(run_eplus=False):
     if run_eplus:
         # if energy simulation was not successful yet
         simulate.calculate_energy()
+        print("Energy simulations done")
     simulate.calculate_materials(run, fnames)
+    print("Material extraction done")
 
     res_energy = simulate.collect_energy(fnames)
+    print("Energy results collected")
     res_mat = simulate.load_material(fnames)
+    print("Material results collected")
 
     simulate.save_ei_result(run, res_energy, res_mat)
     simulate.save_mi_result(run, res_mat)
+    print("Done.")
 
 
 if __name__ == "__main__":
+    print("Welcome to BuildME v%s" % __version__)
     # Only run either of the following functions
     # run_new()
     continue_previous()
-    print("Done.")

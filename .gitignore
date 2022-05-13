@@ -7,7 +7,7 @@ data/replace_mmv.xlsx
 data/archetype/USA/SFH_auto-MMV.idf
 data/archetype/USA/MFH_auto-MMV.idf
 data/archetype/USA/RT_auto-MMV.idf
-# sharing Meteonorm epw files ppublically may be illegal
+# sharing Meteonorm epw files publically may be illegal
 data/climate/meteonorm*/**/*.epw
 data/material_candidates.csv
 
