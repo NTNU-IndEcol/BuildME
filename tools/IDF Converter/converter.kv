@@ -1,0 +1,809 @@
+#:kivy 1.8.0
+#:import KivyLexer kivy.extras.highlight.KivyLexer
+#:import Factory kivy.factory.Factory
+#:import Label kivy.uix.label.Label
+#:import ToggleButton kivy.uix.togglebutton
+#:import os os
+
+<MyWidget>:
+    idfpath:idfpath
+    id:my_widget
+    orientation:"vertical"
+    FileChooserListView:
+        id:filechooser
+        on_selection: my_widget.selected(filechooser.selection)
+        size_hint:1, 1
+        filters: ['*.idf']
+    Label:
+        text:"Select an IDF file"
+        size_hint:1, 0.10
+    ToggleButton:
+        id:idfpath
+        text:"Load"
+        font_name:"trebuc"
+        background_color:"#87b87b"
+        color:(1,1,1,1)
+        on_release:my_widget.save(root.idfpathlist,filechooser.path, filechooser.selection)
+        size_hint:1, 0.10
+
+<MyWidgetsavefolder>:
+    savefolderpath:savefolderpath
+    id:my_widget_savefolder
+    orientation:"vertical"
+    FileChooserIconView:
+        id:filechooser
+        on_selection: my_widget_savefolder.selected(filechooser.selection)
+        size_hint:1, 1
+        dirselect: True
+        filters: ['']
+    Label:
+        text:"Select a Save Folder"
+        size_hint:1, 0.10
+    ToggleButton:
+        id:savefolderpath
+        text:"Load"
+        font_name:"trebuc"
+        background_color:"#87b87b"
+        color:(1,1,1,1)
+        on_release:my_widget_savefolder.savefolder(filechooser.path, filechooser.selection)
+        size_hint:1, 0.10
+
+<MyScreenManager>:
+    Welcome:
+        name: 'welcome'
+    Screen1:
+        name: 'screen1'
+    Screen2:
+        name: 'screen2'
+    Screen3:
+        name: 'screen3'
+    Screen4:
+        name: 'screen4'
+    Screen5:
+        name: 'screen5'
+    Screen6:
+        name: 'screen6'
+    Finish:
+        name: 'finish'
+
+<Welcome>:
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:'24'
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "○ ○ ○ ○ ○ ○ ○"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            BoxLayout:
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 0.5
+                Label:
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'center'
+                    text:'[font=trebuc][color=#ffffff][b][size=30]BuildME:[/size][/b]\n[size=16]Framework to calculate building material & energy expenditures.[/size]\n\n\n[size=12]The Building Material-Energy (BuildME) software framework allows to model energy and material demand of buildings simultaneously. The IDF converter for BuildME allows users to convert IDF files to be adapted to the BuildME framework in an automated way. It requires different individual IDF files representing different energy standards, cohorts, or regions. The app merges these alternatives into one single IDF file where all material and construction combinations are stored together. The app inserts “replaceme” strings in surface elements, and BuildME automatically detect these fields and replaces them according to the user settings. The current version of BuildME performs modifications of the input archetype file depending on the chosen aspects for Energy standard, RES, and Cooling system. However, this list can be expanded by including cohorts, climate characteristics, and many more![/size][/color][/font]\n\n\n[font=trebuc][size=10][color=#d0e0e3][b]Authors & contributions[/b]\n[i]Niko Heeren, Andrea Nistad, Kamila Krych, Sahin Akin[/i]\nCopyright: [i]Niko Heeren[/i], 2021[/color][/size][color=#000000][/color][/font]'
+                    markup:True
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.05
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##969696"
+                        text:"Exit"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##969696"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: app.stop()
+                    Button:
+                        background_color:"#87b87b"
+                        text:"Start"
+                        font_name:"trebuc"
+                        font_size:14
+                        disabled_color:"#87b87b"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        on_press: root.manager.current = 'screen1'
+<Screen1>:
+    slider: slider
+    layout1:layout1
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:'24'
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "● ○ ○ ○ ○ ○ ○"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            BoxLayout:
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 0.5
+                Label:
+                    text:"Phase One"
+                    font_size:50
+                    font_name:"trebuc"
+                    size_hint: 1, 0.5
+                Label:
+                Label:
+                    text:"[b]Please tick the checkboxes below to proceed[/b]"
+                    font_name:"trebuc"
+                    markup:True
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=12]● BuildME assumes that all exterior windows have the same construction,\n this is also valid for other surface groups [/size][/b] '
+                    halign: 'center'
+                    markup:True
+                CheckBox:
+                    id:chk
+                    on_active:root.allowing1(self,self.active)
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=12]● BuildME currently does not support skylights, but if considering to update the BuildME script,\n make sure that the object name includes "sky" during the conversion: [/size][/b]'
+                    halign: 'center'
+                    markup:True
+                CheckBox:
+                    on_active:root.allowing2(self,self.active)
+                Label:
+                    text:"[b]Then, please specify the number of IDF files to be converted[/b]"
+                    font_name:"trebuc"
+                    markup:True
+                Slider:
+                    id:slider
+                    step:1
+                    min:0
+                    max:10
+                    value: 0
+                    on_value:root.update_buttons_labels()
+                Label:
+                    id:layout1
+                    text:'{}'.format(slider.value)
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.05
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##B71C1C"
+                        text:"Back"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##B71C1C"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: root.manager.current = 'welcome'
+                    Button:
+                        background_color:"##A5D6A7"
+                        text:"Next"
+                        font_name:"trebuc"
+                        font_size:14
+                        disabled_color:"##ffffff"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        on_press: root.manager.current = 'screen2'
+<Screen2>:
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:24
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "● ● ○ ○ ○ ○ ○"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            BoxLayout:
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 0.5
+                Label:
+                    text:"Phase Two"
+                    font_name:"trebuc"
+                    font_size:50
+                    size_hint: 1, 0.5
+                Label:
+                Label:
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=14]Please specify a country abbreviation based on the IDF location:[/size][/b]\n[size=11]● i.e., USA, UK[/size]'
+                    halign: 'center'
+                    markup:True
+                TextInput:
+                    id:textinput1
+                    size_hint_x: 0.7
+                    size_hint_y: 0.7
+                    font_size:13
+                    pos_hint: {"x":0.15}
+                    height: '32dp'
+                    width:"100dp"
+                    text:""
+                    multiline: False
+                    hint_text: 'USA'
+                    on_text: root.process_input1()
+                Label:
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=14]Please specify an abbreviation based on the IDF occupation type:[/size][/b]\n[size=11]● i.e., SFH, MFH, HTL[/size]'
+                    markup:True
+                    halign: 'center'
+                TextInput:
+                    id:textinput2
+                    text:""
+                    size_hint_y: None
+                    height: '32dp'
+                    multiline: False
+                    hint_text: 'SFH'
+                    size_hint_x: 0.7
+                    size_hint_y: 0.7
+                    font_size:13
+                    pos_hint: {"x":0.15}
+                    on_text: root.process_input2()
+                Label:
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.05
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##B71C1C"
+                        text:"Back"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##B71C1C"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: root.manager.current = 'screen1'
+                    Button:
+                        background_color:"##A5D6A7"
+                        text:"Next"
+                        font_name:"trebuc"
+                        font_size:14
+                        disabled_color:"##ffffff"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        on_press: root.manager.current = 'screen3'
+
+<Screen3>:
+    layout:layout
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:24
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "● ● ● ○ ○ ○ ○"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            BoxLayout:
+                id:layout
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 0.5
+                Label:
+                    text:"Phase Three"
+                    font_size:50
+                    font_name:"trebuc"
+                    size_hint: 1, 0.5
+                Label:
+                    text:"Please go back and select some IDF files and tick the checkboxes!"
+                    font_name:"trebuc"
+                    font_size:14
+                Label:
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.05
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##B71C1C"
+                        text:"Back"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##B71C1C"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: root.manager.current = 'screen2'
+                    Button:
+                        background_color:"##ffffff"
+                        text:"Next"
+                        font_name:"trebuc"
+                        font_size:14
+                        disabled_color:"##ffffff"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        on_press: root.manager.current = 'screen4'
+
+<Screen4>:
+    layout4:layout4
+    idfs:idfs
+    on_pre_enter:root.update_IDF_label()
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:24
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "● ● ● ● ○ ○ ○"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            Label:
+                id:idfs
+                text:""
+                size_hint: 1, 0.12
+                multiline:True
+                halign: 'center'
+                markup:True
+            BoxLayout:
+                id:layout4
+                orientation: 'vertical'
+                padding:50
+                font_name:"trebuc"
+                size_hint: 1, 0.5
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.06
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##B71C1C"
+                        text:"Back"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##B71C1C"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: root.manager.current = 'screen3'
+                    Button:
+                        background_color:"##ffffff"
+                        text:"Next"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        disabled_color:"##ffffff"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        on_press: root.manager.current = 'screen5'
+<Screen5>:
+    layout5:layout5
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:24
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "● ● ● ● ● ○ ○"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            BoxLayout:
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 1
+                Label:
+                Label:
+                    text:"Phase Five\n"
+                    font_size:50
+                    font_name:"trebuc"
+                    size_hint: 1, 0.5
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=14]\n \n \nDo you want to create a "non-standard" version of the IDF file?[/size][/b]\n [size=11]● non-standard version to be created will be using %30 worse performing U values than the base IDF[/size]'
+                    markup:True
+                    halign: 'center'
+                Label:
+                CheckBox:
+                    id:chk
+                    on_active:root.checkbox_click(self, self.active)
+                    active:True
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=14]\n\n\n\n \n \n \n \n \n \n \n \n Please select a save folder for the converted IDFs[/size][/b]\n [size=11][/size]'
+                    markup:True
+                    halign: 'center'
+            BoxLayout:
+                id:layout5
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 0.7
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.167
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##B71C1C"
+                        text:"Back"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##B71C1C"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: root.manager.current = 'screen4'
+                    Button:
+                        background_color:"##A5D6A7"
+                        text:"Convert!"
+                        font_name:"trebuc"
+                        font_size:14
+                        disabled_color:"##ffffff"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        on_press: root.manager.current = 'screen6'
+                        on_release: root.convert()
+<Screen6>:
+    xlsx:xlsx
+    yaml:yaml
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:24
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "● ● ● ● ● ● ○"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            BoxLayout:
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 0.5
+                Label:
+                    text:"Phase Six"
+                    font_name:"trebuc"
+                    font_size:50
+                    size_hint: 1, 0.3
+                Label:
+            BoxLayout:
+                orientation: 'vertical'
+                padding:50
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=14] Do you want to create a merged IDF for BuildME?[/size][/b] \n [size=11]● Merged file will include all possible material/construction combinations\n● The file will be saved on your "Save Folder"[/size]'
+                    markup:True
+                    halign: 'center'
+                Label:
+                CheckBox:
+                    id:chk
+                    on_active:root.checkbox_clickmerge(self, self.active)
+                    active:True
+                Label:
+                Label:
+                    text:'[font=trebuc][color=#ffffff][b][size=14]Which file type would you like to use for BuildME?[/size][/b][size=11]\nUser files for the following will be created:\n● ODYM material/material/replace[/size] '
+                    markup:True
+                    halign: 'center'
+                Label:
+                GridLayout:
+                    columns:2
+                    rows:3
+                    Label:
+                        text:"YAML"
+                    CheckBox:
+                        id:yaml
+                        on_active:root.checkbox_yaml(self, self.active)
+                    Label:
+                    Label:
+                    Label:
+                        text:"XLSX"
+                    CheckBox:
+                        id:xlsx
+                        on_active:root.checkbox_xlsx(self, self.active)
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.16
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##B71C1C"
+                        text:"Back"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##B71C1C"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: root.manager.current = 'screen5'
+                    Button:
+                        background_color:"##A5D6A7"
+                        text:"Next"
+                        font_name:"trebuc"
+                        font_size:14
+                        disabled_color:"##ffffff"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        on_press: root.manager.current = 'finish'
+                        on_release:root.finalshot()
+<Finish>:
+    layoutf:layoutf
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            size_hint:0.40,1
+            text:"[size=300][color=#5ebbbf]░[/color][/size]  \n\n\n[font=trebuc][color=#98e0e3]IDF Converter[/color][/font]\n[size=15]for BuildME[/size]\n\n\n[size=300][color=#98e0e3]░[/color][/size]  "
+            halign: 'center'
+            markup:True
+            font_name:"arial"
+            font_size:'24'
+            disabled_color:"##ffffff"
+            background_normal:"##00838F"
+            background_disabled_normal:"##81D4FA"
+            background_color:"##00838F"
+            disabled:True
+            bold:True
+        BoxLayout:
+            orientation: 'vertical'
+            canvas:
+                Color:
+                    rgba: 0, 240, 180, 0.46
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Button:
+                text: "● ● ● ● ● ● ●"
+                font_name:"arial"
+                font_size:50
+                disabled_color:"##ffffff"
+                background_normal:"##ffffff"
+                background_disabled_normal:"##ffffff"
+                disabled:True
+                background_color: "B2DFDB"
+                size_hint: 1, None
+            BoxLayout:
+                orientation: 'vertical'
+                padding:50
+                size_hint: 1, 0.5
+                Label:
+                    id:layoutf
+                    text_size: self.size
+                    halign: 'left'
+                    valign: 'center'
+                    text:'[font=trebuc][color=#ffffff][b][size=30]BuildME:[/size][/b]\n[size=16]Framework to calculate building material & energy expenditures.[/size]\n[/color][/font][font=trebuc][size=14][color=#93c47d][b]SUMMARY:[/b][/size]\n[size=12]The conversion is completed:\nThe following debugging combinations can be used now: USA, HTL, [efficient, non-standard, standard, ZEB][/color]\n\n[color=#ffe599][b]NEXT STEPS:[/b]\n1. Please update settings.py according to the new IDF combinations\n2. Select a weather file\n3. Update settings.py by assigning the climate to the region\n4. Update settings.py by assigning the region to an ODYM region[/color]\n\n[color=#ea9999][b]CAUTION:[/b]\n1. Please fill missing values in userreplace.yaml/xlsx, surrogate_usermaterials.yaml/xlsx and all_usermaterials.yaml7xlsx files\n[/color][/size][/font]\n[font=trebuc][size=10][color=#d0e0e3][b]Authors & contributions[/b]\n[i]Niko Heeren, Andrea Nistad, Kamila Krych, Sahin Akin[/i]\nCopyright:[i]Niko Heeren[/i], 2021[/color][/size][color=#000000][/color][/font]'
+                    markup:True
+            BoxLayout:
+                text: "Button 3"
+                size_hint: 1, 0.05
+                BoxLayout:
+                    padding:8
+                    canvas:
+                        Color:
+                            rgba: 0, 240, 180, 0.46
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Button:
+                        background_color:"##969696"
+                        text:"Back"
+                        font_name:"trebuc"
+                        font_size:14
+                        background_normal:"##969696"
+                        color:1,1,1,1
+                        background_color:"#b56767"
+                        on_press: root.manager.current = 'screen5'
+                    Button:
+                        background_color:"#87b87b"
+                        text:"Finish"
+                        font_name:"trebuc"
+                        font_size:14
+                        disabled_color:"#87b87b"
+                        background_normal:"##00838F"
+                        background_disabled_normal:"##81D4FA"
+                        background_color:"#87b87b"
+                        color:1,1,1,1
+                        on_press: root.manager.current = app.close()
