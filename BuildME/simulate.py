@@ -229,6 +229,11 @@ def load_run_data_file(filename):
 
 
 def translate_to_odym_mat(total_material_mass):
+    """
+    Groups materials into a category.
+    :param total_material_mass: Total materials in kg, results variable
+    :return: Dict with categorized materials in kg, e.g. {material_category_1: 100, material_category_2: 666, ...}
+    """
     res = {}
     for mat in total_material_mass:
         if settings.odym_materials[mat] not in res:
@@ -496,7 +501,7 @@ def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
     m = mp.Manager()
     q = m.Queue()
     pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
-    args = ((folder, q, no) for no, folder in enumerate(fnames))
+    args = [(os.path.join(rfolder, folder), q, no) for no, folder in enumerate(fnames)]
     result = pool.map_async(calculate_energy_worker, args)
     old_q = 0
     while not result.ready():
