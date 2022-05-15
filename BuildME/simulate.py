@@ -608,18 +608,12 @@ def weighing_climate_region(res):
     weights.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in weights.index.tolist()])
     # I know looping DFs is lame, but who can figure out this fricking syntax?!
     #  https://stackoverflow.com/a/41494810/2075003
+
     for region in res.index.levels[0]:
         # Why u not update the column index pandas??
         for cr in set([c[1] for c in res.loc[region].dropna(axis=1)]):
-            if cr == '':
-                continue
-            if cr == 'Brazil':
-                region = 'Oth-LAM'
-                cr = 'Brazil'
-                res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
-                    res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
-                    weights.loc[pd.IndexSlice[region, cr], 'share']
-
+            assert (region, cr) in weights.index, \
+                "%s not found in './data/aggregate.xlsx', sheet 'climate_reg'" % ((region, cr),)
             res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
                 res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
                 weights.loc[pd.IndexSlice[region, cr], 'share']
