@@ -99,7 +99,7 @@ def delete_temp_folder(tmp_run_path, verbose=False):
         print("Deleted '%s'" % tmp_run_path)
 
 
-def run_energyplus_single(tmp_path):
+def run_energyplus_single(tmp_path, verbose=True):
     """
     Runs the model single-threaded
     See docs/energyplus.md for more info
@@ -156,7 +156,8 @@ def run_energyplus_single(tmp_path):
             # print("ERROR: '%s' energy simulation was not successful" % tmp_path)
             raise AssertionError("ERROR: '%s' energy simulation was not successful" % tmp_path)
         log_file.close()
-    print("Energy simulation successful '%s'" % tmp_path)
+    if verbose:
+        print("Energy simulation successful '%s'" % tmp_path)
     os.chdir(settings.basepath)
 
 

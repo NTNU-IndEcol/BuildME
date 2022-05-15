@@ -525,7 +525,7 @@ def calculate_energy_worker(args):
     # sleep(1.5)
     copy_us = energy.gather_files_to_copy()
     tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
-    energy.run_energyplus_single(tmp)
+    energy.run_energyplus_single(tmp, verbose=False)
     energy.delete_ep_files(copy_us, tmp)
     q.put(no)
 
@@ -810,4 +810,20 @@ def create_sq_job(fnames):
             run_file.write(initial_str + "cd /home/fas/hertwich/nh432/scratch60/XXX/" + f + "; energyplus -r\n")
 
 
-
+def cleanup(fnames, run):
+    """
+    Convenience function to clean up after successful run.
+    :param fnames:
+    :return: None
+    """
+    print("Cleaning up...")
+    zfile = os.path.join(settings.tmp_path, run)
+    if os.path.exists(zfile + '.zip'):
+        print("Warning: Archive '%s.zip' already exists" % zfile)
+    else:
+        print("Compressing temporary folder to '%s.zip'" % zfile)
+        shutil.make_archive(zfile, 'zip', os.path.join(settings.tmp_path, run))
+    rfolders = [fnames[d]['run_folder'] for d in fnames]
+    for f in rfolders:
+        shutil.rmtree(f)
+    print("Deleted temporary subfolders of '%s/%s/'" % (settings.tmp_path, run))
