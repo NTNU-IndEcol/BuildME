@@ -73,7 +73,7 @@ def copy_files(copy_list, tmp_run_path=None, create_dir=True):
     return tmp_run_path
 
 
-def delete_ep_files(copy_list, tmp_run_path, more_files):
+def delete_ep_files(copy_list, tmp_run_path, more_files=settings.files_to_delete):
     """
     Deletes the e+ files after simulation, skips input and weather file
     :param copy_list: Files to delete

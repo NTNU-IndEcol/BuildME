@@ -1,3 +1,6 @@
+import subprocess
+import sys
+
 from BuildME import settings, pre, idf, material, energy, simulate, __version__
 
 
@@ -17,13 +20,14 @@ def run_new():
     # simulate.nuke_folders(fnames)  # deletes only the folder with the case you try to simulate
 
     # Copy scenarios .idf to ./tmp
+    print("%i scenario combinations created" % len(fnames))
     simulate.copy_scenario_files(fnames, run)
-    print("Scenario combinations created: %i in total" % len(fnames))
 
     # Create run file for HPC
     # simulate.create_sq_job(fnames)
 
-    simulate.calculate_energy()
+    # simulate.calculate_energy()
+    simulate.calculate_energy_mp(cpus=8)
     print("Energy simulations done")
     simulate.calculate_materials(run, fnames)
     print("Material extraction done")
@@ -35,6 +39,7 @@ def run_new():
 
     simulate.save_ei_result(run, res_energy, res_mat)
     simulate.save_mi_result(run, res_mat)
+    simulate.cleanup(fnames, run)
     print("Done.")
 
 
@@ -65,11 +70,15 @@ def continue_previous(run_eplus=False):
 
     simulate.save_ei_result(run, res_energy, res_mat)
     simulate.save_mi_result(run, res_mat)
+    simulate.cleanup(fnames, run)
     print("Done.")
 
 
 if __name__ == "__main__":
     print("Welcome to BuildME v%s" % __version__)
+    if 'darwin' in sys.platform:
+        print('Running \'caffeinate\' on MacOSX to prevent the system from sleeping')
+        subprocess.Popen('caffeinate')
     # Only run either of the following functions
-    # run_new()
-    continue_previous()
+    run_new()
+    # continue_previous()

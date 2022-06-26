@@ -34,6 +34,9 @@ elif platform == 'Darwin':
                      ]
 else:
     raise NotImplementedError('OS is not supported! %s' % platform)
+# Files that should be deleted in the temporary folder after successful simulation
+#  'eplusout.eso' is fairly large and not being used by BuildME
+files_to_delete = ['eplusout.eso']
 
 # Modelling settings
 shielding = 'medium'  # wind shielding, needed for MMV simulations; set to low, medium or high
