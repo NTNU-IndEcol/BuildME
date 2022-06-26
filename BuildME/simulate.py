@@ -489,7 +489,7 @@ def calculate_energy(fnames=None):
         tmp = energy.copy_files(copy_us, tmp_run_path=sfolder, create_dir=False)
         # fix_macos_quarantine(run_path)
         energy.run_energyplus_single(tmp)
-        energy.delete_ep_files(copy_us, tmp)
+        energy.delete_ep_files(copy_us, tmp, ['eplusout.eso'])
 
 
 def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
@@ -526,7 +526,7 @@ def calculate_energy_worker(args):
     copy_us = energy.gather_files_to_copy()
     tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
     energy.run_energyplus_single(tmp, verbose=False)
-    energy.delete_ep_files(copy_us, tmp)
+    energy.delete_ep_files(copy_us, tmp, ['eplusout.eso'])
     q.put(no)
 
 

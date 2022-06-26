@@ -73,17 +73,19 @@ def copy_files(copy_list, tmp_run_path=None, create_dir=True):
     return tmp_run_path
 
 
-def delete_ep_files(copy_list, tmp_run_path):
+def delete_ep_files(copy_list, tmp_run_path, more_files):
     """
     Deletes the e+ files after simulation, skips input and weather file
-    :param tmp_folder:
-    :param ep_files:
+    :param copy_list: Files to delete
+    :param tmp_run_path: Path in which the files will be deleted
+    :param more_files: More files to delete, e.g. ['eplusout.eso']
     """
-    run_folder = os.path.join(settings.tmp_path, tmp_run_path)
+    copy_list = copy_list + more_files
     for f in copy_list:
         if os.path.basename(f)[-4:] in ['.idf', '.epw']:
             continue
-        os.remove(os.path.join(settings.tmp_path, tmp_run_path, os.path.basename(f)))
+        os.remove(os.path.join(settings.tmp_path, tmp_run_path,
+                               os.path.basename(f)))
 
 
 def delete_temp_folder(tmp_run_path, verbose=False):
