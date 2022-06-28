@@ -156,7 +156,9 @@ def run_energyplus_single(tmp_path, verbose=True):
         log_file.seek(0)
         if log_file.readlines()[-1] != 'EnergyPlus Completed Successfully.\n':
             # print("ERROR: '%s' energy simulation was not successful" % tmp_path)
-            raise AssertionError("ERROR: '%s' energy simulation was not successful" % tmp_path)
+            raise AssertionError("Energy simulation was not successful in '%s'. "
+                                 "See files 'log_energyplus.txt' and 'eplusout.err' for details."
+                                 % tmp_path)
         log_file.close()
     if verbose:
         print("Energy simulation successful '%s'" % tmp_path)

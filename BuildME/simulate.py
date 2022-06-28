@@ -26,7 +26,7 @@ def create_combinations(comb=settings.combinations):
     energy standard, Resource Efficiency Strategy RES, climate region, and climate scenario.
     An example for the USA, single-family home, standard energy efficiency, no RES, in US climate region 1A,
     and with the climate scenario of 2015 (i.e. none): US_SFH_standard_RES0_cr1A_2015
-    :return:
+    :return: Dictionary with simulation parameters `fnames` and simulation name `run`
     """
     print("Creating scenario combinations")
     run = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
@@ -683,7 +683,9 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
 
 # Andrea: assume the same for RT as for MFH for now...
 def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'Office': 15,
-                          'SchoolPrimary':100, 'SchoolSecondary':100, 'RetailStripmall':100,'RetailStandalone':100,'OfficeMedium':100,'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75, 'SFH-masonry': 50, 'HotelLarge':100}):
+                          'SchoolPrimary': 100, 'SchoolSecondary': 100, 'RetailStripmall': 100,'RetailStandalone': 100,
+                          'OfficeMedium': 100,'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75,
+                          'SFH-masonry': 50, 'HotelLarge': 100}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]
@@ -813,7 +815,8 @@ def create_sq_job(fnames):
 def cleanup(fnames, run):
     """
     Convenience function to clean up after successful run.
-    :param fnames:
+    :param fnames: Simulation dictionary
+    :param run: Simulation run name, e.g. '220628-080114'
     :return: None
     """
     print("Cleaning up...")
