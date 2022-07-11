@@ -908,27 +908,27 @@ def update_all_datafile_yaml_gui(idflist, merged_idf, save_folder_path, Region, 
 
 
 if __name__ == "__main__":
-    # USER SPECIFIC INPUTS:
+    #USER SPECIFIC INPUTS:
+    #EXAMPLE PURPOSES ONLY
 
     # 2006 IECC idf File Path (standard)
-    path1 = "C:\\Users\\sahina\\Downloads\\HOT\\MEX\\sfh-standard-RES0.idf"
+    path1 = "..\\data\\archetype\\new_archetypes\\IdealLoads Converter Outputs\\BUILDME_SchoolSecondary\\IdealLoads_SchoolSecondary.idf"
 
     # 2012 IECC idf File Path (efficient)
-    path2 = "C:\\Users\\sahina\\Downloads\\HOT\\MEX\\sfh-ZEB-RES0.idf"
+    path2 = "..\\data\\archetype\\new_archetypes\\IdealLoads Converter Outputs\\BUILDME_SchoolSecondary\\IECC_SchoolSecondary_STD2012_NewYork.idf"
 
     # 2018 IECC File Path (ZEB)
-    #path3 = "C:\\Users\\sahina\\Downloads\\HOT\\KUWAIT_VILLA\\Kuwait _Villa_19802010_Reinforced.idf"
-    #path4 = "C:\\Users\\sahina\\Downloads\\HOT\\KUWAIT_VILLA\\Kuwait _Villa_Post2010_Reinforced.idf"
+    path3 = "..\\data\\archetype\\new_archetypes\\IdealLoads Converter Outputs\\BUILDME_SchoolSecondary\\IECC_SchoolSecondary_STD2018_NewYork.idf"
+
     # Main Folder, every generated data will be located
     # Tip: make sure to put the 'r' in front
-    folderpath = r"C:\\Users\\sahina\\Downloads\\HOT\\MEX\\New folder"
+    folderpath = r"..\\data\\archetype\\new_archetypes\\IdealLoads Converter Outputs\\BUILDME_SchoolSecondary"
 
-    convert_idf_to_BuildME(path1, folderpath, replace_string="-en-standard-replaceme-RES-replaceme",
-                           replace_string_value="-standard-RES0", base=True)
-    convert_idf_to_BuildME(path2, folderpath, replace_string="-en-ZEB-replaceme-RES-replaceme",
-                           replace_string_value="-ZEB-RES0", base=False)
-
+    convert_idf_to_BuildME(path1, folderpath, replace_string="-en-std-replaceme-res-replaceme",replace_string_value="-non-standard-RES0", base=False)
+    convert_idf_to_BuildME(path1, folderpath, replace_string="-en-std-replaceme-res-replaceme",replace_string_value="-standard-RES0", base=True)
+    convert_idf_to_BuildME(path2, folderpath, replace_string="-en-std-replaceme-res-replaceme", replace_string_value="-efficient-RES0", base=False)
+    convert_idf_to_BuildME(path3, folderpath, replace_string="-en-std-replaceme-res-replaceme", replace_string_value="-ZEB-RES0", base=False)
 
     listed = create_combined_idflist(folderpath)
-    merged_idf = create_combined_idf_archetype(folderpath, listed)
-    update_all_datafile_xlsx(listed, merged_idf, folderpath)
+    merged_idf=create_combined_idf_archetype(folderpath, listed)
+    update_all_datafile_xlsx(listed,merged_idf,folderpath)
