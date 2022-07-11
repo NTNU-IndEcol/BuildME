@@ -116,6 +116,16 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
             if replace_str in obj.Construction_Name:
                 # replace the item
                 obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + replacer)
+                # replace frame type
+                if obj.Surface_Type == "Window":
+                    obj.Frame_and_Divider_Name = obj.Frame_and_Divider_Name.replace(replace_str, '-' + replacer)
+
+    # Replacement of the Windows with shading
+    if 'WindowShadingControl'.upper() in [x for x in idf_data.idfobjects]:
+        for item in idf_data.idfobjects['WindowShadingControl'.upper()]:
+            if replace_str in item.Construction_with_Shading_Name:
+                item.Construction_with_Shading_Name = item.Construction_with_Shading_Name.replace(replace_str,
+                                                                                                  '-' + replacer)
     # idf_data.idfobjects['Building'.upper()][0].Name = '.'.join(replacer)
     return idf_data
 
@@ -662,21 +672,41 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
     :param ref_area:
     :return:
     """
-    res = divide_by_area(energy, material_surfaces, 1/10**6, ref_area)
+    res = divide_by_area(energy, material_surfaces, 1 / 10 ** 6, ref_area)
     res = disaggregate_scenario_str(res, ['climate_reg'])
     res = weighing_climate_region(res)
-    res = add_DHW(res)
     fname = os.path.join(settings.tmp_path, run, run + '_ei.xlsx')
     writer = pd.ExcelWriter(fname, engine='xlsxwriter')
-    res.to_excel(writer, 'all')
-    res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
-    res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
-    res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1).to_excel(writer, 'light')
-    res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
-    (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
-     res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
-    res['DHW'].to_excel(writer, 'DHW')
-    res.sum(axis=1).to_excel(writer, 'total')
+
+    # If DHW is already defined, there is no need to define it externally with add_dhw()
+
+
+    if 'WaterSystems:Water [m3](Hourly)' in res:
+        res.to_excel(writer, 'all')
+        res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
+        res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
+        res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1).to_excel(writer, 'light')
+        res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
+        (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
+         res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
+        res['WaterSystems:Water [m3](Hourly)'].sum(axis=1).to_excel(writer, 'DHW')
+        # Previous calculations were used to sum m3 with MJ in total, instead these should be seperated as the units
+        # are different.
+        (res.sum(axis=1) - res['WaterSystems:Water [m3](Hourly)'].sum(axis=1)).to_excel(writer, 'total')
+    else:
+        res = add_DHW(res)
+        res.to_excel(writer, 'all')
+        res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
+        res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
+        res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1).to_excel(writer, 'light')
+        res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
+        (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
+         res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
+        res['DHW'].to_excel(writer, 'DHW')
+        # Previous calculations were used to sum m3 with MJ in total, instead these should be seperated as the units
+        # are different.
+        (res.sum(axis=1) - res['DHW']).to_excel(writer, 'total')
+
     writer.save()
     return res
 
