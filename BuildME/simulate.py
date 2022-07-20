@@ -42,8 +42,9 @@ def create_combinations(comb=settings.combinations):
                     continue
                 # 4 Resource Efficiency Strategy
                 for res in comb[region]['RES']:
-                    #Non-residential Archetypes do not have other RES scenarios than RES0
-                    if occ_type in ['HotelLarge', 'OfficeMedium', 'SchoolPrimary', 'SchoolSecondary','RetailStripmall', 'RetailStandalone'] and res in ['RES2.1', 'RES2.2', 'RES2.1+RES2.2']:
+                    # Non-residential Archetypes do not have other RES scenarios than RES0
+                    if occ_type in ['HotelLarge', 'OfficeMedium', 'SchoolPrimary', 'SchoolSecondary', 'RetailStripmall',
+                                    'RetailStandalone'] and res in ['RES2.1', 'RES2.2', 'RES2.1+RES2.2']:
                         continue
                     # 5 Climate region
                     for climate_reg in comb[region]['climate_region']:
@@ -55,25 +56,25 @@ def create_combinations(comb=settings.combinations):
                                     cool_str = '_auto-MMV'
                                 else:
                                     cool_str = ''
-                                if (region,occ_type) in settings.archetype_proxies:
+                                if (region, occ_type) in settings.archetype_proxies:
                                     archetype_choice = os.path.join(settings.archetypes,
-                                                                    settings.archetype_proxies[(region,occ_type)][0],
-                                                                    settings.archetype_proxies[(region,occ_type)][1]
+                                                                    settings.archetype_proxies[(region, occ_type)][0],
+                                                                    settings.archetype_proxies[(region, occ_type)][1]
                                                                     + cool_str + '.idf')
                                 else:
                                     archetype_choice = os.path.join(settings.archetypes, region, occ_type
                                                                     + cool_str + '.idf')
                                 fnames[fname] = \
                                     {
-                                    'climate_file': os.path.join(settings.climate_files_path, climate_scen,
-                                                                 settings.climate_stations[region][climate_reg]),
-                                    'archetype_file': archetype_choice,
-                                    'energy_standard': energy_std,
-                                    'RES': res,
-                                    'region': region,
-                                    'occupation': occ_type,
-                                    'cooling': cool,
-                                    'run_folder': os.path.join(settings.tmp_path, run, fname)
+                                        'climate_file': os.path.join(settings.climate_files_path, climate_scen,
+                                                                     settings.climate_stations[region][climate_reg]),
+                                        'archetype_file': archetype_choice,
+                                        'energy_standard': energy_std,
+                                        'RES': res,
+                                        'region': region,
+                                        'occupation': occ_type,
+                                        'cooling': cool,
+                                        'run_folder': os.path.join(settings.tmp_path, run, fname)
                                     }
                                 # make sure no underscores are used in the pathname, because this could cause issues later
                                 assert list(fnames)[-1].count('_') == 6, \
@@ -161,7 +162,7 @@ def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
         if xls_value[1]['Value'] == 'skip':
             continue
         for idfobj in idf_f.idfobjects[xls_value[1]['idfobject'].upper()]:
-        # TODO: Seems like this skips replacement of values for MFH? Changed replace.xlsx file..
+            # TODO: Seems like this skips replacement of values for MFH? Changed replace.xlsx file..
             if idfobj.Name not in ('*', xls_value[1].Name):
                 continue
             setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
@@ -198,8 +199,8 @@ def copy_scenario_files(fnames, run, replace=False):
         region = fnames[fname]['region']
         occ_type = fnames[fname]['occupation']
         if (region, occ_type) in settings.archetype_proxies:
-            en_str = [*settings.archetype_proxies[(region,occ_type)], fnames[fname]['energy_standard']]
-            res_str = [*settings.archetype_proxies[(region,occ_type)], fnames[fname]['RES']]
+            en_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['energy_standard']]
+            res_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['RES']]
         else:
             en_str = [region, occ_type, fnames[fname]['energy_standard']]
             res_str = [region, occ_type, fnames[fname]['RES']]
@@ -273,7 +274,7 @@ def calculate_materials(run=None, fnames=None):
         # If RT OR office archetype, need to account for zone multipliers
         if fnames[folder]['occupation'] in ('RT', 'Office'):
             surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'],
-                                             fnames[folder]['RES'])
+                                                                  fnames[folder]['RES'])
         else:
             surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'],
                                              fnames[folder]['RES'])
@@ -306,7 +307,7 @@ def calculate_materials(run=None, fnames=None):
                 res[postbeam[0]] += postbeam[1]
 
         # If building with more than 15 floors: modeled with columns, shear walls, flat slabs and larger foundation..
-        if res['floor_area_wo_basement']/res['footprint_area'] > 15:
+        if res['floor_area_wo_basement'] / res['footprint_area'] > 15:
             columns = add_surrogate_columns(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
             foundation = add_foundation(res['footprint_area'])
 
@@ -324,7 +325,8 @@ def calculate_materials(run=None, fnames=None):
                     res[k] = v
             # If wooden version light wall steel studs and steel beams are added for the roof
             if fnames[folder]['RES'] == 'RES2.1' or fnames[folder]['RES'] == 'RES2.1+RES2.2':
-                lightwall_steel = add_steel_lightwall(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
+                lightwall_steel = add_steel_lightwall(fnames[folder]['RES'], res['floor_area_wo_basement'],
+                                                      res['footprint_area'])
                 roof_beams = add_surrogate_roof_beams(fnames[folder]['RES'], res['footprint_area'])
                 if lightwall_steel[0] in res:
                     res[lightwall_steel[0]] += lightwall_steel[1]
@@ -338,18 +340,20 @@ def calculate_materials(run=None, fnames=None):
 
         material.save_materials(res, run_path)
 
-def add_surrogate_beams(res, area, distance=0.6,):
-    res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .05*.05, 'density': 8050},
-                'RES2.1': {'Material': 'wood and wood products', 'vol': .12*.26, 'density': 500},
-                'RES2.2': {'Material': 'construction grade steel', 'vol': .04*.04, 'density': 8050},
-                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .12*.20, 'density': 500}}
+
+def add_surrogate_beams(res, area, distance=0.6, ):
+    res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .05 * .05, 'density': 8050},
+                'RES2.1': {'Material': 'wood and wood products', 'vol': .12 * .26, 'density': 500},
+                'RES2.2': {'Material': 'construction grade steel', 'vol': .04 * .04, 'density': 8050},
+                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .12 * .20, 'density': 500}}
     side_length = area ** 0.5
     number_beams = side_length / distance + 1
     res_vol = res_dict[res]['vol'] * side_length * number_beams
     mass = res_vol * res_dict[res]['density']
     return res_dict[res]['Material'], mass
 
-#TODO: Change floor system to slab + beam instead of flat slab? See Gan et al.(2019)
+
+# TODO: Change floor system to slab + beam instead of flat slab? See Gan et al.(2019)
 '''def add_surrogate_beams_slabs(res, area, distance=0.2,):
     res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050},
                 'RES2.2': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050}}
@@ -360,9 +364,9 @@ def add_surrogate_beams(res, area, distance=0.6,):
     return res_dict[res]['Material'], mass'''
 
 
-def add_surrogate_postbeams(res, area, distance=0.6,):
-    res_dict = {'RES2.1': {'Material': 'wood and wood products', 'vol': .1*.05, 'density': 500},
-                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .1*.04, 'density': 500}}
+def add_surrogate_postbeams(res, area, distance=0.6, ):
+    res_dict = {'RES2.1': {'Material': 'wood and wood products', 'vol': .1 * .05, 'density': 500},
+                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .1 * .04, 'density': 500}}
     side_length = area ** 0.5
     number_beams = side_length / distance + 1
     res_vol = res_dict[res]['vol'] * side_length * number_beams
@@ -370,7 +374,7 @@ def add_surrogate_postbeams(res, area, distance=0.6,):
     return res_dict[res]['Material'], mass
 
 
-def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
+def add_surrogate_columns(res, floor_area, footprint_area, room_h=3):
     """
     Function to add columns to the perimeter of the building. Dimensions for RT is taken from Taranth: Reinforced concrete
     buildings, p. 219. Use the average column size of the middle floor approx.
@@ -389,8 +393,9 @@ def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
                     'Material': {'construction grade steel': {'vol': 0.03 * .50 * .50 * room_h, 'density': 7850},
                                  'concrete': {'vol': .50 * .50 * room_h, 'density': 2400},
                                  'wood and wood products': {'vol': .30 * .30 * room_h, 'density': 500}}},
-                'RES2.2': {'Material': {'construction grade steel': {'vol': 0.03 * .950 * .750 * room_h, 'density': 7850},
-                                        'concrete': {'vol': .950 * .750 * room_h, 'density': 2400}}},
+                'RES2.2': {
+                    'Material': {'construction grade steel': {'vol': 0.03 * .950 * .750 * room_h, 'density': 7850},
+                                 'concrete': {'vol': .950 * .750 * room_h, 'density': 2400}}},
                 'RES2.1+RES2.2': {
                     'Material': {'construction grade steel': {'vol': 0.03 * .50 * .50 * room_h, 'density': 7850},
                                  'concrete': {'vol': .50 * .50 * room_h, 'density': 2400},
@@ -401,12 +406,13 @@ def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
 
     if res == 'RES0' or res == 'RES2.2':
         distance = 9
-        number_columns = (perimeter / distance + 1)*floors
+        number_columns = (perimeter / distance + 1) * floors
 
     if res == 'RES2.1' or res == 'RES2.1+RES2.2':
         distance = 3
-        number_columns_wood = (footprint_area/3**2)*(floors-2) # keep the concrete columns on the two lower floors
-        number_columns_reinforced = (footprint_area/3**2)*2
+        number_columns_wood = (footprint_area / 3 ** 2) * (
+                    floors - 2)  # keep the concrete columns on the two lower floors
+        number_columns_reinforced = (footprint_area / 3 ** 2) * 2
 
     mat = dict()
     for outer_k, outer_v in res_dict[res]['Material'].items():
@@ -421,7 +427,7 @@ def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
     return mat
 
 
-def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 3):
+def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h=3):
     """
     Function to add light gauge steel wall for the wooden versions of the RT building.
 
@@ -429,21 +435,21 @@ def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 
     res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .15 * .0005, 'density': 8050},
                 'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .15 * .0005, 'density': 8050}}
     perimeter = footprint_area ** 0.5 * 4
-    floors = floor_area/footprint_area
+    floors = floor_area / footprint_area
 
     number_vertical = perimeter / distance + 1
     mass_horizontal_members = res_dict[res]['vol'] * room_h * number_vertical * res_dict[res]['density'] * floors
     mass_vertical_members = res_dict[res]['vol'] * perimeter * 2 * res_dict[res]['density'] * floors
 
-    return res_dict[res]['Material'], mass_horizontal_members+mass_vertical_members
+    return res_dict[res]['Material'], mass_horizontal_members + mass_vertical_members
 
 
-def add_surrogate_roof_beams(res, footprint_area, distance=3,):
+def add_surrogate_roof_beams(res, footprint_area, distance=3, ):
     """
     Function to add surrogate roof beams as for wooden RT building (as in Tallwood House, see doc)
     """
-    res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .25*.25, 'density': 8050},
-                'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .20*.20, 'density': 8050}}
+    res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .25 * .25, 'density': 8050},
+                'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .20 * .20, 'density': 8050}}
 
     side_length = footprint_area ** 0.5
     number_beams = side_length / distance + 1
@@ -458,8 +464,8 @@ def add_foundation(footprint_area):
     Function to add foundation for the high-rise buildings. 0.6 m3 concrete per footprint area and
     100 kg steel per m3 concrete based on lit.review, see doc.
     """
-    concrete_intensity = 0.6 # m3 concrete per footprint area
-    steel_intensity = 100 # kg steel per m3 concrete
+    concrete_intensity = 0.6  # m3 concrete per footprint area
+    steel_intensity = 100  # kg steel per m3 concrete
     density_concrete = 2400
     vol_concrete = footprint_area * concrete_intensity
     mass_concrete = vol_concrete * density_concrete
@@ -502,7 +508,7 @@ def calculate_energy(fnames=None):
         energy.delete_ep_files(copy_us, tmp, ['eplusout.eso'])
 
 
-def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
+def calculate_energy_mp(fnames=None, cpus=mp.cpu_count() - 1):
     print("Perform energy simulation on %s CPUs..." % cpus)
     if not fnames:
         fnames, rfolder = find_last_run()
@@ -515,8 +521,8 @@ def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
     result = pool.map_async(calculate_energy_worker, args)
     old_q = 0
     while not result.ready():
-        #pbar.update()
-        #print(q.qsize())
+        # pbar.update()
+        # print(q.qsize())
         if q.qsize() > old_q:
             pbar.update(q.qsize() - old_q)
         else:
@@ -651,7 +657,7 @@ def weighing_energy_carrier(ei_result):
         elif i[4] == 'DHW':
             df[i] = ei_result.loc[i[:-2], ['DHW']] * weights.loc[i[0], i[-1]]
         else:
-           df[i] = 0.0
+            df[i] = 0.0
     return df
 
 
@@ -713,7 +719,9 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
 
 # Andrea: assume the same for RT as for MFH for now...
 def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'Office': 15,
-                          'SchoolPrimary':100, 'SchoolSecondary':100, 'RetailStripmall':100,'RetailStandalone':100,'OfficeMedium':100,'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75, 'SFH-masonry': 50, 'HotelLarge':100}):
+                          'SchoolPrimary': 100, 'SchoolSecondary': 100, 'RetailStripmall': 100, 'RetailStandalone': 100,
+                          'OfficeMedium': 100, 'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75,
+                          'SFH-masonry': 50, 'HotelLarge': 100}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]
@@ -750,14 +758,15 @@ def save_mi_for_odym(mi_result):
     # mi_result = mi_result.loc[pd.IndexSlice[:, :, :, :, :], pd.IndexSlice[:, mi_result.columns.levels[1][0]]]
     new_mi = pd.DataFrame(index=mi_result.index, columns=mi_result.columns.levels[0])
     for region in mi_result.index.levels[0]:
-        first_climate_region = settings.combinations[dict([[v,k] for k,v in settings.odym_regions.items()])[region]]['climate_region'][0]
+        first_climate_region = \
+        settings.combinations[dict([[v, k] for k, v in settings.odym_regions.items()])[region]]['climate_region'][0]
         new_mi.loc[region] = mi_result.loc[region, pd.IndexSlice[:, first_climate_region]].values
         # mi_result.columns = mi_result.columns.droplevel(1)
     new_mi = new_mi[[c for c in new_mi.columns if c not in ['floor_area_wo_basement', 'footprint_area', 'total_mat']]]
     new_mi.index = new_mi.index.droplevel(4)
     new_mi = new_mi.stack()
     new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Engineering_Materials_m2', 'SSP_Regions_32']
-    new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Material Intensity UsePhase'] + [i[n] for n in (3,  4, 0)])
+    new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Material Intensity UsePhase'] + [i[n] for n in (3, 4, 0)])
                for i in new_mi.index.values]
     new_mi.index = pd.MultiIndex.from_tuples(new_idx, names=new_idx_names)
     new_mi = pd.DataFrame(new_mi, columns=['Value'])
@@ -767,7 +776,6 @@ def save_mi_for_odym(mi_result):
     # some more stuff?
     new_mi.to_excel(find_last_run().replace('.run', '_ODYM_mi.xlsx'), merge_cells=False)
     print("Wrote '%s'" % find_last_run().replace('.run', '_ODYM_mi.xlsx'))
-
 
 
 def save_all_result_csv(res):

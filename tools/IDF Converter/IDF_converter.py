@@ -353,6 +353,10 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
             idf.removeallidfobjects("OUTPUTCONTROL:TABLE:STYLE")
             idf.removeallidfobjects("OUTPUT:VARIABLE")
             idf.removeallidfobjects("OUTPUT:METER")
+            idf.removeallidfobjects("OUTPUT:ENVIRONMENTALIMPACTFACTORS")
+            idf.removeallidfobjects("ENVIRONMENTALIMPACTFACTORS")
+            idf.removeallidfobjects("OUTPUT:DIAGNOSTICS")
+            idf.removeallidfobjects("METER:CUSTOM")
 
             print("Output Variables are being changed...")
             # New output variables are defined by using existing SFH archetype located in data/archetype folder
@@ -774,13 +778,21 @@ def update_material_xlsx(merged_idf, save_folder_path, Region):
 
     objlist = ['MATERIAL:NOMASS',
                "WINDOWMATERIAL:SHADE", "WINDOWMATERIAL:GAS", "WINDOWMATERIAL:GLAZING",
-               "WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM", "MATERIAL:AIRGAP","WINDOWPROPERTY:FRAMEANDDIVIDER"]
+               "WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM", "MATERIAL:AIRGAP","WINDOWPROPERTY:FRAMEANDDIVIDER","MATERIAL:INFRAREDTRANSPARENT"]
     for obj in objlist:
         if obj in [x for x in merged_idf.idfobjects]:
             if obj == 'MATERIAL:NOMASS':
                 for items in merged_idf.idfobjects["Material:NoMass".upper()]:
                     new_row_missing = (f"{items.Name}", "SPECIFY DENSITY", "SPECIFY THICKNESS", "SPECIFY CONDUCTIVITY",
                                        f"{items.Thermal_Resistance}", f"{Region}")
+                    new_row_allmaterials = (f"{items.Name}", "SPECIFY ODYM MATERIAL", f"{Region}")
+                    sheet_missingmaterials.append(new_row_missing)
+                    sheet_allmaterials.append(new_row_allmaterials)
+
+            if obj == 'MATERIAL:INFRAREDTRANSPARENT':
+                for items in merged_idf.idfobjects["MATERIAL:INFRAREDTRANSPARENT".upper()]:
+                    new_row_missing = (f"{items.Name}", "SPECIFY DENSITY", "SPECIFY THICKNESS", "SPECIFY CONDUCTIVITY",
+                                       "0", f"{Region}")
                     new_row_allmaterials = (f"{items.Name}", "SPECIFY ODYM MATERIAL", f"{Region}")
                     sheet_missingmaterials.append(new_row_missing)
                     sheet_allmaterials.append(new_row_allmaterials)
@@ -908,8 +920,7 @@ def update_all_datafile_yaml_gui(idflist, merged_idf, save_folder_path, Region, 
 
 
 if __name__ == "__main__":
-    #USER SPECIFIC INPUTS:
-    #EXAMPLE PURPOSES ONLY
+    # USER SPECIFIC INPUTS:
 
     # 2006 IECC idf File Path (standard)
     path1 = "..\\data\\archetype\\new_archetypes\\IdealLoads Converter Outputs\\BUILDME_SchoolSecondary\\IdealLoads_SchoolSecondary.idf"
@@ -930,5 +941,5 @@ if __name__ == "__main__":
     convert_idf_to_BuildME(path3, folderpath, replace_string="-en-std-replaceme-res-replaceme", replace_string_value="-ZEB-RES0", base=False)
 
     listed = create_combined_idflist(folderpath)
-    merged_idf=create_combined_idf_archetype(folderpath, listed)
-    update_all_datafile_xlsx(listed,merged_idf,folderpath)
+    merged_idf = create_combined_idf_archetype(folderpath, listed)
+    update_all_datafile_xlsx(listed, merged_idf, folderpath)

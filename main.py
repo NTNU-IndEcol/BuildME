@@ -71,5 +71,5 @@ def continue_previous(run_eplus=False):
 if __name__ == "__main__":
     print("Welcome to BuildME v%s" % __version__)
     # Only run either of the following functions
-    # run_new()
-    continue_previous()
+    run_new()
+    # continue_previous()
