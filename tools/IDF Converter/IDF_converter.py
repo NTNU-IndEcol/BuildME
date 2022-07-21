@@ -335,6 +335,17 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
         idf = IDF(fhandle)
         print(f'Now, {idf.idfobjects["Building".upper()][0].Name} values are being written to the merged IDF...')
         if "BASE" in idf.idfobjects["Building".upper()][0].Name:
+
+            # checking if the IDF file has a DHW system
+            water_outputmeter = []
+
+            for item in idf.idfobjects["OUTPUT:VARIABLE"]:
+                if "Water" in item.Variable_Name:
+                    newwaterobj=idf.newidfobject("OUTPUT:METER")
+                    newwaterobj.Key_Name="WaterSystems:DistrictHeating"
+                    newwaterobj.Reporting_Frequency="Hourly"
+                    water_outputmeter.append(newwaterobj)
+
             idf.removeallidfobjects("CONSTRUCTION")
             idf.removeallidfobjects("MATERIAL")
             idf.removeallidfobjects("MATERIAL:NOMASS")
@@ -360,6 +371,9 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
 
             print("Output Variables are being changed...")
             # New output variables are defined by using existing SFH archetype located in data/archetype folder
+
+
+
             SFH_IDF = IDF("..//data//archetype//USA//SFH.idf")
             outputlist = []
             objlist = ["OUTPUT:METER", "OUTPUT:VARIABLEDICTIONARY", "OUTPUT:SURFACES:DRAWING", "OUTPUT:CONSTRUCTIONS",
@@ -369,6 +383,11 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
                 if obj in [x for x in SFH_IDF.idfobjects]:
                     for item in SFH_IDF.idfobjects[f"{obj}"]:
                         outputlist.append(item)
+
+            unique = reduce(lambda l, x: l.append(x) or l if x not in l else l, water_outputmeter, [])
+            for newmeter in unique:
+                idf.copyidfobject(newmeter)
+
             for newobj in outputlist:
                 idf.copyidfobject(newobj)
 
@@ -395,8 +414,7 @@ def create_combined_idf_archetype(save_folder_path, idflist=list):
 
 
 def create_yaml_userreplace(idflist, save_folder_path, Region, Occupation):
-
-    #TODO:NEEDS TO BE UPDATED SIMILAR TO EXCEL ONE
+    # TODO:NEEDS TO BE UPDATED SIMILAR TO EXCEL ONE
     """
     Creates a yaml file that stores the new values comes from the new idf files.
     The current version now only collects infiltration values.
@@ -614,12 +632,11 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
     sheet_standard = wb['en-standard']
     wb.create_sheet('cohort')
     sheet_cohort = wb['cohort']
-    new_row = ("Region", "Occupation", "cohort", "idfobject",	"Name",	"objectfield",	"Value",	"Comment")
+    new_row = ("Region", "Occupation", "cohort", "idfobject", "Name", "objectfield", "Value", "Comment")
     sheet_cohort.append(new_row)
     available_combinations = []
-    std_list = [ "non-standard","standard", "efficient", "ZEB"]
-    deletecohort=False
-
+    std_list = ["non-standard", "standard", "efficient", "ZEB"]
+    deletecohort = False
 
     for idf in idflist:
         fhandle = StringIO(idf)
@@ -627,12 +644,12 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
         Standard = idf.idfobjects["Building".upper()][0].Name
         for i in std_list:
             if i in str(Standard):
-                deletecohort=True
+                deletecohort = True
                 standard = Standard.split("-")[1]
                 available_combinations.append(standard)
 
                 objlist = ['ZONEINFILTRATION:EFFECTIVELEAKAGEAREA', "ZONEINFILTRATION:DESIGNFLOWRATE",
-                           "ZONEINFILTRATION:FLOWCOEFFICIENT","AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK",
+                           "ZONEINFILTRATION:FLOWCOEFFICIENT", "AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK",
                            "AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING"]
 
                 for obj in objlist:
@@ -640,8 +657,9 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
                         # Writing all infiltration parameters
                         if obj == 'ZONEINFILTRATION:EFFECTIVELEAKAGEAREA':
                             for items in idf.idfobjects["ZoneInfiltration:EffectiveLeakageArea".upper()]:
-                                new_row = (f"{Region}", f"{Occupation}", f"{standard}", "ZONEINFILTRATION:EFFECTIVELEAKAGEAREA",
-                                           f"{items.Name}", "Effective_Air_Leakage_Area", f"{items.Effective_Air_Leakage_Area}")
+                                new_row = (
+                                f"{Region}", f"{Occupation}", f"{standard}", "ZONEINFILTRATION:EFFECTIVELEAKAGEAREA",
+                                f"{items.Name}", "Effective_Air_Leakage_Area", f"{items.Effective_Air_Leakage_Area}")
                                 sheet_standard.append(new_row)
 
                         if obj == "ZONEINFILTRATION:DESIGNFLOWRATE":
@@ -663,9 +681,11 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
                         if obj == "AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK":
                             for items in idf.idfobjects["AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK".upper()]:
                                 new_row = (
-                                    f"{Region}", f"{Occupation}", f"{standard}", "AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK",
+                                    f"{Region}", f"{Occupation}", f"{standard}",
+                                    "AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK",
                                     f"{items.Name}",
-                                    "Air_Mass_Flow_Coefficient_at_Reference_Conditions", f"{items.Air_Mass_Flow_Coefficient_at_Reference_Conditions}")
+                                    "Air_Mass_Flow_Coefficient_at_Reference_Conditions",
+                                    f"{items.Air_Mass_Flow_Coefficient_at_Reference_Conditions}")
                                 sheet_standard.append(new_row)
 
                         if obj == "AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING":
@@ -691,8 +711,9 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
                 cohort = Standard.split("-")[1]
                 available_combinations.append(cohort)
 
-                objlist = [ "LIGHTS","OTHEREQUIPMENT","SHADING:BUILDING:DETAILED",
-                           "AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK","AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING"]
+                objlist = ["LIGHTS", "OTHEREQUIPMENT", "SHADING:BUILDING:DETAILED",
+                           "AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK",
+                           "AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING"]
 
                 for obj in objlist:
                     if obj in [x for x in idf.idfobjects]:
@@ -726,7 +747,8 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
                                 new_row = (
                                     f"{Region}", f"{Occupation}", f"{cohort}", "AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK",
                                     f"{items.Name}",
-                                    "Air_Mass_Flow_Coefficient_at_Reference_Conditions", f"{items.Air_Mass_Flow_Coefficient_at_Reference_Conditions}")
+                                    "Air_Mass_Flow_Coefficient_at_Reference_Conditions",
+                                    f"{items.Air_Mass_Flow_Coefficient_at_Reference_Conditions}")
                                 sheet_cohort.append(new_row)
 
                         if obj == "AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING":
@@ -746,9 +768,9 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
                                     "Air_Mass_Flow_Exponent_When_Opening_is_Closed",
                                     f"{items.Air_Mass_Flow_Exponent_When_Opening_is_Closed}")
                                 sheet_cohort.append(new_row)
-    if deletecohort==True:
+    if deletecohort == True:
         wb.remove(wb["cohort"])
-        available_combinations=reduce(lambda l, x: l.append(x) or l if x not in l else l, available_combinations, [])
+        available_combinations = reduce(lambda l, x: l.append(x) or l if x not in l else l, available_combinations, [])
         wb.create_sheet('cohort')
         sheet_cohort = wb['cohort']
         new_row = ("Region", "Occupation", "cohort", "idfobject", "Name", "objectfield", "Value", "Comment")
@@ -778,7 +800,8 @@ def update_material_xlsx(merged_idf, save_folder_path, Region):
 
     objlist = ['MATERIAL:NOMASS',
                "WINDOWMATERIAL:SHADE", "WINDOWMATERIAL:GAS", "WINDOWMATERIAL:GLAZING",
-               "WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM", "MATERIAL:AIRGAP","WINDOWPROPERTY:FRAMEANDDIVIDER","MATERIAL:INFRAREDTRANSPARENT"]
+               "WINDOWMATERIAL:SIMPLEGLAZINGSYSTEM", "MATERIAL:AIRGAP", "WINDOWPROPERTY:FRAMEANDDIVIDER",
+               "MATERIAL:INFRAREDTRANSPARENT"]
     for obj in objlist:
         if obj in [x for x in merged_idf.idfobjects]:
             if obj == 'MATERIAL:NOMASS':
@@ -842,12 +865,12 @@ def update_material_xlsx(merged_idf, save_folder_path, Region):
 
             if obj == "WINDOWPROPERTY:FRAMEANDDIVIDER":
                 for items in merged_idf.idfobjects["WINDOWPROPERTY:FRAMEANDDIVIDER".upper()]:
-                    new_row_missing = (f"{items.Name}", "SPECIFY DENSITY", f"{items.Frame_Width}", f"{items.Frame_Conductance}", f"{items.Frame_Conductance}", f"{Region}")
+                    new_row_missing = (
+                    f"{items.Name}", "SPECIFY DENSITY", f"{items.Frame_Width}", f"{items.Frame_Conductance}",
+                    f"{items.Frame_Conductance}", f"{Region}")
                     new_row_allmaterials = (f"{items.Name}", "SPECIFY ODYM MATERIAL", f"{Region}")
                     sheet_missingmaterials.append(new_row_missing)
                     sheet_allmaterials.append(new_row_allmaterials)
-
-
 
     for items in merged_idf.idfobjects["Material".upper()]:
         new_row_allmaterials = (f"{items.Name}", "SPECIFY ODYM MATERIAL", f"{Region}")
@@ -920,7 +943,8 @@ def update_all_datafile_yaml_gui(idflist, merged_idf, save_folder_path, Region, 
 
 
 if __name__ == "__main__":
-    # USER SPECIFIC INPUTS:
+    #USER SPECIFIC INPUTS:
+    #EXAMPLE PURPOSES ONLY
 
     # 2006 IECC idf File Path (standard)
     path1 = "..\\data\\archetype\\new_archetypes\\IdealLoads Converter Outputs\\BUILDME_SchoolSecondary\\IdealLoads_SchoolSecondary.idf"
@@ -941,5 +965,5 @@ if __name__ == "__main__":
     convert_idf_to_BuildME(path3, folderpath, replace_string="-en-std-replaceme-res-replaceme", replace_string_value="-ZEB-RES0", base=False)
 
     listed = create_combined_idflist(folderpath)
-    merged_idf = create_combined_idf_archetype(folderpath, listed)
-    update_all_datafile_xlsx(listed, merged_idf, folderpath)
+    merged_idf=create_combined_idf_archetype(folderpath, listed)
+    update_all_datafile_xlsx(listed,merged_idf,folderpath)

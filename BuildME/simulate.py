@@ -687,7 +687,7 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
     # If DHW is already defined, there is no need to define it externally with add_dhw()
 
 
-    if 'WaterSystems:Water [m3](Hourly)' in res:
+    if 'WaterSystems:DistrictHeating [J](Hourly)' in res:
         res.to_excel(writer, 'all')
         res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
         res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
@@ -695,10 +695,8 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
         res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
         (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
          res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
-        res['WaterSystems:Water [m3](Hourly)'].sum(axis=1).to_excel(writer, 'DHW')
-        # Previous calculations were used to sum m3 with MJ in total, instead these should be seperated as the units
-        # are different.
-        (res.sum(axis=1) - res['WaterSystems:Water [m3](Hourly)'].sum(axis=1)).to_excel(writer, 'total')
+        res['WaterSystems:DistrictHeating [J](Hourly)'].sum(axis=1).to_excel(writer, 'DHW')
+        res.sum(axis=1).to_excel(writer, 'total')
     else:
         res = add_DHW(res)
         res.to_excel(writer, 'all')
@@ -709,9 +707,7 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
         (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
          res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
         res['DHW'].to_excel(writer, 'DHW')
-        # Previous calculations were used to sum m3 with MJ in total, instead these should be seperated as the units
-        # are different.
-        (res.sum(axis=1) - res['DHW']).to_excel(writer, 'total')
+        res.sum(axis=1).to_excel(writer, 'total')
 
     writer.save()
     return res
