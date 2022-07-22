@@ -118,7 +118,7 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
                 # replace the item
                 obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + replacer)
                 # replace frame type
-                if obj.Surface_Type == "Window":
+                if obj=="FENESTRATIONSURFACE:DETAILED" and obj.Surface_Type == "Window":
                     obj.Frame_and_Divider_Name = obj.Frame_and_Divider_Name.replace(replace_str, '-' + replacer)
 
     # Replacement of the Windows with shading
