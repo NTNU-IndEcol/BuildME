@@ -434,6 +434,8 @@ def create_yaml_userreplace(idflist, save_folder_path, Region, Occupation):
         standard = idf.idfobjects["Building".upper()][0].Name
         standard = standard.split("-")[1]
         standard = standard.split("-RES")[0]
+        if standard=="non":
+            standard="non-standard"
         available_combinations.append(standard)
 
         # Creating data categories based on the existing structure in replace.xlsx
@@ -646,6 +648,8 @@ def update_replace_xlsx(idflist, save_folder_path, Region, Occupation):
             if i in str(Standard):
                 deletecohort = True
                 standard = Standard.split("-")[1]
+                if standard == "non":
+                    standard = "non-standard"
                 available_combinations.append(standard)
 
                 objlist = ['ZONEINFILTRATION:EFFECTIVELEAKAGEAREA', "ZONEINFILTRATION:DESIGNFLOWRATE",
