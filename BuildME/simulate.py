@@ -180,7 +180,15 @@ def copy_scenario_files(fnames, run, replace=False):
         # create folder
         os.makedirs(fpath)
         # copy climate file
-        shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
+        try:
+            shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
+        except FileNotFoundError:
+            dummy_epw = os.path.join(os.path.dirname(settings.climate_files_path),
+                                     'USA_FL_Miami.Intl_.AP_.722020_TMY3.epw')
+            print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
+                  f"A dummy weather file for Miami, Florida will be used: '{dummy_epw}'")
+
+            shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
         idf_f = idf.read_idf(fnames[fname]['archetype_file'])
         idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'], '-en-std-replaceme')
