@@ -26,7 +26,7 @@ def create_combinations(comb=settings.combinations):
     energy standard, Resource Efficiency Strategy RES, climate region, and climate scenario.
     An example for the USA, single-family home, standard energy efficiency, no RES, in US climate region 1A,
     and with the climate scenario of 2015 (i.e. none): US_SFH_standard_RES0_cr1A_2015
-    :return:
+    :return: Dictionary with simulation parameters `fnames` and simulation name `run`
     """
     print("Creating scenario combinations")
     run = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
@@ -246,11 +246,16 @@ def translate_to_odym_mat(total_material_mass):
     :return: Dict with categorized materials in kg, e.g. {material_category_1: 100, material_category_2: 666, ...}
     """
     res = {}
+    crash = []
     for mat in total_material_mass:
-        if settings.odym_materials[mat] not in res:
+        if mat not in settings.odym_materials:
+            crash.append(mat)
+        elif settings.odym_materials[mat] not in res:
             res[settings.odym_materials[mat]] = total_material_mass[mat]
         else:
             res[settings.odym_materials[mat]] += total_material_mass[mat]
+    if crash:
+        raise AssertionError("The following items are missing in settings.odym_materials: %s" % crash)
     return res
 
 
@@ -500,7 +505,7 @@ def calculate_energy(fnames=None):
         tmp = energy.copy_files(copy_us, tmp_run_path=sfolder, create_dir=False)
         # fix_macos_quarantine(run_path)
         energy.run_energyplus_single(tmp)
-        energy.delete_ep_files(copy_us, tmp, ['eplusout.eso'])
+        energy.delete_ep_files(copy_us, tmp)
 
 
 def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
@@ -537,7 +542,7 @@ def calculate_energy_worker(args):
     copy_us = energy.gather_files_to_copy()
     tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
     energy.run_energyplus_single(tmp, verbose=False)
-    energy.delete_ep_files(copy_us, tmp, ['eplusout.eso'])
+    energy.delete_ep_files(copy_us, tmp)
     q.put(no)
 
 
@@ -694,7 +699,9 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
 
 # Andrea: assume the same for RT as for MFH for now...
 def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'Office': 15,
-                          'SchoolPrimary':100, 'SchoolSecondary':100, 'RetailStripmall':100,'RetailStandalone':100,'OfficeMedium':100,'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75, 'SFH-masonry': 50, 'HotelLarge':100}):
+                          'SchoolPrimary': 100, 'SchoolSecondary': 100, 'RetailStripmall': 100,'RetailStandalone': 100,
+                          'OfficeMedium': 100,'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75,
+                          'SFH-masonry': 50, 'HotelLarge': 100}):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]
@@ -824,7 +831,8 @@ def create_sq_job(fnames):
 def cleanup(fnames, run):
     """
     Convenience function to clean up after successful run.
-    :param fnames:
+    :param fnames: Simulation dictionary
+    :param run: Simulation run name, e.g. '220628-080114'
     :return: None
     """
     print("Cleaning up...")

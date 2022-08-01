@@ -73,7 +73,7 @@ def copy_files(copy_list, tmp_run_path=None, create_dir=True):
     return tmp_run_path
 
 
-def delete_ep_files(copy_list, tmp_run_path, more_files):
+def delete_ep_files(copy_list, tmp_run_path, more_files=settings.files_to_delete):
     """
     Deletes the e+ files after simulation, skips input and weather file
     :param copy_list: Files to delete
@@ -156,7 +156,9 @@ def run_energyplus_single(tmp_path, verbose=True):
         log_file.seek(0)
         if log_file.readlines()[-1] != 'EnergyPlus Completed Successfully.\n':
             # print("ERROR: '%s' energy simulation was not successful" % tmp_path)
-            raise AssertionError("ERROR: '%s' energy simulation was not successful" % tmp_path)
+            raise AssertionError("Energy simulation was not successful in '%s'. "
+                                 "See files 'log_energyplus.txt' and 'eplusout.err' for details."
+                                 % tmp_path)
         log_file.close()
     if verbose:
         print("Energy simulation successful '%s'" % tmp_path)

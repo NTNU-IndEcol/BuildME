@@ -751,9 +751,9 @@ def estimate_no_of_floors(idf, zone_dict_hvac):
     ceiling_heights = []
     for obj in idf.idfobjects['BuildingSurface:Detailed']:
         if obj.Zone_Name in hvac_zone_list:
-            ceiling_height = max(pt[2] for pt in obj.coords)
+            ceiling_height = max(abs(pt[2]) for pt in obj.coords)
             zone_obj = [z for z in idf.idfobjects['Zone'] if z.Name == obj.Zone_Name][0]
-            multiplier = zone_obj.Multiplier
+            multiplier = float(zone_obj.Multiplier)
             if multiplier == "":
                 multiplier = 1
             ceiling_height = ceiling_height * multiplier + zone_obj.Z_Origin
