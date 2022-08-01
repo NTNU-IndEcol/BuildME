@@ -235,11 +235,16 @@ def translate_to_odym_mat(total_material_mass):
     :return: Dict with categorized materials in kg, e.g. {material_category_1: 100, material_category_2: 666, ...}
     """
     res = {}
+    crash = []
     for mat in total_material_mass:
-        if settings.odym_materials[mat] not in res:
+        if mat not in settings.odym_materials:
+            crash.append(mat)
+        elif settings.odym_materials[mat] not in res:
             res[settings.odym_materials[mat]] = total_material_mass[mat]
         else:
             res[settings.odym_materials[mat]] += total_material_mass[mat]
+    if crash:
+        raise AssertionError("The following items are missing in settings.odym_materials: %s" % crash)
     return res
 
 
