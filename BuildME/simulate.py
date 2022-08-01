@@ -130,28 +130,28 @@ def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
     :param idf_f: Un-modified / original idf file
     :param res: RES, e.g. ['USA', 'MFH', 'RES0'] or en_standard, e.g. ['USA', 'MFH', 'standard']
     :param en_replace: Excel replacement rules from data/replace.xlsx, sheet 'en-standard' *or* 'RES'
-    :param en_replace: Excel replacement rules related to MMV cooling type
+    :param mmv_en_replace: Excel replacement rules related to MMV cooling type
     :return: Modified idf file
     """
     if tuple(res) not in en_replace.index:
         print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
         return idf_f
     xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
-    # mmv_en_replace only applies for en-standard and not RES. Should fix / avoid #63
-    if 'RES' in res[2]:
+    if 'RES' in res[2]:  # excel replacement rules for RES
         xls_values = xls_values1
-    else:
-        xls_values2 = mmv_en_replace.loc(axis=0)[[res[1]], [res[2]]]
-        xls_values = pd.concat([xls_values1, xls_values2])
-    # Check if the combination has a value in replace.xlsx
-    if not 'RES' in res[2]:
+    else:  # excel replacement rules for en-standard
+        if mmv_en_replace is not None:  # if MMV cooling type is applicable to this simulation run
+            xls_values2 = mmv_en_replace.loc(axis=0)[[res[1]], [res[2]]]  # MMV only matters for energy standard
+            xls_values = pd.concat([xls_values1, xls_values2])
+        else:
+            xls_values = xls_values1  # if only HVAC cooling type is applicable
+        # Check if the combination has a value in replace.xlsx
         if len(xls_values) == 0:
             print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
     for xls_value in xls_values.iterrows():
         if xls_value[1]['Value'] == 'skip':
             continue
         for idfobj in idf_f.idfobjects[xls_value[1]['idfobject'].upper()]:
-        # TODO: Seems like this skips replacement of values for MFH? Changed replace.xlsx file..
             if idfobj.Name not in ('*', xls_value[1].Name):
                 continue
             setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
@@ -172,7 +172,10 @@ def copy_scenario_files(fnames, run, replace=False):
     print("Copying files...")
     res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
     en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-    mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
+    if 'MMV' in [fnames[k]['cooling'] for k in fnames]:
+        mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
+    else:
+        mmv_en_replace = None
     tq = tqdm(fnames, leave=True, desc="copy")
     for fname in tq:
         # tq.set_description(fname)
@@ -180,7 +183,15 @@ def copy_scenario_files(fnames, run, replace=False):
         # create folder
         os.makedirs(fpath)
         # copy climate file
-        shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
+        try:
+            shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
+        except FileNotFoundError:
+            dummy_epw = os.path.join(os.path.dirname(settings.climate_files_path),
+                                     'USA_NY_New.York-dummy.epw')
+            print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
+                  f"A dummy weather file for New York, NY (climate 4A) will be used: '{dummy_epw}'")
+
+            shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
         idf_f = idf.read_idf(fnames[fname]['archetype_file'])
         idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'], '-en-std-replaceme')

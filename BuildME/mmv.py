@@ -254,8 +254,10 @@ def change_idf_objects(idf, xlsx_mmv, zone_dict_hvac):
         value = df.loc[i, 'value']
         for obj in idf.idfobjects[idf_object]:
             if value[-15:] == '<hvac zone no.>':
-                zone_no = get_zone_number(zone_dict_hvac, obj.Zone_Name)
-                obj[object_field] = value[:-15] + str(zone_no)
+                zone_list = [zone_number['Zone_Name'] for zone_number in zone_dict_hvac.values()]
+                if obj.Zone_Name in zone_list:
+                    zone_no = list(zone_dict_hvac.keys())[zone_list.index(obj.Zone_Name)]
+                    obj[object_field] = value[:-15] + str(zone_no)
             else:
                 obj[object_field] = value
     return idf
@@ -311,18 +313,6 @@ def delete_idf_objects(idf, xlsx_mmv):
         while objs:
             idf.removeidfobject(objs[0])
     return idf
-
-
-def get_zone_number(zone_dict_hvac, zone_name):
-    """
-    Finds a zone in the zone dictionary and returns its number (dictionary key)
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
-    :param zone_name: Name of the zone
-    :return zone_number: Number of the zone (dictionary key)
-    """
-    zone_list = [zone_number['Zone_Name'] for zone_number in zone_dict_hvac.values()]
-    zone_number = list(zone_dict_hvac.keys())[zone_list.index(zone_name)]
-    return zone_number
 
 
 def assign_name(name_in, zone_dict_hvac, zone_dict_non_hvac, window_dict, surface_dict,
