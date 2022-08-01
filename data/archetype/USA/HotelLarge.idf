@@ -1,4 +1,4 @@
-!- Windows Line endings 
+!- Windows Line endings
 
 Version,
     9.2;                      !- Version Identifier
@@ -3269,7 +3269,37 @@ Schedule:Compact,
     0;                        !- Field 15
 
 Material,
-    Std Wood 6inch-standard-RES0,    !- Name
+    Wood_joist_180x50-400,   !- Name
+    !- For post-beam constructions (RES2.1 and RES 2.1+2.2)
+    !-  180 x 50 mm joists every 400 mm
+    !-  wood content in 1m2 of roof: 50mm/400mm = 0.125
+    !-  wood content in 1m3 of roof: 0.125 * 180mm = 22.5 mm
+    Rough,                   !- Roughness
+    0.0225,                  !- Thickness {m}
+    0.1154577,               !- Conductivity {W/m-K}
+    544.68,                  !- Density {kg/m3}
+    674.54,                  !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
+
+Material,
+    Wood_joist_220x50-400,   !- Name
+    !- For post-beam constructions (RES2.1 and RES 2.1+2.2)
+    !-  220 x 50 mm joists every 400 mm
+    !-  wood content in 1m2 of roof: 50mm/400mm = 0.125
+    !-  wood content in 1m3 of roof: 0.125 * 220mm = 27.5 mm
+    Rough,                   !- Roughness
+    0.0275,                  !- Thickness {m}
+    0.1154577,               !- Conductivity {W/m-K}
+    544.68,                  !- Density {kg/m3}
+    674.54,                  !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
+
+Material,
+    Std Wood 6inch,    !- Name
     MediumSmooth,             !- Roughness
     0.15,                     !- Thickness
     0.12,                     !- Conductivity
@@ -3280,7 +3310,7 @@ Material,
     0.7;                      !- Visible Absorptance
 
 Material,
-    AC02 Acoustic Ceiling-standard-RES0,    !- Name
+    AC02 Acoustic Ceiling,    !- Name
     MediumSmooth,             !- Roughness
     0.0127,                   !- Thickness
     0.057,                    !- Conductivity
@@ -3291,18 +3321,7 @@ Material,
     0.2;                      !- Visible Absorptance
 
 Material,
-    F07 25mm stucco-standard-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0254,                   !- Thickness
-    0.72,                     !- Conductivity
-    1856,                     !- Density
-    840,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material,
-    F08 Metal surface-standard-RES0,    !- Name
+    F08 Metal surface,    !- Name
     Smooth,                   !- Roughness
     0.0008,                   !- Thickness
     45.28,                    !- Conductivity
@@ -3310,17 +3329,7 @@ Material,
     500;                      !- Specific Heat
 
 Material,
-    F08 Metal roof surface-standard-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    45.28,                    !- Conductivity
-    7824,                     !- Density
-    500,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    F12 Asphalt shingles-standard-RES0,    !- Name
+    F12 Asphalt shingles,    !- Name
     VeryRough,                !- Roughness
     0.0032,                   !- Thickness
     0.04,                     !- Conductivity
@@ -3330,7 +3339,7 @@ Material,
     0.77;                     !- Solar Absorptance
 
 Material,
-    F13 Built-up roofing-standard-RES0,    !- Name
+    F13 Built-up roofing,    !- Name
     Rough,                    !- Roughness
     0.0095,                   !- Thickness
     0.16,                     !- Conductivity
@@ -3340,9 +3349,27 @@ Material,
     0.77;                     !- Solar Absorptance
 
 Material,
-    G01 13mm gypsum board-standard-RES0,    !- Name
+    masonry-10cm,    !- Name
+    !- inspired by EN 12524
+    MediumRough,              !- Roughness
+    0.100,                      !- Thickness
+    0.35,                      !- Conductivity
+    1000,                     !- Density
+    940;                      !- Specific Heat
+
+Material,
+    masonry-12cm,    !- Name
+    !- inspired by EN 12524
+    MediumRough,              !- Roughness
+    0.12,                      !- Thickness
+    0.35,                      !- Conductivity
+    1000,                     !- Density
+    940;                      !- Specific Heat
+
+Material,
+    G01 13mm gypsum board,    !- Name
     Smooth,                   !- Roughness
-    0.0127,                   !- Thickness
+    0.013,                   !- Thickness
     0.16,                     !- Conductivity
     800,                      !- Density
     1090,                     !- Specific Heat
@@ -3351,15 +3378,7 @@ Material,
     0.5;                      !- Visible Absorptance
 
 Material,
-    G01 16mm gypsum board-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0159,                   !- Thickness
-    0.16,                     !- Conductivity
-    800,                      !- Density
-    1090;                     !- Specific Heat
-
-Material,
-    G02 16mm plywood-standard-RES0,    !- Name
+    G02 16mm plywood,    !- Name
     Smooth,                   !- Roughness
     0.0159,                   !- Thickness
     0.12,                     !- Conductivity
@@ -3367,557 +3386,292 @@ Material,
     1210;                     !- Specific Heat
 
 Material,
-    M14 150mm heavyweight concrete roof-standard-RES0,    !- Name
+    Concrete_12cm,           !- Name
+    Rough,                   !- Roughness
+    0.120,                    !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_12cm,!- Name
+    Rough,                   !- Roughness
+    0.0012,                  !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_15cm,           !- Name
+    Rough,                   !- Roughness
+    0.150,                    !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_15cm,!- Name
+    Rough,                   !- Roughness
+    0.0015,                  !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_18cm,           !- Name
+    Rough,                   !- Roughness
+    0.180,                     !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_18cm,!- Name
+    Rough,                   !- Roughness
+    0.0018,                   !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_20cm,           !- Name
+    Rough,                   !- Roughness
+    0.200,                     !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_20cm,!- Name
+    Rough,                   !- Roughness
+    0.002,                   !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Concrete_22cm,           !- Name
+    Rough,                   !- Roughness
+    0.220,                     !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    2242.8,                  !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    Reinforcement_1perc_22cm,!- Name
+    Rough,                   !- Roughness
+    0.0022,                   !- Thickness {m}
+    1.312098,                !- Conductivity {W/m-K}
+    7850,                    !- Density {kg/m3}
+    465.2;                   !- Specific Heat {J/kg-K}
+
+Material,
+    100mm Normalweight concrete wall,    !- Name
     MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
+    0.100,                   !- Thickness
     2.31,                     !- Conductivity
     2322,                     !- Density
     832;                      !- Specific Heat
 
 Material,
-    100mm Normalweight concrete wall-standard-RES0,    !- Name
+    200mm Normalweight concrete wall,    !- Name
     MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    2.31,                     !- Conductivity
+    0.200,                     !- Thickness
+    1.3,                      !- Conductivity
     2322,                     !- Density
     832;                      !- Specific Heat
 
 Material,
-    200mm Normalweight concrete wall-standard-RES0,    !- Name
+    160mm Normalweight concrete wall,    !- Name
     MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    2.31,                     !- Conductivity
+    0.160,                     !- Thickness
+    1.3,                      !- Conductivity
     2322,                     !- Density
     832;                      !- Specific Heat
 
 Material,
-    100mm Normalweight concrete floor-standard-RES0,    !- Name
+    100mm Normalweight concrete floor,    !- Name
     MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    2.31,                     !- Conductivity
+    0.100,                      !- Thickness
+    1.3,                      !- Conductivity
     2322,                     !- Density
     832;                      !- Specific Heat
 
 Material,
-    150mm Normalweight concrete floor-standard-RES0,    !- Name
+    80mm Normalweight concrete floor,    !- Name
     MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
-    2.31,                     !- Conductivity
+    0.080,                      !- Thickness
+    1.3,                      !- Conductivity
     2322,                     !- Density
     832;                      !- Specific Heat
 
 Material,
-    200mm Normalweight concrete floor-standard-RES0,    !- Name
+    M10 200mm concrete block basement wall,    !- Name
     MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block wall-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    0.72,                     !- Conductivity
-    800,                      !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block basement wall-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    1.326,                    !- Conductivity
-    1842,                     !- Density
-    912;                      !- Specific Heat
-
-Material,
-    Std Wood 6inch-efficient-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.15,                     !- Thickness
-    0.12,                     !- Conductivity
-    540,                      !- Density
-    1210,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material,
-    AC02 Acoustic Ceiling-efficient-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0127,                   !- Thickness
-    0.057,                    !- Conductivity
-    288,                      !- Density
-    1339,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.2;                      !- Visible Absorptance
-
-Material,
-    F07 25mm stucco-efficient-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0254,                   !- Thickness
-    0.72,                     !- Conductivity
-    1856,                     !- Density
-    840,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material,
-    F08 Metal surface-efficient-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    45.28,                    !- Conductivity
-    7824,                     !- Density
-    500;                      !- Specific Heat
-
-Material,
-    F08 Metal roof surface-efficient-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    45.28,                    !- Conductivity
-    7824,                     !- Density
-    500,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    F12 Asphalt shingles-efficient-RES0,    !- Name
-    VeryRough,                !- Roughness
-    0.0032,                   !- Thickness
-    0.04,                     !- Conductivity
-    1120,                     !- Density
-    1260,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    F13 Built-up roofing-efficient-RES0,    !- Name
-    Rough,                    !- Roughness
-    0.0095,                   !- Thickness
-    0.16,                     !- Conductivity
-    1120,                     !- Density
-    1460,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    G01 13mm gypsum board-efficient-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0127,                   !- Thickness
-    0.16,                     !- Conductivity
-    800,                      !- Density
-    1090,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.5;                      !- Visible Absorptance
-
-Material,
-    G01 16mm gypsum board-efficient-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0159,                   !- Thickness
-    0.16,                     !- Conductivity
-    800,                      !- Density
-    1090;                     !- Specific Heat
-
-Material,
-    G02 16mm plywood-efficient-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0159,                   !- Thickness
-    0.12,                     !- Conductivity
-    544,                      !- Density
-    1210;                     !- Specific Heat
-
-Material,
-    M14 150mm heavyweight concrete roof-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    100mm Normalweight concrete wall-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    200mm Normalweight concrete wall-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    100mm Normalweight concrete floor-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    150mm Normalweight concrete floor-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    200mm Normalweight concrete floor-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block wall-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    0.72,                     !- Conductivity
-    800,                      !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block basement wall-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    1.326,                    !- Conductivity
-    1842,                     !- Density
-    912;                      !- Specific Heat
-
-Material,
-    Std Wood 6inch-non-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.15,                     !- Thickness
-    0.156,                    !- Conductivity
-    540,                      !- Density
-    1210,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material,
-    AC02 Acoustic Ceiling-non-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0127,                   !- Thickness
-    0.0741,                   !- Conductivity
-    288,                      !- Density
-    1339,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.2;                      !- Visible Absorptance
-
-Material,
-    F07 25mm stucco-non-standard-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0254,                   !- Thickness
-    0.9359999999999999,       !- Conductivity
-    1856,                     !- Density
-    840,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material,
-    F08 Metal surface-non-standard-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    58.864000000000004,       !- Conductivity
-    7824,                     !- Density
-    500;                      !- Specific Heat
-
-Material,
-    F08 Metal roof surface-non-standard-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    58.864000000000004,       !- Conductivity
-    7824,                     !- Density
-    500,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    F12 Asphalt shingles-non-standard-RES0,    !- Name
-    VeryRough,                !- Roughness
-    0.0032,                   !- Thickness
-    0.052,                    !- Conductivity
-    1120,                     !- Density
-    1260,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    F13 Built-up roofing-non-standard-RES0,    !- Name
-    Rough,                    !- Roughness
-    0.0095,                   !- Thickness
-    0.208,                    !- Conductivity
-    1120,                     !- Density
-    1460,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    G01 13mm gypsum board-non-standard-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0127,                   !- Thickness
-    0.208,                    !- Conductivity
-    800,                      !- Density
-    1090,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.5;                      !- Visible Absorptance
-
-Material,
-    G01 16mm gypsum board-non-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0159,                   !- Thickness
-    0.208,                    !- Conductivity
-    800,                      !- Density
-    1090;                     !- Specific Heat
-
-Material,
-    G02 16mm plywood-non-standard-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0159,                   !- Thickness
-    0.156,                    !- Conductivity
-    544,                      !- Density
-    1210;                     !- Specific Heat
-
-Material,
-    M14 150mm heavyweight concrete roof-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
-    3.003,                    !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    100mm Normalweight concrete wall-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    3.003,                    !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    200mm Normalweight concrete wall-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    3.003,                    !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    100mm Normalweight concrete floor-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    3.003,                    !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    150mm Normalweight concrete floor-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
-    3.003,                    !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    200mm Normalweight concrete floor-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    3.003,                    !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block wall-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    0.9359999999999999,       !- Conductivity
-    800,                      !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block basement wall-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
+    0.200,                   !- Thickness
     1.7238000000000002,       !- Conductivity
     1842,                     !- Density
     912;                      !- Specific Heat
 
 Material,
-    Std Wood 6inch-ZEB-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.15,                     !- Thickness
-    0.12,                     !- Conductivity
-    540,                      !- Density
-    1210,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material,
-    AC02 Acoustic Ceiling-ZEB-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0127,                   !- Thickness
-    0.057,                    !- Conductivity
-    288,                      !- Density
-    1339,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.2;                      !- Visible Absorptance
-
-Material,
-    F07 25mm stucco-ZEB-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0254,                   !- Thickness
-    0.72,                     !- Conductivity
-    1856,                     !- Density
-    840,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material,
-    F08 Metal surface-ZEB-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    45.28,                    !- Conductivity
-    7824,                     !- Density
-    500;                      !- Specific Heat
-
-Material,
-    F08 Metal roof surface-ZEB-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0008,                   !- Thickness
-    45.28,                    !- Conductivity
-    7824,                     !- Density
-    500,                      !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    F12 Asphalt shingles-ZEB-RES0,    !- Name
-    VeryRough,                !- Roughness
-    0.0032,                   !- Thickness
-    0.04,                     !- Conductivity
-    1120,                     !- Density
-    1260,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    F13 Built-up roofing-ZEB-RES0,    !- Name
-    Rough,                    !- Roughness
-    0.0095,                   !- Thickness
-    0.16,                     !- Conductivity
-    1120,                     !- Density
-    1460,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.77;                     !- Solar Absorptance
-
-Material,
-    G01 13mm gypsum board-ZEB-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0127,                   !- Thickness
-    0.16,                     !- Conductivity
-    800,                      !- Density
-    1090,                     !- Specific Heat
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.5;                      !- Visible Absorptance
-
-Material,
-    G01 16mm gypsum board-ZEB-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0159,                   !- Thickness
-    0.16,                     !- Conductivity
-    800,                      !- Density
-    1090;                     !- Specific Heat
-
-Material,
-    G02 16mm plywood-ZEB-RES0,    !- Name
-    Smooth,                   !- Roughness
-    0.0159,                   !- Thickness
-    0.12,                     !- Conductivity
-    544,                      !- Density
-    1210;                     !- Specific Heat
-
-Material,
-    M14 150mm heavyweight concrete roof-ZEB-RES0,    !- Name
+    M10 160mm concrete block basement wall,    !- Name
     MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    100mm Normalweight concrete wall-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    200mm Normalweight concrete wall-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    100mm Normalweight concrete floor-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1016,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    150mm Normalweight concrete floor-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.1524,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    200mm Normalweight concrete floor-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    2.31,                     !- Conductivity
-    2322,                     !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block wall-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    0.72,                     !- Conductivity
-    800,                      !- Density
-    832;                      !- Specific Heat
-
-Material,
-    M10 200mm concrete block basement wall-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.2032,                   !- Thickness
-    1.326,                    !- Conductivity
+    0.160,                   !- Thickness
+    1.7238000000000002,       !- Conductivity
     1842,                     !- Density
     912;                      !- Specific Heat
 
+Material,
+    100mm Normalweight concrete,    !- Name
+    MediumRough,              !- Roughness
+    0.1016,                   !- Thickness
+    2.31,                     !- Conductivity
+    2322,                     !- Density
+    832;                      !- Specific Heat
+
+Material,
+    200mm Normalweight concrete floor,    !- Name
+    MediumRough,              !- Roughness
+    0.2032,                   !- Thickness
+    2.31,                     !- Conductivity
+    2322,                     !- Density
+    832;                      !- Specific Heat
+
+!- nheeren: Insulation materials defined
+
+Material,
+    insulation_layer-2cm,  !- Name
+    Rough,                   !- Roughness
+    0.02,                    !- Thickness {m}
+    0.10,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-12cm,  !- Name
+    Rough,                   !- Roughness
+    0.12,                  !- Thickness {m}
+    0.04,                !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-16cm,  !- Name
+    Rough,                   !- Roughness
+    0.16,                    !- Thickness {m}
+    0.04,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-20cm, !- Name
+    Rough,                   !- Roughness
+    0.20,                    !- Thickness {m}
+    0.04,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-30cm, !- Name
+    Rough,                   !- Roughness
+    0.30,                    !- Thickness {m}
+    0.04,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-wood-2cm,  !- Name
+    Rough,                   !- Roughness
+    0.02,                    !- Thickness {m}
+    0.10,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-wood-5cm,  !- Name
+    Rough,                   !- Roughness
+    0.05,                    !- Thickness {m}
+    0.10,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-wood-12cm,  !- Name
+    Rough,                   !- Roughness
+    0.12,                  !- Thickness {m}
+    0.04,                !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-wood-16cm,  !- Name
+    Rough,                   !- Roughness
+    0.16,                  !- Thickness {m}
+    0.04,              !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-wood-20cm, !- Name
+    Rough,                   !- Roughness
+    0.20,                     !- Thickness {m}
+    0.04,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-wood-22cm, !- Name
+    Rough,                   !- Roughness
+    0.22,                     !- Thickness {m}
+    0.04,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    insulation_layer-wood-30cm, !- Name
+    Rough,                   !- Roughness
+    0.20,                     !- Thickness {m}
+    0.04,                    !- Conductivity {W/m-K}
+    120.801,                 !- Density {kg/m3}
+    1036.25775;              !- Specific Heat {J/kg-K}
+
+Material,
+    Wood_ext_floor_beams,           !- Name
+    Rough,                   !- Roughness
+    0.0254,                  !- Thickness {m}
+    0.1154577,               !- Conductivity {W/m-K}
+    544.68,                  !- Density {kg/m3}
+    674.54,                  !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
+
 Material:NoMass,
-    Opaque Door panel_con-standard-RES0,    !- Name
+    Opaque Door panel_con-non-standard,    !- Name
+    MediumRough,              !- Roughness
+    0.288704918,              !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    Opaque Door panel_con-standard,    !- Name
+    MediumRough,              !- Roughness
+    0.288704918,              !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    Opaque Door panel_con-efficient,    !- Name
+    MediumRough,              !- Roughness
+    0.3331747,                !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    Opaque Door panel_con-ZEB,    !- Name
     MediumRough,              !- Roughness
     0.475963827,              !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
@@ -3925,15 +3679,39 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
-    Overhead Door_con Panel-standard-RES0,    !- Name
+    Std Opaque Door Panel-non-standard,    !- Name
     MediumRough,              !- Roughness
-    0.567741935,              !- Thermal Resistance
+    0.0864197530864199,       !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
-    CP02 CARPET PAD-standard-RES0,    !- Name
+    Std Opaque Door Panel-standard,    !- Name
+    MediumRough,              !- Roughness
+    0.123,        !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    Std Opaque Door Panel-efficient,    !- Name
+    MediumRough,              !- Roughness
+    0.123,        !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    Std Opaque Door Panel-ZEB,    !- Name
+    MediumRough,              !- Roughness
+    0.123,        !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    CP02 CARPET PAD,    !- Name
     VeryRough,                !- Roughness
     0.21648,                  !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
@@ -3941,19 +3719,11 @@ Material:NoMass,
     0.8;                      !- Visible Absorptance
 
 Material:NoMass,
-    Air_Wall_Material-standard-RES0,    !- Name
+    Air_Wall_Material,    !- Name
     Rough,                    !- Roughness
     0.2079491,                !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
     0.7;                      !- Solar Absorptance
-
-Material:NoMass,
-    Nonres_Roof_Insulation-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    5.30668495131472,         !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
 
 Material:NoMass,
     Res_Roof_Insulation-standard-RES0,    !- Name
@@ -3980,6 +3750,30 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
+    Nonres_Exterior_Wall_Insulation-efficient-RES0,    !- Name
+    MediumSmooth,             !- Roughness
+    1.37633321943004,         !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    Nonres_Exterior_Wall_Insulation-non-standard-RES0,    !- Name
+    MediumSmooth,             !- Roughness
+    0.9634332536010279,       !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
+    Nonres_Exterior_Wall_Insulation-ZEB-RES0,    !- Name
+    MediumSmooth,             !- Roughness
+    1.37633321943004,         !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:NoMass,
     Res_Exterior_Wall_Insulation-standard-RES0,    !- Name
     MediumSmooth,             !- Roughness
     1.63974590315506,         !- Thermal Resistance
@@ -3996,72 +3790,9 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
-    Nonres_Floor_Insulation-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    4.13066404430099,         !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Res_Floor_Insulation-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.0299387330245182,       !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
     Semiheated_Floor_Insulation-standard-RES0,    !- Name
     MediumSmooth,             !- Roughness
     0.0299387330245182,       !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Std Opaque Door Panel-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.123456790123457,        !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Opaque Door panel_con-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.288704918,              !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Overhead Door_con Panel-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.836507861,              !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    CP02 CARPET PAD-efficient-RES0,    !- Name
-    VeryRough,                !- Roughness
-    0.21648,                  !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.8;                      !- Visible Absorptance
-
-Material:NoMass,
-    Air_Wall_Material-efficient-RES0,    !- Name
-    Rough,                    !- Roughness
-    0.2079491,                !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7;                      !- Solar Absorptance
-
-Material:NoMass,
-    Nonres_Roof_Insulation-efficient-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    4.31888738734588,         !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
@@ -4083,14 +3814,6 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
-    Nonres_Exterior_Wall_Insulation-efficient-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    1.37633321943004,         !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
     Res_Exterior_Wall_Insulation-efficient-RES0,    !- Name
     MediumSmooth,             !- Roughness
     1.63974590315506,         !- Thermal Resistance
@@ -4102,14 +3825,6 @@ Material:NoMass,
     Semiheated_Exterior_Wall_Insulation-efficient-RES0,    !- Name
     MediumSmooth,             !- Roughness
     0.0299387330245182,       !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Nonres_Floor_Insulation-efficient-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    4.83285780132599,         !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
@@ -4131,53 +3846,6 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
-    Std Opaque Door Panel-efficient-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.123456790123457,        !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Opaque Door panel_con-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.3331747,                !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Overhead Door_con Panel-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.3974193545,             !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    CP02 CARPET PAD-non-standard-RES0,    !- Name
-    VeryRough,                !- Roughness
-    0.151536,                 !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.8;                      !- Visible Absorptance
-
-Material:NoMass,
-    Air_Wall_Material-non-standard-RES0,    !- Name
-    Rough,                    !- Roughness
-    0.14556437,               !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7;                      !- Solar Absorptance
-
-Material:NoMass,
-    Nonres_Roof_Insulation-non-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    3.714679465920304,        !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
     Res_Roof_Insulation-non-standard-RES0,    !- Name
     MediumSmooth,             !- Roughness
     0.02095711,               !- Thermal Resistance
@@ -4189,14 +3857,6 @@ Material:NoMass,
     Semiheated_Roof_Insulation-non-standard-RES0,    !- Name
     MediumSmooth,             !- Roughness
     0.02095711,               !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Nonres_Exterior_Wall_Insulation-non-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    0.9634332536010279,       !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
@@ -4218,14 +3878,6 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
-    Nonres_Floor_Insulation-non-standard-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    2.8914648310106927,       !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
     Res_Floor_Insulation-non-standard-RES0,    !- Name
     MediumSmooth,             !- Roughness
     0.02095711,               !- Thermal Resistance
@@ -4237,53 +3889,6 @@ Material:NoMass,
     Semiheated_Floor_Insulation-non-standard-RES0,    !- Name
     MediumSmooth,             !- Roughness
     0.02095711,               !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Std Opaque Door Panel-non-standard-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.0864197530864199,       !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Opaque Door panel_con-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.288704918,              !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Overhead Door_con Panel-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.568096774,              !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    CP02 CARPET PAD-ZEB-RES0,    !- Name
-    VeryRough,                !- Roughness
-    0.21648,                  !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.8;                      !- Visible Absorptance
-
-Material:NoMass,
-    Air_Wall_Material-ZEB-RES0,    !- Name
-    Rough,                    !- Roughness
-    0.2079491,                !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7;                      !- Solar Absorptance
-
-Material:NoMass,
-    Nonres_Roof_Insulation-ZEB-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    5.30668495131472,         !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
@@ -4305,14 +3910,6 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 Material:NoMass,
-    Nonres_Exterior_Wall_Insulation-ZEB-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    1.37633321943004,         !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
     Res_Exterior_Wall_Insulation-ZEB-RES0,    !- Name
     MediumSmooth,             !- Roughness
     1.63974590315506,         !- Thermal Resistance
@@ -4324,14 +3921,6 @@ Material:NoMass,
     Semiheated_Exterior_Wall_Insulation-ZEB-RES0,    !- Name
     MediumSmooth,             !- Roughness
     0.0299387330245182,       !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
-
-Material:NoMass,
-    Nonres_Floor_Insulation-ZEB-RES0,    !- Name
-    MediumSmooth,             !- Roughness
-    4.83285780132599,         !- Thermal Resistance
     0.9,                      !- Thermal Absorptance
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
@@ -4352,505 +3941,824 @@ Material:NoMass,
     0.7,                      !- Solar Absorptance
     0.7;                      !- Visible Absorptance
 
-Material:NoMass,
-    Std Opaque Door Panel-ZEB-RES0,    !- Name
-    MediumRough,              !- Roughness
-    0.123456790123457,        !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+WindowMaterial:SimpleGlazingSystem,
+    Glass-en-non-standard,   !- Name
+    2.5,                     !- U-Factor {W/m2-K}
+    0.4,                     !- Solar Heat Gain Coefficient
+    0.88;                    !- Visible Transmittance
 
 WindowMaterial:SimpleGlazingSystem,
-    Glazing Layer-standard-RES0,    !- Name
-    2.0441736,                !- UFactor
-    0.36,                     !- Solar Heat Gain Coefficient
-    0.396;                    !- Visible Transmittance
+    Glass-en-standard,       !- Name
+    1.8,                 !- U-Factor {W/m2-K}
+    0.4,                     !- Solar Heat Gain Coefficient
+    0.88;                    !- Visible Transmittance
 
 WindowMaterial:SimpleGlazingSystem,
-    Residential Window Glazing Layer-standard-RES0,    !- Name
-    2.1009562,                !- UFactor
-    0.36,                     !- Solar Heat Gain Coefficient
-    0.396;                    !- Visible Transmittance
+    Glass-en-efficient,      !- Name
+    1.2,                     !- U-Factor {W/m2-K}
+    0.4,                     !- Solar Heat Gain Coefficient
+    0.88;                    !- Visible Transmittance
 
 WindowMaterial:SimpleGlazingSystem,
-    Glazing Layer-efficient-RES0,    !- Name
-    2.1577388,                !- UFactor
-    0.4,                      !- Solar Heat Gain Coefficient
-    0.4;                      !- Visible Transmittance
-
-WindowMaterial:SimpleGlazingSystem,
-    Residential Window Glazing Layer-efficient-RES0,    !- Name
-    2.2145214,                !- UFactor
-    0.4,                      !- Solar Heat Gain Coefficient
-    0.4;                      !- Visible Transmittance
-
-WindowMaterial:SimpleGlazingSystem,
-    Glazing Layer-non-standard-RES0,    !- Name
-    2.6574256800000002,       !- UFactor
-    0.36,                     !- Solar Heat Gain Coefficient
-    0.396;                    !- Visible Transmittance
-
-WindowMaterial:SimpleGlazingSystem,
-    Residential Window Glazing Layer-non-standard-RES0,    !- Name
-    2.73124306,               !- UFactor
-    0.36,                     !- Solar Heat Gain Coefficient
-    0.396;                    !- Visible Transmittance
-
-WindowMaterial:SimpleGlazingSystem,
-    Glazing Layer-ZEB-RES0,    !- Name
-    2.1577388,                !- UFactor
-    0.36,                     !- Solar Heat Gain Coefficient
-    0.36;                     !- Visible Transmittance
-
-WindowMaterial:SimpleGlazingSystem,
-    Residential Window Glazing Layer-ZEB-RES0,    !- Name
-    2.2145214,                !- UFactor
-    0.36,                     !- Solar Heat Gain Coefficient
-    0.36;                     !- Visible Transmittance
+    Glass-en-ZEB,            !- Name
+    0.9,                     !- U-Factor {W/m2-K}
+    0.4,                     !- Solar Heat Gain Coefficient
+    0.88;                    !- Visible Transmittance
 
 Construction,
-    Swinging Door_con,        !- Name
-    Opaque Door panel_con-standard-RES0;    !- Outside Layer
+    ext-door-non-standard,    !- Name
+    Opaque Door panel_con-non-standard;    !- Outside Layer
 
 Construction,
-    Overhead Door_con,        !- Name
-    Overhead Door_con Panel-standard-RES0;    !- Outside Layer
+    ext-door-standard,    !- Name
+    Opaque Door panel_con-standard;    !- Outside Layer
+
+Construction,
+    ext-door-efficient,    !- Name
+    Opaque Door panel_con-efficient;    !- Outside Layer
+
+Construction,
+    ext-door-ZEB,        !- Name
+    Opaque Door panel_con-ZEB;    !- Outside Layer
 
 Construction,
     InteriorFurnishings,      !- Name
-    Std Wood 6inch-standard-RES0;    !- Outside Layer
+    Std Wood 6inch;    !- Outside Layer
 
 Construction,
     Air_Wall,                 !- Name
-    Air_Wall_Material-standard-RES0;    !- Outside Layer
+    Air_Wall_Material;    !- Outside Layer
 
 Construction,
     DropCeiling,              !- Name
-    AC02 Acoustic Ceiling-standard-RES0;    !- Outside Layer
-
-Construction,
-    OpaqueDoor,               !- Name
-    Std Opaque Door Panel-standard-RES0;    !- Outside Layer
+    AC02 Acoustic Ceiling;    !- Outside Layer
 
 Construction,
     AtticRoofDeck,            !- Name
-    F12 Asphalt shingles-standard-RES0,    !- Outside Layer
-    G02 16mm plywood-standard-RES0;    !- Layer 2
+    F12 Asphalt shingles,    !- Outside Layer
+    G02 16mm plywood;    !- Layer 2
 
 Construction,
     int_wall,                 !- Name
-    G01 13mm gypsum board-standard-RES0,    !- Outside Layer
-    G01 13mm gypsum board-standard-RES0;    !- Layer 2
+    G01 13mm gypsum board,    !- Outside Layer
+    G01 13mm gypsum board;    !- Layer 2
 
 Construction,
     ext_slab_8in_with_carpet,    !- Name
-    200mm Normalweight concrete floor-standard-RES0,    !- Outside Layer
-    CP02 CARPET PAD-standard-RES0;    !- Layer 2
+    200mm Normalweight concrete floor,    !- Outside Layer
+    CP02 CARPET PAD;    !- Layer 2
 
 Construction,
     ext_slab_8in,             !- Name
-    200mm Normalweight concrete floor-standard-RES0;    !- Outside Layer
-
-Construction,
-    ext_slab_6in_with_carpet,    !- Name
-    150mm Normalweight concrete floor-standard-RES0,    !- Outside Layer
-    CP02 CARPET PAD-standard-RES0;    !- Layer 2
-
-Construction,
-    ext_slab_6in,             !- Name
-    150mm Normalweight concrete floor-standard-RES0;    !- Outside Layer
+    200mm Normalweight concrete floor;    !- Outside Layer
 
 Construction,
     int_slab_floor,           !- Name
-    100mm Normalweight concrete floor-standard-RES0,    !- Outside Layer
-    CP02 CARPET PAD-standard-RES0;    !- Layer 2
+    100mm Normalweight concrete floor,    !- Outside Layer
+    CP02 CARPET PAD;    !- Layer 2
 
 Construction,
     int_slab_ceiling,         !- Name
-    CP02 CARPET PAD-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0;    !- Layer 2
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor;    !- Layer 2
 
 Construction,
     basement_wall,            !- Name
-    M10 200mm concrete block basement wall-standard-RES0;    !- Outside Layer
+    M10 200mm concrete block basement wall;    !- Outside Layer
 
 Construction,
     int_wood_floor,           !- Name
-    AC02 Acoustic Ceiling-standard-RES0,    !- Outside Layer
-    G02 16mm plywood-standard-RES0,    !- Layer 2
-    CP02 CARPET PAD-standard-RES0;    !- Layer 3
+    AC02 Acoustic Ceiling,    !- Outside Layer
+    G02 16mm plywood,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
     ext_soffit_floor,         !- Name
-    G02 16mm plywood-standard-RES0;    !- Outside Layer
-
-Construction,
-    nonres_roof,              !- Name
-    F13 Built-up roofing-standard-RES0,    !- Outside Layer
-    Nonres_Roof_Insulation-standard-RES0,    !- Layer 2
-    F08 Metal surface-standard-RES0;    !- Layer 3
+    G02 16mm plywood;    !- Outside Layer
 
 Construction,
     res_roof,                 !- Name
-    F13 Built-up roofing-standard-RES0,    !- Outside Layer
+    F13 Built-up roofing,    !- Outside Layer
     Res_Roof_Insulation-standard-RES0,    !- Layer 2
-    F08 Metal surface-standard-RES0;    !- Layer 3
+    F08 Metal surface;    !- Layer 3
 
 Construction,
     semiheated_roof,          !- Name
-    F13 Built-up roofing-standard-RES0,    !- Outside Layer
+    F13 Built-up roofing,    !- Outside Layer
     Semiheated_Roof_Insulation-standard-RES0,    !- Layer 2
-    F08 Metal surface-standard-RES0;    !- Layer 3
+    F08 Metal surface;    !- Layer 3
 
 Construction,
     nonres_ext_wall,          !- Name
-    200mm Normalweight concrete wall-standard-RES0,    !- Outside Layer
+    200mm Normalweight concrete wall,    !- Outside Layer
     Nonres_Exterior_Wall_Insulation-standard-RES0,    !- Layer 2
-    G01 13mm gypsum board-standard-RES0;    !- Layer 3
+    G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     res_ext_wall,             !- Name
-    200mm Normalweight concrete wall-standard-RES0,    !- Outside Layer
+    200mm Normalweight concrete wall,    !- Outside Layer
     Res_Exterior_Wall_Insulation-standard-RES0,    !- Layer 2
-    G01 13mm gypsum board-standard-RES0;    !- Layer 3
+    G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     semiheated_ext_wall,      !- Name
-    200mm Normalweight concrete wall-standard-RES0,    !- Outside Layer
+    200mm Normalweight concrete wall,    !- Outside Layer
     Semiheated_Exterior_Wall_Insulation-standard-RES0,    !- Layer 2
-    G01 13mm gypsum board-standard-RES0;    !- Layer 3
+    G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     nonres_floor,             !- Name
-    Nonres_Floor_Insulation-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
-    CP02 CARPET PAD-standard-RES0;    !- Layer 3
+    insulation_layer-2cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
     res_floor,                !- Name
-    Res_Floor_Insulation-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
-    CP02 CARPET PAD-standard-RES0;    !- Layer 3
+    insulation_layer-12cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
     semiheated_floor,         !- Name
     Semiheated_Floor_Insulation-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
-    CP02 CARPET PAD-standard-RES0;    !- Layer 3
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
     nonres_floor_ceiling,     !- Name
-    CP02 CARPET PAD-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
-    Nonres_Floor_Insulation-standard-RES0;    !- Layer 3
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-12cm;    !- Layer 3
 
 Construction,
     res_floor_ceiling,        !- Name
-    CP02 CARPET PAD-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
-    Res_Floor_Insulation-standard-RES0;    !- Layer 3
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-12cm;    !- Layer 3
 
 Construction,
     semiheated_floor_ceiling,    !- Name
-    CP02 CARPET PAD-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
     Semiheated_Floor_Insulation-standard-RES0;    !- Layer 3
 
 Construction,
     basement_floor,           !- Name
-    M10 200mm concrete block basement wall-standard-RES0,    !- Outside Layer
-    CP02 CARPET PAD-standard-RES0;    !- Layer 2
-
-Construction,
-    NonresWindow_U_0.36_SHGC_0.36,    !- Name
-    Glazing Layer-standard-RES0;    !- Outside Layer
-
-Construction,
-    ResWindow_U_0.37_SHGC_0.36,    !- Name
-    Residential Window Glazing Layer-standard-RES0;    !- Outside Layer
-
-Construction,
-    ext-floor-standard-RES0,    !- Name
-    M10 200mm concrete block basement wall-standard-RES0,    !- Outside Layer
-    CP02 CARPET PAD-standard-RES0;    !- Layer 2
-
-Construction,
-    int-ceiling-standard-RES0,    !- Name
-    CP02 CARPET PAD-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
-    Nonres_Floor_Insulation-standard-RES0;    !- Layer 3
-
-Construction,
-    ext-wall-standard-RES0,    !- Name
-    200mm Normalweight concrete wall-standard-RES0,    !- Outside Layer
-    Nonres_Exterior_Wall_Insulation-standard-RES0,    !- Layer 2
-    G01 13mm gypsum board-standard-RES0;    !- Layer 3
-
-Construction,
-    int-floor-standard-RES0,    !- Name
-    Nonres_Floor_Insulation-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-standard-RES0,    !- Layer 2
-    CP02 CARPET PAD-standard-RES0;    !- Layer 3
-
-Construction,
-    int-wall-standard-RES0,    !- Name
-    G01 13mm gypsum board-standard-RES0,    !- Outside Layer
-    G01 13mm gypsum board-standard-RES0;    !- Layer 2
-
-Construction,
-    ext-roof-standard-RES0,    !- Name
-    F13 Built-up roofing-standard-RES0,    !- Outside Layer
-    Nonres_Roof_Insulation-standard-RES0,    !- Layer 2
-    F08 Metal surface-standard-RES0;    !- Layer 3
-
-Construction,
-    ext-window-standard-RES0,    !- Name
-    Glazing Layer-standard-RES0;    !- Outside Layer
-
-Construction,
-    ext-door-standard-RES0,    !- Name
-    Opaque Door panel_con-standard-RES0;    !- Outside Layer
-
-Construction,
-    NonresWindow_U_0.38_SHGC_0.4,    !- Name
-    Glazing Layer-efficient-RES0;    !- Outside Layer
-
-Construction,
-    ResWindow_U_0.39_SHGC_0.4,    !- Name
-    Residential Window Glazing Layer-efficient-RES0;    !- Outside Layer
-
-Construction,
-    ext-floor-efficient-RES0,    !- Name
-    M10 200mm concrete block basement wall-efficient-RES0,    !- Outside Layer
-    CP02 CARPET PAD-efficient-RES0;    !- Layer 2
-
-Construction,
-    int-ceiling-efficient-RES0,    !- Name
-    CP02 CARPET PAD-efficient-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-efficient-RES0,    !- Layer 2
-    Nonres_Floor_Insulation-efficient-RES0;    !- Layer 3
-
-Construction,
-    ext-wall-efficient-RES0,    !- Name
-    200mm Normalweight concrete wall-efficient-RES0,    !- Outside Layer
-    Nonres_Exterior_Wall_Insulation-efficient-RES0,    !- Layer 2
-    G01 13mm gypsum board-efficient-RES0;    !- Layer 3
-
-Construction,
-    int-floor-efficient-RES0,    !- Name
-    Nonres_Floor_Insulation-efficient-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-efficient-RES0,    !- Layer 2
-    CP02 CARPET PAD-efficient-RES0;    !- Layer 3
-
-Construction,
-    int-wall-efficient-RES0,    !- Name
-    G01 13mm gypsum board-efficient-RES0,    !- Outside Layer
-    G01 13mm gypsum board-efficient-RES0;    !- Layer 2
-
-Construction,
-    ext-roof-efficient-RES0,    !- Name
-    F13 Built-up roofing-efficient-RES0,    !- Outside Layer
-    Nonres_Roof_Insulation-efficient-RES0,    !- Layer 2
-    F08 Metal surface-efficient-RES0;    !- Layer 3
-
-Construction,
-    ext-window-efficient-RES0,    !- Name
-    Glazing Layer-efficient-RES0;    !- Outside Layer
-
-Construction,
-    ext-door-efficient-RES0,    !- Name
-    Opaque Door panel_con-efficient-RES0;    !- Outside Layer
+    M10 200mm concrete block basement wall,    !- Outside Layer
+    CP02 CARPET PAD;    !- Layer 2
 
 Construction,
     ext-floor-non-standard-RES0,    !- Name
-    M10 200mm concrete block basement wall-non-standard-RES0,    !- Outside Layer
-    CP02 CARPET PAD-non-standard-RES0;    !- Layer 2
+    insulation_layer-2cm,    !- Outside Layer
+    M10 200mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
-    int-ceiling-non-standard-RES0,    !- Name
-    CP02 CARPET PAD-non-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-non-standard-RES0,    !- Layer 2
-    Nonres_Floor_Insulation-non-standard-RES0;    !- Layer 3
+    ext-floor-standard-RES0,    !- Name
+    insulation_layer-12cm,    !- Outside Layer
+    M10 200mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
-    ext-wall-non-standard-RES0,    !- Name
-    200mm Normalweight concrete wall-non-standard-RES0,    !- Outside Layer
-    Nonres_Exterior_Wall_Insulation-non-standard-RES0,    !- Layer 2
-    G01 13mm gypsum board-non-standard-RES0;    !- Layer 3
-
-Construction,
-    int-floor-non-standard-RES0,    !- Name
-    Nonres_Floor_Insulation-non-standard-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-non-standard-RES0,    !- Layer 2
-    CP02 CARPET PAD-non-standard-RES0;    !- Layer 3
-
-Construction,
-    int-wall-non-standard-RES0,    !- Name
-    G01 13mm gypsum board-non-standard-RES0,    !- Outside Layer
-    G01 13mm gypsum board-non-standard-RES0;    !- Layer 2
-
-Construction,
-    ext-roof-non-standard-RES0,    !- Name
-    F13 Built-up roofing-non-standard-RES0,    !- Outside Layer
-    Nonres_Roof_Insulation-non-standard-RES0,    !- Layer 2
-    F08 Metal surface-non-standard-RES0;    !- Layer 3
-
-Construction,
-    ext-window-non-standard-RES0,    !- Name
-    Glazing Layer-non-standard-RES0;    !- Outside Layer
-
-Construction,
-    ext-door-non-standard-RES0,    !- Name
-    Opaque Door panel_con-non-standard-RES0;    !- Outside Layer
-
-Construction,
-    NonresWindow_U_0.38_SHGC_0.36,    !- Name
-    Glazing Layer-ZEB-RES0;    !- Outside Layer
-
-Construction,
-    ResWindow_U_0.39_SHGC_0.36,    !- Name
-    Residential Window Glazing Layer-ZEB-RES0;    !- Outside Layer
+    ext-floor-efficient-RES0,    !- Name
+    insulation_layer-16cm,    !- Outside Layer
+    M10 200mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
     ext-floor-ZEB-RES0,       !- Name
-    M10 200mm concrete block basement wall-ZEB-RES0,    !- Outside Layer
-    CP02 CARPET PAD-ZEB-RES0;    !- Layer 2
+    insulation_layer-20cm,    !- Outside Layer
+    M10 200mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-non-standard-RES2.1,    !- Name
+    insulation_layer-wood-5cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-standard-RES2.1,    !- Name
+    insulation_layer-wood-12cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-efficient-RES2.1,    !- Name
+    insulation_layer-wood-16cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-ZEB-RES2.1,       !- Name
+    insulation_layer-wood-20cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-non-standard-RES2.2,    !- Name
+    insulation_layer-2cm,    !- Outside Layer
+    M10 160mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-standard-RES2.2,    !- Name
+    insulation_layer-12cm,    !- Outside Layer
+    M10 160mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-efficient-RES2.2,    !- Name
+    insulation_layer-16cm,    !- Outside Layer
+    M10 160mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-ZEB-RES2.2,       !- Name
+    insulation_layer-20cm,    !- Outside Layer
+    M10 160mm concrete block basement wall,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-non-standard-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-5cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-standard-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-12cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-efficient-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-16cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    ext-floor-ZEB-RES2.1+RES2.2,       !- Name
+    insulation_layer-wood-20cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+!- NH: int-ceiling and int-floor must have the same materials in reverse order
+
+Construction,
+    int-ceiling-non-standard-RES0,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-2cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES0,    !- Name
+    insulation_layer-2cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES0,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES0,    !- Name
+    insulation_layer-12cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES0,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES0,    !- Name
+    insulation_layer-16cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
     int-ceiling-ZEB-RES0,     !- Name
-    CP02 CARPET PAD-ZEB-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-ZEB-RES0,    !- Layer 2
-    Nonres_Floor_Insulation-ZEB-RES0;    !- Layer 3
-
-Construction,
-    ext-wall-ZEB-RES0,        !- Name
-    200mm Normalweight concrete wall-ZEB-RES0,    !- Outside Layer
-    Nonres_Exterior_Wall_Insulation-ZEB-RES0,    !- Layer 2
-    G01 13mm gypsum board-ZEB-RES0;    !- Layer 3
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-20cm;    !- Layer 3
 
 Construction,
     int-floor-ZEB-RES0,       !- Name
-    Nonres_Floor_Insulation-ZEB-RES0,    !- Outside Layer
-    100mm Normalweight concrete floor-ZEB-RES0,    !- Layer 2
-    CP02 CARPET PAD-ZEB-RES0;    !- Layer 3
+    insulation_layer-20cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
 
 Construction,
-    int-wall-ZEB-RES0,        !- Name
-    G01 13mm gypsum board-ZEB-RES0,    !- Outside Layer
-    G01 13mm gypsum board-ZEB-RES0;    !- Layer 2
+    int-ceiling-non-standard-RES2.1,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-5cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.1,    !- Name
+    insulation_layer-wood-5cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES2.1,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.1,    !- Name
+    insulation_layer-wood-12cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES2.1,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.1,    !- Name
+    insulation_layer-wood-16cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-ZEB-RES2.1,     !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-20cm;    !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.1,       !- Name
+    insulation_layer-wood-20cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-non-standard-RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-2cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.2,    !- Name
+    insulation_layer-2cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.2,    !- Name
+    insulation_layer-12cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.2,    !- Name
+    insulation_layer-16cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-ZEB-RES2.2,     !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-20cm;    !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.2,       !- Name
+    insulation_layer-20cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-non-standard-RES2.1+RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-5cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-5cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES2.1+RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-12cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES2.1+RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-16cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-ZEB-RES2.1+RES2.2,     !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    insulation_layer-wood-20cm;    !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.1+RES2.2,       !- Name
+    insulation_layer-wood-20cm,    !- Outside Layer
+    Wood_ext_floor_beams,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+
+Construction,
+    ext-wall-non-standard-RES0,    !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-2cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES0,    !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES0,    !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES0,        !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-non-standard-RES2.1,    !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-5cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES2.1,    !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES2.1,    !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES2.1,        !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-non-standard-RES2.2,    !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-2cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES2.2,    !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES2.2,    !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES2.2,        !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-non-standard-RES2.1+RES2.2,    !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-5cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES2.1+RES2.2,    !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES2.1+RES2.2,    !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES2.1+RES2.2,        !- Name
+    Wood_ext_floor_beams,    !- Outside Layer
+    insulation_layer-wood-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    int-wall-RES0,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    masonry-12cm;    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    int-wall-RES2.1,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    Wood_ext_floor_beams,   !- Layer 2
+    insulation_layer-12cm, !- Layer 3
+    G01 13mm gypsum board;    !- Layer 4
+
+Construction,
+    int-wall-RES2.2,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    masonry-10cm;    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    int-wall-RES2.1+RES2.2,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    Wood_ext_floor_beams,   !- Layer 2
+    insulation_layer-wood-12cm, !- Layer 3
+    G01 13mm gypsum board;    !- Layer 4
+
+!- Basic Roof RES0
+
+Construction,
+    ext-roof-non-standard-RES0,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,    !- Layer 3
+    insulation_layer-2cm,    !- Layer 4
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-standard-RES0,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,               !- Layer 3
+    insulation_layer-16cm,       !- Layer 4
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES0,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,               !- Layer 3
+    insulation_layer-20cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
 
 Construction,
     ext-roof-ZEB-RES0,        !- Name
-    F13 Built-up roofing-ZEB-RES0,    !- Outside Layer
-    Nonres_Roof_Insulation-ZEB-RES0,    !- Layer 2
-    F08 Metal surface-ZEB-RES0;    !- Layer 3
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,               !- Layer 3
+    insulation_layer-30cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
+
+
+!- Basic Roof RES2.1 (wood)
 
 Construction,
-    ext-window-ZEB-RES0,      !- Name
-    Glazing Layer-ZEB-RES0;    !- Outside Layer
+    ext-roof-non-standard-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-2cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
 
 Construction,
-    ext-door-ZEB-RES0,        !- Name
-    Opaque Door panel_con-ZEB-RES0;    !- Outside Layer
+    ext-roof-standard-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-22cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-ZEB-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-30cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+!- Basic Roof RES2.2 (light-weighted)
+
+Construction,
+    ext-roof-non-standard-RES2.2,    !- Name
+    F13 Built-up roofing,       !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-2cm,       !- Layer 4
+    F08 Metal surface;          !- Layer 5
+
+Construction,
+    ext-roof-standard-RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-16cm,       !- Layer 4
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-20cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
+
+Construction,
+    ext-roof-ZEB-RES2.2,        !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-30cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
+
+!- Basic Roof RES2.1+RES2.2 (wood & light-weighted)
+
+Construction,
+    ext-roof-non-standard-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-2cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-standard-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-22cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-ZEB-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-30cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+!- TODO: RES scenarios cannot be calculated, because a wood window frame could not be considered in SimpleGlazingSystem
+
+Construction,
+    ext-window-non-standard,    !- Name
+    Glass-en-non-standard;    !- Outside Layer
+
+Construction,
+    ext-window-standard,    !- Name
+    Glass-en-standard;    !- Outside Layer
+
+Construction,
+    ext-window-efficient,    !- Name
+    Glass-en-efficient;    !- Outside Layer
+
+Construction,
+    ext-window-ZEB,      !- Name
+    Glass-en-ZEB;    !- Outside Layer
+
+!- TODO: Continue here
+
+!- nheeren: Merged different underground walls for all orientations to Basement_Wall_Cfactor
+!- nheeren: TODO Cannot currently manipulate RES scenario. See issue #68.
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_North_Cfactor,    !- Name
+    Basement_Wall_Cfactor,    !- Name
     0.675682,                 !- CFactor
     2.439;                    !- Height
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_East_Cfactor,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_South_Cfactor,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_West_Cfactor,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_North_Cfactor-standard-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_East_Cfactor-standard-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_South_Cfactor-standard-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_West_Cfactor-standard-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_North_Cfactor-efficient-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_East_Cfactor-efficient-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_South_Cfactor-efficient-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_West_Cfactor-efficient-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_North_Cfactor-non-standard-RES0,    !- Name
+    Basement_Wall_Cfactor-non-standard-RES0,    !- Name
     0.8783866,                !- CFactor
     2.439;                    !- Height
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_East_Cfactor-non-standard-RES0,    !- Name
+    Basement_Wall_Cfactor-standard-RES0,    !- Name
+    0.675682,                 !- CFactor
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-efficient-RES0,    !- Name
+    0.2,                 !- CFactor
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-ZEB-RES0,    !- Name
+    0.15,                 !- CFactor
+    !- nheeren: Calculated for 25cm insulation thickness
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-non-standard-RES2.1,    !- Name
     0.8783866,                !- CFactor
     2.439;                    !- Height
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_South_Cfactor-non-standard-RES0,    !- Name
+    Basement_Wall_Cfactor-standard-RES2.1,    !- Name
+    0.675682,                 !- CFactor
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-efficient-RES2.1,    !- Name
+    0.2,                 !- CFactor
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-ZEB-RES2.1,    !- Name
+    0.15,                 !- CFactor
+    !- nheeren: Calculated for 25cm insulation thickness
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-non-standard-RES2.2,    !- Name
     0.8783866,                !- CFactor
     2.439;                    !- Height
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_West_Cfactor-non-standard-RES0,    !- Name
+    Basement_Wall_Cfactor-standard-RES2.2,    !- Name
+    0.675682,                 !- CFactor
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-efficient-RES2.2,    !- Name
+    0.2,                 !- CFactor
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-ZEB-RES2.2,    !- Name
+    0.15,                 !- CFactor
+    !- nheeren: Calculated for 25cm insulation thickness
+    2.439;                    !- Height
+
+Construction:CfactorUndergroundWall,
+    Basement_Wall_Cfactor-non-standard-RES2.1+RES2.2,    !- Name
     0.8783866,                !- CFactor
     2.439;                    !- Height
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_North_Cfactor-ZEB-RES0,    !- Name
+    Basement_Wall_Cfactor-standard-RES2.1+RES2.2,    !- Name
     0.675682,                 !- CFactor
     2.439;                    !- Height
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_East_Cfactor-ZEB-RES0,    !- Name
-    0.675682,                 !- CFactor
+    Basement_Wall_Cfactor-efficient-RES2.1+RES2.2,    !- Name
+    0.2,                 !- CFactor
     2.439;                    !- Height
 
 Construction:CfactorUndergroundWall,
-    Basement_Wall_South_Cfactor-ZEB-RES0,    !- Name
-    0.675682,                 !- CFactor
-    2.439;                    !- Height
-
-Construction:CfactorUndergroundWall,
-    Basement_Wall_West_Cfactor-ZEB-RES0,    !- Name
-    0.675682,                 !- CFactor
+    Basement_Wall_Cfactor-ZEB-RES2.1+RES2.2,    !- Name
+    0.15,                 !- CFactor
+    !- nheeren: Calculated for 25cm insulation thickness
     2.439;                    !- Height
 
 GlobalGeometryRules,
@@ -5192,7 +5100,8 @@ Zone,
 BuildingSurface:Detailed,
     Basement_Wall_North,      !- Name
     Wall,                     !- Surface Type
-    Basement_Wall_North_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name
+    Basement_Wall_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name  ok
+    !- nheeren: TODO Does currently not manipulate RES scenario. See issue #68.
     Basement,                 !- Zone Name
     GroundFCfactorMethod,     !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -5216,7 +5125,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Wall_East,       !- Name
     Wall,                     !- Surface Type
-    Basement_Wall_East_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name
+    Basement_Wall_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     GroundFCfactorMethod,     !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -5240,7 +5149,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Wall_South,      !- Name
     Wall,                     !- Surface Type
-    Basement_Wall_South_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name
+    Basement_Wall_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     GroundFCfactorMethod,     !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -5264,7 +5173,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Wall_West,       !- Name
     Wall,                     !- Surface Type
-    Basement_Wall_West_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name
+    Basement_Wall_Cfactor-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     GroundFCfactorMethod,     !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -5288,7 +5197,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Floor,           !- Name
     Floor,                    !- Surface Type
-    ext-floor-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-floor-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Adiabatic,                !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -5312,7 +5221,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_1,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Retail_1_Flr_1_Floor,     !- Outside Boundary Condition Object
@@ -5336,7 +5245,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_2,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Retail_2_Flr_1_Floor,     !- Outside Boundary Condition Object
@@ -5360,7 +5269,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_3,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Mech_Flr_1_Floor,         !- Outside Boundary Condition Object
@@ -5384,7 +5293,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_4,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Storage_Flr_1_Floor,      !- Outside Boundary Condition Object
@@ -5408,7 +5317,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_5,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Laundry_Flr_1_Floor,      !- Outside Boundary Condition Object
@@ -5432,7 +5341,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_6,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Cafe_Flr_1_Floor,         !- Outside Boundary Condition Object
@@ -5456,7 +5365,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_7,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Floor_1,      !- Outside Boundary Condition Object
@@ -5486,7 +5395,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Basement_Ceiling_8,       !- Name
     Ceiling,                  !- Surface Type
-    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-ceiling-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Basement,                 !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Floor_2,      !- Outside Boundary Condition Object
@@ -5516,7 +5425,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Retail_1_Flr_1_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    ext-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-wall-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Retail_1_Flr_1,           !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -5540,7 +5449,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Retail_1_Flr_1_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    ext-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-wall-en-std-replaceme-res-replaceme,    !- Construction Name  ok
     Retail_1_Flr_1,           !- Zone Name
     Outdoors,                 !- Outside Boundary Condition
     ,                         !- Outside Boundary Condition Object
@@ -5588,7 +5497,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Retail_1_Flr_1_Wall_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Retail_1_Flr_1,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Retail_2_Flr_1_Wall_South,    !- Outside Boundary Condition Object
@@ -5612,7 +5521,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Retail_1_Flr_1_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Retail_1_Flr_1,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_2_West,    !- Outside Boundary Condition Object
@@ -5684,7 +5593,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Retail_2_Flr_1_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Retail_2_Flr_1,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Retail_1_Flr_1_Wall_North,    !- Outside Boundary Condition Object
@@ -5732,7 +5641,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Retail_2_Flr_1_Wall_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Retail_2_Flr_1,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_2_South,    !- Outside Boundary Condition Object
@@ -5756,7 +5665,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Retail_2_Flr_1_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Retail_2_Flr_1,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_3_West,    !- Outside Boundary Condition Object
@@ -5852,7 +5761,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Mech_Flr_1_Wall_East,     !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Mech_Flr_1,               !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Storage_Flr_1_Wall_West,    !- Outside Boundary Condition Object
@@ -5876,7 +5785,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Mech_Flr_1_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Mech_Flr_1,               !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_3_North,    !- Outside Boundary Condition Object
@@ -5900,7 +5809,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Mech_Flr_1_Wall_West,     !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Mech_Flr_1,               !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_1_East,    !- Outside Boundary Condition Object
@@ -5996,7 +5905,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Storage_Flr_1_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Storage_Flr_1,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_4_West,    !- Outside Boundary Condition Object
@@ -6020,7 +5929,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Storage_Flr_1_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Storage_Flr_1,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_4_North,    !- Outside Boundary Condition Object
@@ -6044,7 +5953,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Storage_Flr_1_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Storage_Flr_1,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Mech_Flr_1_Wall_East,     !- Outside Boundary Condition Object
@@ -6164,7 +6073,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Laundry_Flr_1_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Laundry_Flr_1,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Cafe_Flr_1_Wall_2_North,    !- Outside Boundary Condition Object
@@ -6188,7 +6097,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Laundry_Flr_1_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Laundry_Flr_1,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_3_East,    !- Outside Boundary Condition Object
@@ -6308,7 +6217,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Cafe_Flr_1_Wall_1_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Cafe_Flr_1,               !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_3_South,    !- Outside Boundary Condition Object
@@ -6332,7 +6241,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Cafe_Flr_1_Wall_2_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Cafe_Flr_1,               !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Laundry_Flr_1_Wall_South,    !- Outside Boundary Condition Object
@@ -6356,7 +6265,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Cafe_Flr_1_Wall_West,     !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Cafe_Flr_1,               !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Lobby_Flr_1_Wall_2_East,    !- Outside Boundary Condition Object
@@ -6500,7 +6409,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_2_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Retail_2_Flr_1_Wall_North,    !- Outside Boundary Condition Object
@@ -6524,7 +6433,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_3_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Cafe_Flr_1_Wall_1_North,    !- Outside Boundary Condition Object
@@ -6548,7 +6457,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_2_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Retail_1_Flr_1_Wall_East,    !- Outside Boundary Condition Object
@@ -6572,7 +6481,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_3_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Retail_2_Flr_1_Wall_East,    !- Outside Boundary Condition Object
@@ -6596,7 +6505,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_4_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Storage_Flr_1_Wall_East,    !- Outside Boundary Condition Object
@@ -6620,7 +6529,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_3_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Mech_Flr_1_Wall_South,    !- Outside Boundary Condition Object
@@ -6644,7 +6553,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_4_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Storage_Flr_1_Wall_South,    !- Outside Boundary Condition Object
@@ -6668,7 +6577,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_1_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Mech_Flr_1_Wall_West,     !- Outside Boundary Condition Object
@@ -6692,7 +6601,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_2_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Cafe_Flr_1_Wall_West,     !- Outside Boundary Condition Object
@@ -6716,7 +6625,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Lobby_Flr_1_Wall_3_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Lobby_Flr_1,              !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Laundry_Flr_1_Wall_West,    !- Outside Boundary Condition Object
@@ -6938,7 +6847,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_1_Flr_3_Wall_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_1_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_2_Flr_3_Wall_South,    !- Outside Boundary Condition Object
@@ -6962,7 +6871,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_1_Flr_3_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_1_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_3_West,    !- Outside Boundary Condition Object
@@ -7082,7 +6991,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_2_Flr_3_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_2_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_4_West,    !- Outside Boundary Condition Object
@@ -7106,7 +7015,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_2_Flr_3_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_2_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_1_Flr_3_Wall_North,    !- Outside Boundary Condition Object
@@ -7202,7 +7111,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_3_Mult19_Flr_3_Wall_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_3_Mult19_Flr_3,      !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_3_Mult19_Flr_3_Wall_North,    !- Outside Boundary Condition Object
@@ -7226,7 +7135,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_3_Mult19_Flr_3_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_3_Mult19_Flr_3,      !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_3_Mult19_Flr_3_Wall_East,    !- Outside Boundary Condition Object
@@ -7250,7 +7159,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_3_Mult19_Flr_3_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_3_Mult19_Flr_3,      !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_3_Mult19_Flr_3_Wall_West,    !- Outside Boundary Condition Object
@@ -7346,7 +7255,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_4_Mult19_Flr_3_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_4_Mult19_Flr_3,      !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_4_Mult19_Flr_3_Wall_East,    !- Outside Boundary Condition Object
@@ -7370,7 +7279,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_4_Mult19_Flr_3_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_4_Mult19_Flr_3,      !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_4_Mult19_Flr_3_Wall_South,    !- Outside Boundary Condition Object
@@ -7394,7 +7303,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_4_Mult19_Flr_3_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_4_Mult19_Flr_3,      !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_4_Mult19_Flr_3_Wall_West,    !- Outside Boundary Condition Object
@@ -7514,7 +7423,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_5_Flr_3_Wall_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_5_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_6_Flr_3_Wall_South,    !- Outside Boundary Condition Object
@@ -7538,7 +7447,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_5_Flr_3_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_5_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_3_East,    !- Outside Boundary Condition Object
@@ -7658,7 +7567,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_6_Flr_3_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_6_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_5_Flr_3_Wall_North,    !- Outside Boundary Condition Object
@@ -7682,7 +7591,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_6_Flr_3_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_6_Flr_3,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_4_East,    !- Outside Boundary Condition Object
@@ -7910,7 +7819,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_3_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_3_North,    !- Outside Boundary Condition Object
@@ -7934,7 +7843,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_1_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_1_East,    !- Outside Boundary Condition Object
@@ -7958,7 +7867,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_2_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_2_East,    !- Outside Boundary Condition Object
@@ -7982,7 +7891,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_3_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_5_Flr_3_Wall_West,    !- Outside Boundary Condition Object
@@ -8006,7 +7915,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_4_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_6_Flr_3_Wall_West,    !- Outside Boundary Condition Object
@@ -8030,7 +7939,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_3_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_3_South,    !- Outside Boundary Condition Object
@@ -8054,7 +7963,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_1_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_1_West,    !- Outside Boundary Condition Object
@@ -8078,7 +7987,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_2_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_3_Wall_2_West,    !- Outside Boundary Condition Object
@@ -8102,7 +8011,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_3_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_1_Flr_3_Wall_East,    !- Outside Boundary Condition Object
@@ -8126,7 +8035,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_3_Wall_4_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_3,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_2_Flr_3_Wall_East,    !- Outside Boundary Condition Object
@@ -8306,7 +8215,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_1_Flr_6_Wall_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_1_Flr_6,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_2_Flr_6_Wall_South,    !- Outside Boundary Condition Object
@@ -8330,7 +8239,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_1_Flr_6_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_1_Flr_6,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_1_Flr_6_Wall_East,    !- Outside Boundary Condition Object
@@ -8450,7 +8359,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_2_Flr_6_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_2_Flr_6,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_2_Flr_6_Wall_East,    !- Outside Boundary Condition Object
@@ -8474,7 +8383,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_2_Flr_6_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_2_Flr_6,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_1_Flr_6_Wall_North,    !- Outside Boundary Condition Object
@@ -8570,7 +8479,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_3_Mult9_Flr_6_Wall_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_3_Mult9_Flr_6,       !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_3_Mult9_Flr_6_Wall_North,    !- Outside Boundary Condition Object
@@ -8594,7 +8503,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_3_Mult9_Flr_6_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_3_Mult9_Flr_6,       !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_3_Mult9_Flr_6_Wall_East,    !- Outside Boundary Condition Object
@@ -8618,7 +8527,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Room_3_Mult9_Flr_6_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Room_3_Mult9_Flr_6,       !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Room_3_Mult9_Flr_6_Wall_West,    !- Outside Boundary Condition Object
@@ -8714,7 +8623,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Banquet_Flr_6_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Banquet_Flr_6,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_3_West,    !- Outside Boundary Condition Object
@@ -8738,7 +8647,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Banquet_Flr_6_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Banquet_Flr_6,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_3_North,    !- Outside Boundary Condition Object
@@ -8762,7 +8671,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Banquet_Flr_6_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Banquet_Flr_6,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_1_East,    !- Outside Boundary Condition Object
@@ -8858,7 +8767,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Dining_Flr_6_Wall_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Dining_Flr_6,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Kitchen_Flr_6_Wall_2_West,    !- Outside Boundary Condition Object
@@ -8882,7 +8791,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Dining_Flr_6_Wall_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Dining_Flr_6,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Dining_Flr_6_Wall_South,    !- Outside Boundary Condition Object
@@ -8906,7 +8815,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Dining_Flr_6_Wall_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Dining_Flr_6,             !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_2_East,    !- Outside Boundary Condition Object
@@ -9056,7 +8965,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Kitchen_Flr_6_Wall_2_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Kitchen_Flr_6,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Kitchen_Flr_6_Wall_2_South,    !- Outside Boundary Condition Object
@@ -9080,7 +8989,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Kitchen_Flr_6_Wall_1_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Kitchen_Flr_6,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_3_East,    !- Outside Boundary Condition Object
@@ -9104,7 +9013,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Kitchen_Flr_6_Wall_2_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Kitchen_Flr_6,            !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Dining_Flr_6_Wall_East,    !- Outside Boundary Condition Object
@@ -9278,7 +9187,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_3_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Banquet_Flr_6_Wall_South,    !- Outside Boundary Condition Object
@@ -9302,7 +9211,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_4_North,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_4_North,    !- Outside Boundary Condition Object
@@ -9326,7 +9235,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_1_South,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_1_South,    !- Outside Boundary Condition Object
@@ -9350,7 +9259,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_1_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_1_West,    !- Outside Boundary Condition Object
@@ -9374,7 +9283,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_2_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Corridor_Flr_6_Wall_2_West,    !- Outside Boundary Condition Object
@@ -9398,7 +9307,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_3_West,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Banquet_Flr_6_Wall_East,    !- Outside Boundary Condition Object
@@ -9422,7 +9331,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_1_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Banquet_Flr_6_Wall_West,    !- Outside Boundary Condition Object
@@ -9446,7 +9355,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_2_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Dining_Flr_6_Wall_West,    !- Outside Boundary Condition Object
@@ -9470,7 +9379,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Corridor_Flr_6_Wall_3_East,    !- Name
     Wall,                     !- Surface Type
-    int-wall-en-std-replaceme-res-replaceme,    !- Construction Name
+    int-wall-res-replaceme,    !- Construction Name
     Corridor_Flr_6,           !- Zone Name
     Surface,                  !- Outside Boundary Condition
     Kitchen_Flr_6_Wall_1_West,    !- Outside Boundary Condition Object
@@ -9560,7 +9469,7 @@ BuildingSurface:Detailed,
 FenestrationSurface:Detailed,
     Retail_1_Flr_1_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Retail_1_Flr_1_Wall_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9583,7 +9492,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Cafe_Flr_1_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Cafe_Flr_1_Wall_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9606,7 +9515,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Lobby_Flr_1_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Lobby_Flr_1_Wall_1_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9629,7 +9538,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_1_Flr_3_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_1_Flr_3_Wall_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9652,7 +9561,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_1_Flr_3_Wall_West_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_1_Flr_3_Wall_West,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9675,7 +9584,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_2_Flr_3_Wall_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_2_Flr_3_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9698,7 +9607,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_2_Flr_3_Wall_West_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_2_Flr_3_Wall_West,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9721,7 +9630,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_3_Mult19_Flr_3_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_3_Mult19_Flr_3_Wall_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9744,7 +9653,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_4_Mult19_Flr_3_Wall_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_4_Mult19_Flr_3_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9767,7 +9676,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_5_Flr_3_Wall_East_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_5_Flr_3_Wall_East,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9790,7 +9699,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_5_Flr_3_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_5_Flr_3_Wall_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9813,7 +9722,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_6_Flr_3_Wall_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_6_Flr_3_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9836,7 +9745,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_6_Flr_3_Wall_East_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_6_Flr_3_Wall_East,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9859,7 +9768,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Corridor_Flr_3_Wall_1_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Corridor_Flr_3_Wall_1_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9882,7 +9791,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Corridor_Flr_3_Wall_2_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Corridor_Flr_3_Wall_2_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9905,7 +9814,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Corridor_Flr_3_Wall_1_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Corridor_Flr_3_Wall_1_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9928,7 +9837,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Corridor_Flr_3_Wall_2_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Corridor_Flr_3_Wall_2_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9951,7 +9860,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_1_Flr_6_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_1_Flr_6_Wall_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9974,7 +9883,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_1_Flr_6_Wall_West_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_1_Flr_6_Wall_West,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -9997,7 +9906,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_2_Flr_6_Wall_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_2_Flr_6_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10020,7 +9929,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_2_Flr_6_Wall_West_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_2_Flr_6_Wall_West,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10043,7 +9952,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Room_3_Mult9_Flr_6_Wall_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Room_3_Mult9_Flr_6_Wall_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10066,7 +9975,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Banquet_Flr_6_Wall_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Banquet_Flr_6_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10089,7 +9998,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Dining_Flr_6_Wall_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Dining_Flr_6_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10112,7 +10021,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Kitchen_Flr_6_Wall_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Kitchen_Flr_6_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10135,7 +10044,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Kitchen_Flr_6_Wall_East_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Kitchen_Flr_6_Wall_East,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10158,7 +10067,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Kitchen_Flr_6_Wall_1_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Kitchen_Flr_6_Wall_1_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10181,7 +10090,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Corridor_Flr_6_Wall_1_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Corridor_Flr_6_Wall_1_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10204,7 +10113,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Corridor_Flr_6_Wall_2_North_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Corridor_Flr_6_Wall_2_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10227,7 +10136,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Corridor_Flr_6_Wall_2_South_Window,    !- Name
     Window,                   !- Surface Type
-    ext-window-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-window-en-std-replaceme,    !- Construction Name
     Corridor_Flr_6_Wall_2_South,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     AutoCalculate,            !- View Factor to Ground
@@ -10250,7 +10159,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Cafe_Flr_1_Wall_East_Door,    !- Name
     Door,                     !- Surface Type
-    ext-door-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-door-en-std-replaceme,    !- Construction Name
     Cafe_Flr_1_Wall_East,     !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -10273,7 +10182,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Laundry_Flr_1_Wall_East_Door,    !- Name
     Door,                     !- Surface Type
-    ext-door-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-door-en-std-replaceme,    !- Construction Name
     Laundry_Flr_1_Wall_East,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -10296,7 +10205,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Lobby_Flr_1_Wall_1_North_Door1,    !- Name
     Door,                     !- Surface Type
-    ext-door-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-door-en-std-replaceme,    !- Construction Name
     Lobby_Flr_1_Wall_1_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -10319,7 +10228,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Lobby_Flr_1_Wall_1_North_Door2,    !- Name
     Door,                     !- Surface Type
-    ext-door-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-door-en-std-replaceme,    !- Construction Name
     Lobby_Flr_1_Wall_1_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -10342,7 +10251,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Storage_Flr_1_Wall_North_RollDoor,    !- Name
     Door,                     !- Surface Type
-    ext-door-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-door-en-std-replaceme,    !- Construction Name
     Storage_Flr_1_Wall_North,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -10365,7 +10274,7 @@ FenestrationSurface:Detailed,
 FenestrationSurface:Detailed,
     Retail_2_Flr_1_Wall_West_Door,    !- Name
     Door,                     !- Surface Type
-    ext-door-en-std-replaceme-res-replaceme,    !- Construction Name
+    ext-door-en-std-replaceme,    !- Construction Name
     Retail_2_Flr_1_Wall_West,    !- Building Surface Name
     ,                         !- Outside Boundary Condition Object
     ,                         !- View Factor to Ground
@@ -14566,6 +14475,9 @@ Output:Meter:MeterFileOnly,
 Output:Meter:MeterFileOnly,
     InteriorEquipment:Electricity,    !- Key Name
     Hourly;                   !- Reporting Frequency
+
+Output:Diagnostics,
+  DisplayExtraWarnings;
 
 Meter:Custom,
     Wired_LTG_Electricity,    !- Name
