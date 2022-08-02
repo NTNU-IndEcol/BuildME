@@ -476,13 +476,22 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     :param mat_vol: A dictionary with materials and their respective volumes
     :return: the dictionary including Ffactor materials
     """
-    material = 'Concrete' # 15 cm layer of concrete of the floor
-    densities[material] = 2200
-    if material not in mat_vol:
-        mat_vol[material] = 0.15*obj.Area
+    res = (obj.Name).split('-')[-1]
+    if res == 'RES0':
+        multiplier = 1
+    elif res == 'RES2.1' or res == 'RES2.2' or res == 'RES2.1+RES2.2':
+        multiplier = 0.8
     else:
-        mat_vol[material] += 0.15*obj.Area
-    mat_vol[material] += 0.15*1.22*obj.PerimeterExposed # 15 cm layer of concrete of the footing
+        print(f'The RES type {res} was not recognized')
+    material = 'Concrete'
+    densities[material] = 2200
+    # 15 cm layer of concrete of the floor (20% less for RES other than RES0)
+    if material not in mat_vol:
+        mat_vol[material] = 0.15*obj.Area*multiplier
+    else:
+        mat_vol[material] += 0.15*obj.Area*multiplier
+    # 15 cm layer of concrete of the footing (20% less for RES other than RES0)
+    mat_vol[material] += 0.15*1.22*obj.PerimeterExposed*multiplier
     material = 'Insulation' # fictious layer of insulation
     densities[material] = 120
     ffactor = obj.FFactor
@@ -509,12 +518,20 @@ def add_underground_wall_cfactor(mat_vol, obj, area, densities):
     :param mat_vol: A dictionary with materials and their respective volumes
     :return: the dictionary including Cfactor materials
     """
-    material = 'Concrete' # 15 cm layer of concrete
-    densities[material] = 2200
-    if material not in mat_vol:
-        mat_vol[material] = 0.15*area
+    res = (obj.Name).split('-')[-1]
+    if res == 'RES0':
+        multiplier = 1
+    elif res == 'RES2.1' or res == 'RES2.2' or res == 'RES2.1+RES2.2':
+        multiplier = 0.8
     else:
-        mat_vol[material] += 0.15*area
+        print(f'The RES type {res} was not recognized')
+    material = 'Concrete'
+    densities[material] = 2200
+    # 15 cm layer of concrete of the floor (20% less for RES other than RES0)
+    if material not in mat_vol:
+        mat_vol[material] = 0.15*area*multiplier
+    else:
+        mat_vol[material] += 0.15*area*multiplier
     material = 'Insulation' # fictious layer of insulation
     densities[material] = 120
     thickness = (1/obj.CFactor+0.0607+0.3479*obj.Height-0.15/1.95)*0.036

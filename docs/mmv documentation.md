@@ -151,18 +151,18 @@ The object fields which are not set to their default values include:
 
 There should be one object of type _AirflowNetwork:MultiZone:Zone_ for each zone in the building. The object fields which are not set to their default values include: 
 *	Ventilation Control Mode. The value is set to Constant, as the venting will be controlled by the schedule specified in the field described below.
-*	Venting Availability Schedule Name. For zone without the MMV system, the value of this field should be set to _always_avail_ (a schedule which is always set to 1). For zones with the MMV system, this field value should be the same as the name of schedule created specifically to control the natural ventilation mode in that zone, e.g., _NV_Sch_1_. 
+*	Venting Availability Schedule Name. For zone without the MMV system, the value of this field should be set to _always_on_MMV_ (a schedule which is always set to 1). For zones with the MMV system, this field value should be the same as the name of schedule created specifically to control the natural ventilation mode in that zone, e.g., _NV_Sch_1_. 
 
 **AirflowNetwork:MultiZone:Surface**
 
-This object should be created for every surface with cracks allowing for infiltration (walls, roof, floors etc.) and every surface with opening (doors and windows). Even if two walls have the same area and the same orientation, but below to different zones, they must have distinct AirflowNetwork:MultiZone:Surface objects. 
+This object should be created for every surface with cracks allowing for infiltration (walls, roof, floors etc.) and every surface with opening (doors and windows). Even if two walls have the same area and the same orientation, but belong to different zones, they must have distinct AirflowNetwork:MultiZone:Surface objects. 
 
 The object fields which are not set to their default values include: 
 *	Leakage Component Name. Described in Section 2.4.
 *	External Node Name. For external surfaces, this field value should be the same as the name of external node created specifically to define outdoor environmental conditions for the surface, e.g., _Node_1_. For internal surfaces, this field is left blank.
 *	Window/Door Opening Factor. Set to 1 as default but alternated using EnergyManagementSystem:Actuator objects (see below). 
 *	Ventilation Control Mode. The value is set to _Constant_, as the venting will be controlled by the schedule specified in the field described below.
-*	Venting Availability Schedule Name. For windows, this field value is set to _always_off_ (a schedule which is always set to 0). For surfaces other than windows, the value of this field should be set to _always_avail_ (a schedule which is always set to 1). The reason for this distinction is that windows should be operable, so they are controlled by another schedule at the Zone level, while doors are constantly closed. Objects other than doors and windows are modelled using AirflowNetwork:MultiZone:Surface:Crack objects, and these should be always active. 
+*	Venting Availability Schedule Name. For windows, this field value is set to _always_off_MMV_ (a schedule which is always set to 0). For surfaces other than windows, the value of this field should be set to _always_on_MMV_ (a schedule which is always set to 1). The reason for this distinction is that windows should be operable, so they are controlled by another schedule at the Zone level, while doors are constantly closed. Objects other than doors and windows are modelled using AirflowNetwork:MultiZone:Surface:Crack objects, and these should be always active. 
 
 **AirflowNetwork:MultiZone:Surface:Crack**
 
@@ -207,11 +207,12 @@ Described in Section 2.5.
 
 Sensors monitor the conditions of the chosen variables in the building simulation. There are multiple objects of this type that should be created. For each of them, we need to specify (1) Output Variable Type and (2) Output Variable Name:
 1.	Outdoor temperature sensor (Sensor_out). Variable type: _Environment_; Variable name: _Site Outdoor Air Drybulb Temperature_.
-2.	Heating setpoint sensor (Sensor_heat). Variable type: _heating_sch_ (schedule with the heating setpoint value); Variable name: _Schedule Value_.
-3.	Cooling setpoint sensor (Sensor_cool). Variable type: _cooling_sch_ (schedule with the cooling setpoint value); Variable name: _Schedule Value_.
-4.	Operative indoor temperature sensor (Sensor_in_X). Variable type: the name of the zone in which we monitor the temperature; variable name: _Zone Operative Temperature_. This object should be created for each zone with the MMV system. 
-5.	Thermal comfort sensor (Sensor_comf_Fan_X). Variable type: the name of the people object for which we monitor the thermal comfort; Variable name: _Zone Thermal Comfort Fanger Model PPD_. This object should be created for each zone with the MMV system (we assume that there is one people object for every zone with the MMV system).
+2.	Heating setpoint sensor (Sensor_heat_X). Variable type: the name of the heating schedule used in the zone's thermostat; Variable name: _Schedule Value_.
+3.	Cooling setpoint sensor (Sensor_cool_X). Variable type: the name of the cooling schedule used in the zone's thermostat; Variable name: _Schedule Value_.
+4.	Operative indoor temperature sensor (Sensor_in_X). Variable type: zone's name; Variable name: _Zone Operative Temperature_.
+5.	Thermal comfort sensor (Sensor_comf_Fan_X). Variable type: zone's people object (we assume there is one per zone); Variable name: _Zone Thermal Comfort Fanger Model PPD_.
 
+Please note that 'X' in the sensor name denotes that this object is created as many times as there are HVAC-type zones.
 
 **EnergyManagementSystem:Actuator**
 Actuators control the values of the chosen variables in the building simulation. There are multiple objects of this type that should be created. For each of them, we need to specify (1) Actuated Component Unique Name, (2) Actuated Component Type, and (3) Actuated Component Control Type:
