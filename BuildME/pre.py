@@ -44,8 +44,13 @@ def validate_ep_version(folders=settings.archetypes, crash=True):
 
 def create_mmv_variants(comb=settings.combinations):
     """Create MMV variants for the archetypes"""
-    # 1 Region
     cool_str = '_auto-MMV'
+    xlsx_mmv = './data/mmv-implementation.xlsx'
+    dir_replace_mmv = './data/replace_mmv.xlsx'
+    if os.path.isfile(dir_replace_mmv) is True:
+        # delete existing mmv-implementation.xlsx
+        os.remove(dir_replace_mmv)
+    # 1 Region
     for region in [r for r in comb]:
         # 2 archetype
         for occ_type in comb[region]['occupation']:
@@ -63,7 +68,7 @@ def create_mmv_variants(comb=settings.combinations):
                         os.remove(path)
                     print("Precalculating the MMV variant of %s archetype..." % occ_type)
                     idf_f = read_idf(archetype_wt_ext + '.idf')
-                    idf_mmv = change_archetype_to_MMV(idf_f, occ_type)
+                    idf_mmv = change_archetype_to_MMV(idf_f, occ_type, xlsx_mmv, dir_replace_mmv)
                     idf_mmv.saveas(path)
     return
 

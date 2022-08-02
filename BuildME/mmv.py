@@ -12,15 +12,16 @@ import os
 import datetime
 
 
-def change_archetype_to_MMV(idf, occupation):
+def change_archetype_to_MMV(idf, occupation, xlsx_mmv, dir_replace_mmv):
     """
     Converts an idf file to one with mixed mode ventilation (MMV) i.e. cooling both through HVAC and window opening
     :param idf: The .idf file
     :param occupation: the occupation of the chosen archetype (e.g. SFH)
+    :param xlsx_mmv: Path and filename of the mmv-implementation.xlsx file, normally './data/mmv-implementation.xlsx'
+    :param dir_replace_mmv: Path and filename of the replace-mmv.xlsx file, normally './data/replace_mmv.xlsx'
     :return idf: The .idf file with MMV implemented
     """
     shielding = settings.shielding
-    xlsx_mmv = './data/mmv-implementation.xlsx'
     # Create dictionaries needed for the MMV procedure
     surface_dict = create_surface_dict(idf)  # create surfaces for which AFN is suitable
     zone_dict_mmv, zone_dict_non_mmv = create_zone_dicts(idf, surface_dict)
@@ -34,7 +35,7 @@ def change_archetype_to_MMV(idf, occupation):
     idf = delete_idf_objects(idf, xlsx_mmv)
     idf = write_EMS_program(idf, xlsx_mmv, zone_dict_mmv, window_dict)
     # Update the replace.xlsx file (only if necessary)
-    create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
+    create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict, dir_replace_mmv)
     # idf.saveas('./files/with-MMV.idf')
     return idf
 
@@ -784,7 +785,7 @@ def estimate_no_of_floors(idf, zone_dict_mmv):
     return no_of_floors
 
 
-def create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict):
+def create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict, dir_replace_mmv):
     """
     Checks if the excel replace_mmv.xlsx file exists, creates/opens it to write data about the chosen archetype,
     the data is necessary to adjust the archetype to different energy standards
@@ -793,7 +794,6 @@ def create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfac
     :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
     :param surfaces_nf_dict: Dictionary of non-fenestration surfaces (area, surface group, list of surfaces' names)
     """
-    dir_replace_mmv = './data/replace_mmv.xlsx'
     if os.path.exists(dir_replace_mmv):
         wb = openpyxl.load_workbook(filename=dir_replace_mmv)
         ws_info = wb['info']
