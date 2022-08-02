@@ -16,23 +16,23 @@ def change_archetype_to_MMV(idf, occupation):
     """
     Converts an idf file to one with mixed mode ventilation (MMV) i.e. cooling both through HVAC and window opening
     :param idf: The .idf file
-    :param fname: Information about the executed file
+    :param occupation: the occupation of the chosen archetype (e.g. SFH)
     :return idf: The .idf file with MMV implemented
     """
     shielding = settings.shielding
     xlsx_mmv = './data/mmv-implementation.xlsx'
     # Create dictionaries needed for the MMV procedure
-    zone_dict_hvac, zone_dict_non_hvac = create_zone_dicts(idf)
+    surface_dict = create_surface_dict(idf)  # create surfaces for which AFN is suitable
+    zone_dict_mmv, zone_dict_non_mmv = create_zone_dicts(idf, surface_dict)
     window_dict = create_window_dict(idf)
-    surface_dict = create_surface_dict(idf)
     surfaces_f_dict, surfaces_nf_dict = create_surface_group_dicts(surface_dict)
     # Modify the idf file
-    idf = create_WPC_curves(idf, zone_dict_hvac, shielding)
-    idf = change_idf_objects(idf, xlsx_mmv, zone_dict_hvac)
-    idf = create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window_dict,
+    idf = create_WPC_curves(idf, zone_dict_mmv, shielding)
+    idf = change_idf_objects(idf, xlsx_mmv, zone_dict_mmv)
+    idf = create_idf_objects(idf, xlsx_mmv, zone_dict_mmv, zone_dict_non_mmv, window_dict,
                              surface_dict, surfaces_f_dict, surfaces_nf_dict, shielding)
     idf = delete_idf_objects(idf, xlsx_mmv)
-    idf = write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict)
+    idf = write_EMS_program(idf, xlsx_mmv, zone_dict_mmv, window_dict)
     # Update the replace.xlsx file (only if necessary)
     create_or_update_excel_replace(occupation, xlsx_mmv, surfaces_f_dict, surfaces_nf_dict)
     # idf.saveas('./files/with-MMV.idf')
@@ -50,38 +50,51 @@ def load_xlsx_data(in_file, sheet_name):
     return df
 
 
-def create_zone_dicts(idf):
+def create_zone_dicts(idf, surface_dict):
     """
     Creates two dictionaries with zone information, both with integer keys
     :param idf: The .idf file
-    :return zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
-    :return zone_dict_non_hvac: Dictionary of zones without HVAC system (their names)
+    :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
+    :return zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
+    :return zone_dict_non_mmv: Dictionary of other zones (without HVAC or without people)
     """
     object_types = ['HVACTemplate:Zone:IdealLoadsAirSystem', 'ZoneHVAC:IdealLoadsAirSystem']
-    zone_dict_hvac = {}
+    zone_dict_mmv = {}
+    zone_dict_non_mmv = {}
     i = 1
-    for obj_type in object_types:
-        for obj in idf.idfobjects[obj_type]:
-            zone_dict_hvac[i] = {}
-            zone_dict_hvac[i]['Zone_Name'] = obj.Zone_Name
-            people_obj = [obj2.Name for obj2 in idf.idfobjects['People'] if obj2.Zone_or_ZoneList_Name == obj.Zone_Name]
-            if people_obj:
-                zone_dict_hvac[i]['People'] = people_obj[0]
-                i += 1
-            else:  # if no people in the zone, MMV cannot be implemented -> zone is treated as non-hvac
-                zone_dict_hvac.pop(i)
-    if bool(zone_dict_hvac) is False:  # if
+    j = 1
+    hvac_zone_objs = [obj for obj_type in object_types for obj in idf.idfobjects[obj_type]]
+    if not hvac_zone_objs:
         exit("There are no 'IdealLoadsAirSystem' objects. The code can only be executed if the HVAC system is "
              "implemented through 'IdealLoads'.")
-    zone_dict_non_hvac = {}
-    zone_list_hvac = [k['Zone_Name'] for v, k in zone_dict_hvac.items()]
-    i = 1
-    for obj in idf.idfobjects['Zone']:
-        if obj.Name not in zone_list_hvac:
-            zone_dict_non_hvac[i] = {}
-            zone_dict_non_hvac[i]['Zone_Name'] = obj.Name
-            i += 1
-    return zone_dict_hvac, zone_dict_non_hvac
+    for zone in idf.idfobjects['Zone']:
+        surfaces_for_zone = [s['Name'] for s in surface_dict.values() if s['Zone'] == zone.Name]
+        if len(surfaces_for_zone) > 0:
+            hvac_zone = [obj for obj in hvac_zone_objs if obj.Zone_Name == zone.Name]
+            if hvac_zone:
+                obj = hvac_zone[0]
+                zone_dict_mmv[i] = {}
+                zone_dict_mmv[i]['Zone_Name'] = obj.Zone_Name
+                zone_dict_mmv[i]['Template_Thermostat_Name'] = obj.Template_Thermostat_Name
+                people_obj = [obj2.Name for obj2 in idf.idfobjects['People'] if
+                              obj2.Zone_or_ZoneList_Name == obj.Zone_Name]
+                if people_obj:
+                    zone_dict_mmv[i]['People'] = people_obj[0]
+                    i += 1
+                else:  # if no people in the zone, MMV cannot be implemented -> zone is treated as AFN (non-hvac) zone
+                    zone_dict_mmv.pop(i)
+                    zone_dict_non_mmv[j] = {}
+                    zone_dict_non_mmv[j]['Zone_Name'] = zone.Name
+                    j += 1
+            else:  # if no hvac objects associated with the zone
+                zone_dict_non_mmv[j] = {}
+                zone_dict_non_mmv[j]['Zone_Name'] = zone.Name
+                j += 1
+        else:  # if no surfaces associated with the zone
+            zone_dict_non_mmv[j] = {}
+            zone_dict_non_mmv[j]['Zone_Name'] = zone.Name
+            j += 1
+    return zone_dict_mmv, zone_dict_non_mmv
 
 
 def create_window_dict(idf):
@@ -116,7 +129,9 @@ def create_window_dict(idf):
 
 def create_surface_dict(idf):
     """
-    Creates a dictionary with surface information (walls, floors, windows etc.), with integer keys
+    Creates a dictionary with surface information (walls, floors, windows etc.), with integer keys. Only includes
+    surfaces for which AFN model can be implemented (doesn't include GroundFCfactorMethod objects, internal partitions,
+    and surfaces like ceilings for which we don't have AFN infiltration values)
     :param idf: The .idf file
     :return surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
     """
@@ -128,8 +143,14 @@ def create_surface_dict(idf):
             # if obj.Zone_Name in zone_list:  # only include surfaces that belong to an HVAC zone
             outside = obj.Outside_Boundary_Condition
             surface_type = obj.Surface_Type
+            if obj.Name == obj.Outside_Boundary_Condition_Object:
+                # the same name indicates internal partition separating like zones
+                continue
             if outside == 'Outdoors' and surface_type == 'Wall':
                 surface_group = 'Walls external'
+            elif outside == 'GroundFCfactorMethod' and surface_type == 'Wall':
+                # quoting an E+ error: "This type of surface (has ground, etc exposure) cannot be used in the AiflowNetwork model."
+                continue
             elif surface_type == 'Wall':
                 surface_group = 'Walls internal'
             elif surface_type == 'Roof':
@@ -239,12 +260,12 @@ def fill_surface_group_dict(i, k, dic, unique, unique_inverse, surface_dict):
     return dic
 
 
-def change_idf_objects(idf, xlsx_mmv, zone_dict_hvac):
+def change_idf_objects(idf, xlsx_mmv, zone_dict_mmv):
     """
     Takes an idf file and changes some of its objects according to the MMV procedure instructions
     :param idf: The .idf file
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :return idf: The .idf file with changed objects
     """
     df = load_xlsx_data(xlsx_mmv, 'change')
@@ -253,24 +274,24 @@ def change_idf_objects(idf, xlsx_mmv, zone_dict_hvac):
         object_field = df.loc[i, 'objectfield']
         value = df.loc[i, 'value']
         for obj in idf.idfobjects[idf_object]:
-            if value[-15:] == '<hvac zone no.>':
-                zone_list = [zone_number['Zone_Name'] for zone_number in zone_dict_hvac.values()]
+            if value[-14:] == '<mmv zone no.>':
+                zone_list = [zone_number['Zone_Name'] for zone_number in zone_dict_mmv.values()]
                 if obj.Zone_Name in zone_list:
-                    zone_no = list(zone_dict_hvac.keys())[zone_list.index(obj.Zone_Name)]
-                    obj[object_field] = value[:-15] + str(zone_no)
+                    zone_no = list(zone_dict_mmv.keys())[zone_list.index(obj.Zone_Name)]
+                    obj[object_field] = value[:-14] + str(zone_no)
             else:
                 obj[object_field] = value
     return idf
 
 
-def create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window_dict, surface_dict,
+def create_idf_objects(idf, xlsx_mmv, zone_dict_mmv, zone_dict_non_mmv, window_dict, surface_dict,
                        surfaces_f_dict, surfaces_nf_dict, shielding):
     """
     Takes an idf file and creates some new objects according to the MMV procedure instructions
     :param idf: The .idf file
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
-    :param zone_dict_non_hvac: Dictionary of zones without HVAC system (their names)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
+    :param zone_dict_non_mmv: Dictionary of other zones (without HVAC or without people)
     :param window_dict: Dictionary of windows (their names, and surface and zone they belong to)
     :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
     :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
@@ -286,7 +307,7 @@ def create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window
         j = 1
         while True:  # the number of loops is variable (the number of objects of a given type to be created)
             name_in = df_i.loc[0, 'value']
-            name, more_loops_j = assign_name(str(name_in), zone_dict_hvac, zone_dict_non_hvac, window_dict,
+            name, more_loops_j = assign_name(str(name_in), zone_dict_mmv, zone_dict_non_mmv, window_dict,
                                              surface_dict, surfaces_f_dict, surfaces_nf_dict, j)
             if name != '':
                 new_object = idf.newidfobject(idf_object)
@@ -298,7 +319,7 @@ def create_idf_objects(idf, xlsx_mmv, zone_dict_hvac, zone_dict_non_hvac, window
             for k in range(1, len(df_i.index)):  # each field to be filled in (except for the name field)
                 object_field = df_i.loc[k, 'objectfield']
                 value_in = df_i.loc[k, 'value']
-                new_object[object_field] = assign_value(str(value_in), zone_dict_hvac, window_dict, surface_dict,
+                new_object[object_field] = assign_value(str(value_in), zone_dict_mmv, window_dict, surface_dict,
                                                         surfaces_f_dict, surfaces_nf_dict, j, idf, shielding)
             j += 1
             if not more_loops_j:  # if there are no more objects of this type to be created
@@ -315,13 +336,13 @@ def delete_idf_objects(idf, xlsx_mmv):
     return idf
 
 
-def assign_name(name_in, zone_dict_hvac, zone_dict_non_hvac, window_dict, surface_dict,
+def assign_name(name_in, zone_dict_mmv, zone_dict_non_mmv, window_dict, surface_dict,
                 surfaces_f_dict, surfaces_nf_dict, it):
     """
     Assigns name for new idf object based on input name
     :param name_in: Input idf object name
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
-    :param zone_dict_non_hvac: Dictionary of zones without HVAC system (their names)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
+    :param zone_dict_non_mmv: Dictionary of other zones (without HVAC or without people)
     :param window_dict: Dictionary of windows (their names, and surface and zone they belong to)
     :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
     :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
@@ -331,19 +352,15 @@ def assign_name(name_in, zone_dict_hvac, zone_dict_non_hvac, window_dict, surfac
     :return more_loops: Boolean telling if more objects of a given type are to be created
     """
     # all names with <...> need to be customized
-    if name_in == '<hvac zone name>':
-        name = zone_dict_hvac[it]['Zone_Name']
-        it_dict = zone_dict_hvac
-    elif name_in == '<non-hvac zone name>':
-        it_dict = zone_dict_non_hvac
-        zone_name = zone_dict_non_hvac[it]['Zone_Name']
-        if zone_name in [v['Zone'] for v in surface_dict.values()]:
-            name = zone_name
-        else:  # doesn't include zones which do not have any surfaces associated to it
-            name = ''
-    elif name_in[-15:] == '<hvac zone no.>':
-        name = name_in[:-15] + str(it)
-        it_dict = zone_dict_hvac
+    if name_in == '<mmv zone name>':
+        name = zone_dict_mmv[it]['Zone_Name']
+        it_dict = zone_dict_mmv
+    elif name_in == '<non-mmv zone name>':
+        it_dict = zone_dict_non_mmv
+        name = zone_dict_non_mmv[it]['Zone_Name']
+    elif name_in[-14:] == '<mmv zone no.>':
+        name = name_in[:-14] + str(it)
+        it_dict = zone_dict_mmv
     elif name_in[-12:] == '<window no.>':
         name = name_in[:-12] + str(it)
         it_dict = window_dict
@@ -373,12 +390,12 @@ def assign_name(name_in, zone_dict_hvac, zone_dict_non_hvac, window_dict, surfac
     return name, more_loops
 
 
-def assign_value(value_in, zone_dict_hvac, window_dict, surface_dict, surfaces_f_dict, surfaces_nf_dict, it, idf,
+def assign_value(value_in, zone_dict_mmv, window_dict, surface_dict, surfaces_f_dict, surfaces_nf_dict, it, idf,
                  shielding):
     """
     Assigns value for idf object field based on input value
     :param value_in: Input idf object field value
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :param window_dict: Dictionary of windows (their names, and surface and zone they belong to)
     :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
     :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
@@ -389,12 +406,12 @@ def assign_value(value_in, zone_dict_hvac, window_dict, surface_dict, surfaces_f
     :return value: Final idf object field value
     """
     # all values with <...> need to be customized
-    if value_in == '<hvac zone name>':
-        value = zone_dict_hvac[it]['Zone_Name']
-    elif value_in[-15:] == '<hvac zone no.>':
-        value = value_in[:-15] + str(it)
+    if value_in == '<mmv zone name>':
+        value = zone_dict_mmv[it]['Zone_Name']
+    elif value_in[-14:] == '<mmv zone no.>':
+        value = value_in[:-14] + str(it)
     elif value_in == '<people object name>':
-        value = zone_dict_hvac[it]['People']
+        value = zone_dict_mmv[it]['People']
     elif value_in == '<window name>':
         value = window_dict[it]['Name']
     elif value_in == '<wind pressure coefficient curve name>':
@@ -402,10 +419,10 @@ def assign_value(value_in, zone_dict_hvac, window_dict, surface_dict, surfaces_f
         obj_type = surface_dict[it]['Object_Type']
         obj = [obj for obj in idf.idfobjects[obj_type] if obj.Name == surface_name][0]
         if obj_type == 'BuildingSurface:Detailed':
-            value = assign_wpc_curve(obj, idf, zone_dict_hvac, shielding)
+            value = assign_wpc_curve(obj, idf, zone_dict_mmv, shielding)
         else:  # if not 'BuildingSurface:Detailed', it has to be window or door
             wall_obj = get_wall_object_from_fenestration(idf, obj)
-            value = assign_wpc_curve(wall_obj, idf, zone_dict_hvac, shielding)
+            value = assign_wpc_curve(wall_obj, idf, zone_dict_mmv, shielding)
     elif value_in[-13:] == '<surface no.>':
         # internal = ['Walls internal', 'Windows internal', 'Doors internal', 'Floors internal']
         external = ['Walls external', 'Windows external', 'Doors external', 'Roofs', 'Floors external']
@@ -425,9 +442,23 @@ def assign_value(value_in, zone_dict_hvac, window_dict, surface_dict, surfaces_f
                     value = "Crack_" + str(k)
     elif value_in == '<venting availability>':
         if surface_dict[it]['Object_Type'] == 'Door':
-            value = 'always_off'
+            value = 'always_off_MMV'
         else:
-            value = 'always_avail'
+            value = 'always_on_MMV'
+    elif value_in == '<heating schedule in zone>':
+        thermostat_name = zone_dict_mmv[it]['Template_Thermostat_Name']
+        heat_sch = [obj.Heating_Setpoint_Schedule_Name for obj in idf.idfobjects['HVACTemplate:Thermostat'] if obj.Name == thermostat_name]
+        if heat_sch:
+            value = heat_sch[0]
+        else:
+            print(f'The heating schedule for the "{thermostat_name}" thermostat was not found')
+    elif value_in == '<cooling schedule in zone>':
+        thermostat_name = zone_dict_mmv[it]['Template_Thermostat_Name']
+        cool_sch = [obj.Cooling_Setpoint_Schedule_Name for obj in idf.idfobjects['HVACTemplate:Thermostat'] if obj.Name == thermostat_name]
+        if cool_sch:
+            value = cool_sch[0]
+        else:
+            print(f'The heating schedule for the "{thermostat_name}" thermostat was not found')
     else:
         value = value_in
     return value
@@ -445,12 +476,12 @@ def get_wall_object_from_fenestration(idf, fenestration_obj):
     return wall_obj
 
 
-def assign_wpc_curve(obj, idf, zone_dict_hvac, shielding):
+def assign_wpc_curve(obj, idf, zone_dict_mmv, shielding):
     """
     Assigns a wind pressure coefficient (WPC) curve according to the azimuth of the input surface object
     :param obj: Surface object
     :param idf: The .idf file
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :param shielding: the level of wind shielding (low, medium, high)
     :return wpc_curve_name: Name of the WPC curve (object with wind pressure coefficient values)
     """
@@ -461,22 +492,22 @@ def assign_wpc_curve(obj, idf, zone_dict_hvac, shielding):
     # (see IO reference or https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-011.html)
     ind = [i for i, x in enumerate(degs) if x == deg][0]
     if surface_type == 'Wall':
-        wpc_curve_name = create_WPC_prefix(idf, zone_dict_hvac, shielding) + '_wall_' + dirs[ind]
+        wpc_curve_name = create_WPC_prefix(idf, zone_dict_mmv, shielding) + '_wall_' + dirs[ind]
     else:  # if not Wall, it has to be roof
-        wpc_curve_name = create_WPC_prefix(idf, zone_dict_hvac, shielding) + '_roof_' + dirs[ind]
+        wpc_curve_name = create_WPC_prefix(idf, zone_dict_mmv, shielding) + '_roof_' + dirs[ind]
     return wpc_curve_name
 
 
-def create_WPC_prefix(idf, zone_dict_hvac, shielding):
+def create_WPC_prefix(idf, zone_dict_mmv, shielding):
     """
     Creates a prefix that later helps to find the right wind pressure coefficient (WPC) curves for given wind shielding
     and building height
     :param idf: The .idf file
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :param shielding: the level of wind shielding (low, medium, high)
     :return WPC_prefix: String that that later helps to find the right WPC curves
     """
-    no_of_floors = estimate_no_of_floors(idf, zone_dict_hvac)
+    no_of_floors = estimate_no_of_floors(idf, zone_dict_mmv)
     if no_of_floors > 3:
         WPC_prefix = 'HighRise'
     else:
@@ -566,15 +597,15 @@ def retrieve_WPC_values(name):
     return values
 
 
-def create_WPC_curves(idf, zone_dict_hvac, shielding):
+def create_WPC_curves(idf, zone_dict_mmv, shielding):
     """
     Create wind pressure coefficient (WPC) curves for a given wind shielding level
     :param idf: The .idf file
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :param shielding: the level of wind shielding (low, medium, high)
     :return idf: The .idf file with WPC curve objects included
     """
-    WPC_prefix = create_WPC_prefix(idf, zone_dict_hvac, shielding)
+    WPC_prefix = create_WPC_prefix(idf, zone_dict_mmv, shielding)
     new_object = idf.newidfobject('AirflowNetwork:MultiZone:WindPressureCoefficientArray')
     rise = WPC_prefix.split("_")[0]
     name_deg = rise + '_degrees'
@@ -606,12 +637,12 @@ def calculate_area(obj):
     return area
 
 
-def write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict):
+def write_EMS_program(idf, xlsx_mmv, zone_dict_mmv, window_dict):
     """
     Creates idf objects of type EnergyManagementSystem:Program according to the MMV procedure
     :param idf: The .idf file
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :param window_dict: Dictionary of windows (their names, and surface and zone they belong to)
     :return idf: The .idf file with EMS program
     """
@@ -621,7 +652,7 @@ def write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict):
         new_object = idf.newidfobject('EnergyManagementSystem:Program')
         name_field = df.loc[0, 'objectfield']
         name = "DefineOpening_" + str(i)
-        if i < len(zone_dict_hvac.keys()):
+        if i < len(zone_dict_mmv.keys()):
             more_loops_i = True
         else:
             more_loops_i = False
@@ -632,7 +663,7 @@ def write_EMS_program(idf, xlsx_mmv, zone_dict_hvac, window_dict):
             value_in = value_in.replace('X', str(i))
             if value_in[:21] == 'SET Control_<windows>':
                 window_dict_zone = [key for key, v in window_dict.items() if
-                                    v['Zone'] == zone_dict_hvac[i]['Zone_Name']]
+                                    v['Zone'] == zone_dict_mmv[i]['Zone_Name']]
                 for w in window_dict_zone:
                     object_field = 'Program_Line_' + str(k)
                     new_object[object_field] = 'SET Control_Win_' + str(w) + value_in[21:]
@@ -730,17 +761,17 @@ def find_value_in_AFN_df(df, surface_group, en_st, var):
     return value
 
 
-def estimate_no_of_floors(idf, zone_dict_hvac):
+def estimate_no_of_floors(idf, zone_dict_mmv):
     """
     Looks for the highest zone within a building to estimate the total number of floors
     :param idf: The .idf file
-    :param zone_dict_hvac: Dictionary of zones with HVAC system (their names and the people object that belongs to it)
+    :param zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :return no_of_floors: Number of floors
     """
-    hvac_zone_list = [i['Zone_Name'] for i in zone_dict_hvac.values()]
+    mmv_zone_list = [i['Zone_Name'] for i in zone_dict_mmv.values()]
     ceiling_heights = []
     for obj in idf.idfobjects['BuildingSurface:Detailed']:
-        if obj.Zone_Name in hvac_zone_list:
+        if obj.Zone_Name in mmv_zone_list:
             ceiling_height = max(abs(pt[2]) for pt in obj.coords)
             zone_obj = [z for z in idf.idfobjects['Zone'] if z.Name == obj.Zone_Name][0]
             multiplier = float(zone_obj.Multiplier)
