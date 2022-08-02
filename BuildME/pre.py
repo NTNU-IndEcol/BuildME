@@ -59,11 +59,12 @@ def create_mmv_variants(comb=settings.combinations):
                         archetype_wt_ext = os.path.join(settings.archetypes, region, occ_type)
                     # if the archetype MMV file doesn't exist, we create it
                     path = archetype_wt_ext + cool_str + '.idf'
-                    if os.path.isfile(path) is False:
-                        print("Precalculating the MMV variant of %s archetype..." % occ_type)
-                        idf_f = read_idf(archetype_wt_ext + '.idf')
-                        idf_mmv = change_archetype_to_MMV(idf_f, occ_type)
-                        idf_mmv.saveas(path)
+                    if os.path.isfile(path) is True:
+                        os.remove(path)
+                    print("Precalculating the MMV variant of %s archetype..." % occ_type)
+                    idf_f = read_idf(archetype_wt_ext + '.idf')
+                    idf_mmv = change_archetype_to_MMV(idf_f, occ_type)
+                    idf_mmv.saveas(path)
     return
 
 
