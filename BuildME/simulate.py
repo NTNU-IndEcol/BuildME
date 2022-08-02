@@ -508,7 +508,32 @@ def calculate_energy(fnames=None):
         energy.delete_ep_files(copy_us, tmp)
 
 
-def calculate_energy_mp(fnames=None, cpus=mp.cpu_count()-1):
+def find_cpus(method):
+    """
+    Returns the number of CPUs available on the system. This can then be used in calculate_energy_mp for example.
+     Not using the maximum number of CPUs is sometimes beneficial, because the computer can shuffle around data, etc.
+     more efficiently.
+
+    :param method: Method to determine. 'max' will return the maximum number. 'auto' will (hopefully) return the best
+                    number.
+    """
+    if isinstance(method, int):
+        return method
+    available_cpus = mp.cpu_count()
+    if method == 'max':
+        return available_cpus
+    elif method == 'auto':
+        if available_cpus == 10:
+            return 8  # The M1 Pro has 10 cores of which are 2 efficiency cores
+        elif available_cpus <= 4:
+            return available_cpus
+        elif available_cpus > 4:
+            return available_cpus - 1
+    else:
+        raise AssertionError("Method '%s' unknown." % method)
+
+
+def calculate_energy_mp(fnames=None, cpus=find_cpus(settings.cpus)):
     print("Perform energy simulation on %s CPUs..." % cpus)
     if not fnames:
         fnames, rfolder = find_last_run()

@@ -40,6 +40,7 @@ files_to_delete = ['eplusout.eso']
 
 # Modelling settings
 shielding = 'medium'  # wind shielding, needed for MMV simulations; set to low, medium or high
+cpus = 'auto'  # Number of CPUs to use for the energy simulation. 'max' = all. 'auto' = available CPUSs - 1
 
 # Combination settings
 #  Define the combinations to be created, e.g. USA.SFH_standard.RES0
