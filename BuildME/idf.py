@@ -479,10 +479,11 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     res = (obj.Name).split('-')[-1]
     if res == 'RES0':
         multiplier = 1
-    elif res == 'RES2.1' or res == 'RES2.2' or res == 'RES2.1+RES2.2':
+    elif res in ('RES2.2', 'RES2.1+RES2.2'):
         multiplier = 0.8
     else:
-        print(f'The RES type {res} was not recognized')
+        print(f'Warning: The RES type {res} was not recognized / implemented...')
+        multiplier = 1.0
     material = 'Concrete'
     densities[material] = 2200
     # 15 cm layer of concrete of the floor (20% less for RES other than RES0)
@@ -492,7 +493,7 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
         mat_vol[material] += 0.15*obj.Area*multiplier
     # 15 cm layer of concrete of the footing (20% less for RES other than RES0)
     mat_vol[material] += 0.15*1.22*obj.PerimeterExposed*multiplier
-    material = 'Insulation' # fictious layer of insulation
+    material = 'Insulation'  # fictious layer of insulation
     densities[material] = 120
     ffactor = obj.FFactor
     # we derive an exponential regression line from Ffactor and insulation xsection (m2, height x thickness)
@@ -521,10 +522,11 @@ def add_underground_wall_cfactor(mat_vol, obj, area, densities):
     res = (obj.Name).split('-')[-1]
     if res == 'RES0':
         multiplier = 1
-    elif res == 'RES2.1' or res == 'RES2.2' or res == 'RES2.1+RES2.2':
+    elif res in ('RES2.2', 'RES2.1+RES2.2'):
         multiplier = 0.8
     else:
-        print(f'The RES type {res} was not recognized')
+        print(f'Warning: The RES type {res} was not recognized / implemented...')
+        multiplier = 1.0
     material = 'Concrete'
     densities[material] = 2200
     # 15 cm layer of concrete of the floor (20% less for RES other than RES0)
