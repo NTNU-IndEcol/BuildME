@@ -27,7 +27,7 @@ def run_new():
     # simulate.create_sq_job(fnames)
 
     # simulate.calculate_energy()
-    simulate.calculate_energy_mp(cpus=8)
+    simulate.calculate_energy_mp()
     print("Energy simulations done")
     simulate.calculate_materials(run, fnames)
     print("Material extraction done")
