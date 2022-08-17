@@ -42,9 +42,6 @@ def create_combinations(comb=settings.combinations):
                     continue
                 # 4 Resource Efficiency Strategy
                 for res in comb[region]['RES']:
-                    #Non-residential Archetypes do not have other RES scenarios than RES0
-                    if occ_type in ['HotelLarge', 'OfficeMedium', 'SchoolPrimary', 'SchoolSecondary','RetailStripmall', 'RetailStandalone'] and res in ['RES2.1', 'RES2.2', 'RES2.1+RES2.2']:
-                        continue
                     # 5 Climate region
                     for climate_reg in comb[region]['climate_region']:
                         # 6 Climate scenario
@@ -524,9 +521,7 @@ def find_cpus(method):
     if method == 'max':
         return available_cpus
     elif method == 'auto':
-        if available_cpus == 10:
-            return 8  # The M1 Pro has 10 cores of which are 2 efficiency cores
-        elif available_cpus <= 4:
+        if available_cpus <= 4:
             return available_cpus
         elif available_cpus > 4:
             return available_cpus - 1
@@ -729,7 +724,9 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
 def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'Office': 15,
                           'SchoolPrimary': 100, 'SchoolSecondary': 100, 'RetailStripmall': 100,'RetailStandalone': 100,
                           'OfficeMedium': 100,'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75,
-                          'SFH-masonry': 50, 'HotelLarge': 100}):
+                          'SFH-masonry': 50, 'HotelLarge': 100,
+                          'Hospital': 62*3.6  # DOI: 10.3390/en12193775
+                          }):
     for occ in dhw_dict:
         if occ in ei.index.levels[1]:
             ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]
