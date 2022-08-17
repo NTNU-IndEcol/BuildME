@@ -276,8 +276,9 @@ def calculate_materials(run=None, fnames=None):
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
-        # If RT OR office archetype, need to account for zone multipliers
-        if fnames[folder]['occupation'] in ('RT', 'Office'):
+        # If multipliers are being used
+        multipliers = {x.Name: x.Multiplier for x in idf.idfobjects["ZONE"] if x.Multiplier is not ''}
+        if any([int(float(v)) > 1 for v in multipliers.values()]):
             surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'],
                                              fnames[folder]['RES'])
         else:
