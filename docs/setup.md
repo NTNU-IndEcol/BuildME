@@ -30,6 +30,11 @@ which pip  # make sure the path corresponds to your conda environment
 pip install eppy
 ```
 
+Other dpendencies include:
+- pandas
+- openpyxl
+- tqdm
+
 ## Energyplus
 
 Please not that the archetype files in  the [archetypes folder](archetypes) are specific to the energyplus version. If your binaries in `./bin/` do not correspond to the ones in the `.idf` files (see `Version` keyword), you are likely to run into issues. 
