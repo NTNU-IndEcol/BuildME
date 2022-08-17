@@ -705,9 +705,11 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
     """
     res = divide_by_area(energy, material_surfaces, 1/10**6, ref_area)
     res = disaggregate_scenario_str(res, ['climate_reg'])
+    fname = os.path.join(settings.tmp_path, run, run + '_ei.xlsx')
+    res.to_excel(fname)
     res = weighing_climate_region(res)
     res = add_DHW(res)
-    fname = os.path.join(settings.tmp_path, run, run + '_ei.xlsx')
+    fname = os.path.join(settings.tmp_path, run, run + '_ei_weighed.xlsx')
     writer = pd.ExcelWriter(fname, engine='xlsxwriter')
     res.to_excel(writer, 'all')
     res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
