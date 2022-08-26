@@ -273,14 +273,8 @@ def calculate_materials(run=None, fnames=None):
         constructions = material.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
-        # If multipliers are being used
-        multipliers = {x.Name: x.Multiplier for x in idf.idfobjects["ZONE"] if x.Multiplier is not ''}
-        if any([int(float(v)) > 1 for v in multipliers.values()]):
-            surfaces = material.get_surfaces_with_zone_multiplier(idff, fnames[folder]['energy_standard'],
-                                             fnames[folder]['RES'])
-        else:
-            surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'],
-                                             fnames[folder]['RES'])
+        surfaces = material.get_surfaces(idff, fnames[folder]['energy_standard'],
+                                             fnames[folder]['RES'], fnames[folder]['occupation'])
 
         mat_vol_bdg, densities = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2, densities)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
