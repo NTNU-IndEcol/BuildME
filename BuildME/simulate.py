@@ -698,18 +698,29 @@ def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basem
     fname = os.path.join(settings.tmp_path, run, run + '_ei.xlsx')
     res.to_excel(fname)
     res = weighing_climate_region(res)
-    res = add_DHW(res)
     fname = os.path.join(settings.tmp_path, run, run + '_ei_weighed.xlsx')
     writer = pd.ExcelWriter(fname, engine='xlsxwriter')
     res.to_excel(writer, 'all')
     res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
     res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
     res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1).to_excel(writer, 'light')
-    res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
-    (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
-     res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
-    res['DHW'].to_excel(writer, 'DHW')
-    res.sum(axis=1).to_excel(writer, 'total')
+
+    #checks if DHW system is already included in the idf file.
+    if 'WaterSystems:DistrictHeating [J](Hourly) ' in res:
+        res['InteriorEquipment:Electricity [J](Hourly)'].sum(axis=1).to_excel(writer, 'equip')
+        (res['InteriorEquipment:Electricity [J](Hourly)'].sum(axis=1) +
+         res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
+        res['WaterSystems:DistrictHeating [J](Hourly) '].sum(axis=1).to_excel(writer, 'DHW')
+        res.sum(axis=1).to_excel(writer, 'total')
+    # otherwise, uses the exogenously defined dhw value via add_DHW()
+    else:
+        res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
+        (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
+         res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
+        res = add_DHW(res)
+        res['DHW'].to_excel(writer, 'DHW')
+        res.sum(axis=1).to_excel(writer, 'total')
+
     writer.save()
     return res
 
