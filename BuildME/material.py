@@ -53,7 +53,7 @@ def calc_mat_vol_bdg(idff, surfaces, mat_m2, densities):
     for surface in flat_surfaces:
         fenestration = get_fenestration_objects_from_surface(idff, surface)
         if fenestration is None:
-            area = surface.area
+            area = get_area(surface)
         else:
             fenestration_area = 0
             for item in fenestration:
@@ -61,7 +61,7 @@ def calc_mat_vol_bdg(idff, surfaces, mat_m2, densities):
                     fenestration_area += item.area
                 except:
                     fenestration_area += SurrogateElement(item).area
-            area = surface.area - fenestration_area
+            area = get_area(surface) - fenestration_area
         constr_name = surface.Construction_Name
         if constr_name in mat_m2:
             layers = mat_m2[constr_name]

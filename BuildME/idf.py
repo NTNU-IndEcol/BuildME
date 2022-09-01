@@ -48,7 +48,7 @@ class SurrogateMaterial:
         self.Density = None
 
 
-def extract_surfaces(idf, element_type, boundary, surface_type):
+def extract_surfaces(idf, element_type, boundary=None, surface_type=None):
     """
     Fetches the elements from an IDF file and returns them in a list.
     :param idf: The IDF file
@@ -61,12 +61,15 @@ def extract_surfaces(idf, element_type, boundary, surface_type):
     for e in element_type:
         for s in idf.idfobjects[e.upper()]:
             #Some door objects also can be modeled with outside boundary condition object
-            if s.Surface_Type != 'Window' and s.Surface_Type != 'Door' and s.Surface_Type != 'GlassDoor':
-                if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
-                    surfaces.append(s)
+            if boundary is not None and surface_type is not None:
+                if s.Surface_Type != 'Window' and s.Surface_Type != 'Door' and s.Surface_Type != 'GlassDoor':
+                    if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
+                        surfaces.append(s)
+                else:
+                    if s.Outside_Boundary_Condition_Object in boundary and s.Surface_Type in surface_type:
+                        surfaces.append(s)
             else:
-                if s.Outside_Boundary_Condition_Object in boundary and s.Surface_Type in surface_type:
-                    surfaces.append(s)
+                surfaces.append(s)
     return surfaces
 
 
@@ -131,7 +134,8 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
 
     surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Wall'])
     surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Wall']) + \
-                           extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Wall'])
+                           extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Wall']) + \
+                           extract_surfaces(idf, ['InternalMass'])
     surfaces['door'] = extract_doors(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Door'])
     surfaces['window'] = extract_windows(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window']) + \
                          extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['GlassDoor'])
@@ -160,7 +164,9 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
     for key in surfaces.keys():
         temp_elem = []
         for elem in surfaces[key]:
-            if key in ['door', 'window']:
+            if elem.key == "InternalMass":
+                zone_name = elem.Zone_or_ZoneList_Name
+            elif key in ['door', 'window']:
                 surface_name = elem.Building_Surface_Name
                 zone_name = [obj.Zone_Name for obj in idf.idfobjects['BuildingSurface:Detailed'] if obj.Name == surface_name]
                 zone_name = zone_name[0]  # the window should belong to exactly one wall
@@ -261,11 +267,19 @@ def calc_surface_areas(surfaces, floor_area=['int_floor', 'ext_floor']):
     """
     areas = {}
     for element in surfaces:
-        areas[element] = sum(e.area for e in surfaces[element])
+        areas[element] = sum(get_area(e) for e in surfaces[element])
     areas['ext_wall_area_net'] = areas['ext_wall'] - areas['window']
     areas['floor_area_wo_basement'] = sum([areas[s] for s in areas if s in floor_area])
     areas['footprint_area'] = areas['ext_floor']
     return areas
+
+
+def get_area(e):
+    if e.key == "InternalMass":
+        area = e.Surface_Area
+    else:
+        area = e.area
+    return area
 
 
 def calc_envelope(areas):
