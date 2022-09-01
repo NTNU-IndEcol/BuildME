@@ -185,6 +185,9 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
         surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
 
     if archetype in ['Office', 'RT']:
+        # create a second level of basement
+        surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
         # Do not have to add surrogate internal walls as those are added already in the idf file, but shear walls
         shear_constr = constr_list['Shear_wall-' + res_scenario].Name
         surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
