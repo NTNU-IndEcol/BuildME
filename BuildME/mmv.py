@@ -442,7 +442,8 @@ def assign_value(value_in, zone_dict_mmv, window_dict, surface_dict, surfaces_f_
                 if name in v['Names']:
                     value = "Crack_" + str(k)
     elif value_in == '<venting availability>':
-        if surface_dict[it]['Object_Type'] == 'Door':
+        surface_group = surface_dict[it]['Surface_Group']
+        if surface_group.split(' ')[0] == 'Doors':
             value = 'always_off_MMV'
         else:
             value = 'always_on_MMV'
