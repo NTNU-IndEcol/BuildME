@@ -410,12 +410,10 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     :return: the dictionary including Ffactor materials
     """
     res = (obj.Name).split('-')[-1]
-    if res == 'RES0':
-        multiplier = 1
-    elif res in ('RES2.2', 'RES2.1+RES2.2'):
-        multiplier = 0.8
+    if res in ('RES2.2', 'RES2.1+RES2.2'):
+        multiplier = 0.8  # lightweighting (multiplier<1)
     else:
-        print(f'Warning: The RES type {res} was not recognized / implemented...')
+        # RES equal to RES0 or RES not recognized --> a multiplier =1 is applied (no lightweighting)
         multiplier = 1.0
     material = 'Concrete'
     densities[material] = 2200
@@ -453,12 +451,10 @@ def add_underground_wall_cfactor(mat_vol, obj, area, densities):
     :return: the dictionary including Cfactor materials
     """
     res = (obj.Name).split('-')[-1]
-    if res == 'RES0':
-        multiplier = 1
-    elif res in ('RES2.2', 'RES2.1+RES2.2'):
-        multiplier = 0.8
+    if res in ('RES2.2', 'RES2.1+RES2.2'):
+        multiplier = 0.8  # lightweighting (multiplier<1)
     else:
-        print(f'Warning: The RES type {res} was not recognized / implemented...')
+        # RES equal to RES0 or RES not recognized --> a multiplier =1 is applied (no lightweighting)
         multiplier = 1.0
     material = 'Concrete'
     densities[material] = 2200
