@@ -598,7 +598,10 @@ def collect_logs(fnames, logfile='eplusout.err'):
     return res
 
 
-def load_material(fnames):
+def load_material(fnames=None):
+    if not fnames:
+        fnames, run = find_last_run()
+        fnames = load_run_data_file(fnames)
     print('Loading Material results...')
     res = {}
     for folder in tqdm(fnames):
@@ -608,7 +611,10 @@ def load_material(fnames):
     return res
 
 
-def collect_energy(fnames):
+def collect_energy(fnames=None):
+    if not fnames:
+        fnames, run = find_last_run()
+        fnames = load_run_data_file(fnames)
     print('Collecting Energy results...')
     res = {}
     for folder in tqdm(fnames):
