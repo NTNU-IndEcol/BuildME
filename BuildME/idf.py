@@ -160,11 +160,10 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
     for key in surfaces.keys():
         temp_elem = []
         for elem in surfaces[key]:
-            if elem.Surface_Type in ['Window', 'Door']:
+            if key in ['door', 'window']:
                 surface_name = elem.Building_Surface_Name
-                for ext_wall_surface in surfaces['ext_wall']:
-                    if ext_wall_surface.Name == surface_name:
-                        zone_name = ext_wall_surface.Zone_Name
+                zone_name = [obj.Zone_Name for obj in idf.idfobjects['BuildingSurface:Detailed'] if obj.Name == surface_name]
+                zone_name = zone_name[0]  # the window should belong to exactly one wall
             else:
                 zone_name = elem.Zone_Name
 
