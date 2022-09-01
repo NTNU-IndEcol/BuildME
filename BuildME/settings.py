@@ -27,7 +27,7 @@ if platform == 'Windows':
 elif platform == 'Darwin':
     ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
                      "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
-                     "libgfortran.5.dylib", "libquadmath.0.dylib",  'libgcc_s.1.dylib',  # required by ExpandObjects
+                     "libgfortran.5.dylib", "libquadmath.0.dylib", 'libgcc_s.1.dylib',  # required by ExpandObjects
                      "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
                      "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
                      "PostProcess/ReadVarsESO"
