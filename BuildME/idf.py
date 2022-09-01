@@ -159,7 +159,7 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
     check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in flatten_surfaces(surfaces)]]
     assert len(check) == 0, "Following elements are not accounted for: %s" % check
 
-    multipliers = {x.Name: int(float(x.Multiplier)) for x in idf.idfobjects["ZONE"] if x.Multiplier is not ''}
+    multipliers = {x.Name: int(float(x.Multiplier)) for x in idf.idfobjects["ZONE"] if x.Multiplier != ''}
 
     for key in surfaces.keys():
         temp_elem = []
