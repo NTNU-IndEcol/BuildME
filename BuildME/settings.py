@@ -552,6 +552,7 @@ odym_materials = {'Asphalt_shingle': 'other',
                   'OSB_1/2in': 'wood and wood products',
                   'OSB_5/8in': 'wood and wood products',
                   'Wood_ext_floor_beams': 'wood and wood products',
+                  'Wood_joist_200x50-400': 'wood and wood products',
                   'Wood_joist_220x50-400': 'wood and wood products',
                   'Wood_joist_180x50-400': 'wood and wood products',
                   'Stucco_1in': 'cement',
@@ -789,3 +790,13 @@ odym_regions = {'USA': 'R32USA',
                 'Oth-MAF-Sub-Sahara': 'R5.2MAF_Other_Sub_Sahara',
                 'Oth-MAF': 'R5.2MAF_Other',
                 'Oth-LAM': 'R5.2LAM_Other'}
+
+
+# Archetype mapping
+#  Translates BuildME names into ODYM nomenclature
+
+odym_archetype_mapping = {'OfficeMedium': 'nonres_offices',
+                          'RetailStripmall': 'nonres_commercial',
+                          'SchoolSecondary': 'nonres_education',
+                          'Hospital': 'nonres_health',
+                          'HotelLarge': 'nonres_hotels'}
