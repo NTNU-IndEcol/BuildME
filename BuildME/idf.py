@@ -48,7 +48,7 @@ class SurrogateMaterial:
         self.Density = None
 
 
-def extract_surfaces(idf, element_type, boundary, surface_type):
+def extract_surfaces(idf, element_type, boundary=None, surface_type=None):
     """
     Fetches the elements from an IDF file and returns them in a list.
     :param idf: The IDF file
@@ -61,12 +61,15 @@ def extract_surfaces(idf, element_type, boundary, surface_type):
     for e in element_type:
         for s in idf.idfobjects[e.upper()]:
             #Some door objects also can be modeled with outside boundary condition object
-            if s.Surface_Type != 'Window' and s.Surface_Type != 'Door' and s.Surface_Type != 'GlassDoor':
-                if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
-                    surfaces.append(s)
+            if boundary is not None and surface_type is not None:
+                if s.Surface_Type != 'Window' and s.Surface_Type != 'Door' and s.Surface_Type != 'GlassDoor':
+                    if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
+                        surfaces.append(s)
+                else:
+                    if s.Outside_Boundary_Condition_Object in boundary and s.Surface_Type in surface_type:
+                        surfaces.append(s)
             else:
-                if s.Outside_Boundary_Condition_Object in boundary and s.Surface_Type in surface_type:
-                    surfaces.append(s)
+                surfaces.append(s)
     return surfaces
 
 
@@ -131,7 +134,8 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
 
     surfaces['ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Outdoors'], ['Wall'])
     surfaces['int_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Wall']) + \
-                           extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Wall'])
+                           extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Wall']) + \
+                           extract_surfaces(idf, ['InternalMass'])
     surfaces['door'] = extract_doors(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Door'])
     surfaces['window'] = extract_windows(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window']) + \
                          extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['GlassDoor'])
@@ -155,16 +159,17 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
     check = [s.Name for s in total_no_surfaces if s.Name not in [n.Name for n in flatten_surfaces(surfaces)]]
     assert len(check) == 0, "Following elements are not accounted for: %s" % check
 
-    multipliers = {x.Name: int(float(x.Multiplier)) for x in idf.idfobjects["ZONE"] if x.Multiplier is not ''}
+    multipliers = {x.Name: int(float(x.Multiplier)) for x in idf.idfobjects["ZONE"] if x.Multiplier != ''}
 
     for key in surfaces.keys():
         temp_elem = []
         for elem in surfaces[key]:
-            if elem.Surface_Type in ['Window', 'Door']:
+            if elem.key == "InternalMass":
+                zone_name = elem.Zone_or_ZoneList_Name
+            elif key in ['door', 'window']:
                 surface_name = elem.Building_Surface_Name
-                for ext_wall_surface in surfaces['ext_wall']:
-                    if ext_wall_surface.Name == surface_name:
-                        zone_name = ext_wall_surface.Zone_Name
+                zone_name = [obj.Zone_Name for obj in idf.idfobjects['BuildingSurface:Detailed'] if obj.Name == surface_name]
+                zone_name = zone_name[0]  # the window should belong to exactly one wall
             else:
                 zone_name = elem.Zone_Name
 
@@ -186,6 +191,9 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
         surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
 
     if archetype in ['Office', 'RT']:
+        # create a second level of basement
+        surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
         # Do not have to add surrogate internal walls as those are added already in the idf file, but shear walls
         shear_constr = constr_list['Shear_wall-' + res_scenario].Name
         surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
@@ -259,11 +267,19 @@ def calc_surface_areas(surfaces, floor_area=['int_floor', 'ext_floor']):
     """
     areas = {}
     for element in surfaces:
-        areas[element] = sum(e.area for e in surfaces[element])
+        areas[element] = sum(get_area(e) for e in surfaces[element])
     areas['ext_wall_area_net'] = areas['ext_wall'] - areas['window']
     areas['floor_area_wo_basement'] = sum([areas[s] for s in areas if s in floor_area])
     areas['footprint_area'] = areas['ext_floor']
     return areas
+
+
+def get_area(e):
+    if e.key == "InternalMass":
+        area = e.Surface_Area
+    else:
+        area = e.area
+    return area
 
 
 def calc_envelope(areas):
@@ -394,12 +410,10 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     :return: the dictionary including Ffactor materials
     """
     res = (obj.Name).split('-')[-1]
-    if res == 'RES0':
-        multiplier = 1
-    elif res in ('RES2.2', 'RES2.1+RES2.2'):
-        multiplier = 0.8
+    if res in ('RES2.2', 'RES2.1+RES2.2'):
+        multiplier = 0.8  # lightweighting (multiplier<1)
     else:
-        print(f'Warning: The RES type {res} was not recognized / implemented...')
+        # RES equal to RES0 or RES not recognized --> a multiplier =1 is applied (no lightweighting)
         multiplier = 1.0
     material = 'Concrete'
     densities[material] = 2200
@@ -437,12 +451,10 @@ def add_underground_wall_cfactor(mat_vol, obj, area, densities):
     :return: the dictionary including Cfactor materials
     """
     res = (obj.Name).split('-')[-1]
-    if res == 'RES0':
-        multiplier = 1
-    elif res in ('RES2.2', 'RES2.1+RES2.2'):
-        multiplier = 0.8
+    if res in ('RES2.2', 'RES2.1+RES2.2'):
+        multiplier = 0.8  # lightweighting (multiplier<1)
     else:
-        print(f'Warning: The RES type {res} was not recognized / implemented...')
+        # RES equal to RES0 or RES not recognized --> a multiplier =1 is applied (no lightweighting)
         multiplier = 1.0
     material = 'Concrete'
     densities[material] = 2200

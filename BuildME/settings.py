@@ -758,7 +758,11 @@ odym_materials = {'Asphalt_shingle': 'other',
                   "Residential Window Glazing Layer-efficient-RES0": "other",
                   "Residential Window Glazing Layer-non-standard-RES0": "other",
                   "Residential Window Glazing Layer-standard-RES0": "other",
-                  "Residential Window Glazing Layer-ZEB-RES0": "other"
+                  "Residential Window Glazing Layer-ZEB-RES0": "other",
+                  "Opaque Door panel_con-standard-RES0": "wood and wood products",
+                  "100mm Normalweight concrete floor-standard-RES0": "concrete",
+                  "CP02 CARPET PAD-standard-RES0": "other",
+                  '200mm Normalweight concrete wall-standard-RES0': "concrete"
                   }
 
 

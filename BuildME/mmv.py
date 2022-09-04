@@ -24,7 +24,7 @@ def change_archetype_to_MMV(idf, occupation, xlsx_mmv, dir_replace_mmv):
     shielding = settings.shielding
     # Create dictionaries needed for the MMV procedure
     surface_dict = create_surface_dict(idf)  # create surfaces for which AFN is suitable
-    zone_dict_mmv, zone_dict_non_mmv = create_zone_dicts(idf, surface_dict)
+    zone_dict_mmv, zone_dict_non_mmv, surface_dict = create_zone_dicts(idf, surface_dict)
     window_dict = create_window_dict(idf)
     surfaces_f_dict, surfaces_nf_dict = create_surface_group_dicts(surface_dict)
     # Modify the idf file
@@ -69,7 +69,7 @@ def create_zone_dicts(idf, surface_dict):
         exit("There are no 'IdealLoadsAirSystem' objects. The code can only be executed if the HVAC system is "
              "implemented through 'IdealLoads'.")
     for zone in idf.idfobjects['Zone']:
-        surfaces_for_zone = [s['Name'] for s in surface_dict.values() if s['Zone'] == zone.Name]
+        surfaces_for_zone = [k for k, v in surface_dict.items() if v['Zone'] == zone.Name]
         if len(surfaces_for_zone) > 0:
             hvac_zone = [obj for obj in hvac_zone_objs if obj.Zone_Name == zone.Name]
             if hvac_zone:
@@ -82,6 +82,8 @@ def create_zone_dicts(idf, surface_dict):
                 if people_obj:
                     zone_dict_mmv[i]['People'] = people_obj[0]
                     i += 1
+                    for k in surfaces_for_zone:  # add a flag that this surface is in a MMV zone
+                        surface_dict[k]['is_in_MMV_zone'] = True
                 else:  # if no people in the zone, MMV cannot be implemented -> zone is treated as AFN (non-hvac) zone
                     zone_dict_mmv.pop(i)
                     zone_dict_non_mmv[j] = {}
@@ -95,7 +97,7 @@ def create_zone_dicts(idf, surface_dict):
             zone_dict_non_mmv[j] = {}
             zone_dict_non_mmv[j]['Zone_Name'] = zone.Name
             j += 1
-    return zone_dict_mmv, zone_dict_non_mmv
+    return zone_dict_mmv, zone_dict_non_mmv, surface_dict
 
 
 def create_window_dict(idf):
@@ -168,6 +170,7 @@ def create_surface_dict(idf):
             surface_dict[i]['Surface_Group'] = surface_group
             surface_dict[i]['Area'] = calculate_area(obj)
             surface_dict[i]['Zone'] = obj.Zone_Name
+            surface_dict[i]['is_in_MMV_zone'] = False  # default value
             i += 1
     for idf_object in ['Window', 'Door', 'FenestrationSurface:Detailed']:
         for obj in idf.idfobjects[idf_object]:
@@ -190,6 +193,7 @@ def create_surface_dict(idf):
             surface = obj.Building_Surface_Name
             zone = [obj2.Zone_Name for obj2 in idf.idfobjects['BuildingSurface:Detailed'] if obj2.Name == surface]
             surface_dict[i]['Zone'] = zone[0]
+            surface_dict[i]['is_in_MMV_zone'] = False  # default value
             i += 1
     return surface_dict
 
@@ -310,6 +314,8 @@ def create_idf_objects(idf, xlsx_mmv, zone_dict_mmv, zone_dict_non_mmv, window_d
             name_in = df_i.loc[0, 'value']
             name, more_loops_j = assign_name(str(name_in), zone_dict_mmv, zone_dict_non_mmv, window_dict,
                                              surface_dict, surfaces_f_dict, surfaces_nf_dict, j)
+            if name is None:
+                break
             if name != '':
                 new_object = idf.newidfobject(idf_object)
                 name_field = df_i.loc[0, 'objectfield']
@@ -354,14 +360,23 @@ def assign_name(name_in, zone_dict_mmv, zone_dict_non_mmv, window_dict, surface_
     """
     # all names with <...> need to be customized
     if name_in == '<mmv zone name>':
-        name = zone_dict_mmv[it]['Zone_Name']
         it_dict = zone_dict_mmv
+        if it_dict:
+            name = zone_dict_mmv[it]['Zone_Name']
+        else:  # if the dict is empty
+            name = None
     elif name_in == '<non-mmv zone name>':
         it_dict = zone_dict_non_mmv
-        name = zone_dict_non_mmv[it]['Zone_Name']
+        if it_dict:
+            name = zone_dict_non_mmv[it]['Zone_Name']
+        else:  # if the dict is empty
+            name = None
     elif name_in[-14:] == '<mmv zone no.>':
-        name = name_in[:-14] + str(it)
         it_dict = zone_dict_mmv
+        if it_dict:
+            name = name_in[:-14] + str(it)
+        else:  # if the dict is empty
+            name = None
     elif name_in[-12:] == '<window no.>':
         name = name_in[:-12] + str(it)
         it_dict = window_dict
@@ -389,6 +404,13 @@ def assign_name(name_in, zone_dict_mmv, zone_dict_non_mmv, window_dict, surface_
     else:
         more_loops = False
     return name, more_loops
+
+
+def return_value_if_not_empty(value, dictionary):
+    if dictionary:
+        return value
+    else: # if dictionary is empty
+        return None
 
 
 def assign_value(value_in, zone_dict_mmv, window_dict, surface_dict, surfaces_f_dict, surfaces_nf_dict, it, idf,
@@ -442,7 +464,10 @@ def assign_value(value_in, zone_dict_mmv, window_dict, surface_dict, surfaces_f_
                 if name in v['Names']:
                     value = "Crack_" + str(k)
     elif value_in == '<venting availability>':
-        if surface_dict[it]['Object_Type'] == 'Door':
+        surface_group = surface_dict[it]['Surface_Group']
+        if surface_group.split(' ')[0] == 'Doors':
+            value = 'always_off_MMV'
+        elif surface_dict[it]['is_in_MMV_zone'] is False:
             value = 'always_off_MMV'
         else:
             value = 'always_on_MMV'
@@ -491,7 +516,8 @@ def assign_wpc_curve(obj, idf, zone_dict_mmv, shielding):
     dirs = ['N', 'E', 'S', 'W']
     degs = [0, 90, 180, 270]  # North=0, East=90, South=180, West=270
     # (see IO reference or https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-011.html)
-    ind = [i for i, x in enumerate(degs) if x == deg][0]
+    nearest_90 = 90*round(deg/90)  # round in case the wall is facing a direction off the 0-90-270-360 ones
+    ind = [i for i, x in enumerate(degs) if x == nearest_90][0]
     if surface_type == 'Wall':
         wpc_curve_name = create_WPC_prefix(idf, zone_dict_mmv, shielding) + '_wall_' + dirs[ind]
     else:  # if not Wall, it has to be roof
@@ -775,9 +801,11 @@ def estimate_no_of_floors(idf, zone_dict_mmv):
         if obj.Zone_Name in mmv_zone_list:
             ceiling_height = max(abs(pt[2]) for pt in obj.coords)
             zone_obj = [z for z in idf.idfobjects['Zone'] if z.Name == obj.Zone_Name][0]
-            multiplier = float(zone_obj.Multiplier)
+            multiplier = zone_obj.Multiplier
             if multiplier == "":
                 multiplier = 1
+            else:
+                multiplier = float(zone_obj.Multiplier)
             ceiling_height = ceiling_height * multiplier + zone_obj.Z_Origin
             ceiling_heights.append(ceiling_height)
     max_height = max(ceiling_heights)
