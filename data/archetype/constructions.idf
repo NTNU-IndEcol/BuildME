@@ -1,0 +1,521 @@
+!- Library of energyplus components for BuildME
+!- Niko Heeren 2022
+
+
+!- ################
+!- Exterior Walls #
+!- ################
+
+Construction,
+    ext-wall-non-standard-RES0,    !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-2cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES0,    !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES0,    !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES0,        !- Name
+    200mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-non-standard-RES2.1,    !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-5cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES2.1,    !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES2.1,    !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES2.1,        !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-non-standard-RES2.2,    !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-2cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES2.2,    !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES2.2,    !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES2.2,        !- Name
+    160mm Normalweight concrete wall,    !- Outside Layer
+    insulation_layer-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-non-standard-RES2.1+RES2.2,    !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-5cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-standard-RES2.1+RES2.2,    !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-12cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-efficient-RES2.1+RES2.2,    !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    ext-wall-ZEB-RES2.1+RES2.2,        !- Name
+    Wood_joist_200x50-400,    !- Outside Layer
+    insulation_layer-wood-20cm,    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+!- ################
+!- Interior walls #
+!- ################
+
+Construction,
+    int-wall-RES0,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    masonry-12cm;    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    int-wall-RES2.1,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    Wood_joist_200x50-400,   !- Layer 2
+    insulation_layer-12cm, !- Layer 3
+    G01 13mm gypsum board;    !- Layer 4
+
+Construction,
+    int-wall-RES2.2,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    masonry-10cm;    !- Layer 2
+    G01 13mm gypsum board;    !- Layer 3
+
+Construction,
+    int-wall-RES2.1+RES2.2,    !- Name
+    G01 13mm gypsum board,    !- Outside Layer
+    Wood_joist_200x50-400,   !- Layer 2
+    insulation_layer-wood-12cm, !- Layer 3
+    G01 13mm gypsum board;    !- Layer 4
+
+
+!- ############################
+!- Interior floors & ceiling  #
+!- ############################
+
+!- *int-ceiling and int-floor must have the same materials in reverse order*
+
+Construction,
+    int-ceiling-non-standard-RES0,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-2cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES0,    !- Name
+    insulation_layer-2cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES0,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES0,    !- Name
+    insulation_layer-12cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES0,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES0,    !- Name
+    insulation_layer-16cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-ZEB-RES0,     !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-20cm;    !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES0,       !- Name
+    insulation_layer-20cm,    !- Outside Layer
+    100mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-non-standard-RES2.1,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-5cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.1,    !- Name
+    insulation_layer-wood-5cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES2.1,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.1,    !- Name
+    insulation_layer-wood-12cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES2.1,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.1,    !- Name
+    insulation_layer-wood-16cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-ZEB-RES2.1,     !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-20cm;    !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.1,       !- Name
+    insulation_layer-wood-20cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-non-standard-RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-2cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.2,    !- Name
+    insulation_layer-2cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.2,    !- Name
+    insulation_layer-12cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.2,    !- Name
+    insulation_layer-16cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-ZEB-RES2.2,     !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    insulation_layer-20cm;    !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.2,       !- Name
+    insulation_layer-20cm,    !- Outside Layer
+    80mm Normalweight concrete floor,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-non-standard-RES2.1+RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-5cm;    !- Layer 3
+
+Construction,
+    int-floor-non-standard-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-5cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-standard-RES2.1+RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-12cm;    !- Layer 3
+
+Construction,
+    int-floor-standard-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-12cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-efficient-RES2.1+RES2.2,    !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-16cm;    !- Layer 3
+
+Construction,
+    int-floor-efficient-RES2.1+RES2.2,    !- Name
+    insulation_layer-wood-16cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+Construction,
+    int-ceiling-ZEB-RES2.1+RES2.2,     !- Name
+    CP02 CARPET PAD,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    insulation_layer-wood-20cm;    !- Layer 3
+
+Construction,
+    int-floor-ZEB-RES2.1+RES2.2,       !- Name
+    insulation_layer-wood-20cm,    !- Outside Layer
+    Wood_joist_200x50-400,    !- Layer 2
+    CP02 CARPET PAD;    !- Layer 3
+
+
+!- #####
+!- Roofs
+!- #####
+
+!- Notes NH 31. July 2022
+!- Concrete reiforcement in RES0 and RES2.2 calculated as a layer as 1% of concrete layer.
+!-  Technically that is not correct, but is necessary for the material inventory.
+!-  Presumably the error is not large in the thermal resistance calculation.
+!- For post-beam constructions (RES2.1 and RES 2.1+2.2):
+!-  220 x 50 mm joists every 400 mm
+!-  wood content in 1m2 of roof: 50mm/400mm = 0.125
+!-  wood content in 1m3 of roof: 0.125 * 220mm = 27.5 mm
+!-  Insulation thickness may exceed joist thickness. The assumption is anoter layer is added on top.
+
+
+!- Basic Roof RES0
+
+Construction,
+    ext-roof-non-standard-RES0,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,    !- Layer 3
+    insulation_layer-2cm,    !- Layer 4
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-standard-RES0,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,               !- Layer 3
+    insulation_layer-16cm,       !- Layer 4
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES0,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,               !- Layer 3
+    insulation_layer-20cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
+
+Construction,
+    ext-roof-ZEB-RES0,        !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_22cm,    !- Layer 2
+    Concrete_22cm,               !- Layer 3
+    insulation_layer-30cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
+
+
+!- Basic Roof RES2.1 (wood)
+
+Construction,
+    ext-roof-non-standard-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-2cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-standard-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-22cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-ZEB-RES2.1,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-30cm,    !- Layer 2
+    Wood_joist_220x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+
+!- Basic Roof RES2.2 (light-weighted)
+
+Construction,
+    ext-roof-non-standard-RES2.2,    !- Name
+    F13 Built-up roofing,       !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-2cm,       !- Layer 4
+    F08 Metal surface;          !- Layer 5
+
+Construction,
+    ext-roof-standard-RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-16cm,       !- Layer 4
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-20cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
+
+Construction,
+    ext-roof-ZEB-RES2.2,        !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    Reinforcement_1perc_18cm,   !- Layer 2
+    Concrete_18cm,              !- Layer 3
+    insulation_layer-30cm,    !- Layer 2
+    F08 Metal surface;    !- Layer 3
+
+
+!- Basic Roof RES2.1+RES2.2 (wood & light-weighted)
+
+Construction,
+    ext-roof-non-standard-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-2cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-standard-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-16cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-efficient-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-22cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+Construction,
+    ext-roof-ZEB-RES2.1+RES2.2,    !- Name
+    F13 Built-up roofing,    !- Outside Layer
+    insulation_layer-wood-30cm,    !- Layer 2
+    Wood_joist_180x50-400,  ! Layer 3
+    F08 Metal surface;    !- Layer 5
+
+
+!- ###################
+!- Window / Glazing  #
+!- ###################
+
+Construction,
+    ext-window-non-standard,    !- Name
+    Glass-en-non-standard;    !- Outside Layer
+
+Construction,
+    ext-window-standard,    !- Name
+    Glass-en-standard;    !- Outside Layer
+
+Construction,
+    ext-window-efficient,    !- Name
+    Glass-en-efficient;    !- Outside Layer
+
+Construction,
+    ext-window-ZEB,      !- Name
+    Glass-en-ZEB;    !- Outside Layer
+
+
+!- ########
+!- Other  #
+!- ########
+
+Construction,
+    ext-door-non-standard,    !- Name
+    Opaque Door panel_con-non-standard;    !- Outside Layer
+
+Construction,
+    ext-door-standard,    !- Name
+    Opaque Door panel_con-standard;    !- Outside Layer
+
+Construction,
+    ext-door-efficient,    !- Name
+    Opaque Door panel_con-efficient;    !- Outside Layer
+
+Construction,
+    ext-door-ZEB,        !- Name
+    Opaque Door panel_con-ZEB;    !- Outside Layer
