@@ -853,21 +853,26 @@ def create_sq_job(fnames):
             run_file.write(initial_str + "cd /home/fas/hertwich/nh432/scratch60/XXX/" + f + "; energyplus -r\n")
 
 
-def cleanup(fnames, run):
+def cleanup(fnames, run, archive=True, del_temp=True):
     """
     Convenience function to clean up after successful run.
     :param fnames: Simulation dictionary
     :param run: Simulation run name, e.g. '220628-080114'
+    :param archive: Zip temporary folders into e.g. '220628-080114.zip'
+    :param del_temp: Delete all subfolders
     :return: None
     """
     print("Cleaning up...")
-    zfile = os.path.join(settings.tmp_path, run)
-    if os.path.exists(zfile + '.zip'):
-        print("Warning: Archive '%s.zip' already exists" % zfile)
-    else:
-        print("Compressing temporary folder to '%s.zip'" % zfile)
-        shutil.make_archive(zfile, 'zip', os.path.join(settings.tmp_path, run))
-    rfolders = [fnames[d]['run_folder'] for d in fnames]
-    for f in rfolders:
-        shutil.rmtree(f)
-    print("Deleted temporary subfolders of '%s/%s/'" % (settings.tmp_path, run))
+    if archive:
+        zfile = os.path.join(settings.tmp_path, run)
+        if os.path.exists(zfile + '.zip'):
+            print("Warning: Archive '%s.zip' already exists" % zfile)
+        else:
+            print("Compressing temporary folder to '%s.zip'" % zfile)
+            shutil.make_archive(zfile, 'zip', os.path.join(settings.tmp_path, run))
+    if del_temp:
+        rfolders = [fnames[d]['run_folder'] for d in fnames]
+        for f in rfolders:
+            shutil.rmtree(f)
+        print("Deleted temporary subfolders in '%s/%s/'" % (settings.tmp_path, run))
+    print("Cleanup done.")
