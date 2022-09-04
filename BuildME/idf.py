@@ -4,14 +4,15 @@ Functions to manipulate the IDF files.
 Copyright: Niko Heeren, 2019
 """
 import collections
-import os
-import math
-import pandas as pd
-import numpy as np
 import logging
+import math
+
+import numpy as np
+import pandas as pd
 from eppy.modeleditor import IDF
 
 from BuildME import settings
+
 
 class SurrogateElement:
     """
@@ -62,7 +63,7 @@ def extract_surfaces(idf, element_type, boundary=None, surface_type=None):
         for s in idf.idfobjects[e.upper()]:
             #Some door objects also can be modeled with outside boundary condition object
             if boundary is not None and surface_type is not None:
-                if s.Surface_Type != 'Window' and s.Surface_Type != 'Door' and s.Surface_Type != 'GlassDoor':
+                if s.Surface_Type not in ('Window', 'Door', 'GlassDoor'):
                     if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
                         surfaces.append(s)
                 else:
