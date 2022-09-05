@@ -255,11 +255,6 @@ def calculate_frame_areas(idf):
                         if frames.Name == fenest.Frame_and_Divider_Name:
                             frame_area = length * frames.Frame_Width
                             areas.append(frame_area)
-        else:
-            continue
-            print("no frames found")
-    else:
-        continue print("no frames found")
     return sum(areas)
 
 
