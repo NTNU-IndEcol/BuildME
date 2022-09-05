@@ -107,7 +107,7 @@ def delete_cmplx_HVAC_keep_DHW(originalidf_path,savefolder_path):
 
     # Getting all possible HVAC-related keys by filtering...
     HVAC_related_list= allkeys[allkeys.index('HVACTEMPLATE:THERMOSTAT'):]
-    HVAC_related_list = HVAC_related_list[:HVAC_related_list.index('MATRIX:TWODIMENSION')]
+    HVAC_related_list = HVAC_related_list[:HVAC_related_list.index('WATERUSE:EQUIPMENT')]
 
     findDHWlist=HVAC_related_list
 
