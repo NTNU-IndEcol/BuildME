@@ -113,6 +113,16 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
             if replace_str in obj.Construction_Name:
                 # replace the item
                 obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + replacer)
+                # replace frame type
+                if obj_type == 'FenestrationSurface:Detailed' and obj.Surface_Type == "Window":
+                    obj.Frame_and_Divider_Name = obj.Frame_and_Divider_Name.replace(replace_str, '-' + replacer)
+
+    # replace windows with shading
+    if 'WindowShadingControl'.upper() in [x for x in idf_data.idfobjects]:
+        for item in idf_data.idfobjects['WindowShadingControl'.upper()]:
+            if replace_str in item.Construction_with_Shading_Name:
+                item.Construction_with_Shading_Name = item.Construction_with_Shading_Name.replace(replace_str,
+                                                                                                  '-' + replacer)
     # idf_data.idfobjects['Building'.upper()][0].Name = '.'.join(replacer)
     return idf_data
 
