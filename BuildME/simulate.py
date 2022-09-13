@@ -285,56 +285,57 @@ def calculate_materials(run=None, fnames=None):
         res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
-
-        # TODO: generalise the addition of structural components
-        if fnames[folder]['occupation'] == 'SFH-small-concrete' or fnames[folder]['occupation'] == 'SFH-small-masonry':
-            if 'RES2.1' in fnames[folder]['RES']:
-                postbeam = add_surrogate_beams(fnames[folder]['RES'], surface_areas['ext_wall'])
-                res[postbeam[0]] += postbeam[1]
-
-        # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
-        if 2 <= res['floor_area_wo_basement'] / res['footprint_area'] < 15:
-            loadbeam = add_surrogate_beams(fnames[folder]['RES'], res['floor_area_wo_basement'])
-            if loadbeam[0] in res:
-                res[loadbeam[0]] += loadbeam[1]
-            else:
-                res[loadbeam[0]] = loadbeam[1]
-            if 'RES2.1' in fnames[folder]['RES']:
-                postbeam = add_surrogate_beams(fnames[folder]['RES'], surface_areas['ext_wall'])
-                res[postbeam[0]] += postbeam[1]
-
-        # If building with more than 15 floors: modeled with columns, shear walls, flat slabs and larger foundation..
-        if res['floor_area_wo_basement']/res['footprint_area'] > 15:
-            columns = add_surrogate_columns(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
-            foundation = add_foundation(res['footprint_area'])
-
-            # Iterating through columns dict with concrete and steel since reinforced concrete
-            for k, v in columns.items():
-                if k in res:
-                    res[k] += v
-                else:
-                    res[k] = v
-
-            for k, v in foundation.items():
-                if k in res:
-                    res[k] += v
-                else:
-                    res[k] = v
-            # If wooden version light wall steel studs and steel beams are added for the roof
-            if fnames[folder]['RES'] == 'RES2.1' or fnames[folder]['RES'] == 'RES2.1+RES2.2':
-                lightwall_steel = add_steel_lightwall(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
-                roof_beams = add_surrogate_roof_beams(fnames[folder]['RES'], res['footprint_area'])
-                if lightwall_steel[0] in res:
-                    res[lightwall_steel[0]] += lightwall_steel[1]
-                else:
-                    res[lightwall_steel[0]] = lightwall_steel[1]
-
-                if roof_beams[0] in res:
-                    res[roof_beams[0]] += roof_beams[1]
-                else:
-                    res[roof_beams[0]] = roof_beams[1]
-
+        res = add_surrogates(res, fnames, folder, surface_areas)
         material.save_materials(res, run_path)
+
+
+def add_surrogates(res, fnames, folder, surface_areas):
+    number_of_floors = res['floor_area_wo_basement'] / res['footprint_area']
+    # TODO: generalise the addition of structural components
+
+    # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
+    if 2 <= number_of_floors < 15:
+        loadbeam = add_surrogate_beams(fnames[folder]['RES'], res['floor_area_wo_basement'])
+        if loadbeam[0] in res:
+            res[loadbeam[0]] += loadbeam[1]
+        else:
+            res[loadbeam[0]] = loadbeam[1]
+        if 'RES2.1' in fnames[folder]['RES']:
+            postbeam = add_surrogate_beams(fnames[folder]['RES'], surface_areas['ext_wall'])
+            res[postbeam[0]] += postbeam[1]
+
+    # If building with more than 15 floors: modeled with columns, shear walls, flat slabs and larger foundation..
+    if number_of_floors > 15:
+        columns = add_surrogate_columns(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
+        foundation = add_foundation(res['footprint_area'])
+
+        # Iterating through columns dict with concrete and steel since reinforced concrete
+        for k, v in columns.items():
+            if k in res:
+                res[k] += v
+            else:
+                res[k] = v
+
+        for k, v in foundation.items():
+            if k in res:
+                res[k] += v
+            else:
+                res[k] = v
+        # If wooden version light wall steel studs and steel beams are added for the roof
+        if fnames[folder]['RES'] == 'RES2.1' or fnames[folder]['RES'] == 'RES2.1+RES2.2':
+            lightwall_steel = add_steel_lightwall(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
+            roof_beams = add_surrogate_roof_beams(fnames[folder]['RES'], res['footprint_area'])
+            if lightwall_steel[0] in res:
+                res[lightwall_steel[0]] += lightwall_steel[1]
+            else:
+                res[lightwall_steel[0]] = lightwall_steel[1]
+
+            if roof_beams[0] in res:
+                res[roof_beams[0]] += roof_beams[1]
+            else:
+                res[roof_beams[0]] = roof_beams[1]
+    return res
+
 
 def add_surrogate_beams(res, area, distance=0.6,):
     res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .05*.05, 'density': 8050},
