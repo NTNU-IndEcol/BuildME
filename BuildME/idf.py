@@ -19,6 +19,7 @@ class SurrogateElement:
     A surrogate class for windows and doors, because e.g. idf.idfobjects['Window'.upper()] does not contain an 'area'
     attribute. See also https://github.com/santoshphilip/eppy/issues/230.
     """
+
     def __init__(self, g):
         if type(g) == dict:
             self.area = g['area']
@@ -43,6 +44,7 @@ class SurrogateMaterial:
     A surrogate class for materials, such as, because some material types (e.g. 'Material:NoMass') do not contain
     certain attributes that are later required (e.g. 'Density').
     """
+
     def __init__(self, g):
         self.key = g.key
         self.Name = g.Name
@@ -61,7 +63,7 @@ def extract_surfaces(idf, element_type, boundary=None, surface_type=None):
     surfaces = []
     for e in element_type:
         for s in idf.idfobjects[e.upper()]:
-            #Some door objects also can be modeled with outside boundary condition object
+            # Some door objects also can be modeled with outside boundary condition object
             if boundary is not None and surface_type is not None:
                 if s.Surface_Type not in ('Window', 'Door', 'GlassDoor'):
                     if s.Outside_Boundary_Condition in boundary and s.Surface_Type in surface_type:
@@ -185,8 +187,9 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
     if 'attic-ceiling-' + energy_standard in [x for x in constr_list]:
         print('adding interior walls... ')
         int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
-        surfaces['int_wall'] = surfaces['int_wall'] +\
-                           (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'], int_wall_constr))
+        surfaces['int_wall'] = surfaces['int_wall'] + \
+                               (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'],
+                                                           int_wall_constr))
     if 'Surrogate_slab-' + res_scenario in [x for x in constr_list]:
         print('adding basement... ')
         slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
@@ -256,7 +259,7 @@ def create_surrogate_shear_wall(floor_area, construction):
         'Name': 'surrogate_shear_wall',
         'Building_Surface_Name': None,
         'Construction_Name': construction,
-        'area': 0.24*floor_area
+        'area': 0.24 * floor_area
     }
     return [SurrogateElement(shear_walls)]
 
@@ -300,7 +303,7 @@ def calc_envelope(areas):
 def read_materials(idf):
     materials = []
     for mtype in ['Material', 'Material:NoMass', 'Material:AirGap',
-                  'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Blind','WindowMaterial:Shade',
+                  'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Blind', 'WindowMaterial:Shade',
                   'WindowMaterial:Glazing']:
         materials = materials + [i for i in idf.idfobjects[mtype.upper()]]
     find_duplicates(materials)
@@ -380,7 +383,7 @@ def read_constructions(idf):
 
 def extract_layers(construction):
     res = {}
-    layers = ['Outside_Layer'] + ['Layer_'+str(i+2) for i in range(9)]
+    layers = ['Outside_Layer'] + ['Layer_' + str(i + 2) for i in range(9)]
     for l in layers:
         if getattr(construction, l) == '':
             break  # first empty value found
@@ -422,28 +425,28 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     densities[material] = 2200
     # 15 cm layer of concrete of the floor (20% less for RES other than RES0)
     if material not in mat_vol:
-        mat_vol[material] = 0.15*obj.Area*multiplier
+        mat_vol[material] = 0.15 * obj.Area * multiplier
     else:
-        mat_vol[material] += 0.15*obj.Area*multiplier
+        mat_vol[material] += 0.15 * obj.Area * multiplier
     # 15 cm layer of concrete of the footing (20% less for RES other than RES0)
-    mat_vol[material] += 0.15*1.22*obj.PerimeterExposed*multiplier
+    mat_vol[material] += 0.15 * 1.22 * obj.PerimeterExposed * multiplier
     material = 'Insulation'  # fictious layer of insulation
     densities[material] = 120
     ffactor = obj.FFactor
     # we derive an exponential regression line from Ffactor and insulation xsection (m2, height x thickness)
     # based on ASHRAE Table A6.3, assuming conductivity of 0.036 W/m-K for converting R-values to insulation thickness
-    if 0.4<ffactor<0.65: # case for unheated slab, fit R^2 = 0.90
-        xsection = 93.732*math.exp(-14.25*ffactor)
-    elif 0.65<ffactor<1.1: # case for heated slab, fit R^2 = 0.90
-        xsection = 20.806*math.exp(-6.82*ffactor)
+    if 0.4 < ffactor < 0.65:  # case for unheated slab, fit R^2 = 0.90
+        xsection = 93.732 * math.exp(-14.25 * ffactor)
+    elif 0.65 < ffactor < 1.1:  # case for heated slab, fit R^2 = 0.90
+        xsection = 20.806 * math.exp(-6.82 * ffactor)
     else:
         logging.warning(f'The F-factor of the object {obj.Name} has a value outside of the known range. '
                         f'The insulation layer is skipped.')
-        xsection = 0 # we don't have ASHRAE values for these cases, skip insulation
+        xsection = 0  # we don't have ASHRAE values for these cases, skip insulation
     if material not in mat_vol:
-        mat_vol[material] = xsection*obj.PerimeterExposed
+        mat_vol[material] = xsection * obj.PerimeterExposed
     else:
-        mat_vol[material] += xsection*obj.PerimeterExposed
+        mat_vol[material] += xsection * obj.PerimeterExposed
     return mat_vol, densities
 
 
@@ -464,14 +467,14 @@ def add_underground_wall_cfactor(mat_vol, obj, area, densities):
     densities[material] = 2200
     # 15 cm layer of concrete of the floor (20% less for RES other than RES0)
     if material not in mat_vol:
-        mat_vol[material] = 0.15*area*multiplier
+        mat_vol[material] = 0.15 * area * multiplier
     else:
-        mat_vol[material] += 0.15*area*multiplier
-    material = 'Insulation' # fictious layer of insulation
+        mat_vol[material] += 0.15 * area * multiplier
+    material = 'Insulation'  # fictious layer of insulation
     densities[material] = 120
-    thickness = (1/obj.CFactor+0.0607+0.3479*obj.Height-0.15/1.95)*0.036
+    thickness = (1 / obj.CFactor + 0.0607 + 0.3479 * obj.Height - 0.15 / 1.95) * 0.036
     if material not in mat_vol:
-        mat_vol[material] = thickness*area
+        mat_vol[material] = thickness * area
     else:
-        mat_vol[material] += thickness*area
+        mat_vol[material] += thickness * area
     return mat_vol, densities
