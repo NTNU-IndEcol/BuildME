@@ -138,7 +138,8 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Wall']) + \
                            extract_surfaces(idf, ['InternalMass'])
     surfaces['door'] = extract_doors(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Door'])
-    surfaces['window'] = extract_windows(idf) + extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window']) + \
+    surfaces['window'] = extract_windows(idf) + \
+                         extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window']) + \
                          extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['GlassDoor'])
     surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
     surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling']) + \
@@ -169,7 +170,8 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
                 zone_name = elem.Zone_or_ZoneList_Name
             elif key in ['door', 'window']:
                 surface_name = elem.Building_Surface_Name
-                zone_name = [obj.Zone_Name for obj in idf.idfobjects['BuildingSurface:Detailed'] if obj.Name == surface_name]
+                zone_name = [obj.Zone_Name for obj in idf.idfobjects['BuildingSurface:Detailed']
+                             if obj.Name == surface_name]
                 zone_name = zone_name[0]  # the window should belong to exactly one wall
             else:
                 zone_name = elem.Zone_Name
@@ -405,8 +407,8 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     """
     Adds ground floor material layers (concrete and insulation) based on the Ffactor method
     https://bigladdersoftware.com/epx/docs/8-7/engineering-reference/ground-heat-transfer-calculations-using-c.html
-    + Table A6.3 Assembly F-Factors for Slab-on-Grade Floors from ASHRAE Energy standard for buildings except low rise residential buildings
-    (we assume 48 inch=1.22m vertical footing+insulation)
+    + Table A6.3 Assembly F-Factors for Slab-on-Grade Floors from ASHRAE Energy standard for buildings
+    except low rise residential buildings (we assume 48 inch=1.22m vertical footing+insulation).
     :param mat_vol: A dictionary with materials and their respective volumes
     :return: the dictionary including Ffactor materials
     """
@@ -435,7 +437,8 @@ def add_ground_floor_ffactor(mat_vol, obj, area, densities):
     elif 0.65<ffactor<1.1: # case for heated slab, fit R^2 = 0.90
         xsection = 20.806*math.exp(-6.82*ffactor)
     else:
-        logging.warning(f'The F-factor of the object {obj.Name} has a value outside of the known range. The insulation layer is skipped.')
+        logging.warning(f'The F-factor of the object {obj.Name} has a value outside of the known range. '
+                        f'The insulation layer is skipped.')
         xsection = 0 # we don't have ASHRAE values for these cases, skip insulation
     if material not in mat_vol:
         mat_vol[material] = xsection*obj.PerimeterExposed
