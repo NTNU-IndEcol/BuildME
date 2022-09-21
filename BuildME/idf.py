@@ -183,19 +183,19 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
                 temp_elem.extend(np.repeat(elem, multipliers[zone_name] - 1).tolist())
         surfaces[key].extend(temp_elem)
 
-    temp_surface_areas = calc_surface_areas(surfaces)
+    surface_areas = calc_surface_areas(surfaces)
     constr_list = {m.Name: m for m in read_constructions(idf)}
     if 'attic-ceiling-' + energy_standard in [x for x in constr_list]:
         print('adding interior walls... ')
         int_wall_constr = constr_list['attic-ceiling-' + energy_standard].Name
         surfaces['int_wall'] = surfaces['int_wall'] + \
-                               (create_surrogate_int_walls(temp_surface_areas['floor_area_wo_basement'],
+                               (create_surrogate_int_walls(surface_areas['floor_area_wo_basement'],
                                                            int_wall_constr))
     if 'Surrogate_slab-' + res_scenario in [x for x in constr_list]:
         print('adding basement... ')
         slab_constr = constr_list['Surrogate_slab-' + res_scenario].Name
-        surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
-        surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['slab'] = create_surrogate_slab(surface_areas['footprint_area'], slab_constr)
+        surfaces['basement'] = create_surrogate_basement(surface_areas['footprint_area'], slab_constr)
 
     if archetype in ['Office', 'RT']:
         # create a second level of basement
@@ -203,8 +203,8 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
         surfaces['basement'] = create_surrogate_basement(surface_areas['footprint_area'], slab_constr)
         # Do not have to add surrogate internal walls as those are added already in the idf file, but shear walls
         shear_constr = constr_list['Shear_wall-' + res_scenario].Name
-        surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
-    return surfaces
+        surfaces['shear_wall'] = create_surrogate_shear_wall(surface_areas['floor_area_wo_basement'], shear_constr)
+    return surfaces, surface_areas
 
 
 def create_surrogate_int_walls(floor_area, construction, linear_m=0.4, room_h=2.8):
