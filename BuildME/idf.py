@@ -143,14 +143,15 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
     surfaces['window'] = extract_windows(idf) + \
                          extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['Window']) + \
                          extract_surfaces(idf, ['FenestrationSurface:Detailed'], [''], ['GlassDoor'])
-    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor'])
+    surfaces['int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Floor']) + \
+                            extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Floor'])
     surfaces['int_ceiling'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Surface'], ['Ceiling']) + \
                               extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Ceiling'])
     surfaces['basement_ext_wall'] = extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                      ['GroundBasementPreprocessorAverageWall'], ['Wall']) + \
                                     extract_surfaces(idf, ['BuildingSurface:Detailed'],
                                                      ['GroundFCfactorMethod'], ['Wall'])
-    surfaces['basement_int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Floor'])
+    #surfaces['basement_int_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Zone'], ['Floor'])
     surfaces['ext_floor'] = extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Adiabatic'], ['Floor']) + \
                             extract_surfaces(idf, ['BuildingSurface:Detailed'], ['Ground'], ['Floor']) + \
                             extract_surfaces(idf, ['BuildingSurface:Detailed'], ['GroundSlabPreprocessorAverage'],
@@ -198,8 +199,8 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
 
     if archetype in ['Office', 'RT']:
         # create a second level of basement
-        surfaces['slab'] = create_surrogate_slab(temp_surface_areas['footprint_area'], slab_constr)
-        surfaces['basement'] = create_surrogate_basement(temp_surface_areas['footprint_area'], slab_constr)
+        surfaces['slab'] = create_surrogate_slab(surface_areas['footprint_area'], slab_constr)
+        surfaces['basement'] = create_surrogate_basement(surface_areas['footprint_area'], slab_constr)
         # Do not have to add surrogate internal walls as those are added already in the idf file, but shear walls
         shear_constr = constr_list['Shear_wall-' + res_scenario].Name
         surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
