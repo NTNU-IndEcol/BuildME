@@ -273,14 +273,13 @@ def calculate_materials(run=None, fnames=None):
         constructions = idf.read_constructions(idff)
         mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
 
-        surfaces = idf.get_surfaces(idff, fnames[folder]['energy_standard'],
-                                         fnames[folder]['RES'], fnames[folder]['occupation'])
+        surfaces, surface_areas = idf.get_surfaces(idff, fnames[folder]['energy_standard'],
+                                                   fnames[folder]['RES'], fnames[folder]['occupation'])
 
         mat_vol_bdg, densities = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2, densities)
         total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
 
         odym_mat = translate_to_odym_mat(total_material_mass)
-        surface_areas = idf.calc_surface_areas(surfaces)
         # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
         res = odym_mat
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
@@ -600,6 +599,11 @@ def collect_logs(fnames, logfile='eplusout.err'):
 
 
 def load_material(fnames=None):
+    """
+    Walks through all simulation folders tmp/... and collects the result from materials.csv.
+    :param fnames: Simulations setup file.
+    :return: Dictionary with total material mass and floor area per building.
+    """
     if not fnames:
         fnames, run = find_last_run()
         fnames = load_run_data_file(fnames)
