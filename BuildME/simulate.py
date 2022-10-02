@@ -285,7 +285,11 @@ def calculate_materials(run=None, fnames=None):
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
         res = add_surrogates(res, fnames, folder, surface_areas)
-        material.save_materials(res, run_path)
+        total_material_mass = {**{'Warning: surrogate materials missing!': ''},
+                               **dict(sorted(total_material_mass.items(), key=lambda x: x[0].lower()))}
+        material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
+        res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
+        material.save_materials(res, run_path, filename='materials_odym.csv')
 
 
 def add_surrogates(res, fnames, folder, surface_areas):
@@ -610,7 +614,7 @@ def load_material(fnames=None):
     print('Loading Material results...')
     res = {}
     for folder in tqdm(fnames):
-        df = pd.read_csv(os.path.join(fnames[folder]['run_folder'], 'materials.csv'), header=None)
+        df = pd.read_csv(os.path.join(fnames[folder]['run_folder'], 'materials_odym.csv'), header=None)
         res[folder] = {d[1][0]: d[1][1] for d in df.iterrows()}
         res[folder]['total_mat'] = df.sum(axis=0)[1]
     return res
