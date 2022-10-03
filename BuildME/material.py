@@ -107,8 +107,13 @@ def calc_material_intensity(total_material, reference_area):
 
 
 def save_materials(res_dict, folder, filename='materials.csv'):
-    s = pd.Series(res_dict)
+    """
+    Saves a materials dictionary to a csv file.
+    :param res_dict: Input file
+    :param folder: Path for the file
+    :param filename: Filename
+    :return: None
+    """
+    df = pd.DataFrame.from_dict(res_dict, orient='index')
     full_filename = os.path.join(folder, filename)
-    s.to_csv(full_filename, header=False)
-
-
+    df.to_csv(full_filename, header=False)

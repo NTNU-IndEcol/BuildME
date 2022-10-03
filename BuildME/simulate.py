@@ -285,7 +285,8 @@ def calculate_materials(run=None, fnames=None):
         res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
         res['footprint_area'] = surface_areas['footprint_area']
         res = add_surrogates(res, fnames, folder, surface_areas)
-        total_material_mass = {**{'Warning: surrogate materials missing!': ''},
+        total_material_mass = {k: (settings.odym_materials[k], total_material_mass[k]) for k in total_material_mass}
+        total_material_mass = {**{'Warning: surrogate materials missing!': ('', '')},
                                **dict(sorted(total_material_mass.items(), key=lambda x: x[0].lower()))}
         material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
         res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
