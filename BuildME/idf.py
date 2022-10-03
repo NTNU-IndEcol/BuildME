@@ -348,7 +348,7 @@ def make_mat_density_dict(materials_dict, fallback_mat):
     """
     Creates a dictionary of material densities by material.
     :param materials_dict: Materials from the IDF file
-    :param fallback_mat: Data drom 'data/materials.xlsx'
+    :param fallback_mat: Data drom 'data/material.xlsx'
     :return:
     """
     densities = {}
@@ -365,7 +365,7 @@ def make_mat_density_dict(materials_dict, fallback_mat):
     if len(oopsies) != 0:
         df = pd.DataFrame(oopsies)
         df.to_csv('data/material_candidates.csv', index=False, header=False)
-        raise AssertionError("%i materials have no density defined in idf Constructions nor in data/materials.xlsx: %s."
+        raise AssertionError("%i materials have no density defined in idf Constructions nor in data/material.xlsx: %s."
                              "\nSee also 'data/material_candidates.csv' dump."
                              % (len(oopsies), oopsies))
     return densities
