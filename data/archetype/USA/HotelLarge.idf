@@ -3946,25 +3946,25 @@ Material:NoMass,
     0.7;                      !- Visible Absorptance
 
 WindowMaterial:SimpleGlazingSystem,
-    Glass-en-non-standard,   !- Name
+    Glass-non-standard,   !- Name
     2.5,                     !- U-Factor {W/m2-K}
     0.4,                     !- Solar Heat Gain Coefficient
     0.88;                    !- Visible Transmittance
 
 WindowMaterial:SimpleGlazingSystem,
-    Glass-en-standard,       !- Name
+    Glass-standard,       !- Name
     1.8,                 !- U-Factor {W/m2-K}
     0.4,                     !- Solar Heat Gain Coefficient
     0.88;                    !- Visible Transmittance
 
 WindowMaterial:SimpleGlazingSystem,
-    Glass-en-efficient,      !- Name
+    Glass-efficient,      !- Name
     1.2,                     !- U-Factor {W/m2-K}
     0.4,                     !- Solar Heat Gain Coefficient
     0.88;                    !- Visible Transmittance
 
 WindowMaterial:SimpleGlazingSystem,
-    Glass-en-ZEB,            !- Name
+    Glass-ZEB,            !- Name
     0.9,                     !- U-Factor {W/m2-K}
     0.4,                     !- Solar Heat Gain Coefficient
     0.88;                    !- Visible Transmittance
@@ -4652,19 +4652,19 @@ Construction,
 
 Construction,
     ext-window-non-standard,    !- Name
-    Glass-en-non-standard;    !- Outside Layer
+    Glass-non-standard;    !- Outside Layer
 
 Construction,
     ext-window-standard,    !- Name
-    Glass-en-standard;    !- Outside Layer
+    Glass-standard;    !- Outside Layer
 
 Construction,
     ext-window-efficient,    !- Name
-    Glass-en-efficient;    !- Outside Layer
+    Glass-efficient;    !- Outside Layer
 
 Construction,
     ext-window-ZEB,      !- Name
-    Glass-en-ZEB;    !- Outside Layer
+    Glass-ZEB;    !- Outside Layer
 
 !- TODO: Continue here
 

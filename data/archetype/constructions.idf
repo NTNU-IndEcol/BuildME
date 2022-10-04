@@ -485,19 +485,19 @@ Construction,
 
 Construction,
     ext-window-non-standard,    !- Name
-    Glass-en-non-standard;    !- Outside Layer
+    Glass-non-standard;    !- Outside Layer
 
 Construction,
     ext-window-standard,    !- Name
-    Glass-en-standard;    !- Outside Layer
+    Glass-standard;    !- Outside Layer
 
 Construction,
     ext-window-efficient,    !- Name
-    Glass-en-efficient;    !- Outside Layer
+    Glass-efficient;    !- Outside Layer
 
 Construction,
     ext-window-ZEB,      !- Name
-    Glass-en-ZEB;    !- Outside Layer
+    Glass-ZEB;    !- Outside Layer
 
 
 !- ########
