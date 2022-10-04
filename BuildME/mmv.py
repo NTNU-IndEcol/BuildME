@@ -24,7 +24,7 @@ def change_archetype_to_MMV(idf, occupation, xlsx_mmv, dir_replace_mmv):
     shielding = settings.shielding
     # Create dictionaries needed for the MMV procedure
     surface_dict = create_surface_dict(idf)  # create surfaces for which AFN is suitable
-    zone_dict_mmv, zone_dict_non_mmv, surface_dict = create_zone_dicts(idf, surface_dict)
+    zone_dict_mmv, zone_dict_non_mmv, surface_dict = create_zone_dicts(idf, surface_dict, occupation)
     window_dict = create_window_dict(idf)
     surfaces_f_dict, surfaces_nf_dict = create_surface_group_dicts(surface_dict)
     # Modify the idf file
@@ -51,11 +51,12 @@ def load_xlsx_data(in_file, sheet_name):
     return df
 
 
-def create_zone_dicts(idf, surface_dict):
+def create_zone_dicts(idf, surface_dict, occupation):
     """
     Creates two dictionaries with zone information, both with integer keys
     :param idf: The .idf file
     :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
+    :param occupation: Building archetype
     :return zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :return zone_dict_non_mmv: Dictionary of other zones (without HVAC or without people)
     """
@@ -65,9 +66,8 @@ def create_zone_dicts(idf, surface_dict):
     i = 1
     j = 1
     hvac_zone_objs = [obj for obj_type in object_types for obj in idf.idfobjects[obj_type]]
-    if not hvac_zone_objs:
-        exit("There are no 'IdealLoadsAirSystem' objects. The code can only be executed if the HVAC system is "
-             "implemented through 'IdealLoads'.")
+    assert hvac_zone_objs, "There are no 'IdealLoadsAirSystem' objects in '%s'. Mixed mode ventilation MMV " \
+                           "can only be added if the HVAC system is implemented through 'IdealLoads'." % occupation
     for zone in idf.idfobjects['Zone']:
         surfaces_for_zone = [k for k, v in surface_dict.items() if v['Zone'] == zone.Name]
         if len(surfaces_for_zone) > 0:

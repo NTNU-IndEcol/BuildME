@@ -66,7 +66,7 @@ def create_mmv_variants(comb=settings.combinations):
                     path = archetype_wt_ext + cool_str + '.idf'
                     if os.path.isfile(path) is True:
                         os.remove(path)
-                    print("Precalculating the MMV variant of %s archetype..." % occ_type)
+                    print("Precalculating MMV variant for '%s'..." % occ_type)
                     idf_f = read_idf(archetype_wt_ext + '.idf')
                     idf_mmv = change_archetype_to_MMV(idf_f, occ_type, xlsx_mmv, dir_replace_mmv)
                     idf_mmv.saveas(path)
