@@ -97,9 +97,11 @@ def nuke_folders(fnames, run, forgive=True):
 
 def apply_obj_name_change(idf_data, replacer, replace_str):
     """
-    Replaces the all 'Construction' objects in the IDF with the current energy standard version.
-    :param archetype_file:
-    :param replacer:
+    Searches for a defined string (replace_str) in defined IDF fiel objects and prelaces them with a replacement
+      string (replacer).
+    :param idf_data: file and path, e.g. 'BuildME/data/archetype/USA/SFH.idf'
+    :param replacer: Replacement string, e.g. '-en-std-replaceme'
+    :param replace_str: String to search and replace, e.g. 'ZEB'
     """
 
     # If the windows are modeled in FenestrationSurface:Detailed instead of Window object
@@ -196,8 +198,8 @@ def copy_scenario_files(fnames, run, replace=False):
         region = fnames[fname]['region']
         occ_type = fnames[fname]['occupation']
         if (region, occ_type) in settings.archetype_proxies:
-            en_str = [*settings.archetype_proxies[(region,occ_type)], fnames[fname]['energy_standard']]
-            res_str = [*settings.archetype_proxies[(region,occ_type)], fnames[fname]['RES']]
+            en_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['energy_standard']]
+            res_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['RES']]
         else:
             en_str = [region, occ_type, fnames[fname]['energy_standard']]
             res_str = [region, occ_type, fnames[fname]['RES']]
