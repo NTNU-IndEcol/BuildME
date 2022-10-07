@@ -12,6 +12,7 @@ import pickle
 import subprocess
 import sys
 from time import sleep
+import json
 
 import pandas as pd
 from tqdm import tqdm
@@ -75,6 +76,8 @@ def create_combinations(comb=settings.combinations):
                                 # make sure no underscores are used in the pathname, because this could cause issues later
                                 assert list(fnames)[-1].count('_') == 6, \
                                     "Scenario combination names mustn't use underscores: '%s'" % list(fnames)[-1]
+    # create base folder
+    create_base_folder(run, comb, fnames)
     return fnames, run
 
 
@@ -155,6 +158,29 @@ def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
                 continue
             setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
     return idf_f
+
+
+def create_base_folder(bfolder, combinations, fnames):
+    """
+    Creates the base folder where simulations are stored and writes the config file.
+    :param bfolder: run folder name
+    :param combinations: settings dict
+    :param fnames: Configuration file
+    :return: None
+    """
+    bpath = os.path.join(settings.tmp_path, bfolder)
+    # create folder
+    os.makedirs(bpath)
+    cfile = os.path.join(bpath, "%s_config.txt" %bfolder)
+    with open(cfile, 'w') as conf_file:
+        conf_file.write("BuildME v%s\n\n" % __version__)
+        conf_file.write("Run folder:\n %s\n\n\n" % bpath)
+        conf_file.write("Config variable (typically 'settings.combinations'):\n\n")
+        conf_file.write(json.dumps(combinations, indent=4))
+        conf_file.write("\n\n\nEffective config and paths:\n\n")
+        conf_file.write(json.dumps(fnames, indent=4))
+        conf_file.write("\n")
+        conf_file.close()
 
 
 def copy_scenario_files(fnames, run, replace=False):
