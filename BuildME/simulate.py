@@ -135,18 +135,18 @@ def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
     :param mmv_en_replace: Excel replacement rules related to MMV cooling type
     :return: Modified idf file
     """
-    if tuple(res) not in en_replace.index:
-        print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
-        return idf_f
-    xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]
+    xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]  # if no replacement, the variable is empty
     if 'RES' in res[2]:  # excel replacement rules for RES
         xls_values = xls_values1
     else:  # excel replacement rules for en-standard
-        if mmv_en_replace is not None:  # if MMV cooling type is applicable to this simulation run
+        if mmv_en_replace is None: # for HVAC cooling
+            xls_values = xls_values1
+        else: # for MMV cooling
             xls_values2 = mmv_en_replace.loc(axis=0)[[res[1]], [res[2]]]  # MMV only matters for energy standard
-            xls_values = pd.concat([xls_values1, xls_values2])
-        else:
-            xls_values = xls_values1  # if only HVAC cooling type is applicable
+            if xls_values1.empty:
+                xls_values = xls_values2
+            else:
+                xls_values = pd.concat([xls_values1, xls_values2])
         # Check if the combination has a value in replace.xlsx
         if len(xls_values) == 0:
             print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
@@ -197,10 +197,11 @@ def copy_scenario_files(fnames, run, replace=False):
     print("Copying files...")
     res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
     en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-    if 'MMV' in [fnames[k]['cooling'] for k in fnames]:
-        mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
-    else:
+    cooling_types = [fnames[k]['cooling'] for k in fnames]
+    if all(item == 'HVAC' for item in cooling_types):
         mmv_en_replace = None
+    else:
+        mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
     tq = tqdm(fnames, leave=True, desc="copy")
     for fname in tq:
         # tq.set_description(fname)
