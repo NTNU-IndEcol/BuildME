@@ -31,7 +31,8 @@ def run_new():
     # simulate.calculate_energy()
     simulate.calculate_energy_mp()
     print("Energy simulations done")
-    simulate.calculate_materials(run, fnames)
+    # simulate.calculate_materials(run, fnames)
+    simulate.calculate_materials_mp(run, fnames)
     print("Material extraction done")
 
     res_energy = simulate.collect_energy(fnames)
@@ -62,7 +63,8 @@ def continue_previous(run_eplus=False):
         # if energy simulation was not successful yet
         simulate.calculate_energy()
         print("Energy simulations done")
-    simulate.calculate_materials(run, fnames)
+    # simulate.calculate_materials(run, fnames)
+    simulate.calculate_materials_mp(run, fnames)
     print("Material extraction done")
 
     res_energy = simulate.collect_energy(fnames)

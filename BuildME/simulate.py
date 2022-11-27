@@ -315,6 +315,11 @@ def copy_scenario_files_mp(fnames, run, replace=False, cpus=find_cpus(settings.c
 
 
 def copy_scenario_files_worker(args):
+    """
+    The worker function for the multiprocessing function copy_scenario_files_mp().
+    :param args: All necessary
+    :return:
+    """
     fnames, fname, run, en_replace, res_replace, mmv_en_replace, q, no = args
     # tq.set_description(fname)
     fpath = os.path.join(settings.tmp_path, run, fname)
@@ -427,6 +432,66 @@ def calculate_materials(run=None, fnames=None):
         material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
         res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
         material.save_materials(res, run_path, filename='materials_odym.csv')
+
+
+def calculate_materials_mp(run=None, fnames=None, cpus=find_cpus(settings.cpus)):
+    print("Extracting materials and surfaces...")
+    if not fnames or run:
+        fnames, run = find_last_run()
+        fnames = load_run_data_file(fnames)
+    fallback_materials = idf.load_material_data()
+    tq = tqdm(fnames, desc='Initiating...', leave=True)
+    pool = mp.Pool(processes=cpus)
+    m = mp.Manager()
+    q = m.Queue()
+    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
+    args = [(fnames, fname, run, fallback_materials, q, no) for no, fname in enumerate(fnames)]
+    result = pool.map_async(calculate_materials_worker, args)
+    old_q = 0
+    while not result.ready():
+        # pbar.update()
+        # print(q.qsize())
+        if q.qsize() > old_q:
+            pbar.update(q.qsize() - old_q)
+        else:
+            pbar.update(0)
+        old_q = q.qsize()
+        sleep(0.2)
+    pool.close()
+    pool.join()
+    pbar.close()
+    result_output = result.get()
+
+
+def calculate_materials_worker(args):
+    fnames, folder, run, fallback_materials, q, no = args
+    run_path = os.path.join(settings.tmp_path, run, folder)
+    idff = idf.read_idf(os.path.join(run_path, 'in.idf'))
+    materials = idf.read_materials(idff)
+    materials_dict = idf.make_materials_dict(materials)
+    densities = idf.make_mat_density_dict(materials_dict, fallback_materials)
+    constructions = idf.read_constructions(idff)
+    mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
+
+    surfaces, surface_areas = idf.get_surfaces(idff, fnames[folder]['energy_standard'],
+                                               fnames[folder]['RES'], fnames[folder]['occupation'])
+
+    mat_vol_bdg, densities = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2, densities)
+    total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
+
+    odym_mat = translate_to_odym_mat(total_material_mass)
+    # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
+    res = odym_mat
+    res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
+    res['footprint_area'] = surface_areas['footprint_area']
+    res = add_surrogates(res, fnames, folder, surface_areas)
+    total_material_mass = {k: (settings.odym_materials[k], total_material_mass[k]) for k in total_material_mass}
+    total_material_mass = {**{'Warning: surrogate materials missing!': ('', '')},
+                           **dict(sorted(total_material_mass.items(), key=lambda x: x[0].lower()))}
+    material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
+    res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
+    material.save_materials(res, run_path, filename='materials_odym.csv')
+    q.put(no)
 
 
 def add_surrogates(res, fnames, folder, surface_areas):
