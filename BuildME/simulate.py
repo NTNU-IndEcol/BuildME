@@ -20,6 +20,29 @@ from tqdm import tqdm
 from BuildME import settings, idf, material, energy, mmv, __version__
 
 
+def find_cpus(method):
+    """
+    Returns the number of CPUs available on the system. This can then be used in calculate_energy_mp for example.
+     Not using the maximum number of CPUs is sometimes beneficial, because the computer can shuffle around data, etc.
+     more efficiently.
+
+    :param method: Method to determine. 'max' will return the maximum number. 'auto' will (hopefully) return the best
+                    number.
+    """
+    if isinstance(method, int):
+        return method
+    available_cpus = mp.cpu_count()
+    if method == 'max':
+        return available_cpus
+    elif method == 'auto':
+        if available_cpus <= 4:
+            return available_cpus
+        elif available_cpus > 4:
+            return available_cpus - 1
+    else:
+        raise AssertionError("Method '%s' unknown." % method)
+
+
 def create_combinations(comb=settings.combinations):
     """
     Creates permutations of files to be simulated / calculated.
@@ -216,7 +239,6 @@ def copy_scenario_files(fnames, run, replace=False):
                                      'USA_NY_New.York-dummy.epw')
             print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
                   f"A dummy weather file for New York, NY (climate 4A) will be used: '{dummy_epw}'")
-
             shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
         idf_f = idf.read_idf(fnames[fname]['archetype_file'])
@@ -241,6 +263,91 @@ def copy_scenario_files(fnames, run, replace=False):
     # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
     pickle.dump(fnames, open(scenarios_filename, "wb"))
     return scenarios_filename
+
+
+def copy_scenario_files_mp(fnames, run, replace=False, cpus=find_cpus(settings.cpus)):
+    """
+    Creates scenario folders and copies the necessary files (climate and IDF file) into them. Further,
+    it applies the energy standard and RES scenario to the IDF archetype.
+    :param replace:
+    :type fnames: List of combinations / foldernames as created by create_combinations()
+    :return:
+    """
+    if replace:
+        print("DELETING %i folders..." % len(fnames))
+        nuke_folders(fnames)
+    print("Copying files using %s CPUs..." % cpus)
+    res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
+    en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
+    cooling_types = [fnames[k]['cooling'] for k in fnames]
+    if all(item == 'HVAC' for item in cooling_types):
+        mmv_en_replace = None
+    else:
+        mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
+    tq = tqdm(fnames, leave=True, desc="copy")
+
+    pool = mp.Pool(processes=cpus)
+    m = mp.Manager()
+    q = m.Queue()
+    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
+    args = [(fnames, fname, run, en_replace, res_replace, mmv_en_replace, q, no) for no, fname in enumerate(fnames)]
+    result = pool.map_async(copy_scenario_files_worker, args)
+    old_q = 0
+    while not result.ready():
+        #pbar.update()
+        #print(q.qsize())
+        if q.qsize() > old_q:
+            pbar.update(q.qsize() - old_q)
+        else:
+            pbar.update(0)
+        old_q = q.qsize()
+        sleep(0.2)
+    pool.close()
+    pool.join()
+    pbar.close()
+    result_output = result.get()
+
+    # save list of all folders
+    scenarios_filename = os.path.join(settings.tmp_path, run + '.run')
+    # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
+    pickle.dump(fnames, open(scenarios_filename, "wb"))
+    return scenarios_filename
+
+
+def copy_scenario_files_worker(args):
+    fnames, fname, run, en_replace, res_replace, mmv_en_replace, q, no = args
+    # tq.set_description(fname)
+    fpath = os.path.join(settings.tmp_path, run, fname)
+    # create folder
+    os.makedirs(fpath)
+    # copy climate file
+    try:
+        shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
+    except FileNotFoundError:
+        dummy_epw = os.path.join(os.path.dirname(settings.climate_files_path),
+                                 'USA_NY_New.York-dummy.epw')
+        print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
+              f"A dummy weather file for New York, NY (climate 4A) will be used: '{dummy_epw}'")
+        shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
+    # copy IDF archetype file
+    idf_f = idf.read_idf(fnames[fname]['archetype_file'])
+    idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'], '-en-std-replaceme')
+    idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'], '-res-replaceme')
+    region = fnames[fname]['region']
+    occ_type = fnames[fname]['occupation']
+    if (region, occ_type) in settings.archetype_proxies:
+        en_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['energy_standard']]
+        res_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['RES']]
+    else:
+        en_str = [region, occ_type, fnames[fname]['energy_standard']]
+        res_str = [region, occ_type, fnames[fname]['RES']]
+    en_replace.sort_index(inplace=True)
+    res_replace.sort_index(inplace=True)
+    idf_f = apply_rule_from_excel(idf_f, en_str, en_replace, mmv_en_replace)
+    idf_f = apply_rule_from_excel(idf_f, res_str, res_replace, mmv_en_replace)
+    idf_f.idfobjects['Building'.upper()][0].Name = fname
+    idf_f.saveas(os.path.join(fpath, 'in.idf'))
+    q.put(no)
 
 
 def find_last_run(path=settings.tmp_path):
@@ -532,29 +639,6 @@ def calculate_energy(fnames=None):
         # fix_macos_quarantine(run_path)
         energy.run_energyplus_single(tmp)
         energy.delete_ep_files(copy_us, tmp)
-
-
-def find_cpus(method):
-    """
-    Returns the number of CPUs available on the system. This can then be used in calculate_energy_mp for example.
-     Not using the maximum number of CPUs is sometimes beneficial, because the computer can shuffle around data, etc.
-     more efficiently.
-
-    :param method: Method to determine. 'max' will return the maximum number. 'auto' will (hopefully) return the best
-                    number.
-    """
-    if isinstance(method, int):
-        return method
-    available_cpus = mp.cpu_count()
-    if method == 'max':
-        return available_cpus
-    elif method == 'auto':
-        if available_cpus <= 4:
-            return available_cpus
-        elif available_cpus > 4:
-            return available_cpus - 1
-    else:
-        raise AssertionError("Method '%s' unknown." % method)
 
 
 def calculate_energy_mp(fnames=None, cpus=find_cpus(settings.cpus)):

@@ -21,7 +21,9 @@ def run_new():
 
     # Copy scenarios .idf to ./tmp
     print("%i scenario combinations created" % len(fnames))
-    simulate.copy_scenario_files(fnames, run)
+    # For debugging purposes. Better use the multiprocessing version copy_scenario_files_mp()
+    # simulate.copy_scenario_files(fnames, run)
+    simulate.copy_scenario_files_mp(fnames, run)
 
     # Create run file for HPC
     # simulate.create_sq_job(fnames)
