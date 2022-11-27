@@ -24,10 +24,17 @@ if platform == 'Windows':
                      "PreProcess/GrndTempCalc/Slab.exe", "PreProcess/GrndTempCalc/SlabGHT.idd",
                      "PostProcess/ReadVarsESO.exe", "energyplusapi.dll"
                      ]
-elif platform == 'Darwin':
+elif platform == 'Darwin':  # i.e. macOS
     ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
                      "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
                      "libgfortran.5.dylib", "libquadmath.0.dylib",  'libgcc_s.1.dylib',  # required by ExpandObjects
+                     "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                     "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
+                     "PostProcess/ReadVarsESO"
+                     ]
+elif platform == 'Linux':
+    ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
+                     "libenergyplusapi.so.%s" % ep_version,  # required by energyplus
                      "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
                      "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
                      "PostProcess/ReadVarsESO"
