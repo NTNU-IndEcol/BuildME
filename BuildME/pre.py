@@ -5,10 +5,9 @@ Copyright: Niko Heeren, 2021
 """
 import os
 
-from BuildME import settings
+from BuildME import settings, mmv
 from tqdm import tqdm
 from BuildME.idf import read_idf
-from BuildME.mmv import change_archetype_to_MMV, create_empty_replace_mmv
 
 
 def validate_ep_version(folders=settings.archetypes, crash=True):
@@ -42,14 +41,14 @@ def validate_ep_version(folders=settings.archetypes, crash=True):
                     # f.close()
 
 
-def create_mmv_variants(comb=settings.combinations):
+def create_mmv_variants(comb=settings.combinations, refresh_excel=True):
     """Create MMV variants for the archetypes"""
-    cool_str = '_auto-MMV'
     xlsx_mmv = './data/mmv-implementation.xlsx'
     dir_replace_mmv = './data/replace_mmv.xlsx'
-    if os.path.isfile(dir_replace_mmv) is True:
-        # delete existing mmv-implementation.xlsx
-        os.remove(dir_replace_mmv)
+    if refresh_excel:
+        if os.path.isfile(dir_replace_mmv) is True:
+            # delete existing mmv-implementation.xlsx
+            os.remove(dir_replace_mmv)
     # 1 Region
     for region in [r for r in comb]:
         # 2 archetype
@@ -62,14 +61,21 @@ def create_mmv_variants(comb=settings.combinations):
                                                         settings.archetype_proxies[(region, occ_type)][1])
                     else:
                         archetype_wt_ext = os.path.join(settings.archetypes, region, occ_type)
-                    # if the archetype MMV file doesn't exist, we create it
-                    path = archetype_wt_ext + cool_str + '.idf'
-                    if os.path.isfile(path) is True:
-                        os.remove(path)
-                    print("Precalculating MMV variant for '%s'..." % occ_type)
                     idf_f = read_idf(archetype_wt_ext + '.idf')
-                    idf_mmv = change_archetype_to_MMV(idf_f, occ_type, xlsx_mmv, dir_replace_mmv)
-                    idf_mmv.saveas(path)
+                    dictionaries = mmv.create_dictionaries(idf_f, occ_type)
+                    # if the archetype doesn't have the proper AFN objects, print a message and stop execution #TODO
+                    flag = mmv.check_if_mmv_zones(dictionaries)
+                    if flag:  # if the archetype can be created
+                        print(f"Creating the MMV variant for {occ_type}...")
+                        idf_mmv = mmv.change_archetype_to_MMV(idf_f, dictionaries, xlsx_mmv)
+                        path = archetype_wt_ext + '_auto-MMV.idf'
+                        if os.path.isfile(path) is True:
+                            os.remove(path)
+                        idf_mmv.saveas(path)
+                        if refresh_excel:
+                            mmv.create_or_update_excel_replace(occ_type, xlsx_mmv, dictionaries, dir_replace_mmv)
+                    else:
+                        print(f"The MMV variant for {occ_type} cannot be created")
     return
 
 
