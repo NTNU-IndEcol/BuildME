@@ -197,6 +197,17 @@ def get_surfaces(idf, energy_standard, res_scenario, archetype):
         surfaces['slab'] = create_surrogate_slab(surface_areas['footprint_area'], slab_constr)
         surfaces['basement'] = create_surrogate_basement(surface_areas['footprint_area'], slab_constr)
 
+    #Frame Calculations
+    if 'ext-frame-'+ energy_standard + res_scenario in [x for x in constr_list]:
+        print('adding frames... ')
+        frame_constr = constr_list['ext-frame-'+ energy_standard + res_scenario].Name
+        surfaces['frames'] = create_surrogate_frames(idf, frame_constr)
+
+    #Shear Wall Implementation, regardless of Archetype name (useful for Sahin and Fabio's archetypes)
+    if 'Shear_wall-' + res_scenario in [x for x in constr_list]:
+        shear_constr = constr_list['Shear_wall-' + res_scenario].Name
+        surfaces['shear_wall'] = create_surrogate_shear_wall(temp_surface_areas['floor_area_wo_basement'], shear_constr)
+
     if archetype in ['Office', 'RT']:
         # create a second level of basement
         surfaces['slab'] = create_surrogate_slab(surface_areas['footprint_area'], slab_constr)
@@ -245,6 +256,32 @@ def create_surrogate_basement(floor_area, construction, room_h=2.8):
         'area': floor_area ** 0.5 * 4 * room_h
     }
     return [SurrogateElement(basem)]
+
+
+def calculate_frame_areas(idf):
+    areas = []
+    if 'FENESTRATIONSURFACE:DETAILED' in [x for x in idf.idfobjects]:
+        if 'WINDOWPROPERTY:FRAMEANDDIVIDER' in [x for x in idf.idfobjects]:
+            for fenest in idf.idfobjects["FenestrationSurface:Detailed".upper()]:
+                # check if a frame is present for the fenestration
+                if fenest.Frame_and_Divider_Name != "":
+                    length = 2 * (fenest.width + fenest.height)
+                    for frames in idf.idfobjects["WINDOWPROPERTY:FRAMEANDDIVIDER"]:
+                        if frames.Name == fenest.Frame_and_Divider_Name:
+                            frame_area = length * frames.Frame_Width
+                            areas.append(frame_area)
+    return sum(areas)
+
+
+def create_surrogate_frames(idf, construction):
+    frames = {
+        'key': 'DummyBuildingSurface',
+        'Name': 'surrogate_frames',
+        'Building_Surface_Name': None,
+        'Construction_Name': construction,
+        'area': calculate_frame_areas(idf)
+    }
+    return [SurrogateElement(frames)]
 
 
 def create_surrogate_shear_wall(floor_area, construction):

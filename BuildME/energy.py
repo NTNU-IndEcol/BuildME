@@ -173,11 +173,21 @@ def ep_result_collector(ep_path, save='energy_demand.csv'):
     :return:
     """
     results_to_collect = ("Heating:EnergyTransfer [J](Hourly)",	"Cooling:EnergyTransfer [J](Hourly)",
-                          # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
-                          "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly) ")
+                              # Note the trailing whitespace at the end of "WaterSystems:DistrictHeating [J](Hourly) "
+                              "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly)","WaterSystems:DistrictHeating [J](Hourly) ")
     ep_file = os.path.join(ep_path, 'eplusout.csv')
     ep_out = pd.read_csv(ep_file)
-    results = ep_out.loc[:, results_to_collect].sum()
+
+    # The code checks if DHW is already available in the IDF file
+    if "WaterSystems:DistrictHeating [J](Hourly) " in ep_out:
+        results = ep_out.loc[:, results_to_collect].sum()
+    else:
+        results_to_collect = ("Heating:EnergyTransfer [J](Hourly)", "Cooling:EnergyTransfer [J](Hourly)",
+                              # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
+                              "InteriorLights:Electricity [J](Hourly)",
+                              "InteriorEquipment:Electricity [J](Hourly) ")
+        results = ep_out.loc[:, results_to_collect].sum()
+
     if save:
         results.to_csv(os.path.join(ep_path, save), header=False)
     return results
