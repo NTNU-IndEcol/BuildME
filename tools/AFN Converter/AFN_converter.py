@@ -26,7 +26,7 @@ def convert_to_AFN(idf_path, occ_type, destination_path):
 
 
 if __name__ == "__main__":
-    originalidf_path = "data\\AFN Converter\\original\\SFH-HVAC.idf"
+    originalidf_path = "tools\\AFN Converter\\original\\SFH-HVAC.idf"
     occupation = 'SFH'
     savefolder_path = "tools\\AFN Converter\\"
 

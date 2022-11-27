@@ -518,18 +518,18 @@ def assign_value(value_in, zone_dict_mmv, surface_dict, surfaces_f_dict, surface
         surface_group = surface_dict[it]['Surface_Group']
         surface_group_type = surface_group.split(' ')[0]
         if surface_group_type == 'Doors':
-            value = 'always_off_MMV'
+            value = 'always_off_BuildME'
         elif surface_group_type == 'Windows':
             zone = surface_dict[it]['Zone']
             zone_no_list = [k for k, v in zone_dict_mmv.items() if v['Zone_Name'] == zone]
             if zone_no_list:
                 value = "NV_Sch_"+str(zone_no_list[0])
             else:
-                value = 'always_off_MMV'  # in case the window is not in an MMV zone
+                value = 'always_off_BuildME'  # in case the window is not in an MMV zone
         # elif surface_dict[it]['is_in_MMV_zone'] is False:
-        #    value = 'always_off_MMV'
+        #    value = 'always_off_BuildME'
         else:
-            value = 'always_on_MMV'
+            value = 'always_on_BuildME'
     elif value_in == '<heating schedule in zone>':
         thermostat_name = zone_dict_mmv[it]['Template_Thermostat_Name']
         heat_sch = [obj.Heating_Setpoint_Schedule_Name for obj in idf.idfobjects['HVACTemplate:Thermostat'] if obj.Name == thermostat_name]
