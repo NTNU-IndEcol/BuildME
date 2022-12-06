@@ -50,6 +50,7 @@ def create_mmv_variants(comb=settings.combinations, refresh_excel=True):
             # delete existing mmv-implementation.xlsx
             os.remove(dir_replace_mmv)
     # 1 Region
+    created = []  # List to keep of the created MMV archetypes
     for region in [r for r in comb]:
         # 2 archetype
         for occ_type in comb[region]['occupation']:
@@ -61,19 +62,25 @@ def create_mmv_variants(comb=settings.combinations, refresh_excel=True):
                                                         settings.archetype_proxies[(region, occ_type)][1])
                     else:
                         archetype_wt_ext = os.path.join(settings.archetypes, region, occ_type)
+                    if archetype_wt_ext in created:
+                        # Ugly hotfix! Don't need to create the MVV variant twice. However, if proxies are being used,
+                        # the MMV variants are being re-created over and over.
+                        print("Skipping MMV creation for proxy %s" % os.path.join(region, occ_type))
+                        continue
                     idf_f = read_idf(archetype_wt_ext + '.idf')
                     dictionaries = mmv.create_dictionaries(idf_f, occ_type)
                     # if the archetype doesn't have the proper AFN objects, print a message and stop execution #TODO
                     flag = mmv.check_if_mmv_zones(dictionaries)
                     if flag:  # if the archetype can be created
-                        print(f"Creating the MMV variant for {occ_type}...")
-                        idf_mmv = mmv.change_archetype_to_MMV(idf_f, dictionaries, xlsx_mmv)
                         path = archetype_wt_ext + '_auto-MMV.idf'
+                        print(f"Creating the MMV variant for %s..." % os.path.relpath(path, settings.archetypes))
+                        idf_mmv = mmv.change_archetype_to_MMV(idf_f, dictionaries, xlsx_mmv)
                         if os.path.isfile(path) is True:
                             os.remove(path)
                         idf_mmv.saveas(path)
                         if refresh_excel:
                             mmv.create_or_update_excel_replace(occ_type, xlsx_mmv, dictionaries, dir_replace_mmv)
+                        created.append(archetype_wt_ext)
                     else:
                         print(f"The MMV variant for {occ_type} cannot be created")
     return

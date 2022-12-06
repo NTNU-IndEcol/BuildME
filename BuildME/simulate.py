@@ -20,6 +20,29 @@ from tqdm import tqdm
 from BuildME import settings, idf, material, energy, mmv, __version__
 
 
+def find_cpus(method):
+    """
+    Returns the number of CPUs available on the system. This can then be used in calculate_energy_mp for example.
+     Not using the maximum number of CPUs is sometimes beneficial, because the computer can shuffle around data, etc.
+     more efficiently.
+
+    :param method: Method to determine. 'max' will return the maximum number. 'auto' will (hopefully) return the best
+                    number.
+    """
+    if isinstance(method, int):
+        return method
+    available_cpus = mp.cpu_count()
+    if method == 'max':
+        return available_cpus
+    elif method == 'auto':
+        if available_cpus <= 4:
+            return available_cpus
+        elif available_cpus > 4:
+            return available_cpus - 1
+    else:
+        raise AssertionError("Method '%s' unknown." % method)
+
+
 def create_combinations(comb=settings.combinations):
     """
     Creates permutations of files to be simulated / calculated.
@@ -216,7 +239,6 @@ def copy_scenario_files(fnames, run, replace=False):
                                      'USA_NY_New.York-dummy.epw')
             print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
                   f"A dummy weather file for New York, NY (climate 4A) will be used: '{dummy_epw}'")
-
             shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
         # copy IDF archetype file
         idf_f = idf.read_idf(fnames[fname]['archetype_file'])
@@ -241,6 +263,96 @@ def copy_scenario_files(fnames, run, replace=False):
     # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
     pickle.dump(fnames, open(scenarios_filename, "wb"))
     return scenarios_filename
+
+
+def copy_scenario_files_mp(fnames, run, replace=False, cpus=find_cpus(settings.cpus)):
+    """
+    Creates scenario folders and copies the necessary files (climate and IDF file) into them. Further,
+    it applies the energy standard and RES scenario to the IDF archetype.
+    :param replace:
+    :type fnames: List of combinations / foldernames as created by create_combinations()
+    :return:
+    """
+    if replace:
+        print("DELETING %i folders..." % len(fnames))
+        nuke_folders(fnames)
+    print("Copying files using %s CPUs..." % cpus)
+    res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
+    en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
+    cooling_types = [fnames[k]['cooling'] for k in fnames]
+    if all(item == 'HVAC' for item in cooling_types):
+        mmv_en_replace = None
+    else:
+        mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
+    tq = tqdm(fnames, leave=True, desc="copy")
+
+    pool = mp.Pool(processes=cpus)
+    m = mp.Manager()
+    q = m.Queue()
+    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
+    args = [(fnames, fname, run, en_replace, res_replace, mmv_en_replace, q, no) for no, fname in enumerate(fnames)]
+    result = pool.map_async(copy_scenario_files_worker, args)
+    old_q = 0
+    while not result.ready():
+        #pbar.update()
+        #print(q.qsize())
+        if q.qsize() > old_q:
+            pbar.update(q.qsize() - old_q)
+        else:
+            pbar.update(0)
+        old_q = q.qsize()
+        sleep(0.2)
+    pool.close()
+    pool.join()
+    pbar.close()
+    result_output = result.get()
+
+    # save list of all folders
+    scenarios_filename = os.path.join(settings.tmp_path, run + '.run')
+    # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
+    pickle.dump(fnames, open(scenarios_filename, "wb"))
+    return scenarios_filename
+
+
+def copy_scenario_files_worker(args):
+    """
+    The worker function for the multiprocessing function copy_scenario_files_mp().
+    :param args: All necessary
+    :return:
+    """
+    fnames, fname, run, en_replace, res_replace, mmv_en_replace, q, no = args
+    # tq.set_description(fname)
+    fpath = os.path.join(settings.tmp_path, run, fname)
+    # create folder
+    os.makedirs(fpath)
+    # copy climate file
+    try:
+        shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
+    except FileNotFoundError:
+        dummy_epw = os.path.join(os.path.dirname(settings.climate_files_path),
+                                 'USA_NY_New.York-dummy.epw')
+        print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
+              f"A dummy weather file for New York, NY (climate 4A) will be used: '{dummy_epw}'")
+        shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
+    # copy IDF archetype file
+    idf_f = idf.read_idf(fnames[fname]['archetype_file'])
+    idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'], '-en-std-replaceme')
+    idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'], '-res-replaceme')
+    region = fnames[fname]['region']
+    occ_type = fnames[fname]['occupation']
+    if (region, occ_type) in settings.archetype_proxies:
+        en_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['energy_standard']]
+        res_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['RES']]
+    else:
+        en_str = [region, occ_type, fnames[fname]['energy_standard']]
+        res_str = [region, occ_type, fnames[fname]['RES']]
+    en_replace.sort_index(inplace=True)
+    res_replace.sort_index(inplace=True)
+    idf_f = apply_rule_from_excel(idf_f, en_str, en_replace, mmv_en_replace)
+    idf_f = apply_rule_from_excel(idf_f, res_str, res_replace, mmv_en_replace)
+    idf_f.idfobjects['Building'.upper()][0].Name = fname
+    idf_f.saveas(os.path.join(fpath, 'in.idf'))
+    q.put(no)
 
 
 def find_last_run(path=settings.tmp_path):
@@ -320,6 +432,66 @@ def calculate_materials(run=None, fnames=None):
         material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
         res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
         material.save_materials(res, run_path, filename='materials_odym.csv')
+
+
+def calculate_materials_mp(run=None, fnames=None, cpus=find_cpus(settings.cpus)):
+    print("Extracting materials and surfaces...")
+    if not fnames or run:
+        fnames, run = find_last_run()
+        fnames = load_run_data_file(fnames)
+    fallback_materials = idf.load_material_data()
+    tq = tqdm(fnames, desc='Initiating...', leave=True)
+    pool = mp.Pool(processes=cpus)
+    m = mp.Manager()
+    q = m.Queue()
+    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
+    args = [(fnames, fname, run, fallback_materials, q, no) for no, fname in enumerate(fnames)]
+    result = pool.map_async(calculate_materials_worker, args)
+    old_q = 0
+    while not result.ready():
+        # pbar.update()
+        # print(q.qsize())
+        if q.qsize() > old_q:
+            pbar.update(q.qsize() - old_q)
+        else:
+            pbar.update(0)
+        old_q = q.qsize()
+        sleep(0.2)
+    pool.close()
+    pool.join()
+    pbar.close()
+    result_output = result.get()
+
+
+def calculate_materials_worker(args):
+    fnames, folder, run, fallback_materials, q, no = args
+    run_path = os.path.join(settings.tmp_path, run, folder)
+    idff = idf.read_idf(os.path.join(run_path, 'in.idf'))
+    materials = idf.read_materials(idff)
+    materials_dict = idf.make_materials_dict(materials)
+    densities = idf.make_mat_density_dict(materials_dict, fallback_materials)
+    constructions = idf.read_constructions(idff)
+    mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
+
+    surfaces, surface_areas = idf.get_surfaces(idff, fnames[folder]['energy_standard'],
+                                               fnames[folder]['RES'], fnames[folder]['occupation'])
+
+    mat_vol_bdg, densities = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2, densities)
+    total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
+
+    odym_mat = translate_to_odym_mat(total_material_mass)
+    # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
+    res = odym_mat
+    res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
+    res['footprint_area'] = surface_areas['footprint_area']
+    res = add_surrogates(res, fnames, folder, surface_areas)
+    total_material_mass = {k: (settings.odym_materials[k], total_material_mass[k]) for k in total_material_mass}
+    total_material_mass = {**{'Warning: surrogate materials missing!': ('', '')},
+                           **dict(sorted(total_material_mass.items(), key=lambda x: x[0].lower()))}
+    material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
+    res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
+    material.save_materials(res, run_path, filename='materials_odym.csv')
+    q.put(no)
 
 
 def add_surrogates(res, fnames, folder, surface_areas):
@@ -532,29 +704,6 @@ def calculate_energy(fnames=None):
         # fix_macos_quarantine(run_path)
         energy.run_energyplus_single(tmp)
         energy.delete_ep_files(copy_us, tmp)
-
-
-def find_cpus(method):
-    """
-    Returns the number of CPUs available on the system. This can then be used in calculate_energy_mp for example.
-     Not using the maximum number of CPUs is sometimes beneficial, because the computer can shuffle around data, etc.
-     more efficiently.
-
-    :param method: Method to determine. 'max' will return the maximum number. 'auto' will (hopefully) return the best
-                    number.
-    """
-    if isinstance(method, int):
-        return method
-    available_cpus = mp.cpu_count()
-    if method == 'max':
-        return available_cpus
-    elif method == 'auto':
-        if available_cpus <= 4:
-            return available_cpus
-        elif available_cpus > 4:
-            return available_cpus - 1
-    else:
-        raise AssertionError("Method '%s' unknown." % method)
 
 
 def calculate_energy_mp(fnames=None, cpus=find_cpus(settings.cpus)):

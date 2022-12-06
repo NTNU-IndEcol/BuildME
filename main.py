@@ -21,7 +21,9 @@ def run_new():
 
     # Copy scenarios .idf to ./tmp
     print("%i scenario combinations created" % len(fnames))
-    simulate.copy_scenario_files(fnames, run)
+    # For debugging purposes. Better use the multiprocessing version copy_scenario_files_mp()
+    # simulate.copy_scenario_files(fnames, run)
+    simulate.copy_scenario_files_mp(fnames, run)
 
     # Create run file for HPC
     # simulate.create_sq_job(fnames)
@@ -29,7 +31,8 @@ def run_new():
     # simulate.calculate_energy()
     simulate.calculate_energy_mp()
     print("Energy simulations done")
-    simulate.calculate_materials(run, fnames)
+    # simulate.calculate_materials(run, fnames)
+    simulate.calculate_materials_mp(run, fnames)
     print("Material extraction done")
 
     res_energy = simulate.collect_energy(fnames)
@@ -60,7 +63,8 @@ def continue_previous(run_eplus=False):
         # if energy simulation was not successful yet
         simulate.calculate_energy()
         print("Energy simulations done")
-    simulate.calculate_materials(run, fnames)
+    # simulate.calculate_materials(run, fnames)
+    simulate.calculate_materials_mp(run, fnames)
     print("Material extraction done")
 
     res_energy = simulate.collect_energy(fnames)
