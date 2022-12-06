@@ -10,11 +10,16 @@ import openpyxl
 from . import settings
 import os
 import datetime
-from copy import deepcopy
 
 
 def create_dictionaries(idf, occupation):
-    surface_dict = create_surface_dict(idf)  # create surfaces for which AFN is suitable
+    """
+    Creates a list of dictionaries with surfaces, zones, etc.
+    :param idf: The .idf file
+    :param occupation: the archetype occupation type (e.g. SFH)
+    :return dictionaries: A list of dictionaries with surfaces, zones, etc.
+    """
+    surface_dict = create_surface_dict(idf)  # create a dictionary of AFN-compatible surfaces
     zone_dict_mmv, zone_dict_non_mmv, zone_dict_non_afn, surface_dict = create_zone_dicts(idf, surface_dict, occupation)
     # window_dict = create_window_dict(idf, zone_dict_non_afn)
     surface_dict = delete_surfaces_neigboring_non_afn_zones(idf, surface_dict, zone_dict_non_afn)
@@ -24,6 +29,11 @@ def create_dictionaries(idf, occupation):
 
 
 def check_if_mmv_zones(dictionaries):
+    """
+    Creates a boolean value indicating if there exists at least one MMV-compatible zone
+    :param dictionaries: A list of dictionaries with surfaces, zones, etc.
+    :return flag: A boolean value
+    """
     surface_dict, zone_dict_mmv, zone_dict_non_mmv, zone_dict_non_afn, surfaces_f_dict, surfaces_nf_dict = dictionaries
     if zone_dict_mmv:
         flag = True
@@ -33,6 +43,13 @@ def check_if_mmv_zones(dictionaries):
 
 
 def delete_surfaces_neigboring_non_afn_zones(idf, surface_dict, zone_dict_non_afn):
+    """
+    Checks the non-AFN-compatible zones and deleted surfaces belonging to these zones from surface_dict
+    :param idf: The .idf file
+    :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
+    :param zone_dict_non_afn:
+    :return surface_dict: Dictionary of surfaces without the surfaces that were neiboring non-AFN zones
+    """
     for v in zone_dict_non_afn.values():
         zone_name = v['Zone_Name']
         zone_surf_names = [obj.Name for obj in idf.idfobjects['BuildingSurface:Detailed'] if obj.Zone_Name == zone_name]
@@ -49,12 +66,11 @@ def delete_surfaces_neigboring_non_afn_zones(idf, surface_dict, zone_dict_non_af
 
 def change_archetype_to_AFN(idf, dictionaries, xlsx_mmv):
     """
-    Converts an idf file to one with mixed mode ventilation (MMV) i.e. cooling both through HVAC and window opening
-    :param idf: The .idf file
-    :param occupation: the occupation of the chosen archetype (e.g. SFH)
+    Converts an idf file to one with infiltration modeled with AFN objects (AirflowNetwork)
+    :param idf: The .idf file with infiltration modeled without AFN objects
+    :param dictionaries: a list of dictionaries with surfaces, zones, etc.
     :param xlsx_mmv: Path and filename of the mmv-implementation.xlsx file, normally './data/mmv-implementation.xlsx'
-    :param dir_replace_mmv: Path and filename of the replace-mmv.xlsx file, normally './data/replace_mmv.xlsx'
-    :return idf: The .idf file with MMV implemented
+    :return idf: The .idf file with infiltration modeled with AFN objects
     """
     shielding = settings.shielding
     surface_dict, zone_dict_mmv, zone_dict_non_mmv, zone_dict_non_afn, surfaces_f_dict, surfaces_nf_dict = dictionaries
@@ -71,9 +87,8 @@ def change_archetype_to_MMV(idf, dictionaries, xlsx_mmv):
     """
     Converts an idf file to one with mixed mode ventilation (MMV) i.e. cooling both through HVAC and window opening
     :param idf: The .idf file
-    :param occupation: the occupation of the chosen archetype (e.g. SFH)
+    :param dictionaries: a list of dictionaries with surfaces, zones, etc.
     :param xlsx_mmv: Path and filename of the mmv-implementation.xlsx file, normally './data/mmv-implementation.xlsx'
-    :param dir_replace_mmv: Path and filename of the replace-mmv.xlsx file, normally './data/replace_mmv.xlsx'
     :return idf: The .idf file with MMV implemented
     """
     shielding = settings.shielding
@@ -101,7 +116,7 @@ def create_zone_dicts(idf, surface_dict, occupation):
     Creates two dictionaries with zone information, both with integer keys
     :param idf: The .idf file
     :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
-    :param occupation: Building archetype
+    :param occupation: the archetype occupation type (e.g. SFH)
     :return zone_dict_mmv: Dictionary of zones suitable for MMV (their names and the people object that belongs to it)
     :return zone_dict_non_mmv: Dictionary of zones without MMV but with AFN (without HVAC or without people)
     :return zone_dict_non_afn: Dictionary of zones without AFN (with fewer than two AFN-compatible surfaces)
@@ -155,11 +170,17 @@ def create_zone_dicts(idf, surface_dict, occupation):
 
 
 def renumber_surface_dict(surface_dict):
+    """
+    Renumbers the dictionary so that keys are consecutive numbers (if no numbers missing, then the dict is unchanged)
+    :param surface_dict: Dictionary of surfaces (their names, idf object type, surface group, area and zone name)
+    :return surface_dict: Renumbered dictionary
+    """
     n = 1
     for k in surface_dict.copy():
         surface_dict[n] = surface_dict.pop(k)
         n += 1
     return surface_dict
+
 
 def create_window_dict(idf, zone_dict_non_afn):
     """
@@ -359,7 +380,8 @@ def create_idf_objects(idf, xlsx_mmv, dictionaries, shielding, sheet='create'):
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
     :param dictionaries: Dictionaries with element information (zones, surfaces, etc.)
     :param shielding: the level of wind shielding (low, medium, high)
-    :return idf:
+    :param sheet: string with the name of the sheet in the .xlsx file
+    :return idf: The .idf file with created objects
     """
     surface_dict, zone_dict_mmv, zone_dict_non_mmv, zone_dict_non_afn, surfaces_f_dict, surfaces_nf_dict = dictionaries
     df = load_xlsx_data(xlsx_mmv, sheet)
@@ -393,6 +415,12 @@ def create_idf_objects(idf, xlsx_mmv, dictionaries, shielding, sheet='create'):
 
 
 def delete_idf_objects(idf, xlsx_mmv):
+    """
+    Takes an idf file and deletes some objects according to the MMV procedure instructions
+    :param idf: The .idf file with created objects
+    :param xlsx_mmv: The .xlsx file with MMV procedure instructions
+    :return idf: The .idf file without deleted objects
+    """
     df = load_xlsx_data(xlsx_mmv, 'delete')
     for idf_object in df['idfobject']:
         objs = idf.idfobjects[idf_object]
@@ -458,13 +486,6 @@ def assign_name(name_in, zone_dict_mmv, zone_dict_non_mmv, surface_dict,
     else:
         more_loops = False
     return name, more_loops
-
-
-def return_value_if_not_empty(value, dictionary):
-    if dictionary:
-        return value
-    else: # if dictionary is empty
-        return None
 
 
 def assign_value(value_in, zone_dict_mmv, surface_dict, surfaces_f_dict, surfaces_nf_dict, it, idf,
@@ -874,10 +895,10 @@ def create_or_update_excel_replace(occupation, xlsx_mmv, dictionaries, dir_repla
     """
     Checks if the excel replace_mmv.xlsx file exists, creates/opens it to write data about the chosen archetype,
     the data is necessary to adjust the archetype to different energy standards
-    :param occupation: the occupation of the chosen archetype (e.g. SFH)
+    :param occupation: the archetype occupation type (e.g. SFH)
     :param xlsx_mmv: The .xlsx file with MMV procedure instructions
-    :param surfaces_f_dict: Dictionary of fenestration surfaces (area, surface group, list of surfaces' names)
-    :param surfaces_nf_dict: Dictionary of non-fenestration surfaces (area, surface group, list of surfaces' names)
+    :param dictionaries: A list of dictionaries with surfaces, zones, etc.
+    :param dir_replace_mmv: The .xlsx file with replacement rules related to the MMV cooling type
     """
     surface_dict, zone_dict_mmv, zone_dict_non_mmv, zone_dict_non_afn, surfaces_f_dict, surfaces_nf_dict = dictionaries
     if os.path.exists(dir_replace_mmv):
@@ -897,6 +918,8 @@ def create_or_update_excel_replace(occupation, xlsx_mmv, dictionaries, dir_repla
 def create_empty_replace_mmv():
     """
     Creates an empty replace_mmv.xlsx file. It contains no data, just metadata and column names
+    :return wb: workbook
+    :return ws: worksheet
     """
     wb = openpyxl.Workbook()
     ws_info = wb.active

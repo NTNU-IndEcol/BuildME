@@ -42,7 +42,11 @@ def validate_ep_version(folders=settings.archetypes, crash=True):
 
 
 def create_mmv_variants(comb=settings.combinations, refresh_excel=True):
-    """Create MMV variants for the archetypes"""
+    """
+    Create MMV variants for the archetypes
+    :param comb: a dictionary with the chosen combination of archetypes to be simulated
+    :param refresh_excel: a boolean value indicating if the excel sheet replace_mmv.xlsx should be created
+    """
     xlsx_mmv = './data/mmv-implementation.xlsx'
     dir_replace_mmv = './data/replace_mmv.xlsx'
     if refresh_excel:
