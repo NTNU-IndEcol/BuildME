@@ -71,6 +71,9 @@ def create_combinations(comb=settings.combinations):
                         # 6 Climate scenario
                         for climate_scen in comb[region]['climate_scenario']:
                             for cool in comb[region]['cooling']:
+                                if cool == 'MMV' and occ_type == 'Hospital':
+                                    print("Warning: the MMV variant of the hospital archetype is not supported.")
+                                    continue
                                 fname = '_'.join([region, occ_type, energy_std, res, climate_reg, climate_scen, cool])
                                 if cool == 'MMV':
                                     cool_str = '_auto-MMV'
