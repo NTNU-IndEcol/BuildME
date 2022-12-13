@@ -21,7 +21,6 @@ def create_dictionaries(idf, occupation):
     """
     surface_dict = create_surface_dict(idf)  # create a dictionary of AFN-compatible surfaces
     zone_dict_mmv, zone_dict_non_mmv, zone_dict_non_afn, surface_dict = create_zone_dicts(idf, surface_dict, occupation)
-    # window_dict = create_window_dict(idf, zone_dict_non_afn)
     surface_dict = delete_surfaces_neigboring_non_afn_zones(idf, surface_dict, zone_dict_non_afn)
     surfaces_f_dict, surfaces_nf_dict = create_surface_group_dicts(surface_dict)
     dictionaries = [surface_dict, zone_dict_mmv, zone_dict_non_mmv, zone_dict_non_afn, surfaces_f_dict, surfaces_nf_dict]
@@ -96,7 +95,6 @@ def change_archetype_to_MMV(idf, dictionaries, xlsx_mmv):
     # Modify the idf file
     idf = create_idf_objects(idf, xlsx_mmv, dictionaries, shielding, sheet='create-MMV')
     idf = write_EMS_program(idf, xlsx_mmv, zone_dict_mmv)
-    # Update the replace.xlsx file (only if necessary)
     return idf
 
 
@@ -180,33 +178,6 @@ def renumber_surface_dict(surface_dict):
         surface_dict[n] = surface_dict.pop(k)
         n += 1
     return surface_dict
-
-
-def create_window_dict(idf, zone_dict_non_afn):
-    """
-    Creates a dictionary with window information, with integer keys
-    :param idf: The .idf file
-    :param zone_dict_non_afn: Dictionary of zones without AFN (with fewer than two AFN-compatible surfaces)
-    :return window_dict: Dictionary of windows (their names, and surface and zone they belong to)
-    """
-    window_dict = {}
-    i = 1
-    idf_objects = ['Window', 'FenestrationSurface:Detailed']
-    for idf_object in idf_objects:
-        for obj in idf.idfobjects[idf_object]:
-            if idf_object == 'FenestrationSurface:Detailed':
-                if obj.Surface_Type != 'Window':
-                    continue
-            surface = obj.Building_Surface_Name
-            zone = [obj2.Zone_Name for obj2 in idf.idfobjects['BuildingSurface:Detailed'] if obj2.Name == surface]
-            if zone[0] in [v['Zone_Name'] for v in zone_dict_non_afn.values()]:
-                continue
-            window_dict[i] = {}
-            window_dict[i]['Name'] = obj.Name
-            window_dict[i]['Surface'] = surface
-            window_dict[i]['Zone'] = zone[0]
-            i += 1
-    return window_dict
 
 
 def create_surface_dict(idf):
