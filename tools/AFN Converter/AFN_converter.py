@@ -5,29 +5,40 @@ Copyright: Kamila Krych, 2022
 Version 1.0
 """
 import os
+import sys
 # Make sure that you have selected the correct working directory (BUILDME)
 # Standalone Run Requirements
 ep_version = '9.2.0'
-path_parent = os.path.dirname(os.path.dirname(os.getcwd()))
-os.chdir(path_parent)
+if os.path.basename(os.getcwd()) != 'BuildME':
+    os.chdir('../..')
+sys.path.append(os.getcwd()) 
 from BuildME import mmv
 from BuildME.idf import read_idf
 
 
-def convert_to_AFN(idf_path, occ_type, destination_path):
+def convert_to_AFN(idf_path, occ_type, destination_path, refresh_excel=False):
     idf = read_idf(idf_path)
     dictionaries = mmv.create_dictionaries(idf, occ_type)
     xlsx_mmv = './data/mmv-implementation.xlsx'
     idf_afn = mmv.change_archetype_to_AFN(idf, dictionaries, xlsx_mmv)
-    path = destination_path + occupation + '-HVAC-with-AFN.idf'
+    path = destination_path + occ_type + '-HVAC-with-AFN.idf'
     if os.path.isfile(path) is True:
         os.remove(path)
     idf_afn.saveas(path)
+    # create or update excel file with replace instructions
+    dir_replace_mmv = destination_path + 'replace_mmv.xlsx'
+    if refresh_excel:
+        if os.path.isfile(dir_replace_mmv) is True:
+            # delete existing mmv-implementation.xlsx
+            os.remove(dir_replace_mmv)
+    mmv.create_or_update_excel_replace(occ_type, xlsx_mmv, dictionaries, dir_replace_mmv)
 
 
 if __name__ == "__main__":
-    originalidf_path = "tools\\AFN Converter\\original\\SFH-HVAC.idf"
-    occupation = 'SFH'
-    savefolder_path = "tools\\AFN Converter\\"
+    for occupation in ['RT', 'MFH', 'SFH', 'HotelLarge', 'OfficeMedium', 'SchoolPrimary', 'SchoolSecondary',
+                            'RetailStripmall', 'RetailStandalone']:
+        print(f'Converting {occupation} archetype to the AFN variant...')
+        originalidf_path = "tools\\AFN Converter\\original\\" + occupation + "-HVAC.idf"
+        savefolder_path = "tools\\AFN Converter\\"
 
-    convert_to_AFN(originalidf_path, occupation, savefolder_path)
+        convert_to_AFN(originalidf_path, occupation, savefolder_path)
