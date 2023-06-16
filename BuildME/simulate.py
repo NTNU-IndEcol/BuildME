@@ -160,7 +160,10 @@ def apply_rule_from_excel(idf_f, res, en_replace):
     :param en_replace: Excel replacement rules from data/replace.xlsx, sheet 'en-standard' *or* 'RES
     :return: Modified idf file
     """
-    xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]  # if no replacement, the variable is empty
+    try:
+        xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]  # if no replacement, the variable is empty
+    except KeyError:
+        xls_values = pd.DataFrame(columns=en_replace.columns)
     if len(xls_values) == 0:
         print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
     for xls_value in xls_values.iterrows():
