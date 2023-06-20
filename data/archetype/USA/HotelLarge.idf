@@ -12162,7 +12162,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12179,7 +12179,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12196,7 +12196,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12213,7 +12213,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12230,7 +12230,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12247,7 +12247,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12264,7 +12264,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12281,7 +12281,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12298,7 +12298,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12315,7 +12315,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12332,7 +12332,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12349,7 +12349,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12366,7 +12366,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12383,7 +12383,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12400,7 +12400,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12417,7 +12417,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12434,7 +12434,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12451,7 +12451,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12468,7 +12468,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12485,7 +12485,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12502,7 +12502,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12519,7 +12519,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12536,7 +12536,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12553,7 +12553,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12570,7 +12570,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12587,7 +12587,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12604,7 +12604,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12621,7 +12621,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12638,7 +12638,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12655,7 +12655,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12672,7 +12672,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12689,7 +12689,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12706,7 +12706,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12723,7 +12723,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12740,7 +12740,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12757,7 +12757,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12774,7 +12774,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12791,7 +12791,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12808,7 +12808,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12825,7 +12825,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12842,7 +12842,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12859,7 +12859,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12876,7 +12876,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12893,7 +12893,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12910,7 +12910,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12927,7 +12927,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12944,7 +12944,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12961,7 +12961,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12978,7 +12978,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -12995,7 +12995,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13012,7 +13012,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13029,7 +13029,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13046,7 +13046,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13063,7 +13063,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13080,7 +13080,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13097,7 +13097,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13114,7 +13114,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13131,7 +13131,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13148,7 +13148,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13165,7 +13165,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13182,7 +13182,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13199,7 +13199,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13216,7 +13216,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13233,7 +13233,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13250,7 +13250,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13267,7 +13267,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13284,7 +13284,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13301,7 +13301,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13318,7 +13318,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13335,7 +13335,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13352,7 +13352,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13369,7 +13369,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13386,7 +13386,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13403,7 +13403,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13420,7 +13420,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13437,7 +13437,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13454,7 +13454,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13471,7 +13471,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13488,7 +13488,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13505,7 +13505,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13522,7 +13522,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13539,7 +13539,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13556,7 +13556,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13573,7 +13573,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13590,7 +13590,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13607,7 +13607,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13624,7 +13624,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13641,7 +13641,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13658,7 +13658,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13675,7 +13675,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13692,7 +13692,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13709,7 +13709,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13726,7 +13726,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13743,7 +13743,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13760,7 +13760,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13777,7 +13777,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13794,7 +13794,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13811,7 +13811,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13828,7 +13828,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13845,7 +13845,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -13862,7 +13862,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_on_MMV,            !- Venting Availability Schedule Name
+    always_on_BuildME,        !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14066,7 +14066,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14083,7 +14083,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14100,7 +14100,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14117,7 +14117,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14304,7 +14304,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14321,7 +14321,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14338,7 +14338,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14355,7 +14355,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14372,7 +14372,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14389,7 +14389,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14406,7 +14406,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14423,7 +14423,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -14440,7 +14440,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     100,                      !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor
     0,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor
     300000,                   !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor
-    always_off_BuildME,           !- Venting Availability Schedule Name
+    always_off_BuildME,       !- Venting Availability Schedule Name
     ,                         !- Occupant Ventilation Control Name
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
@@ -15059,7 +15059,7 @@ AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
 
 AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
     Opening_15,               !- Name
-    0.001,                         !- Air Mass Flow Coefficient When Opening is Closed
+    ,                         !- Air Mass Flow Coefficient When Opening is Closed
     0.65,                     !- Air Mass Flow Exponent When Opening is Closed
     NonPivoted,               !- Type of Rectangular Large Vertical Opening LVO
     0,                        !- Extra Crack Length or Height of Pivoting Axis

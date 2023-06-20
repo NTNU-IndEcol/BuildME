@@ -71,6 +71,9 @@ def create_combinations(comb=settings.combinations):
                         # 6 Climate scenario
                         for climate_scen in comb[region]['climate_scenario']:
                             for cool in comb[region]['cooling']:
+                                if cool == 'MMV' and occ_type == 'Hospital':
+                                    print("Warning: the MMV variant of the hospital archetype is not supported.")
+                                    continue
                                 fname = '_'.join([region, occ_type, energy_std, res, climate_reg, climate_scen, cool])
                                 if cool == 'MMV':
                                     cool_str = '_auto-MMV'
@@ -145,7 +148,7 @@ def apply_obj_name_change(idf_data, replacer, replace_str):
     return idf_data
 
 
-def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
+def apply_rule_from_excel(idf_f, res, en_replace):
     """
     The function will use the values in data/replace.xlsx, as handed over in en_replace, and
      replace them in the idf file. The function can be either applied for RES, e.g. ['USA', 'MFH', 'RES0'],
@@ -154,25 +157,15 @@ def apply_rule_from_excel(idf_f, res, en_replace, mmv_en_replace):
 
     :param idf_f: Un-modified / original idf file
     :param res: RES, e.g. ['USA', 'MFH', 'RES0'] or en_standard, e.g. ['USA', 'MFH', 'standard']
-    :param en_replace: Excel replacement rules from data/replace.xlsx, sheet 'en-standard' *or* 'RES'
-    :param mmv_en_replace: Excel replacement rules related to MMV cooling type
+    :param en_replace: Excel replacement rules from data/replace.xlsx, sheet 'en-standard' *or* 'RES
     :return: Modified idf file
     """
-    xls_values1 = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]  # if no replacement, the variable is empty
-    if 'RES' in res[2]:  # excel replacement rules for RES
-        xls_values = xls_values1
-    else:  # excel replacement rules for en-standard
-        if mmv_en_replace is None: # for HVAC cooling
-            xls_values = xls_values1
-        else: # for MMV cooling
-            xls_values2 = mmv_en_replace.loc(axis=0)[[res[1]], [res[2]]]  # MMV only matters for energy standard
-            if xls_values1.empty:
-                xls_values = xls_values2
-            else:
-                xls_values = pd.concat([xls_values1, xls_values2])
-        # Check if the combination has a value in replace.xlsx
-        if len(xls_values) == 0:
-            print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
+    try:
+        xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]  # if no replacement, the variable is empty
+    except KeyError:
+        xls_values = pd.DataFrame(columns=en_replace.columns)
+    if len(xls_values) == 0:
+        print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
     for xls_value in xls_values.iterrows():
         if xls_value[1]['Value'] == 'skip':
             continue
@@ -221,10 +214,6 @@ def copy_scenario_files(fnames, run, replace=False):
     res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
     en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
     cooling_types = [fnames[k]['cooling'] for k in fnames]
-    if all(item == 'HVAC' for item in cooling_types):
-        mmv_en_replace = None
-    else:
-        mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
     tq = tqdm(fnames, leave=True, desc="copy")
     for fname in tq:
         # tq.set_description(fname)
@@ -254,8 +243,8 @@ def copy_scenario_files(fnames, run, replace=False):
             res_str = [region, occ_type, fnames[fname]['RES']]
         en_replace.sort_index(inplace=True)
         res_replace.sort_index(inplace=True)
-        idf_f = apply_rule_from_excel(idf_f, en_str, en_replace, mmv_en_replace)
-        idf_f = apply_rule_from_excel(idf_f, res_str, res_replace, mmv_en_replace)
+        idf_f = apply_rule_from_excel(idf_f, en_str, en_replace)
+        idf_f = apply_rule_from_excel(idf_f, res_str, res_replace)
         idf_f.idfobjects['Building'.upper()][0].Name = fname
         idf_f.saveas(os.path.join(fpath, 'in.idf'))
     # save list of all folders
@@ -280,17 +269,13 @@ def copy_scenario_files_mp(fnames, run, replace=False, cpus=find_cpus(settings.c
     res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
     en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
     cooling_types = [fnames[k]['cooling'] for k in fnames]
-    if all(item == 'HVAC' for item in cooling_types):
-        mmv_en_replace = None
-    else:
-        mmv_en_replace = pd.read_excel('./data/replace_mmv.xlsx', index_col=[0, 1], sheet_name='en-standard')
     tq = tqdm(fnames, leave=True, desc="copy")
 
     pool = mp.Pool(processes=cpus)
     m = mp.Manager()
     q = m.Queue()
     pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
-    args = [(fnames, fname, run, en_replace, res_replace, mmv_en_replace, q, no) for no, fname in enumerate(fnames)]
+    args = [(fnames, fname, run, en_replace, res_replace, q, no) for no, fname in enumerate(fnames)]
     result = pool.map_async(copy_scenario_files_worker, args)
     old_q = 0
     while not result.ready():
@@ -320,7 +305,7 @@ def copy_scenario_files_worker(args):
     :param args: All necessary
     :return:
     """
-    fnames, fname, run, en_replace, res_replace, mmv_en_replace, q, no = args
+    fnames, fname, run, en_replace, res_replace, q, no = args
     # tq.set_description(fname)
     fpath = os.path.join(settings.tmp_path, run, fname)
     # create folder
@@ -348,8 +333,8 @@ def copy_scenario_files_worker(args):
         res_str = [region, occ_type, fnames[fname]['RES']]
     en_replace.sort_index(inplace=True)
     res_replace.sort_index(inplace=True)
-    idf_f = apply_rule_from_excel(idf_f, en_str, en_replace, mmv_en_replace)
-    idf_f = apply_rule_from_excel(idf_f, res_str, res_replace, mmv_en_replace)
+    idf_f = apply_rule_from_excel(idf_f, en_str, en_replace)
+    idf_f = apply_rule_from_excel(idf_f, res_str, res_replace)
     idf_f.idfobjects['Building'.upper()][0].Name = fname
     idf_f.saveas(os.path.join(fpath, 'in.idf'))
     q.put(no)

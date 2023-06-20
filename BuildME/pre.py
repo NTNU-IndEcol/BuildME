@@ -42,13 +42,17 @@ def validate_ep_version(folders=settings.archetypes, crash=True):
 
 
 def create_mmv_variants(comb=settings.combinations, refresh_excel=True):
-    """Create MMV variants for the archetypes"""
+    """
+    Create MMV variants for the archetypes
+    :param comb: a dictionary with the chosen combination of archetypes to be simulated
+    :param refresh_excel: a boolean value indicating if the excel sheet replace_mmv.xlsx should be created
+    """
     xlsx_mmv = './data/mmv-implementation.xlsx'
-    dir_replace_mmv = './data/replace_mmv.xlsx'
-    if refresh_excel:
-        if os.path.isfile(dir_replace_mmv) is True:
-            # delete existing mmv-implementation.xlsx
-            os.remove(dir_replace_mmv)
+    # dir_replace_mmv = './data/replace_mmv.xlsx'
+    # if refresh_excel:
+    #     if os.path.isfile(dir_replace_mmv) is True:
+    #        # delete existing mmv-implementation.xlsx
+    #        os.remove(dir_replace_mmv)
     # 1 Region
     created = []  # List to keep of the created MMV archetypes
     for region in [r for r in comb]:
@@ -78,8 +82,8 @@ def create_mmv_variants(comb=settings.combinations, refresh_excel=True):
                         if os.path.isfile(path) is True:
                             os.remove(path)
                         idf_mmv.saveas(path)
-                        if refresh_excel:
-                            mmv.create_or_update_excel_replace(occ_type, xlsx_mmv, dictionaries, dir_replace_mmv)
+                        # if refresh_excel:
+                        #     mmv.create_or_update_excel_replace(occ_type, xlsx_mmv, dictionaries, dir_replace_mmv)
                         created.append(archetype_wt_ext)
                     else:
                         print(f"The MMV variant for {occ_type} cannot be created")
