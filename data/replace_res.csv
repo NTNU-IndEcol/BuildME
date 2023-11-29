@@ -1,0 +1,3 @@
+﻿Occupation,RES,idfobject,objectfield,Name,Value,Comment
+SFH,RES0,People,Number_of_People,people_unit1,3,Original value in file. It is consistent with the average m2/cap in the US. 223/71 = 3.14
+MFH,RES0,People,Number_of_People,people_unit1,2,Original value in file 18 units with 2 people = 36. 2007 m2 / 36 cap = 55.75 m2/cap

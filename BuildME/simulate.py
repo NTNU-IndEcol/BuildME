@@ -3,24 +3,71 @@ Functions to perform the actual simulations.
 
 Copyright: Niko Heeren, 2019
 """
-import collections
 import datetime
 import multiprocessing as mp
 import os
 import shutil
-import pickle
-import subprocess
-import sys
 from time import sleep
-import json
-
 import pandas as pd
 from tqdm import tqdm
+from eppy.modeleditor import IDF
+import openpyxl
+import numpy as np
+from BuildME import energy, material, settings, batch, mmv
 
-from BuildME import settings, idf, material, energy, mmv, __version__
+
+def validate_ep_version(idf_files, crash=True):
+    """
+    Walks through all archetype files and verify matching energyplus version
+    :param idf_files: List of idf files to check
+    :param crash: Raise Error if true and an error is found. Else script will continue.
+    """
+    # Check if energyplus version matches the one of the binary
+    idd = os.path.abspath(os.path.join(settings.ep_path, "Energy+.idd"))
+    with open(idd, mode='r') as f:
+        bin_ver = f.readline().strip().split()[1]  # Extract the version from the IDD file's first line, e.g. '!IDD_Version 9.2.0'
+
+    if bin_ver != settings.ep_version:
+        err = "WARNING: energyplus version in settings (%s) does not match implied version (%s) from path (%s)" \
+              % (settings.ep_version, bin_ver, idd)
+        if crash:
+            raise AssertionError(err)
+        else:
+            print(err)
+    # https://stackoverflow.com/a/18394205/2075003
+
+    for idff in tqdm(idf_files):
+        with open(idff) as f:
+            for line in f:
+                if '!- Version Identifier' in line:
+                    if settings.ep_version[:-2] not in line:
+                        print("WARNING: '%s' has the wrong energyplus version; %s" % (idff, line))
 
 
-def find_cpus(method):
+def create_mmv_variant(idf_path, ep_dir, archetype):
+    """
+    Create MMV variants for the archetypes
+    :param comb: a dictionary with the chosen combination of archetypes to be simulated
+    :param refresh_excel: a boolean value indicating if the excel sheet replace_mmv.xlsx should be created
+    """
+    xlsx_mmv = './data/mmv-implementation.xlsx'
+    idf_path_original = idf_path.replace('_auto-MMV.idf', '.idf')
+    idf_f = read_idf(ep_dir, idf_path_original)
+    dictionaries = mmv.create_dictionaries(idf_f, archetype)
+    #TODO: if the archetype doesn't have the proper AFN objects, print a message and stop execution 
+    flag = mmv.check_if_mmv_zones(dictionaries)
+    if flag:  # if the archetype can be created
+        print(f"Creating the MMV variant for %s..." % os.path.relpath(idf_path, settings.archetypes))
+        idf_mmv = mmv.change_archetype_to_MMV(idf_f, dictionaries, xlsx_mmv)
+        if os.path.isfile(idf_path) is True:
+            os.remove(idf_path)
+        idf_mmv.saveas(idf_path)
+    else:
+        raise Exception(f"The MMV variant for {archetype} cannot be created")
+    return
+
+
+def find_cpus(method=settings.cpus):
     """
     Returns the number of CPUs available on the system. This can then be used in calculate_energy_mp for example.
      Not using the maximum number of CPUs is sometimes beneficial, because the computer can shuffle around data, etc.
@@ -43,998 +90,482 @@ def find_cpus(method):
         raise AssertionError("Method '%s' unknown." % method)
 
 
-def create_combinations(comb=settings.combinations):
-    """
-    Creates permutations of files to be simulated / calculated.
-    The foldernames are coded as follows and separated by underscores: World Region, Occupation archetype,
-    energy standard, Resource Efficiency Strategy RES, climate region, and climate scenario.
-    An example for the USA, single-family home, standard energy efficiency, no RES, in US climate region 1A,
-    and with the climate scenario of 2015 (i.e. none): US_SFH_standard_RES0_cr1A_2015
-    :return: Dictionary with simulation parameters `fnames` and simulation name `run`
-    """
-    print("Creating scenario combinations")
-    run = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
-    fnames = {}
-    # 1 Region
-    for region in [r for r in comb if r != 'all']:
-        # 2 archetype
-        for occ_type in comb[region]['occupation']:
-            # 3 energy standard
-            for energy_std in comb[region]['energy standard']:
-                # 'informal' type only has 'non-standard' -- skip other combinations
-                if occ_type == 'informal' and energy_std in ['standard', 'efficient', 'ZEB']:
-                    continue
-                # 4 Resource Efficiency Strategy
-                for res in comb[region]['RES']:
-                    # 5 Climate region
-                    for climate_reg in comb[region]['climate_region']:
-                        # 6 Climate scenario
-                        for climate_scen in comb[region]['climate_scenario']:
-                            for cool in comb[region]['cooling']:
-                                if cool == 'MMV' and occ_type == 'Hospital':
-                                    print("Warning: the MMV variant of the hospital archetype is not supported.")
-                                    continue
-                                fname = '_'.join([region, occ_type, energy_std, res, climate_reg, climate_scen, cool])
-                                if cool == 'MMV':
-                                    cool_str = '_auto-MMV'
-                                else:
-                                    cool_str = ''
-                                if (region,occ_type) in settings.archetype_proxies:
-                                    archetype_choice = os.path.join(settings.archetypes,
-                                                                    settings.archetype_proxies[(region,occ_type)][0],
-                                                                    settings.archetype_proxies[(region,occ_type)][1]
-                                                                    + cool_str + '.idf')
-                                else:
-                                    archetype_choice = os.path.join(settings.archetypes, region, occ_type
-                                                                    + cool_str + '.idf')
-                                fnames[fname] = \
-                                    {
-                                    'climate_file': os.path.join(settings.climate_files_path, climate_scen,
-                                                                 settings.climate_stations[region][climate_reg]),
-                                    'archetype_file': archetype_choice,
-                                    'energy_standard': energy_std,
-                                    'RES': res,
-                                    'region': region,
-                                    'occupation': occ_type,
-                                    'cooling': cool,
-                                    'run_folder': os.path.join(settings.tmp_path, run, fname)
-                                    }
-                                # make sure no underscores are used in the pathname, because this could cause issues later
-                                assert list(fnames)[-1].count('_') == 6, \
-                                    "Scenario combination names mustn't use underscores: '%s'" % list(fnames)[-1]
-    # create base folder
-    create_base_folder(run, comb, fnames)
-    return fnames, run
+def read_idf(ep_dir, idf_path):
+    idd = os.path.abspath(os.path.join(ep_dir, "Energy+.idd"))
+    IDF.setiddname(idd)
+    with open(idf_path, 'r') as infile:
+        idf = IDF(infile)
+    return idf
 
 
-def nuke_folders(fnames, run, forgive=True):
-    """
-    Deletes all folders specified in the `fnames` variable.
-    :param forgive: will continue also if certain folder's don't exist
-    :param fnames: List of foldernames as created by create_combinations()
-    :return:
-    """
-    for fname in fnames:
-        fpath = os.path.join(settings.tmp_path, fname)
-        if not os.path.exists(fpath) and forgive:
-            continue
-        shutil.rmtree(fpath)
-    remaining_folders = [x[0] for x in os.walk(settings.tmp_path)][1:]
-    if len(remaining_folders) > 0:
-        print("INFO: './tmp' folder not empty: %s" % ', '.join(remaining_folders))
-
-
-def apply_obj_name_change(idf_data, replacer, replace_str):
+def apply_obj_name_change(idf, aspect, aspect_value):
     """
     Searches for a defined string (replace_str) in defined IDF fiel objects and prelaces them with a replacement
       string (replacer).
-    :param idf_data: file and path, e.g. 'BuildME/data/archetype/USA/SFH.idf'
-    :param replacer: Replacement string, e.g. '-en-std-replaceme'
-    :param replace_str: String to search and replace, e.g. 'ZEB'
+    :param idf: file and path, e.g. 'BuildME/data/archetype/USA/SFH.idf'
+    :param aspect: Name of the aspect to be replaced, e.g., 'en_std'
+    :param aspect_value: String to search and replace, e.g. 'ZEB'
     """
-
-    # If the windows are modeled in FenestrationSurface:Detailed instead of Window object
-    if 'FENESTRATIONSURFACE:DETAILED' in [x for x in idf_data.idfobjects]:
-        objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed', 'Door', 'Window']
-    else:
-        objects = ['Window', 'BuildingSurface:Detailed', 'Door']
-    # Load IDF file
+    objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed', 'Door', 'Window', 'InternalMass']
+    replace_str = '-'+aspect+'-replaceme'
+    flag_replaceme = False
     for obj_type in objects:
-        for obj in idf_data.idfobjects[obj_type.upper()]:
+        for obj in idf.idfobjects[obj_type.upper()]:
             if replace_str in obj.Construction_Name:
                 # replace the item
-                obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + replacer)
-    # idf_data.idfobjects['Building'.upper()][0].Name = '.'.join(replacer)
-    return idf_data
+                obj.Construction_Name = obj.Construction_Name.replace(replace_str, '-' + aspect_value)
+                flag_replaceme = True
+    if not flag_replaceme:
+        print(f"Warning: No replaceme strings found for aspect {aspect} in building "
+              f"{idf.idfobjects['BUILDING'][0].Name}")
+    return idf
 
 
-def apply_rule_from_excel(idf_f, res, en_replace):
+def apply_rule_from_excel(idf_f, aspect, aspect_value, archetype, csv_folder):
     """
-    The function will use the values in data/replace.xlsx, as handed over in en_replace, and
-     replace them in the idf file. The function can be either applied for RES, e.g. ['USA', 'MFH', 'RES0'],
-     or en-standard, e.g. ['USA', 'MFH', 'standard'].
-     It is being called from copy_scenario_files().
+    The function will use the values in the replacement csv spreadsheet and replace them in the idf file.
 
     :param idf_f: Un-modified / original idf file
-    :param res: RES, e.g. ['USA', 'MFH', 'RES0'] or en_standard, e.g. ['USA', 'MFH', 'standard']
-    :param en_replace: Excel replacement rules from data/replace.xlsx, sheet 'en-standard' *or* 'RES
+    :param aspect: res or en-std
+    :param aspect_value:
+    :param archetype: archetype name
+    :param csv_folder: the location of the spreadsheet with replacement rules
     :return: Modified idf file
     """
+    csv_dir = os.path.join(csv_folder, "replace_"+aspect+".csv")
+    csv_replace = pd.read_csv(csv_dir, index_col=[0, 1])
+    csv_replace.sort_index(inplace=True)
     try:
-        xls_values = en_replace.loc(axis=0)[[res[0]], [res[1]], [res[2]]]  # if no replacement, the variable is empty
+        csv_data = csv_replace.loc(axis=0)[[archetype], [aspect_value]]  # if no replacement, the variable is empty
     except KeyError:
-        xls_values = pd.DataFrame(columns=en_replace.columns)
-    if len(xls_values) == 0:
-        print("WARNING: Did not find any replacement for '%s' in data/replace.xlsx" % res)
-    for xls_value in xls_values.iterrows():
-        if xls_value[1]['Value'] == 'skip':
-            continue
-        for idfobj in idf_f.idfobjects[xls_value[1]['idfobject'].upper()]:
-            if idfobj.Name not in ('*', xls_value[1].Name):
+        print(f"WARNING: Did not find any replacement for archetype {archetype} and {aspect} = {aspect_value} "
+              f"in {csv_dir}")
+    else:
+        for row in csv_data.iterrows():
+            if row[1]['Value'] == 'skip':
                 continue
-            setattr(idfobj, xls_value[1]['objectfield'], xls_value[1]['Value'])
+            obj = idf_f.getobject(row[1]['idfobject'].upper(), row[1]['Name'])
+            if obj is not None:
+                obj[row[1]['objectfield']] = row[1]['Value']
+            else:
+                print(f"WARNING: Did not find the EnergyPlus object {(row[1]['idfobject'].upper(), row[1]['Name'])} "
+                      f"in the IDF of archetype {archetype}")
     return idf_f
 
 
-def create_base_folder(bfolder, combinations, fnames):
-    """
-    Creates the base folder where simulations are stored and writes the config file.
-    :param bfolder: run folder name
-    :param combinations: settings dict
-    :param fnames: Configuration file
-    :return: None
-    """
-    bpath = os.path.join(settings.tmp_path, bfolder)
-    # create folder
-    os.makedirs(bpath)
-    cfile = os.path.join(bpath, "%s_config.txt" %bfolder)
-    with open(cfile, 'w') as conf_file:
-        conf_file.write("BuildME v%s\n\n" % __version__)
-        conf_file.write("Run folder:\n %s\n\n\n" % bpath)
-        conf_file.write("Config variable (typically 'settings.combinations'):\n\n")
-        conf_file.write(json.dumps(combinations, indent=4))
-        conf_file.write("\n\n\nEffective config and paths:\n\n")
-        conf_file.write(json.dumps(fnames, indent=4))
-        conf_file.write("\n")
-        conf_file.close()
+def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir):
+    idf_path_new = os.path.join(out_dir, 'in.idf')
+    shutil.copy2(idf_path, idf_path_new)
+    idf_file = read_idf(ep_dir, idf_path_new)
+    if replace_dict:
+        for aspect, aspect_value in replace_dict.items():
+            idf_file = apply_obj_name_change(idf_file, aspect, aspect_value)
+            idf_file = apply_rule_from_excel(idf_file, aspect, aspect_value, archetype, replace_csv_dir)
+    if archetype in os.path.basename(out_dir):
+        idf_file.idfobjects['Building'.upper()][0].Name = os.path.basename(out_dir)
+    idf_file.saveas(idf_path_new)
+    return
 
 
-def copy_scenario_files(fnames, run, replace=False):
-    """
-    Creates scenario folders and copies the necessary files (climate and IDF file) into them. Further,
-    it applies the energy standard and RES scenario to the IDF archetype.
-    :param replace:
-    :type fnames: List of combinations / foldernames as created by create_combinations()
-    :return:
-    """
-    if replace:
-        print("DELETING %i folders..." % len(fnames))
-        nuke_folders(fnames)
-    print("Copying files...")
-    res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
-    en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-    cooling_types = [fnames[k]['cooling'] for k in fnames]
-    tq = tqdm(fnames, leave=True, desc="copy")
-    for fname in tq:
-        # tq.set_description(fname)
-        fpath = os.path.join(settings.tmp_path, run, fname)
-        # create folder
-        os.makedirs(fpath)
-        # copy climate file
-        try:
-            shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
-        except FileNotFoundError:
-            dummy_epw = os.path.join(os.path.dirname(settings.climate_files_path),
-                                     'USA_NY_New.York-dummy.epw')
-            print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
-                  f"A dummy weather file for New York, NY (climate 4A) will be used: '{dummy_epw}'")
-            shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
-        # copy IDF archetype file
-        idf_f = idf.read_idf(fnames[fname]['archetype_file'])
-        idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'], '-en-std-replaceme')
-        idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'], '-res-replaceme')
-        region = fnames[fname]['region']
-        occ_type = fnames[fname]['occupation']
-        if (region, occ_type) in settings.archetype_proxies:
-            en_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['energy_standard']]
-            res_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['RES']]
+def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
+                     parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, epw_path=None):
+    # check if all necessary variables are defined
+    if ep_dir is None:
+        ep_dir = settings.ep_path
+    if replace_csv_dir is None:
+        replace_csv_dir = settings.replace_csv_dir
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if batch_sim is None: # for a one-off simulation
+        if idf_path is None:
+            raise Exception('Building archetype file not given')
+        if out_dir is None:
+            raise Exception('Output folder not given')
         else:
-            en_str = [region, occ_type, fnames[fname]['energy_standard']]
-            res_str = [region, occ_type, fnames[fname]['RES']]
-        en_replace.sort_index(inplace=True)
-        res_replace.sort_index(inplace=True)
-        idf_f = apply_rule_from_excel(idf_f, en_str, en_replace)
-        idf_f = apply_rule_from_excel(idf_f, res_str, res_replace)
-        idf_f.idfobjects['Building'.upper()][0].Name = fname
-        idf_f.saveas(os.path.join(fpath, 'in.idf'))
-    # save list of all folders
-    scenarios_filename = os.path.join(settings.tmp_path, run + '.run')
-    # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
-    pickle.dump(fnames, open(scenarios_filename, "wb"))
-    return scenarios_filename
-
-
-def copy_scenario_files_mp(fnames, run, replace=False, cpus=find_cpus(settings.cpus)):
-    """
-    Creates scenario folders and copies the necessary files (climate and IDF file) into them. Further,
-    it applies the energy standard and RES scenario to the IDF archetype.
-    :param replace:
-    :type fnames: List of combinations / foldernames as created by create_combinations()
-    :return:
-    """
-    if replace:
-        print("DELETING %i folders..." % len(fnames))
-        nuke_folders(fnames)
-    print("Copying files using %s CPUs..." % cpus)
-    res_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='RES')
-    en_replace = pd.read_excel('./data/replace.xlsx', index_col=[0, 1, 2], sheet_name='en-standard')
-    cooling_types = [fnames[k]['cooling'] for k in fnames]
-    tq = tqdm(fnames, leave=True, desc="copy")
-
-    pool = mp.Pool(processes=cpus)
-    m = mp.Manager()
-    q = m.Queue()
-    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
-    args = [(fnames, fname, run, en_replace, res_replace, q, no) for no, fname in enumerate(fnames)]
-    result = pool.map_async(copy_scenario_files_worker, args)
-    old_q = 0
-    while not result.ready():
-        #pbar.update()
-        #print(q.qsize())
-        if q.qsize() > old_q:
-            pbar.update(q.qsize() - old_q)
-        else:
-            pbar.update(0)
-        old_q = q.qsize()
-        sleep(0.2)
-    pool.close()
-    pool.join()
-    pbar.close()
-    result_output = result.get()
-
-    # save list of all folders
-    scenarios_filename = os.path.join(settings.tmp_path, run + '.run')
-    # pd.DataFrame(fnames.keys()).to_csv(scenarios_filename, index=False, header=False)
-    pickle.dump(fnames, open(scenarios_filename, "wb"))
-    return scenarios_filename
-
-
-def copy_scenario_files_worker(args):
-    """
-    The worker function for the multiprocessing function copy_scenario_files_mp().
-    :param args: All necessary
-    :return:
-    """
-    fnames, fname, run, en_replace, res_replace, q, no = args
-    # tq.set_description(fname)
-    fpath = os.path.join(settings.tmp_path, run, fname)
-    # create folder
-    os.makedirs(fpath)
-    # copy climate file
-    try:
-        shutil.copy(fnames[fname]['climate_file'], os.path.join(fpath, 'in.epw'))
-    except FileNotFoundError:
-        dummy_epw = os.path.join(os.path.dirname(settings.climate_files_path),
-                                 'USA_NY_New.York-dummy.epw')
-        print(f"No such weather file :'{fnames[fname]['climate_file']}'. "
-              f"A dummy weather file for New York, NY (climate 4A) will be used: '{dummy_epw}'")
-        shutil.copy(dummy_epw, os.path.join(fpath, 'in.epw'))
-    # copy IDF archetype file
-    idf_f = idf.read_idf(fnames[fname]['archetype_file'])
-    idf_f = apply_obj_name_change(idf_f, fnames[fname]['energy_standard'], '-en-std-replaceme')
-    idf_f = apply_obj_name_change(idf_f, fnames[fname]['RES'], '-res-replaceme')
-    region = fnames[fname]['region']
-    occ_type = fnames[fname]['occupation']
-    if (region, occ_type) in settings.archetype_proxies:
-        en_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['energy_standard']]
-        res_str = [*settings.archetype_proxies[(region, occ_type)], fnames[fname]['RES']]
+            if os.path.exists(out_dir) and clear_folder is True:
+                print(f'Clearing the content of the folder {out_dir}')
+                shutil.rmtree(out_dir)
+                os.makedirs(out_dir)
+            if not os.path.exists(out_dir):
+                os.makedirs(out_dir)
+        if epw_path is None or not os.path.exists(epw_path):
+            epw_path = os.path.join(os.path.dirname(settings.climate_files_path), 'USA_NY_New.York-dummy.epw')
+            print(f"Weather file (defined as {epw_path}) was not not found. "
+                  f"A dummy weather file for New York city (US) will be used instead.")
+        if not os.path.exists(os.path.join(out_dir, 'in.idf')):
+            copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+        validate_ep_version([os.path.join(out_dir, 'in.idf')])
+        # perform actual simulation
+        energy.perform_energy_calculation(out_dir, ep_dir, epw_path)
     else:
-        en_str = [region, occ_type, fnames[fname]['energy_standard']]
-        res_str = [region, occ_type, fnames[fname]['RES']]
-    en_replace.sort_index(inplace=True)
-    res_replace.sort_index(inplace=True)
-    idf_f = apply_rule_from_excel(idf_f, en_str, en_replace)
-    idf_f = apply_rule_from_excel(idf_f, res_str, res_replace)
-    idf_f.idfobjects['Building'.upper()][0].Name = fname
-    idf_f.saveas(os.path.join(fpath, 'in.idf'))
-    q.put(no)
+        # copy the necessary files
+        for sim in batch_sim:
+            idf_path = batch_sim[sim]['archetype_file']
+            out_dir = batch_sim[sim]['run_folder']
+            epw_path = batch_sim[sim]['climate_file']
+            archetype = batch_sim[sim]['occupation']
+            replace_dict = batch_sim[sim]['replace_dict']
+            if not os.path.exists(epw_path):
+                epw_path = os.path.join(os.path.dirname(settings.climate_files_path), 'USA_NY_New.York-dummy.epw')
+                print(f"Weather file (defined as {epw_path}) was not not found. "
+                      f"A dummy weather file for New York city (US) will be used instead.")
+            if not os.path.exists(os.path.join(out_dir, 'in.idf')): # if the in.idf hasn't been created yet
+                if not os.path.exists(idf_path) and batch_sim[sim]['cooling'] == 'MMV':
+                    create_mmv_variant(idf_path, ep_dir, archetype)
+                copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+        validate_ep_version(list(set([batch_sim[sim]['archetype_file'] for sim in batch_sim])))  # list with no duplicates
+        
+        # perform the simulation (ordinary or parallel)
+        if parallel is False:  # ordinary simulation
+            for sim in batch_sim:
+                out_dir = batch_sim[sim]['run_folder']
+                epw_path = batch_sim[sim]['climate_file']
+                # perform actual simulation
+                energy.perform_energy_calculation(out_dir, ep_dir, epw_path)
+        else: # parallel simulation
+            cpus = find_cpus()
+            print("Perform energy simulation on %s CPUs..." % cpus)
+            pool = mp.Pool(processes=cpus)
+            m = mp.Manager()
+            q = m.Queue()
+            pbar = tqdm(total=len(batch_sim), smoothing=0.1, unit='sim')
+            args = [(batch_sim[sim]['run_folder'], ep_dir, batch_sim[sim]['climate_file'], q, i)
+                    for i, sim in enumerate(batch_sim)]
+            result = pool.map_async(energy.perform_energy_calculation_mp, args)
+            old_q = 0
+            while not result.ready():
+                if q.qsize() > old_q:
+                    pbar.update(q.qsize() - old_q)
+                else:
+                    pbar.update(0)
+                old_q = q.qsize()
+                sleep(0.2)
+            pool.close()
+            pool.join()
+            pbar.close()
+    return
 
 
-def find_last_run(path=settings.tmp_path):
-    """
-    Returns the last scenario combination run as saved in copy_scenario_files().
-    :param path: folder to scan
-    :return: filename, e.g. '190403-230346.run'
-    """
-    candidates = [f for f in os.listdir(path) if f.endswith('.run')]
-    if len(candidates) == 0:
-        raise FileNotFoundError("Couldn't find any .run files in %s" % path)
-    return os.path.join(path, sorted(candidates)[-1]), sorted(candidates)[-1].rstrip('.run')
-
-
-def load_run_data_file(filename):
-    """
-    Returns the last scenario combination run as saved in copy_scenario_files().
-    :param filename: Absolute filename
-    :return: filename, e.g. '190403-230346.run'
-    """
-    print("Loading datafile '%s'" % filename)
-    return pickle.load(open(filename, 'rb'))
-
-
-def translate_to_odym_mat(total_material_mass):
-    """
-    Groups materials into a category.
-    :param total_material_mass: Total materials in kg, results variable
-    :return: Dict with categorized materials in kg, e.g. {material_category_1: 100, material_category_2: 666, ...}
-    """
-    res = {}
-    crash = []
-    for mat in total_material_mass:
-        if mat not in settings.odym_materials:
-            crash.append(mat)
-        elif settings.odym_materials[mat] not in res:
-            res[settings.odym_materials[mat]] = total_material_mass[mat]
+def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
+                        parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, atypical_materials=None,
+                        ifsurrogates=True, surrogates_dict=None, epw_path=None):
+    if ep_dir is None:
+        ep_dir = settings.ep_path
+    if atypical_materials is None:
+        atypical_materials = settings.atypical_materials
+    if replace_csv_dir is None:
+        replace_csv_dir = settings.replace_csv_dir
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if batch_sim is None:
+        if idf_path is None:
+            raise Exception('Building archetype file not given')
+        if out_dir is None:
+            raise Exception('Output folder not given')
         else:
-            res[settings.odym_materials[mat]] += total_material_mass[mat]
-    if crash:
-        raise AssertionError("The following items are missing in settings.odym_materials: %s" % crash)
-    return res
+            if os.path.exists(out_dir) and clear_folder is True:
+                print(f'Clearing the content of the folder {out_dir}')
+                shutil.rmtree(out_dir)
+                os.makedirs(out_dir)
+            if not os.path.exists(out_dir):
+                os.makedirs(out_dir)
+        if not os.path.exists(os.path.join(out_dir, 'in.idf')):
+            copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+        if ifsurrogates:
+            if surrogates_dict is None:
+                raise Exception("Surrogate element calculations requested but no surrogate dictionary given")
+        validate_ep_version([os.path.join(out_dir, 'in.idf')])
+        # perform actual simulation
+        idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
+        check_atypical_materials(idf_file, atypical_materials, config=False)
+        material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
+                                               ifsurrogates, replace_dict=replace_dict)
+    else:
+        # copy the necessary files
+        for sim in batch_sim:
+            idf_path = batch_sim[sim]['archetype_file']
+            out_dir = batch_sim[sim]['run_folder']
+            archetype = batch_sim[sim]['occupation']
+            replace_dict = batch_sim[sim]['replace_dict']
+            if not os.path.exists(os.path.join(out_dir, 'in.idf')):
+                if not os.path.exists(idf_path) and batch_sim[sim]['cooling'] == 'MMV':
+                    create_mmv_variant(idf_path, ep_dir, archetype)
+                copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+        validate_ep_version(list(set([batch_sim[sim]['archetype_file'] for sim in batch_sim])))  # list with no duplicates
+        # perform actual simulation
+        for sim in batch_sim:
+            out_dir = batch_sim[sim]['run_folder']
+            archetype = batch_sim[sim]['occupation']
+            replace_dict = batch_sim[sim]['replace_dict']
+            if ifsurrogates:
+                df_sur = settings.surrogate_elements
+                tpl = tuple(batch_sim[sim][asp] for asp in df_sur.index.names)
+                df_sur_sim = df_sur.loc[tpl]
+                df_sur_sim = df_sur_sim.reset_index(drop=True)
+                df_sur_sim = df_sur_sim.set_index('surrogate')
+                try:
+                    surrogates_dict = df_sur_sim.to_dict('index')
+                except ValueError:
+                    print('Warning: duplicates found in the "surrogate elements" sheet of the config file. '
+                          'Only the first entry will be kept.')
+                    df_sur_sim = df_sur_sim.groupby(df_sur_sim.index).first()
+                    surrogates_dict = df_sur_sim.to_dict('index')
+            idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
+            check_atypical_materials(idf_file, atypical_materials, config=True)
+            material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
+                                                   ifsurrogates, replace_dict=replace_dict)
+    return
 
 
-def calculate_materials(run=None, fnames=None):
-    print("Extracting materials and surfaces...")
-    if not fnames or run:
-        fnames, run = find_last_run()
-        fnames = load_run_data_file(fnames)
-    fallback_materials = idf.load_material_data()
-    tq = tqdm(fnames, desc='Initiating...', leave=True)
-    for folder in tq:
-        tq.set_description(folder)
-        run_path = os.path.join(settings.tmp_path, run, folder)
-        idff = idf.read_idf(os.path.join(run_path, 'in.idf'))
-        materials = idf.read_materials(idff)
-        materials_dict = idf.make_materials_dict(materials)
-        densities = idf.make_mat_density_dict(materials_dict, fallback_materials)
-        constructions = idf.read_constructions(idff)
-        mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
-
-        surfaces, surface_areas = idf.get_surfaces(idff, fnames[folder]['energy_standard'],
-                                                   fnames[folder]['RES'], fnames[folder]['occupation'])
-
-        mat_vol_bdg, densities = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2, densities)
-        total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
-
-        odym_mat = translate_to_odym_mat(total_material_mass)
-        # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
-        res = odym_mat
-        res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
-        res['footprint_area'] = surface_areas['footprint_area']
-        res = add_surrogates(res, fnames, folder, surface_areas)
-        total_material_mass = {k: (settings.odym_materials[k], total_material_mass[k]) for k in total_material_mass}
-        total_material_mass = {**{'Warning: surrogate materials missing!': ('', '')},
-                               **dict(sorted(total_material_mass.items(), key=lambda x: x[0].lower()))}
-        material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
-        res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
-        material.save_materials(res, run_path, filename='materials_odym.csv')
-
-
-def calculate_materials_mp(run=None, fnames=None, cpus=find_cpus(settings.cpus)):
-    print("Extracting materials and surfaces...")
-    if not fnames or run:
-        fnames, run = find_last_run()
-        fnames = load_run_data_file(fnames)
-    fallback_materials = idf.load_material_data()
-    tq = tqdm(fnames, desc='Initiating...', leave=True)
-    pool = mp.Pool(processes=cpus)
-    m = mp.Manager()
-    q = m.Queue()
-    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
-    args = [(fnames, fname, run, fallback_materials, q, no) for no, fname in enumerate(fnames)]
-    result = pool.map_async(calculate_materials_worker, args)
-    old_q = 0
-    while not result.ready():
-        # pbar.update()
-        # print(q.qsize())
-        if q.qsize() > old_q:
-            pbar.update(q.qsize() - old_q)
+def check_atypical_materials(idf_file, atypical_materials, config=True):
+    obj_types = ['Material:NoMass', 'Material:AirGap', 'WindowMaterial:SimpleGlazingSystem',
+                 'WindowMaterial:Glazing']
+    weird_mats = [obj for obj_type in obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
+    unknown_materials = {}
+    for mat in weird_mats:
+        if mat.Name not in atypical_materials.keys():
+            unknown_materials[mat.Name] = mat.obj[0]
+    if unknown_materials:
+        if config is False:
+            raise Exception(f'The following materials were not found in the atypical materials dictionary: '
+                            f'{list(unknown_materials.keys())}.'
+                            f'These materials need to be added manually to the atypical_materials variable.')
         else:
-            pbar.update(0)
-        old_q = q.qsize()
-        sleep(0.2)
-    pool.close()
-    pool.join()
-    pbar.close()
-    result_output = result.get()
+            wb = openpyxl.load_workbook(filename=settings.config_file)
+            ws = wb['atypical materials']
+            last_row = ws.max_row
+            c = 1
+            for mat, mat_type in unknown_materials.items():
+                ws.cell(column=3, row=last_row + c, value=mat)
+                ws.cell(column=4, row=last_row + c, value='?')
+                if mat_type in ['WindowMaterial:Glazing']:
+                    ws.cell(column=5, row=last_row + c, value='defined in ep')
+                else:
+                    ws.cell(column=5, row=last_row + c, value='?')
+                c += 1
+            wb.save(filename=settings.config_file)
+            wb.close()
+            raise Exception(f'The following materials were not found in the atypical materials dictionary: '
+                            f'{list(unknown_materials.keys())}.'
+                            f"\n\t These materials were added in sheet 'atypical materials' of the file "
+                            f'{os.path.basename(settings.config_file)}')
+    unspecified_materials = [k for k, v in atypical_materials.items() if v['density'] == '?' or v['thickness'] == '?']
+    if unspecified_materials:
+        raise Exception(f"The atypical materials dictionary includes entries with '?' instead of values "
+                        f"for the following \n\t materials: {unspecified_materials}.")
+    return
 
 
-def calculate_materials_worker(args):
-    fnames, folder, run, fallback_materials, q, no = args
-    run_path = os.path.join(settings.tmp_path, run, folder)
-    idff = idf.read_idf(os.path.join(run_path, 'in.idf'))
-    materials = idf.read_materials(idff)
-    materials_dict = idf.make_materials_dict(materials)
-    densities = idf.make_mat_density_dict(materials_dict, fallback_materials)
-    constructions = idf.read_constructions(idff)
-    mat_vol_m2 = material.calc_mat_vol_m2(constructions, materials_dict, fallback_materials)
-
-    surfaces, surface_areas = idf.get_surfaces(idff, fnames[folder]['energy_standard'],
-                                               fnames[folder]['RES'], fnames[folder]['occupation'])
-
-    mat_vol_bdg, densities = material.calc_mat_vol_bdg(idff, surfaces, mat_vol_m2, densities)
-    total_material_mass = material.calc_mat_mass_bdg(mat_vol_bdg, densities)
-
-    odym_mat = translate_to_odym_mat(total_material_mass)
-    # material_intensity = material.calc_material_intensity(total_material_mass, reference_area)
-    res = odym_mat
-    res['floor_area_wo_basement'] = surface_areas['floor_area_wo_basement']
-    res['footprint_area'] = surface_areas['footprint_area']
-    res = add_surrogates(res, fnames, folder, surface_areas)
-    total_material_mass = {k: (settings.odym_materials[k], total_material_mass[k]) for k in total_material_mass}
-    total_material_mass = {**{'Warning: surrogate materials missing!': ('', '')},
-                           **dict(sorted(total_material_mass.items(), key=lambda x: x[0].lower()))}
-    material.save_materials(total_material_mass, run_path, filename='materials_raw.csv')
-    res = dict(sorted(res.items(), key=lambda x: x[0].lower()))
-    material.save_materials(res, run_path, filename='materials_odym.csv')
-    q.put(no)
-
-
-def add_surrogates(res, fnames, folder, surface_areas):
-    number_of_floors = res['floor_area_wo_basement'] / res['footprint_area']
-    # TODO: generalise the addition of structural components
-
-    # If small SFH (1 floor) no steel beams should be added, only for SFH (two floors) or MFH (3 floors)
-    if 2 <= number_of_floors < 15:
-        loadbeam = add_surrogate_beams(fnames[folder]['RES'], res['floor_area_wo_basement'])
-        if loadbeam[0] in res:
-            res[loadbeam[0]] += loadbeam[1]
-        else:
-            res[loadbeam[0]] = loadbeam[1]
-        if 'RES2.1' in fnames[folder]['RES']:
-            postbeam = add_surrogate_beams(fnames[folder]['RES'], surface_areas['ext_wall'])
-            res[postbeam[0]] += postbeam[1]
-
-    # If building with more than 15 floors: modeled with columns, shear walls, flat slabs and larger foundation..
-    if number_of_floors > 15:
-        columns = add_surrogate_columns(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
-        foundation = add_foundation(res['footprint_area'])
-
-        # Iterating through columns dict with concrete and steel since reinforced concrete
-        for k, v in columns.items():
-            if k in res:
-                res[k] += v
-            else:
-                res[k] = v
-
-        for k, v in foundation.items():
-            if k in res:
-                res[k] += v
-            else:
-                res[k] = v
-        # If wooden version light wall steel studs and steel beams are added for the roof
-        if fnames[folder]['RES'] == 'RES2.1' or fnames[folder]['RES'] == 'RES2.1+RES2.2':
-            lightwall_steel = add_steel_lightwall(fnames[folder]['RES'], res['floor_area_wo_basement'], res['footprint_area'])
-            roof_beams = add_surrogate_roof_beams(fnames[folder]['RES'], res['footprint_area'])
-            if lightwall_steel[0] in res:
-                res[lightwall_steel[0]] += lightwall_steel[1]
-            else:
-                res[lightwall_steel[0]] = lightwall_steel[1]
-
-            if roof_beams[0] in res:
-                res[roof_beams[0]] += roof_beams[1]
-            else:
-                res[roof_beams[0]] = roof_beams[1]
-    return res
-
-
-def add_surrogate_beams(res, area, distance=0.6,):
-    res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .05*.05, 'density': 8050},
-                'RES2.1': {'Material': 'wood and wood products', 'vol': .12*.26, 'density': 500},
-                'RES2.2': {'Material': 'construction grade steel', 'vol': .04*.04, 'density': 8050},
-                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .12*.20, 'density': 500}}
-    side_length = area ** 0.5
-    number_beams = side_length / distance + 1
-    res_vol = res_dict[res]['vol'] * side_length * number_beams
-    mass = res_vol * res_dict[res]['density']
-    return res_dict[res]['Material'], mass
-
-#TODO: Change floor system to slab + beam instead of flat slab? See Gan et al.(2019)
-'''def add_surrogate_beams_slabs(res, area, distance=0.2,):
-    res_dict = {'RES0': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050},
-                'RES2.2': {'Material': 'construction grade steel', 'vol': .012*.012, 'density': 8050}}
-    side_length = area ** 0.5
-    number_beams = side_length / distance + 1
-    res_vol = res_dict[res]['vol'] * side_length * number_beams
-    mass = res_vol * res_dict[res]['density']
-    return res_dict[res]['Material'], mass'''
-
-
-def add_surrogate_postbeams(res, area, distance=0.6,):
-    res_dict = {'RES2.1': {'Material': 'wood and wood products', 'vol': .1*.05, 'density': 500},
-                'RES2.1+RES2.2': {'Material': 'wood and wood products', 'vol': .1*.04, 'density': 500}}
-    side_length = area ** 0.5
-    number_beams = side_length / distance + 1
-    res_vol = res_dict[res]['vol'] * side_length * number_beams
-    mass = res_vol * res_dict[res]['density']
-    return res_dict[res]['Material'], mass
-
-
-def add_surrogate_columns(res, floor_area, footprint_area, room_h = 3):
-    """
-    Function to add columns to the perimeter of the building. Dimensions for RT is taken from Taranth: Reinforced concrete
-    buildings, p. 219. Use the average column size of the middle floor approx.
-    Reinforcement ratio in columns is assumed to be 2.5-3% of the volume of concrete, based on Foraboschi et al. (2014).
-    #TODO: parameterise the size of columns depending on height of the buildings, spacing between columns etc.
-    :param res: scenario, RES0, RES2.1 etc.
-    :param floor_area: total floor area of building
-    :param footprint_area: footprint area of building
-    :param distance: spacing between columns in meters, book "Design of Tall Buildings" and Kim et al. (2008)
-    param room_h: height of room
-    :return: returns materials of columns and total mass
-    """
-    res_dict = {'RES0': {'Material': {'construction grade steel': {'vol': 0.03 * .950 * .750 * room_h, 'density': 7850},
-                                      'concrete': {'vol': .950 * .750 * room_h, 'density': 2400}}},
-                'RES2.1': {
-                    'Material': {'construction grade steel': {'vol': 0.03 * .50 * .50 * room_h, 'density': 7850},
-                                 'concrete': {'vol': .50 * .50 * room_h, 'density': 2400},
-                                 'wood and wood products': {'vol': .30 * .30 * room_h, 'density': 500}}},
-                'RES2.2': {'Material': {'construction grade steel': {'vol': 0.03 * .950 * .750 * room_h, 'density': 7850},
-                                        'concrete': {'vol': .950 * .750 * room_h, 'density': 2400}}},
-                'RES2.1+RES2.2': {
-                    'Material': {'construction grade steel': {'vol': 0.03 * .50 * .50 * room_h, 'density': 7850},
-                                 'concrete': {'vol': .50 * .50 * room_h, 'density': 2400},
-                                 'wood and wood products': {'vol': .265 * .215 * room_h, 'density': 500}}}}
-
-    perimeter = footprint_area ** 0.5 * 4
-    floors = floor_area / footprint_area
-
-    if res == 'RES0' or res == 'RES2.2':
-        distance = 9
-        number_columns = (perimeter / distance + 1)*floors
-
-    if res == 'RES2.1' or res == 'RES2.1+RES2.2':
-        distance = 3
-        number_columns_wood = (footprint_area/3**2)*(floors-2) # keep the concrete columns on the two lower floors
-        number_columns_reinforced = (footprint_area/3**2)*2
-
-    mat = dict()
-    for outer_k, outer_v in res_dict[res]['Material'].items():
-        if res == 'RES2.1' or res == 'RES2.1+RES2.2':
-            if outer_k == 'concrete' or outer_k == 'construction grade steel':
-                mat.update({outer_k: outer_v['vol'] * outer_v['density'] * number_columns_reinforced})
-            else:
-                mat.update({outer_k: outer_v['vol'] * outer_v['density'] * number_columns_wood})
-        else:
-            mat.update({outer_k: outer_v['vol'] * outer_v['density'] * number_columns})
-
-    return mat
-
-
-def add_steel_lightwall(res, floor_area, footprint_area, distance=0.4, room_h = 3):
-    """
-    Function to add light gauge steel wall for the wooden versions of the RT building.
-
-    """
-    res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .15 * .0005, 'density': 8050},
-                'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .15 * .0005, 'density': 8050}}
-    perimeter = footprint_area ** 0.5 * 4
-    floors = floor_area/footprint_area
-
-    number_vertical = perimeter / distance + 1
-    mass_horizontal_members = res_dict[res]['vol'] * room_h * number_vertical * res_dict[res]['density'] * floors
-    mass_vertical_members = res_dict[res]['vol'] * perimeter * 2 * res_dict[res]['density'] * floors
-
-    return res_dict[res]['Material'], mass_horizontal_members+mass_vertical_members
-
-
-def add_surrogate_roof_beams(res, footprint_area, distance=3,):
-    """
-    Function to add surrogate roof beams as for wooden RT building (as in Tallwood House, see doc)
-    """
-    res_dict = {'RES2.1': {'Material': 'construction grade steel', 'vol': .25*.25, 'density': 8050},
-                'RES2.1+RES2.2': {'Material': 'construction grade steel', 'vol': .20*.20, 'density': 8050}}
-
-    side_length = footprint_area ** 0.5
-    number_beams = side_length / distance + 1
-    res_vol = res_dict[res]['vol'] * side_length * number_beams
-    mass = res_vol * res_dict[res]['density']
-
-    return res_dict[res]['Material'], mass
-
-
-def add_foundation(footprint_area):
-    """
-    Function to add foundation for the high-rise buildings. 0.6 m3 concrete per footprint area and
-    100 kg steel per m3 concrete based on lit.review, see doc.
-    """
-    concrete_intensity = 0.6 # m3 concrete per footprint area
-    steel_intensity = 100 # kg steel per m3 concrete
-    density_concrete = 2400
-    vol_concrete = footprint_area * concrete_intensity
-    mass_concrete = vol_concrete * density_concrete
-    mass_steel = vol_concrete * steel_intensity
-
-    return dict(zip(['concrete', 'construction grade steel'], [mass_concrete, mass_steel]))
-
-
-def fix_macos_quarantine(foname):
-    """
-    macOS places executables into a quarantine. In order to execute energyplus the quarantine flag must be removed.
-    :param foname: executable folder name
-    :return: None
-    """
-    if settings.platform == "Darwin":
-        log_fname = os.path.join(foname, "log_xattr_macOS.txt")
-        with open(log_fname, 'w') as log_file:
-            print("Fixing quarantine issue for macOS")
-            cmd = "xattr -d -r com.apple.quarantine %s" % foname
-            print("Running '%s'" % cmd)
-            subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
-        log_file.close()
-
-
-def calculate_energy(fnames=None):
-    print("Perform energy simulation...")
-    if not fnames:
-        fnames, run = find_last_run()
-        fnames = load_run_data_file(fnames)
-    tq = tqdm(fnames, desc='Initiating...', leave=True)
-    for folder in tq:
-        run_path = os.path.join(settings.tmp_path, folder)
-        tq.set_description(folder)
-        copy_us = energy.gather_files_to_copy()
-        # TODO: Change Building !- Name
-        sfolder = os.path.join(run, folder)
-        tmp = energy.copy_files(copy_us, tmp_run_path=sfolder, create_dir=False)
-        # fix_macos_quarantine(run_path)
-        energy.run_energyplus_single(tmp)
-        energy.delete_ep_files(copy_us, tmp)
-
-
-def calculate_energy_mp(fnames=None, cpus=find_cpus(settings.cpus)):
-    print("Perform energy simulation on %s CPUs..." % cpus)
-    if not fnames:
-        fnames, rfolder = find_last_run()
-        fnames = load_run_data_file(fnames)
-    pool = mp.Pool(processes=cpus)
-    m = mp.Manager()
-    q = m.Queue()
-    pbar = tqdm(total=len(fnames), smoothing=0.1, unit='sim')
-    args = [(os.path.join(rfolder, folder), q, no) for no, folder in enumerate(fnames)]
-    result = pool.map_async(calculate_energy_worker, args)
-    old_q = 0
-    while not result.ready():
-        #pbar.update()
-        #print(q.qsize())
-        if q.qsize() > old_q:
-            pbar.update(q.qsize() - old_q)
-        else:
-            pbar.update(0)
-        old_q = q.qsize()
-        sleep(0.2)
-    pool.close()
-    pool.join()
-    pbar.close()
-    result_output = result.get()
-
-
-def calculate_energy_worker(args):
-    folder, q, no = args
-    run_path = os.path.join(settings.tmp_path, folder)
-    # sleep(1.5)
-    copy_us = energy.gather_files_to_copy()
-    tmp = energy.copy_files(copy_us, tmp_run_path=folder, create_dir=False)
-    energy.run_energyplus_single(tmp, verbose=False)
-    energy.delete_ep_files(copy_us, tmp)
-    q.put(no)
-
-
-def simulate_all(fnames):
-    """
-    Launches the simulations.
+def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
+    """ TODO: update this description
+    Reads the energy plus result file 'eplusout.csv' and returns the result (sum of entire column).
+    :param out_dir: Absolute path of 'eplusout.csv'
     :return:
     """
-    # scenarios = pd.read_csv(scenarios_csv)
-    calculate_materials(fnames)
-    # calculate_energy()
-    pass
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if batch_sim is None:
+        if folders is None:
+            raise Exception('Folders not given')
+    else:
+        folders = [batch_sim[sim]['run_folder'] for sim in batch_sim]
+    units = ['J', 'MJ', 'kWh']
+    if unit is None:
+        unit = 'MJ'
+    elif unit not in units:
+        print(f'Unit {unit} not recognized. MJ will be used instead')
+        unit = 'MJ'
+    multipliers = [1, 1/10**6, 1/(3.6*10**6)]
+    multiplier = multipliers[units.index(unit)]
+    # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
+    results_to_collect = ("Heating:EnergyTransfer [J](Hourly)",	"Cooling:EnergyTransfer [J](Hourly)",
+                          "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly) ")
+    for folder in folders:
+        ep_file = os.path.join(folder, 'eplusout.csv')
+        ep_out = pd.read_csv(ep_file)
+        df_results = ep_out.loc[:, results_to_collect].sum()*multiplier
+        df_results.index = [i.split(' [')[0] for i in df_results.index]
+        df_results = df_results.reset_index()
+        cols = list(df_results.columns)
+        new_cols = ['EnergyPlus output variable', 'Value']
+        df_results = df_results.rename(columns={k: new_cols[i] for i, k in enumerate(cols)})
+        df_results['Unit'] = unit
+        df_results = df_results[['EnergyPlus output variable', 'Unit', 'Value']]
+        total = pd.DataFrame([['TOTAL', unit, df_results['Value'].sum()]], columns=df_results.columns)
+        df_results = pd.concat([df_results, total], ignore_index=True)
+        df_results.to_csv(os.path.join(folder, 'energy_demand.csv'), index=False)
+    return df_results
 
 
-def collect_logs(fnames, logfile='eplusout.err'):
-    """
-    Goes through all folders and extracts the last line of the energyplus log file to make sure the simulation was successful.
-    :param fnames:
-    :param logfile:
-    :return:
-    """
-    print('Collecting E+ logs...')
-    res = {}
-    for folder in tqdm(fnames):
-        res[folder] = {}
-        file = os.path.join(fnames[folder]['run_folder'], logfile)
-        with open(file, "rb") as f:
-            # https://stackoverflow.com/a/18603065/2075003
-            # first = f.readline()  # Read the first line.
-            f.seek(-2, os.SEEK_END)  # Jump to the second last byte.
-            while f.read(1) != b"\n":  # Until EOL is found...
-                f.seek(-2, os.SEEK_CUR)  # ...jump back the read byte plus one more.
-            last = f.readline()  # Read last line.
-            res_string = last.decode("utf-8")
-            for repl in [('*', ''), ('  ', ''), ('\n', '')]:
-                res_string = res_string.replace(*repl)
-            res[folder]['ep_log'] = res_string
-    return res
+def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folders=None):
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if aggreg_dict is None:
+        aggreg_dict = settings.material_aggregation
+    if batch_sim is None:
+        if folders is None:
+            raise Exception('Folders not given')
+    else:
+        folders = [batch_sim[sim]['run_folder'] for sim in batch_sim]
+    unknown_materials = []
+    for folder in folders:
+        df = pd.read_csv(os.path.join(folder, 'mat_demand.csv'))
+        mapping = df['Material name'].map(aggreg_dict)
+        df['Material type'] = mapping
+        unknown_materials = unknown_materials + df[df['Material type'].isna()]['Material name'].values.tolist()
+        df['Material type'] = df['Material type'].replace(np.nan, '?')
+        cols = list(df.columns)
+        new_cols = [cols[-1]] + [col for col in cols[:-1]]
+        df = df[new_cols]
+        filename = os.path.join(folder, 'mat_demand_categorized.csv')
+        df.to_csv(filename, index=False)
+        df = df.groupby(['Material type', 'Unit']).sum()
+        df = df.reset_index()
+        total = pd.DataFrame([['TOTAL', 'kg', df['Value'].sum()]], columns=df.columns)
+        df = pd.concat([df, total], ignore_index=True)
+        filename = os.path.join(folder, 'mat_demand_aggregated.csv')
+        df.to_csv(filename, index=False)
+    unknown_materials = list(set(unknown_materials))  # deleting duplicates
+    if unknown_materials:
+        print(f'The following materials were not found in the material aggregation dictionary: {unknown_materials}')
+        if batch_sim is None:
+            print(f'These materials need to be added manually to the aggreg_dict variable.')
+        else:
+            wb = openpyxl.load_workbook(filename=settings.config_file)
+            ws = wb['material aggregation']
+            last_row = ws.max_row
+            c = 1
+            for i in unknown_materials:
+                ws.cell(column=3, row=last_row + c, value=i)
+                ws.cell(column=4, row=last_row + c, value='?')
+                c += 1
+            wb.save(filename=settings.config_file)
+            wb.close()
+            print(f"These materials were added in sheet 'material aggregation' of the file"
+                  f"{os.path.basename(settings.config_file)}. \n Unless the aggregation category is specified,"
+                  f" these materials will continue to be classified as '?'.")
+    return
 
 
-def load_material(fnames=None):
-    """
-    Walks through all simulation folders tmp/... and collects the result from materials.csv.
-    :param fnames: Simulations setup file.
-    :return: Dictionary with total material mass and floor area per building.
-    """
-    if not fnames:
-        fnames, run = find_last_run()
-        fnames = load_run_data_file(fnames)
-    print('Loading Material results...')
-    res = {}
-    for folder in tqdm(fnames):
-        df = pd.read_csv(os.path.join(fnames[folder]['run_folder'], 'materials_odym.csv'), header=None)
-        res[folder] = {d[1][0]: d[1][1] for d in df.iterrows()}
-        res[folder]['total_mat'] = df.sum(axis=0)[1]
-    return res
+def calculate_intensities(batch_sim=None, last_run=False, results=None, folders=None, ref_area='total_floor_area'):
+    if results is None:
+        results = ['energy_demand.csv', 'mat_demand.csv', 'mat_demand_aggregated.csv']
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if ref_area not in ['floor_area_occupied', 'floor_area_conditioned', 'total_floor_area'] \
+            and type(ref_area) not in [int, float]:
+        raise Exception(f'Reference area {ref_area} is unknown')
+    if batch_sim is None:
+        if folders is None:
+            raise Exception('Folders not given')
+    else:
+        folders = [batch_sim[sim]['run_folder'] for sim in batch_sim]
+    for folder in folders:
+        if ref_area in [int, float]:
+            area = ref_area
+        else:
+            try:
+                df_geom = pd.read_csv(os.path.join(folder, 'geom_stats.csv'), index_col='Geometry statistics')
+            except FileNotFoundError as e:
+                raise Exception('No geometry data available. Please perform material calculations first.') from e
+            # df_geom.index = df_geom['Geometry statistics']
+            area = df_geom.loc[ref_area][1]
+        for name in results:
+            new_name = name.replace('.csv', '_m2.csv')
+            try:
+                df = pd.read_csv(os.path.join(folder, name))
+            except FileNotFoundError:
+                pass
+            else:
+                df['Value'] = df['Value']/float(area)
+                df['Unit'] = df['Unit']+'/m2'
+                df.to_csv(os.path.join(folder, new_name), index=False)
+    return
 
 
-def collect_energy(fnames=None):
-    if not fnames:
-        fnames, run = find_last_run()
-        fnames = load_run_data_file(fnames)
-    print('Collecting Energy results...')
-    res = {}
-    for folder in tqdm(fnames):
-        energy_res = energy.ep_result_collector(os.path.join(fnames[folder]['run_folder']))
+def collect_results(batch_sim=None, last_run=False, results=None, folders=None, combinations=None):
+    if results is None:
+        results = ['energy_demand.csv', 'geom_stats.csv', 'mat_demand.csv', 'mat_demand_categorized.csv',
+                   'mat_demand_aggregated.csv', 'energy_demand_m2.csv', 'mat_demand_aggregated_m2.csv',
+                   'mat_demand_m2.csv']
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if combinations is None:
+        combinations = settings.debug_combinations
+    aspect_names = ['region'] + list(list(combinations.values())[0].keys())
+    if batch_sim is None:
+        if folders is None:
+            raise Exception('Folders not given')
+    else:
+        folders = [batch_sim[sim]['run_folder'] for sim in batch_sim]
+    parent_dir = os.path.dirname(folders[0])
+    for name in results:
+        summary_name = 'summary_'+name
+        summary_df = pd.DataFrame()
+        flag = True
+        for folder in folders:
+            try:
+                df = pd.read_csv(os.path.join(folder, name))
+            except FileNotFoundError:
+                flag = False
+                break
+            df['Building name'] = os.path.basename(folder)
+            summary_df = pd.concat([summary_df, df])
+        if flag:
+            summary_df.index = pd.MultiIndex.from_tuples(tuple(summary_df['Building name'].str.split('_')))
+            summary_df.index.names = aspect_names
+            summary_df = summary_df[['Building name']+list(summary_df.columns[:-1])]
+            filename = os.path.join(parent_dir, summary_name)
+            summary_df.to_csv(filename)
+    return
 
-        res[folder] = energy_res.to_dict()
-    return res
 
-
-def disaggregate_scenario_str(in_dict, unstack_cols):
-    """
-    Converting scenario titles, separated by underscores, into columns.
-    Also re-arranging dataframe.
-    :param in_dict:
-    :param unstack_cols:
-    :return:
-    """
-    res = pd.DataFrame.from_dict(in_dict, orient='index')
-    res.index = pd.MultiIndex.from_tuples(tuple(res.index.str.split('_')))
-    res.index.names = ['region', 'occupation', 'energy_std', 'RES', 'climate_reg', 'IPCC_scen', 'cooling']
-    res = res.unstack(unstack_cols)
-    return res
-
-
-def weighing_climate_region(res):
+def weighing_climate_region(batch_sim=None, last_run=False, results=None, combinations=None):
     """
     Multiplies each result by its climate region ratio given in aggregate.xlsx.
     :param res:
     :return:
     """
-    weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='climate_reg', index_col=[0, 1])
-    # making sure index is all strings
-    weights.index = pd.MultiIndex.from_tuples([(ix[0], str(ix[1])) for ix in weights.index.tolist()])
-    # I know looping DFs is lame, but who can figure out this fricking syntax?!
-    #  https://stackoverflow.com/a/41494810/2075003
-
-    for region in res.index.levels[0]:
-        # Why u not update the column index pandas??
-        for cr in set([c[1] for c in res.loc[region].dropna(axis=1)]):
-            assert (region, cr) in weights.index, \
-                "%s not found in './data/aggregate.xlsx', sheet 'climate_reg'" % ((region, cr),)
-            res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] = \
-                res.loc[pd.IndexSlice[region, :, :], pd.IndexSlice[:, cr]] * \
-                weights.loc[pd.IndexSlice[region, cr], 'share']
-    return res
-
-
-def weighing_energy_carrier(ei_result):
-    energy_dict = {'Cooling': 'Cooling:EnergyTransfer [J](Hourly)',
-                   'Heating': 'Heating:EnergyTransfer [J](Hourly)'}
-    weights = pd.read_excel('./data/aggregate.xlsx', sheet_name='energy_carrier', index_col=[0])
-    ei_result.index = ei_result.index.droplevel(4)
-    # Can't believe there is no easier way... https://stackoverflow.com/a/42612344/2075003
-    df = pd.DataFrame(data=0.0, index=ei_result.index, columns=['Heating', 'Cooling', 'DHW']).stack()
-    df = pd.DataFrame(data=0.0, index=df.index, columns=weights.columns).stack()
-    df.index.names = ei_result.index.names + ['ServiceType', 'energy_carrier']
-    for i, s in df.iteritems():
-        if i[4] in ('Heating', 'Cooling'):
-            df[i] = ei_result.loc[i[:-2], [energy_dict[i[4]]]].sum() * \
-                    weights.loc[i[0], i[-1]]
-        elif i[4] == 'DHW':
-            df[i] = ei_result.loc[i[:-2], ['DHW']] * weights.loc[i[0], i[-1]]
+    if results is None:
+        results = ['summary_energy_demand.csv', 'summary_energy_demand_m2.csv']
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if combinations is None:
+        combinations = settings.debug_combinations
+    aspect_names = ['region'] + list(list(combinations.values())[0].keys())
+    parent_dir = os.path.dirname(batch_sim[list(batch_sim.keys())[0]]['run_folder'])
+    weights = settings.climate_region_weight
+    for name in results:
+        try:
+            df = pd.read_csv(os.path.join(parent_dir, name))
+        except FileNotFoundError:
+            pass
         else:
-           df[i] = 0.0
-    return df
+            df_new = pd.merge(df, weights, on=['region', 'climate_region'])
+            df_new['Value'] = df_new['Value'] * df_new['share']
+            df_new = df_new.drop(columns=['share'])
+            df_new['climate_region'] = 'weighed'
+            df_new = df_new.groupby(aspect_names).sum()
+            filename = os.path.join(parent_dir, name.replace('.csv', '_weighed.csv'))
+            df_new.to_csv(filename)
+    return
 
 
-def divide_by_area(energy, material_surfaces, multi=1.0, ref_area='floor_area_wo_basement'):
-    res = {}
-    for scenario in energy:
-        res[scenario] = {}
-        area = material_surfaces[scenario][ref_area]
-        for e in energy[scenario]:
-            res[scenario][e] = energy[scenario][e] / area * multi
-    return res
-
-
-def save_ei_result(run, energy, material_surfaces, ref_area='floor_area_wo_basement'):
-    """
-
-    :param res:
-    :param ref_area:
-    :return:
-    """
-    res = divide_by_area(energy, material_surfaces, 1/10**6, ref_area)
-    res = disaggregate_scenario_str(res, ['climate_reg'])
-    fname = os.path.join(settings.tmp_path, run, run + '_ei.xlsx')
-    res.to_excel(fname)
-    res = weighing_climate_region(res)
-    res = add_DHW(res)
-    fname = os.path.join(settings.tmp_path, run, run + '_ei_weighed.xlsx')
-    writer = pd.ExcelWriter(fname, engine='xlsxwriter')
-    res.to_excel(writer, 'all')
-    res['Heating:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'heat')
-    res['Cooling:EnergyTransfer [J](Hourly)'].sum(axis=1).to_excel(writer, 'cool')
-    res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1).to_excel(writer, 'light')
-    res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1).to_excel(writer, 'equip')
-    (res['InteriorEquipment:Electricity [J](Hourly) '].sum(axis=1) +
-     res['InteriorLights:Electricity [J](Hourly)'].sum(axis=1)).to_excel(writer, 'elec_total')
-    res['DHW'].to_excel(writer, 'DHW')
-    res.sum(axis=1).to_excel(writer, 'total')
-    writer.save()
-    return res
-
-
-# Andrea: assume the same for RT as for MFH for now...
-def add_DHW(ei, dhw_dict={'MFH': 75, 'SFH': 50, 'informal': 50, 'RT': 75, 'SFH-small-concrete': 50, 'Office': 15,
-                          'SchoolPrimary': 100, 'SchoolSecondary': 100, 'RetailStripmall': 100,'RetailStandalone': 100,
-                          'OfficeMedium': 100,'SFH-small-masonry': 50, 'SFH-small-wood': 50, 'MFH-masonry': 75,
-                          'SFH-masonry': 50, 'HotelLarge': 100,
-                          'Hospital': 62*3.6  # DOI: 10.3390/en12193775
-                          }):
-    for occ in dhw_dict:
-        if occ in ei.index.levels[1]:
-            ei.loc[pd.IndexSlice[:, occ, :, :], 'DHW'] = dhw_dict[occ]
-    return ei
-
-
-def save_mi_result(run, material_surfaces):
-    res = divide_by_area(material_surfaces, material_surfaces)
-    res = disaggregate_scenario_str(res, ['climate_reg'])
-    fname = os.path.join(settings.tmp_path, run, run + '_mi.xlsx')
-    res.to_excel(fname)
-    return res
-
-
-def save_ei_for_odym(ei_result):
-    res = weighing_energy_carrier(ei_result)
-    res.index = res.index.set_levels([settings.odym_regions[r] for r in res.index.levels[0]], 0)
-    new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Service', 'SSP_Regions_32', 'Energy carrier']
-    new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Energy Intensity UsePhase'] + [i[n] for n in (3, 4, 0, 5)])
-               for i in res.index.values]
-    res.index = pd.MultiIndex.from_tuples(new_idx, names=new_idx_names)
-    res = pd.DataFrame(res, columns=['Value'])
-    res['Unit'] = 'MJ/m2/yr'
-    res['Stats_array_string'] = ''
-    res['Comment'] = 'Simulated in BuildME v%s' % __version__
-    # some more stuff?
-    res.to_excel(find_last_run().replace('.run', '_ODYM_ei.xlsx'), merge_cells=False)
-    print("Wrote '%s'" % find_last_run().replace('.run', '_ODYM_ei.xlsx'))
-
-
-def save_mi_for_odym(mi_result):
-    # Only use the first climate region
-    mi_result.index = mi_result.index.set_levels([settings.odym_regions[r] for r in mi_result.index.levels[0]], 0)
-    # mi_result = mi_result.loc[pd.IndexSlice[:, :, :, :, :], pd.IndexSlice[:, mi_result.columns.levels[1][0]]]
-    new_mi = pd.DataFrame(index=mi_result.index, columns=mi_result.columns.levels[0])
-    for region in mi_result.index.levels[0]:
-        first_climate_region = settings.combinations[dict([[v,k] for k,v in settings.odym_regions.items()])[region]]['climate_region'][0]
-        new_mi.loc[region] = mi_result.loc[region, pd.IndexSlice[:, first_climate_region]].values
-        # mi_result.columns = mi_result.columns.droplevel(1)
-    new_mi = new_mi[[c for c in new_mi.columns if c not in ['floor_area_wo_basement', 'footprint_area', 'total_mat']]]
-    new_mi.index = new_mi.index.droplevel(4)
-    new_mi = new_mi.stack()
-    new_idx_names = ['Products', 'Use_Phase_i4', 'RES', 'Engineering_Materials_m2', 'SSP_Regions_32']
-    new_idx = [tuple(['_'.join((i[1], i[2]))] + ['Material Intensity UsePhase'] + [i[n] for n in (3,  4, 0)])
-               for i in new_mi.index.values]
-    new_mi.index = pd.MultiIndex.from_tuples(new_idx, names=new_idx_names)
-    new_mi = pd.DataFrame(new_mi, columns=['Value'])
-    new_mi['Unit'] = 'kg/m2'
-    new_mi['Stats_array_string'] = ''
-    new_mi['Comment'] = 'Simulated in BuildME v%s' % __version__
-    # some more stuff?
-    new_mi.to_excel(find_last_run().replace('.run', '_ODYM_mi.xlsx'), merge_cells=False)
-    print("Wrote '%s'" % find_last_run().replace('.run', '_ODYM_mi.xlsx'))
-
-
-
-def save_all_result_csv(res):
-    res.to_csv(find_last_run().replace('.run', '_totals.csv'))
-
-
-def calculate_measures(res):
-    """
-    Adds further metrics to the results collected in all_results_collector(), such as material and energy intensity,
-    i.e. material / energy per floor area.
-    :param res: Dataframe created by all_results_collector()
-    :return: Dataframe with additional columns
-    """
-    return res
-
-
-def all_results_collector(fnames):
-    """
-    Collects the results after the simulation.
-    :return: Dictionary with scenario as key and material intensity, energy intensity, and e+ log file, e.g.
-                {'USA_SFH_ZEB_RES0_1A_2015': {Asphalt_shingle: 4.2, ...}}
-    """
-    print("Collecting results...")
-    ep_logs = collect_logs(fnames)
-    material_res = load_material(fnames)
-    energy_res = collect_energy(fnames)
-    res = {}
-    for f in ep_logs:
-        res[f] = {**material_res[f], **energy_res[f], **ep_logs[f]}
-    res = pd.DataFrame.from_dict(res, orient='index')
-    res.index.names = ['scenario']
-    save_all_result_csv(res)
-    ei_result = save_ei_result(energy_res, material_res)
-    save_ei_for_odym(ei_result)
-    mi_result = save_mi_result(material_res)
-    save_mi_for_odym(mi_result)
-
-
-def cleanup():
-    """
-    Cleanes up temporary folders and files.
-    :return:
-    """
-    pass
-
-
-def create_sq_job(fnames):
-    """
-    ```
-    rsync -ahvrPz
-        /Users/n/code/BuildME/tmp/
-        nh432@grace.hpc.yale.edu:/home/fas/hertwich/nh432/scratch60/190615/
-    cp scratch60/190615/_run.txt ./run.txt
-    module load Tools/SimpleQueue
-    sqCreateScript -n 99 run.txt > run.sh
-    sbatch run.sh
-    rsync -avzhP --include="*/" --include="eplusout.csv" --include="*.err" --include="*.htm" --exclude="*"
-        nh432@grace.hpc.yale.edu:/home/fas/hertwich/nh432/scratch60/190521/
-        /Users/n/code/BuildME/tmp
-    ```
-    :param fnames:
-    :return:
-    """
-    # https://docs.ycrc.yale.edu/clusters-at-yale/job-scheduling/simplequeue/
-    initial_str = "source /apps/bin/try_new_modules.sh; module load EnergyPlus/9.1.0; module load gc; "
-    run_file = os.path.join(settings.tmp_path, '_run.txt')
-    with open(run_file, 'w') as run_file:
-        for f in fnames:
-            # TODO Change path below
-            run_file.write(initial_str + "cd /home/fas/hertwich/nh432/scratch60/XXX/" + f + "; energyplus -r\n")
-
-
-def cleanup(fnames, run, archive=True, del_temp=True):
+def cleanup(batch_sim=None, last_run=False, archive=True, del_temp=True):
     """
     Convenience function to clean up after successful run.
-    :param fnames: Simulation dictionary
-    :param run: Simulation run name, e.g. '220628-080114'
+    :param batch_sim: Simulation dictionary
     :param archive: Zip temporary folders into e.g. '220628-080114.zip'
     :param del_temp: Delete all subfolders
     :return: None
     """
+    if last_run:
+        batch_sim = batch.find_and_load_last_run()
+    if batch_sim is None:
+         raise Exception('Variable batch_sim not given')
+    parent_dir = os.path.dirname(batch_sim[list(batch_sim.keys())[0]]['run_folder'])
+    run = os.path.basename(parent_dir)
+    print(run)
     print("Cleaning up...")
     if archive:
         zfile = os.path.join(settings.tmp_path, run)
@@ -1044,7 +575,7 @@ def cleanup(fnames, run, archive=True, del_temp=True):
             print("Compressing temporary folder to '%s.zip'" % zfile)
             shutil.make_archive(zfile, 'zip', os.path.join(settings.tmp_path, run))
     if del_temp:
-        rfolders = [fnames[d]['run_folder'] for d in fnames]
+        rfolders = [batch_sim[d]['run_folder'] for d in batch_sim]
         for f in rfolders:
             shutil.rmtree(f)
         print("Deleted temporary subfolders in '%s/%s/'" % (settings.tmp_path, run))

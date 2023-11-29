@@ -3,89 +3,93 @@ Energy demand algorithm for the RECC building model
 
 Copyright: Niko Heeren, 2019
 """
-import datetime
-import shutil
 import os
 import subprocess
-
 import pandas as pd
-from tqdm import tqdm
-
-from BuildME import settings, idf
-
+import shutil
+import platform
 
 
+def perform_energy_calculation(out_dir, ep_dir, epw_path):
+    print("Perform energy simulation...")
+    copy_files(out_dir, ep_dir, epw_path)
+    run_energyplus_single(out_dir)
+    delete_ep_files(out_dir)
+    return
 
-def launch_ep():
-    pass
+
+def perform_energy_calculation_mp(args):
+    out_dir, ep_dir, epw_path, q, no = args
+    copy_files(out_dir, ep_dir, epw_path)
+    run_energyplus_single(out_dir)
+    delete_ep_files(out_dir)
+    q.put(no)
+    return
 
 
-def cleanup_post_sim():
-    pass
-
-
-def gather_files_to_copy(ep_files=settings.ep_exec_files, check=True):
+def get_exec_files():
     """
-    Collect the neccessary files for copy_files() and check if they exist
-    :param idf: The IDF file in question
-    :param epw: EPW file in question
-    :param ep_files: the e+ files needed for the worker to run
-    :param check:
-    :return:
+    TODO: add description
     """
-    # 1. necessary e+ executable files
-    copy_list = [os.path.join(settings.ep_path, f) for f in ep_files]
-    # 2. idf e+ input file
-    # copy_list.append(os.path.join(settings.archetypes, idf))
-    # 3. epw climate file
-    # copy_list.append(os.path.join(settings.climate_files_path, epw))
-    if check:
-        bad_news = [f for f in copy_list if not os.path.exists(f)]
-        assert len(bad_news) == 0, "The following files do not exist: %s" % bad_news
-    return copy_list
+    ep_version = '9.2.0'
+    # Checking OS and define files to copy to the temporary folders
+    plf = platform.system()
+    if plf == 'Windows':
+        ep_exec_files = ["energyplus.exe", "Energy+.idd", "EPMacro.exe", "ExpandObjects.exe",
+                         "PreProcess/GrndTempCalc/Basement.exe", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                         "PreProcess/GrndTempCalc/Slab.exe", "PreProcess/GrndTempCalc/SlabGHT.idd",
+                         "PostProcess/ReadVarsESO.exe", "energyplusapi.dll"
+                         ]
+    elif plf == 'Darwin':  # i.e. macOS
+        ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
+                         "libenergyplusapi.%s.dylib" % ep_version,  # required by energyplus
+                         "libgfortran.5.dylib", "libquadmath.0.dylib", 'libgcc_s.1.dylib',  # required by ExpandObjects
+                         "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                         "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
+                         "PostProcess/ReadVarsESO"
+                         ]
+    elif plf == 'Linux':
+        ep_exec_files = ["energyplus", "energyplus-%s" % ep_version, "Energy+.idd", "EPMacro", "ExpandObjects",
+                         "libenergyplusapi.so.%s" % ep_version,  # required by energyplus
+                         "PreProcess/GrndTempCalc/Basement", "PreProcess/GrndTempCalc/BasementGHT.idd",
+                         "PreProcess/GrndTempCalc/Slab", "PreProcess/GrndTempCalc/SlabGHT.idd",
+                         "PostProcess/ReadVarsESO"
+                         ]
+    else:
+        raise NotImplementedError('OS is not supported! %s' % plf)
+    return ep_exec_files
 
 
-def get_timestamp_path():
-    return datetime.datetime.now().strftime("%y%m%d-%H%M%S.%f")
-
-
-def copy_files(copy_list, tmp_run_path=None, create_dir=True):
+def copy_files(out_dir, ep_dir, epw_path):
+    """ TODO: add the documentation
+    Copies the files needed for energy simulation to the desired location.
     """
-    Copies the files to the desired location.
-    I guess symlinks could work too, but let's be nice to Windows folks :-P
-    :param copy_list: List of files that should be copied, e.g. created with gather_files_to_copy()
-    :param tmp_run_path: the subfolder for the simulation run
-    :param create_dir: Switch allowing to create new folders
-    :param assert_exists: Check if the folder exists
-    """
-    if not tmp_run_path:
-        tmp_run_path = get_timestamp_path()
-    run_folder = os.path.join(settings.tmp_path, tmp_run_path)
-    if create_dir:
-        os.makedirs(run_folder)
+    # create a list of items to be copied (EnergyPlus executable files, IDF file, EPW file)
+    copy_list = [os.path.join(ep_dir, f) for f in get_exec_files()]
+    copy_list.append(epw_path)
+    # check if all the paths in copy_list exist
+    bad_news = [f for f in copy_list if not os.path.exists(f)]
+    assert len(bad_news) == 0, "The following files do not exist: %s" % bad_news
+    # copy the files to the output directory
     for file in copy_list:
         basename = os.path.basename(file)
-        if os.path.splitext(file)[-1] == '.idf':
-            basename = 'in.idf'
-        elif os.path.splitext(file)[-1] == '.epw':
+        if os.path.splitext(file)[-1] == '.epw':
             basename = 'in.epw'
-        shutil.copy2(file, os.path.join(run_folder, basename))
-    return tmp_run_path
+        shutil.copy2(file, os.path.join(out_dir, basename))
+    return
 
 
-def delete_ep_files(copy_list, tmp_run_path, more_files=settings.files_to_delete):
+def delete_ep_files(out_dir):
+    """ TODO: add the documentation
+    Deletes the e+ files after simulation
     """
-    Deletes the e+ files after simulation, skips input and weather file
-    :param copy_list: Files to delete
-    :param tmp_run_path: Path in which the files will be deleted
-    :param more_files: More files to delete, e.g. ['eplusout.eso']
-    """
-    copy_list = copy_list + more_files
-    for f in copy_list:
-        if os.path.basename(f)[-4:] in ['.idf', '.epw']:
-            continue
-        os.remove(os.path.join(settings.tmp_path, tmp_run_path,
-                               os.path.basename(f)))
+    # Files that should be deleted in the temporary folder after successful simulation
+    #  'eplusout.eso' is fairly large and not being used by BuildME
+    exec_files_to_delete = [os.path.join(out_dir, os.path.basename(f)) for f in get_exec_files()]
+    more_files_to_delete = [os.path.join(out_dir, i) for i in ['eplusout.eso']]
+    for f in (exec_files_to_delete + more_files_to_delete):
+        os.remove(f)
+    return
 
 
 def delete_temp_folder(tmp_run_path, verbose=False):
@@ -101,27 +105,23 @@ def delete_temp_folder(tmp_run_path, verbose=False):
         print("Deleted '%s'" % tmp_run_path)
 
 
-def run_energyplus_single(tmp_path, verbose=True):
+def run_energyplus_single(out_dir, verbose=True):
     """
-    Runs the model single-threaded
-    See docs/energyplus.md for more info
-    :param idf_file:
-    :param epw_file:
-    :return:
+    TODO: add the documentation
     """
     # 1. Run `./ExpandObjects`
-    abs_path = os.path.join(settings.tmp_path, tmp_path)
-    os.chdir(abs_path)
+    cwd = os.getcwd()
+    os.chdir(out_dir)
     # for exec in ['./ExpandObjects', './Basement', './energyplus']:
 
     with open("log_ExpandObjects.txt", 'w') as log_file:
-        cmd = abs_path + '/ExpandObjects'
+        cmd = out_dir + '/ExpandObjects'
         log_file.write("%s\n\n" % cmd)
         log_file.flush()
         subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
     if os.path.exists('BasementGHTIn.idf'):
         with open("log_Basement.txt", 'w') as log_file:
-            cmd = abs_path + '/Basement'
+            cmd = out_dir + '/Basement'
             log_file.write("%s\n\n" % cmd)
             log_file.flush()
             subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
@@ -133,7 +133,7 @@ def run_energyplus_single(tmp_path, verbose=True):
             run_idf = 'merged.idf'
     elif os.path.exists('GHTIn.idf'):
         with open("log_Slab.txt", 'w') as log_file:
-            cmd = abs_path + '/Slab'
+            cmd = out_dir + '/Slab'
             subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         with open('merged.idf', 'w') as merged_idf:
             with open('expanded.idf', 'r') as expanded_idf:
@@ -144,87 +144,26 @@ def run_energyplus_single(tmp_path, verbose=True):
     else:
         run_idf = 'expanded.idf'
 
-    # For RT, ExpandObjects wont run?? So testing to add in.idf as run_idf
+    # For RT, ExpandObjects wont run?? So testing to add in.idf as run_idf # TODO: delete this comment?
     if not os.path.exists('expanded.idf'):
         run_idf = 'in.idf'
 
     with open("log_energyplus.txt", 'w+') as log_file:
-        cmd = abs_path + '/energyplus -r %s' % run_idf
+        cmd = out_dir + '/energyplus -r %s' % run_idf
         log_file.write("%s\n\n" % cmd)
         log_file.flush()
         subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
         log_file.seek(0)
         if log_file.readlines()[-1] != 'EnergyPlus Completed Successfully.\n':
             # print("ERROR: '%s' energy simulation was not successful" % tmp_path)
-            raise AssertionError("Energy simulation was not successful in '%s'. "
+            raise AssertionError("Energy simulation was not successful in folder '%s'. "
                                  "See files 'log_energyplus.txt' and 'eplusout.err' for details."
-                                 % tmp_path)
+                                 % os.path.basename(out_dir))
         log_file.close()
     if verbose:
-        print("Energy simulation successful '%s'" % tmp_path)
-    os.chdir(settings.basepath)
+        print("Energy simulation successful in folder '%s'" % os.path.basename(out_dir))
+    os.chdir(cwd)
 
 
-def ep_result_collector(ep_path, save='energy_demand.csv'):
-    """
-    Reads the energy plus result file 'eplusout.csv' and returns the result (sum of entire column).
-    :param ep_path: Absolute path of 'eplusout.csv'
-    :param save: Switch to save the results as CSV.
-    :return:
-    """
-    results_to_collect = ("Heating:EnergyTransfer [J](Hourly)",	"Cooling:EnergyTransfer [J](Hourly)",
-                          # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
-                          "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly) ")
-    ep_file = os.path.join(ep_path, 'eplusout.csv')
-    ep_out = pd.read_csv(ep_file)
-    results = ep_out.loc[:, results_to_collect].sum()
-    if save:
-        results.to_csv(os.path.join(ep_path, save), header=False)
-    return results
 
-
-def calc_therm_inertia(fnames):
-    """
-    Loops through surfaces and calculates their thermal mass.
-    Based on https://unmethours.com/question/39167/is-there-a-way-to-extract-thermal-mass-from-an-energyplus-model/
-    :return:
-    """
-    tq = tqdm(fnames, desc='Initiating...', leave=True)
-    for fname in tq:
-        tq.set_description(fname)
-        run_path = os.path.join(settings.tmp_path, fname)
-        idff = idf.read_idf(os.path.join(run_path, 'in.idf'))
-        surfaces = idf.get_surfaces(idff, fnames[fname]['energy_standard'][2], fnames[fname]['RES'][2])
-        total_heat_capacity = 0
-        for stype in surfaces:
-            for surface in surfaces[stype]:
-                construction_heat_capacity = 0
-
-                construction = idff.getobject('CONSTRUCTION', surface.Construction_Name)
-
-                # get the field names, which in eppy is a list of
-                # ['key', 'Name', 'Outside_Layer', 'Layer_2', ... 'Layer_10']
-                construction_field_names = construction.fieldnames
-
-                # loop through the construction's field names (layers),
-                # skipping first and second (key and Name)
-                for field_name in construction_field_names[2:]:
-
-                    # get the material object from the layer
-                    attribute = field_name
-                    material_name = getattr(construction, attribute)
-                    material = idff.getobject('MATERIAL', material_name)
-
-                    # calculate the material's heat capacity and add it to the construction's
-                    if material is not None:
-                        thickness = material.Thickness
-                        density = material.Density
-                        specific_heat = material.Specific_Heat
-                        material_heat_capacity = thickness * density * specific_heat
-                        construction_heat_capacity += material_heat_capacity
-
-                # add the construction's total heat capacity to the model's total
-                total_heat_capacity += construction_heat_capacity
-
-        print(fname, 'J/m2*K =', total_heat_capacity)
 

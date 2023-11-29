@@ -12,12 +12,12 @@ ep_version = '9.2.0'
 if os.path.basename(os.getcwd()) != 'BuildME':
     os.chdir('../..')
 sys.path.append(os.getcwd()) 
-from BuildME import mmv
-from BuildME.idf import read_idf
+from BuildME import mmv, settings
+from BuildME.simulate import read_idf
 
 
 def convert_to_AFN(idf_path, occ_type, destination_path, refresh_excel=False):
-    idf = read_idf(idf_path)
+    idf = read_idf(settings.ep_path, idf_path)
     dictionaries = mmv.create_dictionaries(idf, occ_type)
     xlsx_mmv = './data/mmv-implementation.xlsx'
     idf_afn = mmv.change_archetype_to_AFN(idf, dictionaries, xlsx_mmv)
