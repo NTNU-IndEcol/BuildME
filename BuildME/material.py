@@ -36,26 +36,27 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
     # calculate the total mass (total volume/density, by material)
     mat_mass = {mat: mat_vol_bdg[mat] * densities[mat] for mat in mat_vol_bdg}
     if ifsurrogates:
-        print('Adding surrogate elements...')
-        for key, calc_dict in surrogates_dict.items():
-            if all(v == 0 for k, v in calc_dict.items()):
-                continue
-            elif key == 'basement':
-                mat_mass = add_surrogate_basement(mat_mass, geom_stats, **surrogates_dict['basement'])
-            elif key == 'foundation':
-                mat_mass = add_surrogate_foundation(mat_mass, geom_stats, **surrogates_dict['foundation'])
-            elif key == 'beams':
-                mat_mass = add_surrogate_beams(mat_mass, geom_stats, **surrogates_dict['beams'])
-            elif key == 'columns':
-                mat_mass = add_surrogate_columns(mat_mass, geom_stats, **surrogates_dict['columns'])
-            elif key == 'studs':
-                mat_mass = add_surrogate_studs(mat_mass, geom_stats, **surrogates_dict['studs'])
-            elif key == 'roof_beams':
-                mat_mass = add_surrogate_roof_beams(mat_mass, geom_stats, **surrogates_dict['roof_beams'])
-            elif key == 'shear_walls':
-                mat_mass = add_surrogate_shear_walls(mat_mass, geom_stats, **surrogates_dict['shear_walls'])
-            else:
-                print(f'Warning: surrogate element {key} not recognized')
+        if surrogates_dict is not 'skip':
+            print('Adding surrogate elements...')
+            for key, calc_dict in surrogates_dict.items():
+                if all(v == 0 for k, v in calc_dict.items()):
+                    continue
+                elif key == 'basement':
+                    mat_mass = add_surrogate_basement(mat_mass, geom_stats, **surrogates_dict['basement'])
+                elif key == 'foundation':
+                    mat_mass = add_surrogate_foundation(mat_mass, geom_stats, **surrogates_dict['foundation'])
+                elif key == 'beams':
+                    mat_mass = add_surrogate_beams(mat_mass, geom_stats, **surrogates_dict['beams'])
+                elif key == 'columns':
+                    mat_mass = add_surrogate_columns(mat_mass, geom_stats, **surrogates_dict['columns'])
+                elif key == 'studs':
+                    mat_mass = add_surrogate_studs(mat_mass, geom_stats, **surrogates_dict['studs'])
+                elif key == 'roof_beams':
+                    mat_mass = add_surrogate_roof_beams(mat_mass, geom_stats, **surrogates_dict['roof_beams'])
+                elif key == 'shear_walls':
+                    mat_mass = add_surrogate_shear_walls(mat_mass, geom_stats, **surrogates_dict['shear_walls'])
+                else:
+                    print(f'Warning: surrogate element {key} not recognized')
     # export
     save_dict_to_csv(mat_mass, out_dir, 'mat_demand.csv', header=['Material name', 'Unit', 'Value'],
                      units_dict={'': 'kg'})
