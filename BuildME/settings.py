@@ -5,7 +5,6 @@ Copyright: Niko Heeren, 2019
 """
 
 import os
-import platform
 from BuildME import settings_functions
 
 # Path setting

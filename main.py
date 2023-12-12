@@ -16,12 +16,12 @@ def run(run_new=True, run_eplus=True):
     # Performing simulations
     if run_eplus:
         simulate.calculate_energy(batch_simulation, parallel=True)
+        simulate.aggregate_energy(batch_simulation, unit='kWh')
         print("Energy simulations done")
     simulate.calculate_materials(batch_simulation)
     print("Material extraction done")
 
     # Postprocessing
-    simulate.aggregate_energy(batch_simulation, unit='MJ')
     simulate.aggregate_materials(batch_simulation)
     simulate.calculate_intensities(batch_simulation)
     simulate.collect_results(batch_simulation)

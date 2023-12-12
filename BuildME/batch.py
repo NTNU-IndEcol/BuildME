@@ -112,9 +112,9 @@ def create_subfolders(batch_sim, run):
 
 def find_and_load_last_run(path=settings.tmp_path):
     """
-    Returns the last scenario combination run as saved in copy_scenario_files().
+    Finds the last batch simulation run as saved in create_batch_simulation().
     :param path: folder to scan
-    :return: filename, e.g. '190403-230346.run'
+    :return batch_sim: dictionary with batch simulation information
     """
     candidates = [f for f in os.listdir(path) if f.endswith('.run')]
     if len(candidates) == 0:

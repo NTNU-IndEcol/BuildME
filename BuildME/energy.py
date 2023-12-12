@@ -5,7 +5,6 @@ Copyright: Niko Heeren, 2019
 """
 import os
 import subprocess
-import pandas as pd
 import shutil
 import platform
 
