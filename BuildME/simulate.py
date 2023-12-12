@@ -136,11 +136,13 @@ def apply_rule_from_excel(idf_f, aspect, aspect_value, archetype, csv_folder):
     csv_replace = pd.read_csv(csv_dir, index_col=[0, 1])
     csv_replace.sort_index(inplace=True)
     try:
-        csv_data = csv_replace.loc(axis=0)[[archetype], [aspect_value]]  # if no replacement, the variable is empty
+        csv_data = csv_replace.loc(axis=0)[archetype, aspect_value]  # if no replacement, the variable is empty
     except KeyError:
         print(f"WARNING: Did not find any replacement for archetype {archetype} and {aspect} = {aspect_value} "
               f"in {csv_dir}")
     else:
+        if type(csv_data) is pd.Series:
+            csv_data = csv_data.to_frame().T
         for row in csv_data.iterrows():
             if row[1]['Value'] == 'skip':
                 continue
