@@ -351,17 +351,60 @@ Schedule:Compact,
     1;                       !- Field 4
 
 
+!-   ===========  ALL OBJECTS IN CLASS: SCHEDULE:CONSTANT ===========
+
+Schedule:Constant,
+    HVAC_Sch_1,              !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    1;                       !- Hourly Value
+
+Schedule:Constant,
+    HVAC_Sch_2,              !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    1;                       !- Hourly Value
+
+Schedule:Constant,
+    HVAC_Sch_3,              !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    1;                       !- Hourly Value
+
+Schedule:Constant,
+    NV_Sch_1,                !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
+
+Schedule:Constant,
+    NV_Sch_2,                !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
+
+Schedule:Constant,
+    NV_Sch_3,                !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
+
+Schedule:Constant,
+    always_on_BuildME,       !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    1;                       !- Hourly Value
+
+Schedule:Constant,
+    always_off_BuildME,      !- Name
+    On/Off,                  !- Schedule Type Limits Name
+    0;                       !- Hourly Value
+
+
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL ===========
 
 Material,
     Acoustic ceiling Knauf,  !- Name
     MediumSmooth,            !- Roughness
     0.0125,                  !- Thickness {m}
-    5.7000000E-02,           !- Conductivity {W/m-K}
+    0.057,                   !- Conductivity {W/m-K}
     888,                     !- Density {kg/m3}
-    1339.000,                !- Specific Heat {J/kg-K}
-    0.9000000,               !- Thermal Absorptance
-    0.7000000;               !- Solar Absorptance
+    1339,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7;                     !- Solar Absorptance
 
 Material,
     Plaster 25mm,            !- Name
@@ -423,6 +466,75 @@ Material,
     0.9,                     !- Thermal Absorptance
     0.5;                     !- Solar Absorptance
 
+Material,
+    CLT_170mm,               !- Name
+    Rough,                   !- Roughness
+    0.17,                    !- Thickness {m}
+    0.12,                    !- Conductivity {W/m-K}
+    450,                     !- Density {kg/m3}
+    1600;                    !- Specific Heat {J/kg-K}
+
+Material,
+    High pressure laminate panel,  !- Name
+    MediumSmooth,            !- Roughness
+    0.01,                    !- Thickness {m}
+    0.3,                     !- Conductivity {W/m-K}
+    1350,                    !- Density {kg/m3}
+    1000,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.7,                     !- Solar Absorptance
+    0.7;                     !- Visible Absorptance
+
+Material,
+    Brick 70mm,              !- Name
+    MediumRough,             !- Roughness
+    0.07,                    !- Thickness {m}
+    0.9,                     !- Conductivity {W/m-K}
+    1600,                    !- Density {kg/m3}
+    920,                     !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.5;                     !- Solar Absorptance
+
+Material,
+    Brick 60mm,              !- Name
+    MediumRough,             !- Roughness
+    0.06,                    !- Thickness {m}
+    0.9,                     !- Conductivity {W/m-K}
+    1600,                    !- Density {kg/m3}
+    920,                     !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.5;                     !- Solar Absorptance
+
+Material,
+    Concrete 175mm,          !- Name
+    MediumRough,             !- Roughness
+    0.175,                   !- Thickness {m}
+    1.75,                    !- Conductivity {W/m-K}
+    2380,                    !- Density {kg/m3}
+    1000,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.5;                     !- Solar Absorptance
+
+Material,
+    Concrete 50mm,           !- Name
+    MediumRough,             !- Roughness
+    0.05,                    !- Thickness {m}
+    1.75,                    !- Conductivity {W/m-K}
+    2380,                    !- Density {kg/m3}
+    1000,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.5;                     !- Solar Absorptance
+
+Material,
+    Concrete 40mm,           !- Name
+    MediumRough,             !- Roughness
+    0.04,                    !- Thickness {m}
+    1.75,                    !- Conductivity {W/m-K}
+    2380,                    !- Density {kg/m3}
+    1000,                    !- Specific Heat {J/kg-K}
+    0.9,                     !- Thermal Absorptance
+    0.5;                     !- Solar Absorptance
+
 
 !-   ===========  ALL OBJECTS IN CLASS: MATERIAL:AIRGAP ===========
 
@@ -447,18 +559,6 @@ WindowMaterial:SimpleGlazingSystem,
 !-   ===========  ALL OBJECTS IN CLASS: CONSTRUCTION ===========
 
 Construction,
-    Ceiling,                 !- Name
-    Concrete 200mm,          !- Outside Layer
-    F05 Ceiling air space resistance,  !- Layer 2
-    Acoustic ceiling Knauf;  !- Layer 3
-
-Construction,
-    Ext wall,                !- Name
-    Plaster 25mm,            !- Outside Layer
-    Brick 90mm,              !- Layer 2
-    Plaster 25mm;            !- Layer 3
-
-Construction,
     Slab towards ground,     !- Name
     Carpet tile 5mm,         !- Outside Layer
     Concrete 200mm;          !- Layer 2
@@ -480,9 +580,77 @@ Construction,
     glazing;                 !- Outside Layer
 
 Construction,
-    Int wall,                !- Name
+    ext-wall-RES0,           !- Name
     Plaster 25mm,            !- Outside Layer
     Brick 90mm,              !- Layer 2
+    Plaster 25mm;            !- Layer 3
+
+Construction,
+    ext-wall-RES2.1,         !- Name
+    Plaster 25mm,            !- Outside Layer
+    Brick 70mm,              !- Layer 2
+    Plaster 25mm;            !- Layer 3
+
+Construction,
+    ext-wall-RES2.2,         !- Name
+    Plaster 25mm,            !- Outside Layer
+    Brick 70mm,              !- Layer 2
+    Plaster 25mm;            !- Layer 3
+
+Construction,
+    ext-wall-RES2.1+RES2.2,  !- Name
+    Plaster 25mm,            !- Outside Layer
+    Brick 60mm,              !- Layer 2
+    Plaster 25mm;            !- Layer 3
+
+Construction,
+    ceiling-RES0,            !- Name
+    Concrete 200mm,          !- Outside Layer
+    F05 Ceiling air space resistance,  !- Layer 2
+    Acoustic ceiling Knauf;  !- Layer 3
+
+Construction,
+    ceiling-RES2.1,          !- Name
+    CLT_170mm,               !- Outside Layer
+    Concrete 50mm,           !- Layer 2
+    F05 Ceiling air space resistance,  !- Layer 3
+    Acoustic ceiling Knauf;  !- Layer 4
+
+Construction,
+    ceiling-RES2.2,          !- Name
+    Concrete 175mm,          !- Outside Layer
+    F05 Ceiling air space resistance,  !- Layer 2
+    Acoustic ceiling Knauf;  !- Layer 3
+
+Construction,
+    ceiling-RES2.1+RES2.2,   !- Name
+    CLT_170mm,               !- Outside Layer
+    Concrete 40mm,           !- Layer 2
+    F05 Ceiling air space resistance,  !- Layer 3
+    Acoustic ceiling Knauf;  !- Layer 4
+
+Construction,
+    int-wall-RES0,           !- Name
+    Plaster 25mm,            !- Outside Layer
+    Brick 90mm,              !- Layer 2
+    Plaster 25mm;            !- Layer 3
+
+Construction,
+    int-wall-RES2.1,         !- Name
+    Plaster 25mm,            !- Outside Layer
+    Brick 70mm,              !- Layer 2
+    Plaster 25mm;            !- Layer 3
+
+Construction,
+    int-wall-RES2.2,         !- Name
+    Plaster 25mm,            !- Outside Layer
+    Brick 70mm,              !- Layer 2
+    Plaster 25mm;            !- Layer 3
+
+Construction,
+    int-wall-RES2.1+RES2.2,  !- Name
+    Plaster 25mm,            !- Outside Layer
+    Brick 60mm,              !- Layer 2
     Plaster 25mm;            !- Layer 3
 
 
@@ -549,7 +717,7 @@ Zone,
 BuildingSurface:Detailed,
     Surface Ceiling F2,      !- Name
     Ceiling,                 !- Surface Type
-    Ceiling,                 !- Construction Name
+    ceiling-res-replaceme,   !- Construction Name
     Floor2,                  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -573,7 +741,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface Ceiling F1,      !- Name
     Ceiling,                 !- Surface Type
-    Ceiling,                 !- Construction Name
+    ceiling-res-replaceme,   !- Construction Name
     Floor1,                  !- Zone Name
     Adiabatic,               !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -597,7 +765,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface North F1,        !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor1,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -621,7 +789,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface East F1,         !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor1,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -645,7 +813,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface South F1,        !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor1,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -669,7 +837,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface West F1,         !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor1,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -717,7 +885,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface North F2,        !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor2,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -741,7 +909,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface East F2,         !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor2,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -765,7 +933,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface South F2,        !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor2,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -789,7 +957,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface West F2,         !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor2,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -837,7 +1005,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface North F3,        !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor3,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -861,7 +1029,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface East F3,         !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor3,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -885,7 +1053,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface South F3,        !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor3,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -909,7 +1077,7 @@ BuildingSurface:Detailed,
 BuildingSurface:Detailed,
     Surface West F3,         !- Name
     Wall,                    !- Surface Type
-    Ext wall,                !- Construction Name
+    ext-wall-res-replaceme,  !- Construction Name
     Floor3,                  !- Zone Name
     Outdoors,                !- Outside Boundary Condition
     ,                        !- Outside Boundary Condition Object
@@ -1287,19 +1455,19 @@ WindowProperty:FrameAndDivider,
 
 InternalMass,
     Int walls bricks F1,     !- Name
-    Int wall,                !- Construction Name
+    int-wall-res-replaceme,  !- Construction Name
     Floor1,                  !- Zone or ZoneList Name
     40.2;                    !- Surface Area {m2}
 
 InternalMass,
     Int walls bricks F2,     !- Name
-    Int wall,                !- Construction Name
+    int-wall-res-replaceme,  !- Construction Name
     Floor2,                  !- Zone or ZoneList Name
     40.2;                    !- Surface Area {m2}
 
 InternalMass,
     Int walls bricks F3,     !- Name
-    Int wall,                !- Construction Name
+    int-wall-res-replaceme,  !- Construction Name
     Floor3,                  !- Zone or ZoneList Name
     40.2;                    !- Surface Area {m2}
 
@@ -1432,12 +1600,12 @@ People,
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EFF_SCH,            !- Work Efficiency Schedule Name
-    ClothingInsulationSchedule,  !- Clothing Insulation Calculation Method
+    always_off_BuildME,      !- Work Efficiency Schedule Name
+    DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     CLOTHING_SCH,            !- Clothing Insulation Schedule Name
-    AIR_VELO_SCH,            !- Air Velocity Schedule Name
-    AdaptiveASH55;           !- Thermal Comfort Model 1 Type
+    always_off_BuildME,      !- Air Velocity Schedule Name
+    Fanger;                  !- Thermal Comfort Model 1 Type
 
 People,
     People F2,               !- Name
@@ -1454,12 +1622,12 @@ People,
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EFF_SCH,            !- Work Efficiency Schedule Name
-    ClothingInsulationSchedule,  !- Clothing Insulation Calculation Method
+    always_off_BuildME,      !- Work Efficiency Schedule Name
+    DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     CLOTHING_SCH,            !- Clothing Insulation Schedule Name
-    AIR_VELO_SCH,            !- Air Velocity Schedule Name
-    AdaptiveASH55;           !- Thermal Comfort Model 1 Type
+    always_off_BuildME,      !- Air Velocity Schedule Name
+    Fanger;                  !- Thermal Comfort Model 1 Type
 
 People,
     People F3,               !- Name
@@ -1476,12 +1644,12 @@ People,
     No,                      !- Enable ASHRAE 55 Comfort Warnings
     ZoneAveraged,            !- Mean Radiant Temperature Calculation Type
     ,                        !- Surface Name/Angle Factor List Name
-    WORK_EFF_SCH,            !- Work Efficiency Schedule Name
-    ClothingInsulationSchedule,  !- Clothing Insulation Calculation Method
+    always_off_BuildME,      !- Work Efficiency Schedule Name
+    DynamicClothingModelASHRAE55,  !- Clothing Insulation Calculation Method
     ,                        !- Clothing Insulation Calculation Method Schedule Name
     CLOTHING_SCH,            !- Clothing Insulation Schedule Name
-    AIR_VELO_SCH,            !- Air Velocity Schedule Name
-    AdaptiveASH55;           !- Thermal Comfort Model 1 Type
+    always_off_BuildME,      !- Air Velocity Schedule Name
+    Fanger;                  !- Thermal Comfort Model 1 Type
 
 
 !-   ===========  ALL OBJECTS IN CLASS: LIGHTS ===========
@@ -1579,240 +1747,519 @@ ElectricEquipment,
 AirflowNetwork:SimulationControl,
     NV,                      !- Name
     MultizoneWithoutDistribution,  !- AirflowNetwork Control
-    SurfaceAverageCalculation,  !- Wind Pressure Coefficient Type
+    Input,                   !- Wind Pressure Coefficient Type
     OpeningHeight,           !- Height Selection for Local Wind Pressure Calculation
-    HighRise,                !- Building Type
+    LowRise,                 !- Building Type
     500,                     !- Maximum Number of Iterations {dimensionless}
     ZeroNodePressures,       !- Initialization Type
     0.0001,                  !- Relative Airflow Convergence Tolerance {dimensionless}
-    0.000001,                !- Absolute Airflow Convergence Tolerance {kg/s}
-    -.5,                     !- Convergence Acceleration Limit {dimensionless}
+    1e-06,                   !- Absolute Airflow Convergence Tolerance {kg/s}
+    -0.5,                    !- Convergence Acceleration Limit {dimensionless}
     0,                       !- Azimuth Angle of Long Axis of Building {deg}
-    0.5,                     !- Ratio of Building Width Along Short Axis to Width Along Long Axis
-    No;                      !- Height Dependence of External Node Temperature
+    1,                       !- Ratio of Building Width Along Short Axis to Width Along Long Axis
+    No,                      !- Height Dependence of External Node Temperature
+    SkylineLU;               !- Solver
 
 
 !-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:MULTIZONE:ZONE ===========
 
 AirflowNetwork:MultiZone:Zone,
     Floor1,                  !- Zone Name
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                        !- Minimum Venting Open Factor {dimensionless}
-    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    NV_Sch_F1,               !- Venting Availability Schedule Name
-    Standard;                !- Single Sided Wind Pressure Coefficient Algorithm
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     Floor2,                  !- Zone Name
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                        !- Minimum Venting Open Factor {dimensionless}
-    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    NV_Sch_F2,               !- Venting Availability Schedule Name
-    Standard;                !- Single Sided Wind Pressure Coefficient Algorithm
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
 
 AirflowNetwork:MultiZone:Zone,
     Floor3,                  !- Zone Name
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    ,                        !- Minimum Venting Open Factor {dimensionless}
-    ,                        !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    NV_Sch_F3,               !- Venting Availability Schedule Name
-    Standard;                !- Single Sided Wind Pressure Coefficient Algorithm
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    Standard,                !- Single Sided Wind Pressure Coefficient Algorithm
+    10;                      !- Facade Width {m}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:MULTIZONE:SURFACE ===========
 
 AirflowNetwork:MultiZone:Surface,
-    Win North F1,            !- Surface Name
-    window_30m,              !- Leakage Component Name
-    ,                        !- External Node Name
-    0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Surface North F1,        !- Surface Name
+    Crack_3,                 !- Leakage Component Name
+    Node_1,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface East F1,         !- Surface Name
+    Crack_2,                 !- Leakage Component Name
+    Node_2,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface South F1,        !- Surface Name
+    Crack_3,                 !- Leakage Component Name
+    Node_3,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface West F1,         !- Surface Name
+    Crack_2,                 !- Leakage Component Name
+    Node_4,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface North F2,        !- Surface Name
+    Crack_3,                 !- Leakage Component Name
+    Node_5,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface East F2,         !- Surface Name
+    Crack_2,                 !- Leakage Component Name
+    Node_6,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface South F2,        !- Surface Name
+    Crack_3,                 !- Leakage Component Name
+    Node_7,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface West F2,         !- Surface Name
+    Crack_2,                 !- Leakage Component Name
+    Node_8,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface North F3,        !- Surface Name
+    Crack_3,                 !- Leakage Component Name
+    Node_9,                  !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface East F3,         !- Surface Name
+    Crack_2,                 !- Leakage Component Name
+    Node_10,                 !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface South F3,        !- Surface Name
+    Crack_3,                 !- Leakage Component Name
+    Node_11,                 !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface West F3,         !- Surface Name
+    Crack_2,                 !- Leakage Component Name
+    Node_12,                 !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Surface Roof F3,         !- Surface Name
+    Crack_1,                 !- Leakage Component Name
+    Node_13,                 !- External Node Name
+    1,                       !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    always_on_BuildME,       !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+AirflowNetwork:MultiZone:Surface,
+    Win North F1,            !- Surface Name
+    Opening_2,               !- Leakage Component Name
+    Node_14,                 !- External Node Name
+    0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
+    Constant,                !- Ventilation Control Mode
+    ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
+    0,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
+    NV_Sch_1,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win North F2,            !- Surface Name
-    window_30m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_2,               !- Leakage Component Name
+    Node_15,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_2,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win North F3,            !- Surface Name
-    window_30m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_2,               !- Leakage Component Name
+    Node_16,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_3,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win South F1,            !- Surface Name
-    window_30m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_2,               !- Leakage Component Name
+    Node_17,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_1,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win South F2,            !- Surface Name
-    window_30m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_2,               !- Leakage Component Name
+    Node_18,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_2,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win South F3,            !- Surface Name
-    window_30m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_2,               !- Leakage Component Name
+    Node_19,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_3,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win East F1,             !- Surface Name
-    window_20m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_1,               !- Leakage Component Name
+    Node_20,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_1,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win East F2,             !- Surface Name
-    window_20m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_1,               !- Leakage Component Name
+    Node_21,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_2,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win East F3,             !- Surface Name
-    window_20m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_1,               !- Leakage Component Name
+    Node_22,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_3,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win West F1,             !- Surface Name
-    window_20m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_1,               !- Leakage Component Name
+    Node_23,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_1,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win West F2,             !- Surface Name
-    window_20m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_1,               !- Leakage Component Name
+    Node_24,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_2,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
 
 AirflowNetwork:MultiZone:Surface,
     Win West F3,             !- Surface Name
-    window_20m,              !- Leakage Component Name
-    ,                        !- External Node Name
+    Opening_1,               !- Leakage Component Name
+    Node_25,                 !- External Node Name
     0.27,                    !- Window/Door Opening Factor, or Crack Factor {dimensionless}
-    ASHRAE55Adaptive,        !- Ventilation Control Mode
+    Constant,                !- Ventilation Control Mode
     ,                        !- Ventilation Control Zone Temperature Setpoint Schedule Name
-    1,                       !- Minimum Venting Open Factor {dimensionless}
+    0,                       !- Minimum Venting Open Factor {dimensionless}
     0,                       !- Indoor and Outdoor Temperature Difference Lower Limit For Maximum Venting Open Factor {deltaC}
-    0.000001,                !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
-    ,                        !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
+    100,                     !- Indoor and Outdoor Temperature Difference Upper Limit for Minimum Venting Open Factor {deltaC}
+    0,                       !- Indoor and Outdoor Enthalpy Difference Lower Limit For Maximum Venting Open Factor {deltaJ/kg}
     300000,                  !- Indoor and Outdoor Enthalpy Difference Upper Limit for Minimum Venting Open Factor {deltaJ/kg}
-    WORK_HOURS_SCH;          !- Venting Availability Schedule Name
+    NV_Sch_3,                !- Venting Availability Schedule Name
+    ,                        !- Occupant Ventilation Control Name
+    PolygonHeight,           !- Equivalent Rectangle Method
+    1;                       !- Equivalent Rectangle Aspect Ratio {dimensionless}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK ===========
+
+AirflowNetwork:MultiZone:Surface:Crack,
+    Crack_1,                 !- Name
+    ,                        !- Air Mass Flow Coefficient at Reference Conditions {kg/s}
+    0.65;                    !- Air Mass Flow Exponent {dimensionless}
+
+AirflowNetwork:MultiZone:Surface:Crack,
+    Crack_2,                 !- Name
+    ,                        !- Air Mass Flow Coefficient at Reference Conditions {kg/s}
+    0.65;                    !- Air Mass Flow Exponent {dimensionless}
+
+AirflowNetwork:MultiZone:Surface:Crack,
+    Crack_3,                 !- Name
+    ,                        !- Air Mass Flow Coefficient at Reference Conditions {kg/s}
+    0.65;                    !- Air Mass Flow Exponent {dimensionless}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING ===========
 
 AirflowNetwork:MultiZone:Component:DetailedOpening,
-    window_30m,              !- Name
-    0.001,                   !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
+    Opening_1,               !- Name
+    ,                        !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
     0.65,                    !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
     NonPivoted,              !- Type of Rectangular Large Vertical Opening (LVO)
-    30,                      !- Extra Crack Length or Height of Pivoting Axis {m}
+    0,                       !- Extra Crack Length or Height of Pivoting Axis {m}
     2,                       !- Number of Sets of Opening Factor Data
     0,                       !- Opening Factor 1 {dimensionless}
-    0.001,                   !- Discharge Coefficient for Opening Factor 1 {dimensionless}
+    0.6,                     !- Discharge Coefficient for Opening Factor 1 {dimensionless}
     0,                       !- Width Factor for Opening Factor 1 {dimensionless}
     0,                       !- Height Factor for Opening Factor 1 {dimensionless}
     0,                       !- Start Height Factor for Opening Factor 1 {dimensionless}
@@ -1820,17 +2267,27 @@ AirflowNetwork:MultiZone:Component:DetailedOpening,
     0.6,                     !- Discharge Coefficient for Opening Factor 2 {dimensionless}
     1,                       !- Width Factor for Opening Factor 2 {dimensionless}
     1,                       !- Height Factor for Opening Factor 2 {dimensionless}
-    0;                       !- Start Height Factor for Opening Factor 2 {dimensionless}
+    0,                       !- Start Height Factor for Opening Factor 2 {dimensionless}
+    ,                        !- Opening Factor 3 {dimensionless}
+    0,                       !- Discharge Coefficient for Opening Factor 3 {dimensionless}
+    0,                       !- Width Factor for Opening Factor 3 {dimensionless}
+    0,                       !- Height Factor for Opening Factor 3 {dimensionless}
+    0,                       !- Start Height Factor for Opening Factor 3 {dimensionless}
+    ,                        !- Opening Factor 4 {dimensionless}
+    0,                       !- Discharge Coefficient for Opening Factor 4 {dimensionless}
+    0,                       !- Width Factor for Opening Factor 4 {dimensionless}
+    0,                       !- Height Factor for Opening Factor 4 {dimensionless}
+    0;                       !- Start Height Factor for Opening Factor 4 {dimensionless}
 
 AirflowNetwork:MultiZone:Component:DetailedOpening,
-    window_20m,              !- Name
-    0.001,                   !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
+    Opening_2,               !- Name
+    ,                        !- Air Mass Flow Coefficient When Opening is Closed {kg/s-m}
     0.65,                    !- Air Mass Flow Exponent When Opening is Closed {dimensionless}
     NonPivoted,              !- Type of Rectangular Large Vertical Opening (LVO)
-    20,                      !- Extra Crack Length or Height of Pivoting Axis {m}
+    0,                       !- Extra Crack Length or Height of Pivoting Axis {m}
     2,                       !- Number of Sets of Opening Factor Data
     0,                       !- Opening Factor 1 {dimensionless}
-    0.001,                   !- Discharge Coefficient for Opening Factor 1 {dimensionless}
+    0.6,                     !- Discharge Coefficient for Opening Factor 1 {dimensionless}
     0,                       !- Width Factor for Opening Factor 1 {dimensionless}
     0,                       !- Height Factor for Opening Factor 1 {dimensionless}
     0,                       !- Start Height Factor for Opening Factor 1 {dimensionless}
@@ -1838,7 +2295,380 @@ AirflowNetwork:MultiZone:Component:DetailedOpening,
     0.6,                     !- Discharge Coefficient for Opening Factor 2 {dimensionless}
     1,                       !- Width Factor for Opening Factor 2 {dimensionless}
     1,                       !- Height Factor for Opening Factor 2 {dimensionless}
-    0;                       !- Start Height Factor for Opening Factor 2 {dimensionless}
+    0,                       !- Start Height Factor for Opening Factor 2 {dimensionless}
+    ,                        !- Opening Factor 3 {dimensionless}
+    0,                       !- Discharge Coefficient for Opening Factor 3 {dimensionless}
+    0,                       !- Width Factor for Opening Factor 3 {dimensionless}
+    0,                       !- Height Factor for Opening Factor 3 {dimensionless}
+    0,                       !- Start Height Factor for Opening Factor 3 {dimensionless}
+    ,                        !- Opening Factor 4 {dimensionless}
+    0,                       !- Discharge Coefficient for Opening Factor 4 {dimensionless}
+    0,                       !- Width Factor for Opening Factor 4 {dimensionless}
+    0,                       !- Height Factor for Opening Factor 4 {dimensionless}
+    0;                       !- Start Height Factor for Opening Factor 4 {dimensionless}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE ===========
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_1,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_N,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_2,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_E,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_3,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_S,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_4,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_W,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_5,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_N,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_6,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_E,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_7,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_S,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_8,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_W,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_9,                  !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_N,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_10,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_E,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_11,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_S,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_12,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_W,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_13,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_roof_N,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_14,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_N,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_15,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_N,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_16,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_N,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_17,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_S,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_18,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_S,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_19,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_S,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_20,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_E,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_21,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_E,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_22,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_E,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_23,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_W,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_24,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_W,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+AirflowNetwork:MultiZone:ExternalNode,
+    Node_25,                 !- Name
+    0,                       !- External Node Height {m}
+    HighRise_MedShield_wall_W,  !- Wind Pressure Coefficient Curve Name
+    No,                      !- Symmetric Wind Pressure Coefficient Curve
+    Absolute;                !- Wind Angle Type
+
+
+!-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTARRAY ===========
+
+AirflowNetwork:MultiZone:WindPressureCoefficientArray,
+    HighRise_degrees,        !- Name
+    0,                       !- Wind Direction 1 {deg}
+    22.5,                    !- Wind Direction 2 {deg}
+    45,                      !- Wind Direction 3 {deg}
+    67.5,                    !- Wind Direction 4 {deg}
+    90,                      !- Wind Direction 5 {deg}
+    112.5,                   !- Wind Direction 6 {deg}
+    135,                     !- Wind Direction 7 {deg}
+    157.5,                   !- Wind Direction 8 {deg}
+    180,                     !- Wind Direction 9 {deg}
+    202.5,                   !- Wind Direction 10 {deg}
+    225,                     !- Wind Direction 11 {deg}
+    247.5,                   !- Wind Direction 12 {deg}
+    270,                     !- Wind Direction 13 {deg}
+    292.5,                   !- Wind Direction 14 {deg}
+    315,                     !- Wind Direction 15 {deg}
+    337.5;                   !- Wind Direction 16 {deg}
+
+
+!-   ===========  ALL OBJECTS IN CLASS: AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES ===========
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_wall_N,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    0.191,                   !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.034,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.283,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.212,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    -0.152,                  !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.212,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.283,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.034,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.149;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_wall_S,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    -0.152,                  !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.212,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.283,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.034,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    0.191,                   !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.034,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.283,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.212;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_wall_E,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    -0.149,                  !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.283,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.212,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    -0.152,                  !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.212,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.283,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.034,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    0.191,                   !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.034;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_wall_W,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    -0.149,                  !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.034,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    0.191,                   !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    0.081,                   !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.034,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.283,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.212,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    -0.152,                  !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.212,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    -0.278,                  !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.283;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_roof_N,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    -0.149,                  !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.149;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_roof_S,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    -0.149,                  !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.149;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_roof_E,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    -0.149,                  !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.149;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
+
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
+    HighRise_MedShield_roof_W,  !- Name
+    HighRise_degrees,        !- AirflowNetwork:MultiZone:WindPressureCoefficientArray Name
+    -0.149,                  !- Wind Pressure Coefficient Value 1 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 2 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 3 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 4 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 5 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 6 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 7 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 8 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 9 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 10 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 11 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 12 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 13 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 14 {dimensionless}
+    -0.149,                  !- Wind Pressure Coefficient Value 15 {dimensionless}
+    -0.149;                  !- Wind Pressure Coefficient Value 16 {dimensionless}
 
 
 !-   ===========  ALL OBJECTS IN CLASS: HVACTEMPLATE:THERMOSTAT ===========
@@ -1856,7 +2686,7 @@ HVACTemplate:Thermostat,
 HVACTemplate:Zone:IdealLoadsAirSystem,
     Floor1,                  !- Zone Name
     Thermostat,              !- Template Thermostat Name
-    HVAC_Sch_F1,             !- System Availability Schedule Name
+    HVAC_Sch_1,              !- System Availability Schedule Name
     50,                      !- Maximum Heating Supply Air Temperature {C}
     13,                      !- Minimum Cooling Supply Air Temperature {C}
     0.0156,                  !- Maximum Heating Supply Air Humidity Ratio {kgWater/kgDryAir}
@@ -1886,7 +2716,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
 HVACTemplate:Zone:IdealLoadsAirSystem,
     Floor2,                  !- Zone Name
     Thermostat,              !- Template Thermostat Name
-    HVAC_Sch_F2,             !- System Availability Schedule Name
+    HVAC_Sch_2,              !- System Availability Schedule Name
     50,                      !- Maximum Heating Supply Air Temperature {C}
     13,                      !- Minimum Cooling Supply Air Temperature {C}
     0.0156,                  !- Maximum Heating Supply Air Humidity Ratio {kgWater/kgDryAir}
@@ -1916,7 +2746,7 @@ HVACTemplate:Zone:IdealLoadsAirSystem,
 HVACTemplate:Zone:IdealLoadsAirSystem,
     Floor3,                  !- Zone Name
     Thermostat,              !- Template Thermostat Name
-    HVAC_Sch_F3,             !- System Availability Schedule Name
+    HVAC_Sch_3,              !- System Availability Schedule Name
     50,                      !- Maximum Heating Supply Air Temperature {C}
     13,                      !- Minimum Cooling Supply Air Temperature {C}
     0.0156,                  !- Maximum Heating Supply Air Humidity Ratio {kgWater/kgDryAir}
@@ -1969,43 +2799,43 @@ OutputControl:Table:Style,
 
 Output:Variable,
     NV_Sch_F1,               !- Key Value
-    Schedule Value ,         !- Variable Name
+    Schedule Value,          !- Variable Name
     Annual,                  !- Reporting Frequency
     WORK_HOURS_SCH;          !- Schedule Name
 
 Output:Variable,
     HVAC_Sch_F1,             !- Key Value
-    Schedule Value ,         !- Variable Name
+    Schedule Value,          !- Variable Name
     Annual,                  !- Reporting Frequency
     WORK_HOURS_SCH;          !- Schedule Name
 
 Output:Variable,
     NV_Sch_F2,               !- Key Value
-    Schedule Value ,         !- Variable Name
+    Schedule Value,          !- Variable Name
     Annual,                  !- Reporting Frequency
     WORK_HOURS_SCH;          !- Schedule Name
 
 Output:Variable,
     HVAC_Sch_F2,             !- Key Value
-    Schedule Value ,         !- Variable Name
+    Schedule Value,          !- Variable Name
     Annual,                  !- Reporting Frequency
     WORK_HOURS_SCH;          !- Schedule Name
 
 Output:Variable,
     NV_Sch_F3,               !- Key Value
-    Schedule Value ,         !- Variable Name
+    Schedule Value,          !- Variable Name
     Annual,                  !- Reporting Frequency
     WORK_HOURS_SCH;          !- Schedule Name
 
 Output:Variable,
     HVAC_Sch_F3,             !- Key Value
-    Schedule Value ,         !- Variable Name
+    Schedule Value,          !- Variable Name
     Annual,                  !- Reporting Frequency
     WORK_HOURS_SCH;          !- Schedule Name
 
 Output:Variable,
     *,                       !- Key Value
-    Zone Thermal Comfort ASHRAE 55 Adaptive Model 80% Acceptability Status ,  !- Variable Name
+    Zone Thermal Comfort ASHRAE 55 Adaptive Model 80% Acceptability Status,  !- Variable Name
     Annual,                  !- Reporting Frequency
     WORK_HOURS_SCH;          !- Schedule Name
 
@@ -2030,6 +2860,6 @@ Output:Meter,
     Hourly;                  !- Reporting Frequency
 
 Output:Meter,
-    InteriorEquipment:Electricity ,  !- Key Name
+    InteriorEquipment:Electricity,  !- Key Name
     Hourly;                  !- Reporting Frequency
 
