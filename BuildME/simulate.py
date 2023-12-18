@@ -301,23 +301,23 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
             replace_dict = batch_sim[sim]['replace_dict']
             if ifsurrogates:
                 df_sur = settings.surrogate_elements
-                tpl = tuple(batch_sim[sim][asp] for asp in df_sur.index.names)
-                try:
-                    df_sur_sim = df_sur.loc[list(tpl)]
-                except KeyError:
-                    print(f'Warning: No surrogate elements found for indices {tpl} in the "surrogate elements" sheet '
+                df_sur_sim = df_sur[df_sur['occupation'] == archetype].drop(columns='occupation')
+                if replace_dict is not None:
+                    for k, v in replace_dict.items():
+                        if k in df_sur.columns:
+                            df_sur_sim = df_sur_sim[(df_sur_sim[k] == v) | (df_sur_sim[k] == 0)]
+                            df_sur_sim = df_sur_sim.drop(columns=k)
+                surrogate_duplicates = df_sur_sim['surrogate'].duplicated()
+                if surrogate_duplicates.any():
+                    df_sur_sim = df_sur_sim[~surrogate_duplicates]  # keep the first entry
+                    print('Warning: duplicates found in the "surrogate elements" sheet of the config file. '
+                          'Only the first entry will be kept.')
+                df_sur_sim = df_sur_sim.set_index('surrogate')
+                surrogates_dict = df_sur_sim.to_dict('index')
+                if not surrogates_dict:
+                    print(f'Warning: No surrogate elements found for archetype {archetype} '
+                          f'and aspects {replace_dict} \nin the "surrogate elements" sheet '
                           f'of the config file. Surrogate element calculations will be skipped.')
-                    surrogates_dict = 'skip'
-                else:
-                    df_sur_sim = df_sur_sim.reset_index(drop=True)
-                    df_sur_sim = df_sur_sim.set_index('surrogate')
-                    try:
-                        surrogates_dict = df_sur_sim.to_dict('index')
-                    except ValueError:
-                        print('Warning: duplicates found in the "surrogate elements" sheet of the config file. '
-                              'Only the first entry will be kept.')
-                        df_sur_sim = df_sur_sim.groupby(df_sur_sim.index).first()
-                        surrogates_dict = df_sur_sim.to_dict('index')
             idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
             check_atypical_materials(idf_file, atypical_materials, config=True)
             material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
