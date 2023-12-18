@@ -1,5 +1,6 @@
 # Documentation Residential Tower Archetype 
 *Andrea A. Nistad, 15. July 2020*
+*update: Kamila Krych, 12. Dec 2023*
 
 The residential tower archetype model is intended to represent urban residential buildings. The model is based on the DOE prototype high-rise model (available from: 
 https://www.energycodes.gov/development/commercial/prototype_models).  
@@ -24,13 +25,6 @@ The model is then modified according to different energy standards and resource 
 Different energy standards are modeled by changing insulation levels and ACH.
 
 The thickness of insulation layers in external walls and roofs depend on the energy standard. The same thickness as used for the MFH and SFH is applied (see documentation on these archetypes).
-
-Air change rates (sum of mechanical ventilation + infiltration) used:
-
-- ZEB: 0.6 (+ heat recovery ventilation) 1/h
-- Efficient: 0.6 1/h
-- Standard: 1 1/h
-- Non-standard: ~1.3 1/h
 
 ## Resource efficiency strategy
 
@@ -66,12 +60,12 @@ The following assumptions are made for the structural design:
 |                        | 950mm x 750 mm reinforced concrete (assume that this is the average column size of the building, in theory the column size is reduced towards the upper floors) (Taranath, 2010, p.219). This equals about 840mmx840mm                                                                                                                                                                          |
 |                        | 200 to 250 kg/m3 of reinforcement (Foraboschi et al., 2014; Ma et al., 2000) -> 2,5%-3% reinforcement ratio                                                                                                                                                                                                                                                                                     |
 | Shear walls/core walls | 450 mm reinforced concrete assumed (Taranath, 2010, p.218)                                                                                                                                                                                                                                                                                                                                      |
-|                        | 150 kg/m3 of reinforcement (Foraboschi et al., 2014)                                                                                                                                                                                                                                                                                                                                            |
-|                        | 0.24 m2 shear wall area per m2 floor area (Taranath, 2010). (See shear_wall.xlsx)                                                                                                                                                                                                                                                                                                               |
+|                        | 150 kg/m3 of reinforcement (~6% reinforcement) (Foraboschi et al., 2014)                                                                                                                                                                                                                                                                                                                                            |
+                                                                                                                                                                                  |
 | Foundations            | Assume deep pile foundation or raft foundation.                                                                                                                                                                                                                                                                                                                                                 |
-|                        | Based on a review of literature the concrete intensity of foundations seems highly variable. For the buildings data are available from (10+ floors), concrete intensity is 0.25 to 1.68 m3 concrete per m2 footprint area. Steel intensity is in the range of 65-150 kg steel per m3 concrete. The average values of 0.6 m3 concrete per m2 footprint and 100 kg steel per m3 concrete is used. |
+|                        | Based on a review of literature the concrete intensity of foundations seems highly variable. For the buildings data are available from (10+ floors), concrete intensity is 0.25 to 1.68 m3 concrete per m2 footprint area. Steel intensity is in the range of 65-150 kg steel per m3 concrete. The average values of 0.6 m3 concrete per m2 footprint and 100 kg steel per m3 concrete (~4% reinforcement) is used. |
 | Basement               |     Assume two levels of   basements                                                                                                                                                                                                                                                                                                                                                            |
-|                        | 200 mm reinforced concrete walls and slabs with approx. 100 kg/m3 of reinforcement                                                                                                                                                                                                                                                                                                              |
+|                        | 200 mm reinforced concrete walls and slabs with approx. 100 kg/m3 of reinforcement (~4% reinforcement)                                                                                                                                                                                                                                                                                                           |
 
 The figure below is used as a rough guideline to doublecheck the assumptions for slab thickness, column size and span, taken from (Allen and Iano, 2006, p.125). For heavy loads column size should be increased by 50 to 100 mm. Columns assumed for RES0 is about 840mmx840mm, span is 9m and slab thickness is 200mm. Hence, columns and span are fairly within expected ranges, while the slab thickness is a bit lower (200 mm instead of ~300 mm).
 
@@ -91,7 +85,7 @@ The following assumptions regarding the structural design is made and is based o
 |     External walls     | High pressure laminate panels                                                                                                     |
 |                        | Insulation layer (same as for MFH and SFH, see doc)                                                                               |
 |                        | 16 mm gypsum board                                                                                                                |
-|                        | Lightweight steel studs                                                                                                           |
+|                        | Lightweight steel studs (added as a surrogate element with 5x10 cm, 3m long, every 0.4 m)                                         |
 | Roof                   | 20 mm bitumen                                                                                                                     |
 |                        | Insulation layer (same as for MFH and SFH, see doc)                                                                               |
 |                        | OSB_5/8in                                                                                                                         |
@@ -104,13 +98,13 @@ The following assumptions regarding the structural design is made and is based o
 |                        | 50 mm Concrete                                                                                                                    |
 |                        | 170 mm CLT                                                                                                                        |
 |                        | Second floor is 600 mm reinforced concrete slab                                                                                   |
-| Internal walls         |     Lightweight steel   studs with 16 mm gypsum board on both sides                                                               |
+| Internal walls         | Lightweight steel studs (modeled as 5mm-thick sheet) with 16 mm gypsum board on both sides                                        |
 | Columns                | Exterior and interior columns with 3 m spacing                                                                                    |
 |                        | 300x300 mm glulam (floor 3 – 30)                                                                                                  |
 |                        | 500x500 mm reinforced concrete columns (floor 1-2), same reinforcement ratio as for RES0                                          |
-| Shear walls/core walls | 450 mm thick concrete shear wall, assume same ratio of shear wall area to footprint area as for RES0 and same reinforcement ratio |
-| Foundations            |     Same as for RES0, no   changes                                                                                                |
-| Basement               |     Same as for RES0, no   changes                                                                                                |
+| Shear walls/core walls | Same as for RES0, no changes                                                                                                      |
+| Foundations            | Same as for RES0, no changes                                                                                                      |
+| Basement               | Same as for RES0, no changes                                                                                                      |
 
 ### RES2.2: Lightweighting reinforced concrete building
 
