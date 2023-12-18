@@ -50,7 +50,7 @@ def create_mmv_variant(idf_path, ep_dir, archetype):
     :param comb: a dictionary with the chosen combination of archetypes to be simulated
     :param refresh_excel: a boolean value indicating if the excel sheet replace_mmv.xlsx should be created
     """
-    xlsx_mmv = './data/mmv-implementation.xlsx'
+    xlsx_mmv = './data/afn-mmv-implementation.xlsx'
     idf_path_original = idf_path.replace('_auto-MMV.idf', '.idf')
     idf_f = read_idf(ep_dir, idf_path_original)
     dictionaries = mmv.create_dictionaries(idf_f, archetype)

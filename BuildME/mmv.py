@@ -68,7 +68,7 @@ def change_archetype_to_AFN(idf, dictionaries, xlsx_mmv):
     Converts an idf file to one with infiltration modeled with AFN objects (AirflowNetwork)
     :param idf: The .idf file with infiltration modeled without AFN objects
     :param dictionaries: a list of dictionaries with surfaces, zones, etc.
-    :param xlsx_mmv: Path and filename of the mmv-implementation.xlsx file, normally './data/mmv-implementation.xlsx'
+    :param xlsx_mmv: Path to the afn-mmv-implementation.xlsx file
     :return idf: The .idf file with infiltration modeled with AFN objects
     """
     shielding = settings.shielding
