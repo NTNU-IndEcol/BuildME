@@ -231,7 +231,8 @@ def read_surrogate_elements(ConfigFile, combinations):
     df = pd.read_excel(ConfigFile, 'surrogate elements', header=2)
     df = df.dropna(how='all').dropna(how='all', axis=1)
     df = df.fillna(value=0)
-    aspect_names = ['region'] + list(list(combinations.values())[0].keys())
+    df = df.drop(columns=['comment'])
+    """aspect_names = ['region'] + list(list(combinations.values())[0].keys())
     where_surrogate = list(df.columns).index('surrogate')
     cols_to_idx = [v for i, v in enumerate(list(df.columns)) if i < where_surrogate]
     unknown_items = []
@@ -241,7 +242,7 @@ def read_surrogate_elements(ConfigFile, combinations):
         if unknown_items:
             raise Exception(f'Variable surrogate_elements contains unknown column name(s): {unknown_items}')
     df = df.set_index(cols_to_idx)
-    df = df.sort_index()
+    df = df.sort_index()"""
     return df
 
 

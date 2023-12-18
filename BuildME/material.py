@@ -15,7 +15,6 @@ import statistics
 
 def perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
                                   ifsurrogates=True, replace_dict=None):
-    print("Extracting materials and surfaces...")
     # find the materials used in the building
     materials = make_materials_dict(idf_file)
     # find the density of each material
@@ -27,7 +26,6 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
     surfaces = get_surfaces_from_floor_multipliers(idf_file, surfaces)
     # add the total floor area and other area measures
     geom_stats = get_building_geometry_stats(idf_file, surfaces)
-    # TODO: check the area of internal walls - if not enough, add warning
     save_dict_to_csv(geom_stats, out_dir, 'geom_stats.csv', header=['Geometry statistics', 'Unit', 'Value'],
                      units_dict={'area': 'm^2', 'perimeter': 'm', 'height': 'm', 'num_of_floors': 'floors'})
     # calculate the total material volume (thickness * total area, by material)
@@ -36,27 +34,25 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
     # calculate the total mass (total volume/density, by material)
     mat_mass = {mat: mat_vol_bdg[mat] * densities[mat] for mat in mat_vol_bdg}
     if ifsurrogates:
-        if surrogates_dict is not 'skip':
-            print('Adding surrogate elements...')
-            for key, calc_dict in surrogates_dict.items():
-                if all(v == 0 for k, v in calc_dict.items()):
-                    continue
-                elif key == 'basement':
-                    mat_mass = add_surrogate_basement(mat_mass, geom_stats, **surrogates_dict['basement'])
-                elif key == 'foundation':
-                    mat_mass = add_surrogate_foundation(mat_mass, geom_stats, **surrogates_dict['foundation'])
-                elif key == 'beams':
-                    mat_mass = add_surrogate_beams(mat_mass, geom_stats, **surrogates_dict['beams'])
-                elif key == 'columns':
-                    mat_mass = add_surrogate_columns(mat_mass, geom_stats, **surrogates_dict['columns'])
-                elif key == 'studs':
-                    mat_mass = add_surrogate_studs(mat_mass, geom_stats, **surrogates_dict['studs'])
-                elif key == 'roof_beams':
-                    mat_mass = add_surrogate_roof_beams(mat_mass, geom_stats, **surrogates_dict['roof_beams'])
-                elif key == 'shear_walls':
-                    mat_mass = add_surrogate_shear_walls(mat_mass, geom_stats, **surrogates_dict['shear_walls'])
-                else:
-                    print(f'Warning: surrogate element {key} not recognized')
+        for key, calc_dict in surrogates_dict.items():
+            if all(v == 0 for k, v in calc_dict.items()):
+                continue
+            elif key == 'basement':
+                mat_mass = add_surrogate_basement(mat_mass, geom_stats, **surrogates_dict['basement'])
+            elif key == 'foundation':
+                mat_mass = add_surrogate_foundation(mat_mass, geom_stats, **surrogates_dict['foundation'])
+            elif key == 'beams':
+                mat_mass = add_surrogate_beams(mat_mass, geom_stats, **surrogates_dict['beams'])
+            elif key == 'columns':
+                mat_mass = add_surrogate_columns(mat_mass, geom_stats, **surrogates_dict['columns'])
+            elif key == 'studs':
+                mat_mass = add_surrogate_studs(mat_mass, geom_stats, **surrogates_dict['studs'])
+            elif key == 'roof_beams':
+                mat_mass = add_surrogate_roof_beams(mat_mass, geom_stats, **surrogates_dict['roof_beams'])
+            elif key == 'shear_walls':
+                mat_mass = add_surrogate_shear_walls(mat_mass, geom_stats, **surrogates_dict['shear_walls'])
+            else:
+                print(f'Warning: surrogate element {key} not recognized')
     # export
     save_dict_to_csv(mat_mass, out_dir, 'mat_demand.csv', header=['Material name', 'Unit', 'Value'],
                      units_dict={'': 'kg'})
@@ -374,7 +370,7 @@ def get_building_geometry_stats(idf_file, surfaces):
                 bld_height = coords[i][2]
     geom_stats['building_height'] = bld_height
     geom_stats['num_of_floors'] = geom_stats['total_floor_area'] / geom_stats['ext_floor_area']
-    geom_stats['num_of_floors2'] = geom_stats['building_height'] / geom_stats['median_floor_height']  # TODO: delete?
+    geom_stats['num_of_floors2'] = geom_stats['building_height'] / geom_stats['median_floor_height']
     return geom_stats
 
 
@@ -463,7 +459,7 @@ def add_surrogate_columns(mat_mass, geom_stats, height=None, width=None, length=
                           shares=[1], densities=None):
     vol_column = geom_stats['building_height'] * width * length
     try:
-        number = (geom_stats['footprint_perimeter'] / distance + 1) * geom_stats['footprint_perimeter']
+        number = geom_stats['footprint_perimeter'] / distance + 1
     except ZeroDivisionError:
         number = 0
     volume = number * vol_column

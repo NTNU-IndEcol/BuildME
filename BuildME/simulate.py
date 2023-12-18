@@ -36,7 +36,7 @@ def validate_ep_version(idf_files, crash=True):
             print(err)
     # https://stackoverflow.com/a/18394205/2075003
 
-    for idff in tqdm(idf_files):
+    for idff in idf_files:
         with open(idff) as f:
             for line in f:
                 if '!- Version Identifier' in line:
@@ -219,7 +219,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
         
         # perform the simulation (ordinary or parallel)
         if parallel is False:  # ordinary simulation
-            for sim in batch_sim:
+            for sim in tqdm(batch_sim):
                 out_dir = batch_sim[sim]['run_folder']
                 epw_path = batch_sim[sim]['climate_file']
                 # perform actual simulation
@@ -251,6 +251,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
 def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
                         parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, atypical_materials=None,
                         ifsurrogates=True, surrogates_dict=None, epw_path=None):
+    print("Extracting materials and surfaces...")
     if ep_dir is None:
         ep_dir = settings.ep_path
     if atypical_materials is None:
@@ -295,7 +296,7 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
                 copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         validate_ep_version(list(set([batch_sim[sim]['archetype_file'] for sim in batch_sim])))  # list with no duplicates
         # perform actual simulation
-        for sim in batch_sim:
+        for sim in tqdm(batch_sim):
             out_dir = batch_sim[sim]['run_folder']
             archetype = batch_sim[sim]['occupation']
             replace_dict = batch_sim[sim]['replace_dict']
@@ -354,7 +355,7 @@ def check_atypical_materials(idf_file, atypical_materials, config=True):
             wb.save(filename=settings.config_file)
             wb.close()
             raise Exception(f'The following materials were not found in the atypical materials dictionary: '
-                            f'{list(unknown_materials.keys())}.'
+                            f'\n{list(unknown_materials.keys())}.'
                             f"\n\t These materials were added in sheet 'atypical materials' of the file "
                             f'{os.path.basename(settings.config_file)}')
     unspecified_materials = [k for k, v in atypical_materials.items() if v['density'] == '?' or v['thickness'] == '?']
@@ -422,9 +423,7 @@ def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folder
         df['Material type'] = mapping
         unknown_materials = unknown_materials + df[df['Material type'].isna()]['Material name'].values.tolist()
         df['Material type'] = df['Material type'].replace(np.nan, '?')
-        cols = list(df.columns)
-        new_cols = [cols[-1]] + [col for col in cols[:-1]]
-        df = df[new_cols]
+        df = df[['Material type', 'Unit', 'Value']]
         filename = os.path.join(folder, 'mat_demand_categorized.csv')
         df.to_csv(filename, index=False)
         df = df.groupby(['Material type', 'Unit']).sum()
@@ -477,7 +476,7 @@ def calculate_intensities(batch_sim=None, last_run=False, results=None, folders=
             except FileNotFoundError as e:
                 raise Exception('No geometry data available. Please perform material calculations first.') from e
             # df_geom.index = df_geom['Geometry statistics']
-            area = df_geom.loc[ref_area][1]
+            area = df_geom.loc[ref_area].Value
         for name in results:
             new_name = name.replace('.csv', '_m2.csv')
             try:

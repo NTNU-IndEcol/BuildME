@@ -7,6 +7,7 @@ import os
 import subprocess
 import shutil
 import platform
+from BuildME import settings
 
 
 def perform_energy_calculation(out_dir, ep_dir, epw_path):
@@ -30,7 +31,7 @@ def get_exec_files():
     """
     TODO: add description
     """
-    ep_version = '9.2.0'
+    ep_version = settings.ep_version
     # Checking OS and define files to copy to the temporary folders
     plf = platform.system()
     if plf == 'Windows':
