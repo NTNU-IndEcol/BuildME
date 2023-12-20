@@ -35,4 +35,4 @@ if __name__ == "__main__":
     if 'darwin' in sys.platform:
         print('Running \'caffeinate\' on MacOSX to prevent the system from sleeping')
         subprocess.Popen('caffeinate')
-    run(run_new=False, run_eplus=False)
+    run(run_new=True, run_eplus=True)
