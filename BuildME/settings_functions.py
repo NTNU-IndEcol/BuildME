@@ -191,13 +191,9 @@ def read_atypical_materials(ConfigFile):
     Reads the "atypical materials" sheet in the config file
     and returns the corresponding dictionary.
     Ex:
-        climate_stations = {
-            'DE': {'Germany': 'Frankfurt_am_Main_Airp_-hour.epw'},
-            'CN': {'I': 'CN-Harbin.epw',
-                   'II': 'CN-Beijing.epw',
-                   'III': 'CN-Wuhan.epw',
-                   'IV': 'CN-Haikou.epw',
-                   'V': 'CN-Kunming.epw'}
+        atypical_materials = {
+            'material_name1': {'density': value, 'thickness': value},
+            'material_name2': {'density': value, 'thickness': value}
             }
     '''
     config_sheet = openpyxl.load_workbook(ConfigFile)['atypical materials']
@@ -223,26 +219,14 @@ def read_climate_region_weight(ConfigFile):
     return df
 
 
-def read_surrogate_elements(ConfigFile, combinations):
+def read_surrogate_elements(ConfigFile):
     '''
-    Reads the "surrogate elements" sheet in the config file
-    and returns the corresponding dataframe.
+    Reads the "surrogate elements" sheet in the config file and returns the corresponding dataframe.
     '''
     df = pd.read_excel(ConfigFile, 'surrogate elements', header=2)
     df = df.dropna(how='all').dropna(how='all', axis=1)
     df = df.fillna(value=0)
     df = df.drop(columns=['comment'])
-    """aspect_names = ['region'] + list(list(combinations.values())[0].keys())
-    where_surrogate = list(df.columns).index('surrogate')
-    cols_to_idx = [v for i, v in enumerate(list(df.columns)) if i < where_surrogate]
-    unknown_items = []
-    for item in cols_to_idx:
-        if item not in aspect_names:
-            unknown_items.append(item)
-        if unknown_items:
-            raise Exception(f'Variable surrogate_elements contains unknown column name(s): {unknown_items}')
-    df = df.set_index(cols_to_idx)
-    df = df.sort_index()"""
     return df
 
 
@@ -250,7 +234,6 @@ def read_config_file(ConfigFile):
     '''
     Reads the config files and returns the dictionaries defined in the settings,
     using the functions defined above.
-
     '''
     SimulationConfig       = read_cover(ConfigFile)    
     combinations           = read_combinations(ConfigFile)
@@ -260,7 +243,7 @@ def read_config_file(ConfigFile):
     material_aggregation   = read_material_aggregation(ConfigFile)
     atypical_materials     = read_atypical_materials(ConfigFile)
     climate_region_weight = read_climate_region_weight(ConfigFile)
-    surrogate_elements = read_surrogate_elements(ConfigFile, combinations)
+    surrogate_elements = read_surrogate_elements(ConfigFile)
     return SimulationConfig, combinations, debug_combinations, archetype_proxies, climate_stations, \
            material_aggregation, atypical_materials, climate_region_weight, surrogate_elements
 

@@ -524,18 +524,23 @@ def assign_value(value_in, zone_dict_mmv, surface_dict, surfaces_f_dict, surface
             value = 'always_on_BuildME'
     elif value_in == '<heating schedule in zone>':
         thermostat_name = zone_dict_mmv[it]['Template_Thermostat_Name']
-        heat_sch = [obj.Heating_Setpoint_Schedule_Name for obj in idf.idfobjects['HVACTemplate:Thermostat'] if obj.Name == thermostat_name]
-        if heat_sch:
-            value = heat_sch[0]
+        thermostat_obj = idf.getobject('HVACTemplate:Thermostat', thermostat_name)
+        if thermostat_obj.Heating_Setpoint_Schedule_Name != '':
+            value = thermostat_obj.Heating_Setpoint_Schedule_Name
         else:
-            print(f'The heating schedule for the "{thermostat_name}" thermostat was not found')
+            idf.newidfobject('Schedule:Constant', Name='Heat_Sch_'+str(it), Schedule_Type_Limits_Name='Temperature',
+                             Hourly_Value=thermostat_obj.Constant_Heating_Setpoint)
+            thermostat_obj.Heating_Setpoint_Schedule_Name = 'Cool_Sch_'+str(it)
+            thermostat_obj.Constant_Heating_Setpoint = ''
     elif value_in == '<cooling schedule in zone>':
         thermostat_name = zone_dict_mmv[it]['Template_Thermostat_Name']
-        cool_sch = [obj.Cooling_Setpoint_Schedule_Name for obj in idf.idfobjects['HVACTemplate:Thermostat'] if obj.Name == thermostat_name]
-        if cool_sch:
-            value = cool_sch[0]
-        else:
-            print(f'The heating schedule for the "{thermostat_name}" thermostat was not found')
+        thermostat_obj = idf.getobject('HVACTemplate:Thermostat', thermostat_name)
+        if thermostat_obj.Cooling_Setpoint_Schedule_Name == '':
+            idf.newidfobject('Schedule:Constant', Name='Cool_Sch_'+str(it), Schedule_Type_Limits_Name='Temperature',
+                             Hourly_Value=thermostat_obj.Constant_Cooling_Setpoint)
+            thermostat_obj.Cooling_Setpoint_Schedule_Name = 'Cool_Sch_'+str(it)
+            thermostat_obj.Constant_Cooling_Setpoint = ''
+        value = thermostat_obj.Cooling_Setpoint_Schedule_Name
     elif value_in == '<opening factor>':
         surface_group = surface_dict[it]['Surface_Group']
         surface_group_type = surface_group.split(' ')[0]

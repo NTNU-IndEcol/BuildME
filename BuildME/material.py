@@ -15,6 +15,15 @@ import statistics
 
 def perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
                                   ifsurrogates=True, replace_dict=None):
+    """
+    Runs the material demand simulation
+    :param idf_file: IDF file
+    :param out_dir: output folder directory
+    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param surrogates_dict: dictionary with surrogate element information
+    :param ifsurrogates: True if surrogate calculations are requested (default: False)
+    :param replace_dict: dictionary with BuildME replacement aspects
+    """
     # find the materials used in the building
     materials = make_materials_dict(idf_file)
     # find the density of each material
@@ -30,9 +39,9 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
                      units_dict={'area': 'm^2', 'perimeter': 'm', 'height': 'm', 'num_of_floors': 'floors'})
     # calculate the total material volume (thickness * total area, by material)
     mat_vol_bdg = calc_mat_vol_bdg(idf_file, surfaces, constr_layers)
-    # add surrogate materials
     # calculate the total mass (total volume/density, by material)
     mat_mass = {mat: mat_vol_bdg[mat] * densities[mat] for mat in mat_vol_bdg}
+    # add surrogate materials
     if ifsurrogates:
         for key, calc_dict in surrogates_dict.items():
             if all(v == 0 for k, v in calc_dict.items()):
@@ -60,10 +69,9 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
 
 def make_materials_dict(idf_file):
     """
-    Takes the IDF file, extracts all material types and places them into a dictionary with the .Name attribute
-    as the key, and the idf object as the value, e.g., {material.Name: material}
-    :param idff: IDF file
-    :return: dictionary with the .Name attribute as the key {material.Name: material}
+    Takes the IDF file, extracts all material types and places them into a dictionary like {material.Name: material}
+    :param idf_file: IDF file
+    :return: materials_dict: dictionary like {material.Name: material object}
     """
     # create a list of idf material objects
     materials = []
@@ -83,8 +91,9 @@ def make_materials_dict(idf_file):
 def make_mat_density_dict(materials_dict, atypical_materials):
     """
     Creates a dictionary of material densities by material.
-    :param materials_dict: Materials from the IDF file
-    :return:
+    :param materials_dict: dictionary like {material.Name: material}
+    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :return: densities: dictionary like {material.Name: density}
     """
     densities = {}
     for mat in materials_dict:
@@ -107,10 +116,12 @@ def make_mat_density_dict(materials_dict, atypical_materials):
 
 def make_construction_dict(idf_file, materials_dict, atypical_materials, replace_dict):
     """
-    Calculates the material volume in 1 m2 of a construction
-    :param idf_file:
-    :param materials_dict:
-    :return: {'construction_name': {}
+    Creates a dictionary with constructions and the thicknesses of their layers
+    :param idf_file: IDF file
+    :param materials_dict: dictionary like {material.Name: material}
+    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param replace_dict: dictionary with BuildME replacement aspects
+    :return: constr_layers: dictionary like {'construction_name': {'layer1': thickness1, 'layer2': thickness2}}
     """
     constructions = idf_file.idfobjects['Construction'.upper()]
     constr_layers = {}
@@ -142,7 +153,11 @@ def make_construction_dict(idf_file, materials_dict, atypical_materials, replace
 
 
 def extract_layers(construction):
-    # TODO description
+    """
+    Extracts the layers from a construction object
+    :param construction: construction object
+    :returns: layers_dict: dictionary with layers
+    """
     layers_dict = {}
     layers = ['Outside_Layer'] + ['Layer_' + str(i + 2) for i in range(9)]
     for layer in layers:
@@ -177,11 +192,12 @@ class SurrogateElement:
 
 def calc_mat_vol_bdg(idff, surfaces, constr_layers):
     """
-    Calculate building's total material intensity.
-    :param surfaces:
-    :param mat_m2: material thickness per element and layer,
+    Calculate building's total volume
+    :param idff: IDF file
+    :param surfaces: A dictionary for each surface type, e.g. {'ext_wall': [object1, object2], 'roof': [object3]}
+    :param constr_layers: dictionary with constructions and their layers incl. layer thickness
         e.g. { 'AtticRoofDeck': {'F12 Asphalt shingles': 0.0032, 'G02 16mm plywood': 0.0159}, ...}
-    :return: Dictionary with material and volume
+    :return: mat_vol: dictionary like {'material_name': volume, ...}
     """
     mat_vol = {}
     flat_surfaces = flatten_surfaces(surfaces)
@@ -249,14 +265,14 @@ def flatten_surfaces(surfaces):
     return flat
 
 
-
 def get_surfaces(idf):
     """
     A function to derive all surfaces from the IDF file.
 
     Source: https://unmethours.com/question/15574/how-to-list-and-measure-area-surfaces/?answer=15604#post-id-15604
     NB: The post also explains a method to calculate the external areas by orientation (not implemented here).
-    :return: A dictionary for each surface type, e.g. {'ext_wall': [..., ...], 'roof': [...]}
+    :param idf: IDF file
+    :return: A dictionary for each surface type, e.g. {'ext_wall': [object1, object2], 'roof': [object3]}
     """
     surfaces = {}
     surfaces_to_count = ['Window', 'BuildingSurface:Detailed', 'Door', 'FenestrationSurface:Detailed']
@@ -298,6 +314,12 @@ def get_surfaces(idf):
 
 
 def get_surfaces_from_floor_multipliers(idf, surfaces):
+    """
+    Looks for zones with floor multipliers and, if found, multiplies the surfaces belonging to these zones
+    :param idf: IDF file
+    :param surfaces: A dictionary for each surface type, e.g. {'ext_wall': [object1, object2], 'roof': [object3]}
+    :return: surfaces including multiplied surfaces
+    """
     multipliers = {x.Name: int(float(x.Multiplier)) for x in idf.idfobjects["ZONE"] if x.Multiplier != ''}
     for key in surfaces.keys():
         temp_elem = []
@@ -320,10 +342,10 @@ def get_surfaces_from_floor_multipliers(idf, surfaces):
 
 def get_building_geometry_stats(idf_file, surfaces):
     """
-    Sums the surfaces as created by get_surfaces() and returns a corresponding dict.
-    :param idf_file:
-    :param surfaces:
-    :return:
+    Create a dictionary with building geometry statistics, e.g., floor area, footprint area, building height, etc.
+    :param idf_file: IDF file
+    :param surfaces: A dictionary for each surface type, e.g. {'ext_wall': [object1, object2], 'roof': [object3]}
+    :return: geom_stats: dictionary with building geometry statistics
     """
     geom_stats = {}
     for element in surfaces:
@@ -375,6 +397,11 @@ def get_building_geometry_stats(idf_file, surfaces):
 
 
 def get_area(e):
+    """
+    Gets area from object e
+    :param e: EnergyPlus object with a building element
+    :returns: area
+    """
     if e.key == "InternalMass":
         area = e.Surface_Area
     else:
@@ -384,7 +411,7 @@ def get_area(e):
 
 def get_fenestration_objects_from_surface(idf, surface_obj):
     """
-    Finds all fenestration objects assigned to a given surface
+    Finds all fenestration (doors, windows) objects assigned to a given surface
     :param idf: The .idf file
     :param surface_obj: Surface object (BuildingSurface:Detailed)
     :return: list of fenestration objects
@@ -398,26 +425,41 @@ def get_fenestration_objects_from_surface(idf, surface_obj):
 
 
 def add_ground_floor_ffactor_cfactor(constr_layers, obj, replace_dict):
+    """
+    Creates a surrogate ground floor slab (Ffactor and Cfactor object do not contain information about material layers)
+    :param constr_layers:
+    :param obj:
+    :param replace_dict:
+    :returns:
+    """
     try:
         res = replace_dict['res']
     except KeyError:
         res = ''
-    # get the surrogate construction or create one
-    if 'Surrogate_slab-' + res in constr_layers:
-        constr_name = 'Surrogate_slab-' + res
-        constr_layers[obj.Name] = {key: value for key, value in constr_layers[constr_name].items()}
-        constr_layers[obj.Name]['Insulation_surrogate'] = 0.2  # TODO: change? vary with en_std?
-    else:
-        # Assumptions ground floor: 20 cm concrete, 1% reinforcement and 20 cm insulation.
-        constr_layers[obj.Name] = {}
-        constr_layers[obj.Name]['Concrete_surrogate'] = 0.2*0.99
-        constr_layers[obj.Name]['Reinforcement_surrogate'] = 0.2*0.01
-        constr_layers[obj.Name]['Insulation_surrogate'] = 0.2  # TODO: change? vary with en_std?
+    # Assumptions ground floor: 20 cm concrete, 1% reinforcement and 20 cm insulation.
+    constr_layers[obj.Name] = {}
+    constr_layers[obj.Name]['Concrete_surrogate'] = 0.2*0.99
+    constr_layers[obj.Name]['Reinforcement_surrogate'] = 0.2*0.01
+    constr_layers[obj.Name]['Insulation_surrogate'] = 0.2  # TODO: change? vary with en_std?
     return constr_layers
 
 
 def add_surrogate_basement(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                            shares=[1], densities=None, room_h=2.8):
+    """
+    Adds a surrogate basement (floor slab + perimeter wall) to the material demand
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param geom_stats: dictionary with building geometry statistics
+    :param height: height of the floor slab and wall (meters)
+    :param width: (unused)
+    :param length: (unused)
+    :param distance: (unused)
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :param room_h: basement height (default: 2.8 meters)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate element
+    """
     area_slab = geom_stats['footprint_area']
     area_walls = geom_stats['footprint_perimeter'] * room_h
     volume = height * (area_slab+area_walls)
@@ -426,11 +468,33 @@ def add_surrogate_basement(mat_mass, geom_stats, height=None, width=None, length
 
 def add_surrogate_foundation(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                              shares=[1], densities=None):
+    """
+    Adds a surrogate foundation to the material demand
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param geom_stats: dictionary with building geometry statistics
+    :param height: height of the foundation (meters)
+    :param width: (unused)
+    :param length: (unused)
+    :param distance: (unused)
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate element
+    """
     volume = geom_stats['footprint_area'] * height
     return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
 
 
 def convert_volume_to_mass(mat_mass, volume, materials, shares, densities):
+    """
+    Converts the total surrogate element volume to volume by material and multiplies by density to obtain mass
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param volume: total volume of the surrogate element
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate element
+    """
     if type(materials) is str:
         materials = [str(i).strip() for i in materials.replace('[', '').replace(']', '').split(',')]
     if type(shares) is str:
@@ -457,6 +521,19 @@ def convert_volume_to_mass(mat_mass, volume, materials, shares, densities):
 
 def add_surrogate_columns(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                           shares=[1], densities=None):
+    """
+    Adds surrogate columns (on the perimeter) to the material demand
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param geom_stats: dictionary with building geometry statistics
+    :param height: (unused)
+    :param width: width of the column (meters)
+    :param length: depth of the column (meters)
+    :param distance: distance between columns (meters)
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate element
+    """
     vol_column = geom_stats['building_height'] * width * length
     try:
         number = geom_stats['footprint_perimeter'] / distance + 1
@@ -468,6 +545,19 @@ def add_surrogate_columns(mat_mass, geom_stats, height=None, width=None, length=
 
 def add_surrogate_beams(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                         shares=[1], densities=None):
+    """
+    Adds surrogate beams to the material demand
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param geom_stats: dictionary with building geometry statistics
+    :param height: (unused)
+    :param width: width of the beam (meters)
+    :param length: depth of the beam (meters)
+    :param distance: distance between beams (meters)
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate elemen
+    """
     blg_side_estimate = geom_stats['footprint_perimeter']/4
     vol_beam = blg_side_estimate * width * length
     try:
@@ -480,6 +570,19 @@ def add_surrogate_beams(mat_mass, geom_stats, height=None, width=None, length=No
 
 def add_surrogate_studs(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                         shares=[1], densities=None):
+    """
+    Adds surrogate studs (studded wall) to the material demand
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param geom_stats: dictionary with building geometry statistics
+    :param height: height of one stud (meters)
+    :param width: width of one stud (meters)
+    :param length: depth of one stud (meters)
+    :param distance: distance between studs (meters)
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate elemen
+    """
     vol_stud = height * width * length
     try:
         number_studs = (geom_stats['footprint_perimeter'] / distance + 1) * geom_stats['num_of_floors']
@@ -491,6 +594,19 @@ def add_surrogate_studs(mat_mass, geom_stats, height=None, width=None, length=No
 
 def add_surrogate_roof_beams(mat_mass, geom_stats, height=None, width=None, length=None, distance=None,
                              materials=None, shares=[1], densities=None):
+    """
+    Adds surrogate roof beams to the material demand
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param geom_stats: dictionary with building geometry statistics
+    :param height: (unused)
+    :param width: width of one beam (meters)
+    :param length: depth of one beam (meters)
+    :param distance: distance between beams (meters)
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate elemen
+    """
     vol_roof_beam = length * width
     blg_side_estimate = geom_stats['footprint_perimeter']/4
     try:
@@ -504,9 +620,19 @@ def add_surrogate_roof_beams(mat_mass, geom_stats, height=None, width=None, leng
 def add_surrogate_shear_walls(mat_mass, geom_stats, height=None, width=None, length=None, distance=None,
                              materials=None, shares=[1], densities=None, shear_wall_ratio=0.02):
     """
-    The RT archetype need shear/core walls for lateral load resistance.
-    The shear wall ratio is assumed 2% (the footprint of the shear walls to the floor area)
+    Adds surrogate shear walls to the material demand. Taller archetypes need shear/core walls for lateral load
+    resistance. The shear wall ratio is assumed 2% (the footprint of the shear walls to the floor area).
     Based on: https://ascelibrary.org/doi/full/10.1061/(ASCE)ST.1943-541X.0000785
+    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
+    :param geom_stats: dictionary with building geometry statistics
+    :param height: (unused)
+    :param width: (unused)
+    :param length: (unused)
+    :param distance: (unused)
+    :param materials: list with material names
+    :param shares: list with material shares (i.e., % in total volume)
+    :param densities: list with material densities (kg/m3 per material)
+    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate elemen
     """
     volume = geom_stats['building_height'] * geom_stats['footprint_area'] * shear_wall_ratio
     return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)

@@ -7,17 +7,13 @@ import json
 import pickle
 
 
-def check_aspect(dict_aspects, aspect):
-    try:
-        dict_aspects[aspect]
-    except KeyError:
-        dict_aspects[aspect] = None
-        if aspect == 'occupation':
-            raise KeyError('The aspect "occupation" is required in the scenario combinations')
-    return dict_aspects
-
-
 def create_batch_simulation(combinations):
+    """
+    Creates a dictionary 'batch_sim' and create a folder structure to store the simulation results
+    :param combinations: a dictionary with the selected BuildME aspects and their values
+    :returns: batch_sim: dictionary with batch simulation information
+    :returns: run: batch simulation identifier
+    """
     print("Creating batch simulation")
     run = datetime.datetime.now().strftime("%y%m%d-%H%M%S")
     # combinations = settings.debug_combinations
@@ -32,7 +28,10 @@ def create_batch_simulation(combinations):
             sim = region+'_'+'_'.join(comb)
             # get default aspects (if one doesn't exist, set as None)
             for aspect in default_aspects:
-                comb_dict = check_aspect(comb_dict, aspect)
+                try:
+                    comb_dict[aspect]
+                except KeyError:
+                    comb_dict[aspect] = None
             replace_dict = {asp: comb_dict[asp] for asp in ['en-std', 'res'] if comb_dict[asp] is not None}
             # get new aspects
             for asp in new_aspects:
@@ -66,18 +65,17 @@ def create_batch_simulation(combinations):
     return batch_sim, run
 
 
-def create_base_folder(bfolder, combinations, batch_sim):
+def create_base_folder(run, combinations, batch_sim):
     """
-    Creates the base folder where simulations are stored and writes the config file.
-    :param bfolder: run folder name
-    :param combinations: settings dict
-    :param batch_sim: Configuration file
-    :return: None
+    Creates the base folder where simulations are stored and creates a run-specific txt file.
+    :param run: batch simulation identifier
+    :param combinations: a dictionary with the selected BuildME aspects and their values
+    :param batch_sim: dictionary with batch simulation information
     """
-    bpath = os.path.join(settings.tmp_path, bfolder)
+    bpath = os.path.join(settings.tmp_path, run)
     # create folder
     os.makedirs(bpath)
-    cfile = os.path.join(bpath, "%s_config.txt" % bfolder)
+    cfile = os.path.join(bpath, "%s_config.txt" % run)
     with open(cfile, 'w') as conf_file:
         conf_file.write("BuildME v%s\n\n" % __version__)
         conf_file.write("Run folder:\n %s\n\n\n" % bpath)
@@ -91,11 +89,9 @@ def create_base_folder(bfolder, combinations, batch_sim):
 
 def create_subfolders(batch_sim, run):
     """
-    Creates scenario folders and copies the necessary files (climate and IDF file) into them. Further,
-    it applies the energy standard and RES scenario to the IDF archetype.
-    :param replace:
-    :type batch_sim: List of combinations / foldernames as created by create_combinations()
-    :return:
+    Creates a subfolder for each building instance in the batch simulation
+    :param batch_sim: dictionary with batch simulation information
+    :param run: batch simulation identifier
     """
     for sim in batch_sim:
         fpath = os.path.join(settings.tmp_path, run, sim)
@@ -110,8 +106,8 @@ def create_subfolders(batch_sim, run):
 def find_and_load_last_run(path=settings.tmp_path):
     """
     Finds the last batch simulation run as saved in create_batch_simulation().
-    :param path: folder to scan
-    :return batch_sim: dictionary with batch simulation information
+    :param path: folder to scan for simulation files
+    :returns: batch_sim: dictionary with batch simulation information
     """
     candidates = [f for f in os.listdir(path) if f.endswith('.run')]
     if len(candidates) == 0:

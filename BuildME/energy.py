@@ -11,6 +11,12 @@ from BuildME import settings
 
 
 def perform_energy_calculation(out_dir, ep_dir, epw_path):
+    """
+    Copies the required EnergyPlus files and initiates the energy demand simulation
+    :param out_dir: output folder directory
+    :param ep_dir: EnergyPlus directory
+    :param epw_path: path to the EPW file with weather data
+    """
     print("Perform energy simulation...")
     copy_files(out_dir, ep_dir, epw_path)
     run_energyplus_single(out_dir)
@@ -19,6 +25,14 @@ def perform_energy_calculation(out_dir, ep_dir, epw_path):
 
 
 def perform_energy_calculation_mp(args):
+    """
+    Copies the required EnergyPlus files and initiates the energy demand simulation (with multiprocessing)
+    :param args: arguments (out_dir - output folder directory,
+                            ep_dir - EnergyPlus directory,
+                            epw_path - path to the EPW file with weather data,
+                            q - multiprocessing Queue object,
+                            no - iteration number)
+    """
     out_dir, ep_dir, epw_path, q, no = args
     copy_files(out_dir, ep_dir, epw_path)
     run_energyplus_single(out_dir)
@@ -29,7 +43,8 @@ def perform_energy_calculation_mp(args):
 
 def get_exec_files():
     """
-    TODO: add description
+    Gets the names of the files needed for energy simulation depending on the operating system
+    :returns: ep_exec_files: a list of the filenames
     """
     ep_version = settings.ep_version
     # Checking OS and define files to copy to the temporary folders
@@ -61,8 +76,11 @@ def get_exec_files():
 
 
 def copy_files(out_dir, ep_dir, epw_path):
-    """ TODO: add the documentation
+    """
     Copies the files needed for energy simulation to the desired location.
+    :param out_dir: output folder directory
+    :param ep_dir: EnergyPlus directory
+    :param epw_path: path to the EPW file with weather data
     """
     # create a list of items to be copied (EnergyPlus executable files, IDF file, EPW file)
     copy_list = [os.path.join(ep_dir, f) for f in get_exec_files()]
@@ -80,8 +98,9 @@ def copy_files(out_dir, ep_dir, epw_path):
 
 
 def delete_ep_files(out_dir):
-    """ TODO: add the documentation
+    """
     Deletes the e+ files after simulation
+    :param out_dir: output folder directory
     """
     # Files that should be deleted in the temporary folder after successful simulation
     #  'eplusout.eso' is fairly large and not being used by BuildME
@@ -98,7 +117,6 @@ def delete_temp_folder(tmp_run_path, verbose=False):
     :param tmp_run_path: foldername to delete
     :param verbose: Switch to print a delete confirmation
     """
-
     # This syntax ensures that this is a subfolder of settings.tmp_path
     shutil.rmtree(os.path.join(settings.tmp_path, tmp_run_path))
     if verbose:
@@ -107,7 +125,9 @@ def delete_temp_folder(tmp_run_path, verbose=False):
 
 def run_energyplus_single(out_dir, verbose=True):
     """
-    TODO: add the documentation
+    Runs the energy demand simulation in EnergyPlus
+    :param out_dir: output folder directory
+    :param verbose: Switch to print a delete confirmation
     """
     # 1. Run `./ExpandObjects`
     cwd = os.getcwd()
@@ -144,7 +164,6 @@ def run_energyplus_single(out_dir, verbose=True):
     else:
         run_idf = 'expanded.idf'
 
-    # For RT, ExpandObjects wont run?? So testing to add in.idf as run_idf # TODO: delete this comment?
     if not os.path.exists('expanded.idf'):
         run_idf = 'in.idf'
 

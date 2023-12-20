@@ -46,9 +46,10 @@ def validate_ep_version(idf_files, crash=True):
 
 def create_mmv_variant(idf_path, ep_dir, archetype):
     """
-    Create MMV variants for the archetypes
-    :param comb: a dictionary with the chosen combination of archetypes to be simulated
-    :param refresh_excel: a boolean value indicating if the excel sheet replace_mmv.xlsx should be created
+    Create MMV variants for the archetypes unless already created
+    :param idf_path: path to the IDF file
+    :param ep_dir: EnergyPlus directory
+    :param archetype: archetype name
     """
     xlsx_mmv = './data/afn-mmv-implementation.xlsx'
     idf_path_original = idf_path.replace('_auto-MMV.idf', '.idf')
@@ -91,6 +92,12 @@ def find_cpus(method=settings.cpus):
 
 
 def read_idf(ep_dir, idf_path):
+    """
+    Reads an idf file using eppy
+    :param ep_dir: EnergyPlus directory
+    :param idf_path: path to the idf file
+    :returns: idf file
+        """
     idd = os.path.abspath(os.path.join(ep_dir, "Energy+.idd"))
     IDF.setiddname(idd)
     with open(idf_path, 'r') as infile:
@@ -102,9 +109,10 @@ def apply_obj_name_change(idf, aspect, aspect_value):
     """
     Searches for a defined string (replace_str) in defined IDF fiel objects and prelaces them with a replacement
       string (replacer).
-    :param idf: file and path, e.g. 'BuildME/data/archetype/USA/SFH.idf'
+    :param idf: IDF file
     :param aspect: Name of the aspect to be replaced, e.g., 'en_std'
     :param aspect_value: String to search and replace, e.g. 'ZEB'
+    :returns: Modified idf file
     """
     objects = ['FenestrationSurface:Detailed', 'BuildingSurface:Detailed', 'Door', 'Window', 'InternalMass']
     replace_str = '-'+aspect+'-replaceme'
@@ -124,7 +132,6 @@ def apply_obj_name_change(idf, aspect, aspect_value):
 def apply_rule_from_excel(idf_f, aspect, aspect_value, archetype, csv_folder):
     """
     The function will use the values in the replacement csv spreadsheet and replace them in the idf file.
-
     :param idf_f: Un-modified / original idf file
     :param aspect: res or en-std
     :param aspect_value:
@@ -156,6 +163,15 @@ def apply_rule_from_excel(idf_f, aspect, aspect_value, archetype, csv_folder):
 
 
 def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir):
+    """
+    Copies the chosen idf file to the building simulation folder
+    :param idf_path: path to the IDF file
+    :param out_dir: output folder directory
+    :param replace_dict: dictionary with BuildME replacement aspects
+    :param archetype: archetype name
+    :param ep_dir: EnergyPlus directory
+    :parm replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
+    """
     idf_path_new = os.path.join(out_dir, 'in.idf')
     shutil.copy2(idf_path, idf_path_new)
     idf_file = read_idf(ep_dir, idf_path_new)
@@ -171,6 +187,20 @@ def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_cs
 
 def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
                      parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, epw_path=None):
+    """
+    Initiates the calculation of energy demand
+    :param batch_sim: dictionary with batch simulation information
+    :param idf_path: path to the IDF file
+    :param out_dir: output folder directory
+    :param ep_dir: EnergyPlus directory
+    :param archetype: archetype name
+    :param replace_dict: dictionary with BuildME replacement aspects
+    :param parallel: True if parallel simulations (multiprocessing) should be performed (default: False)
+    :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
+    :param last_run: True if the last simulation run should be loaded (default: False)
+    :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
+    :param epw_path: path to the EPW file with weather data
+    """
     # check if all necessary variables are defined
     if ep_dir is None:
         ep_dir = settings.ep_path
@@ -249,8 +279,23 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
 
 
 def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
-                        parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, atypical_materials=None,
-                        ifsurrogates=True, surrogates_dict=None, epw_path=None):
+                        clear_folder=False, last_run=False, replace_csv_dir=None, atypical_materials=None,
+                        ifsurrogates=True, surrogates_dict=None):
+    """
+    Initiates the calculation of material demand
+    :param batch_sim: dictionary with batch simulation information
+    :param idf_path: path to the IDF file
+    :param out_dir: output folder directory
+    :param ep_dir: EnergyPlus directory
+    :param archetype: archetype name
+    :param replace_dict: dictionary with BuildME replacement aspects
+    :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
+    :param last_run: True if the last simulation run should be loaded (default: False)
+    :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
+    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param ifsurrogates: True if surrogate calculations are requested (default: False)
+    :param surrogates_dict: dictionary with surrogate element information
+    """
     print("Extracting materials and surfaces...")
     if ep_dir is None:
         ep_dir = settings.ep_path
@@ -327,6 +372,12 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
 
 
 def check_atypical_materials(idf_file, atypical_materials, config=True):
+    """
+    Check if all atypical materials (with no density and/or thickness data) have externally defined data
+    :param idf_file: IDF file
+    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param config: True if the configuration file should be used (to add the missing materials into the file)
+    """
     obj_types = ['Material:NoMass', 'Material:AirGap', 'WindowMaterial:SimpleGlazingSystem',
                  'WindowMaterial:Glazing']
     weird_mats = [obj for obj_type in obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
@@ -366,10 +417,13 @@ def check_atypical_materials(idf_file, atypical_materials, config=True):
 
 
 def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
-    """ TODO: update this description
-    Reads the energy plus result file 'eplusout.csv' and returns the result (sum of entire column).
-    :param out_dir: Absolute path of 'eplusout.csv'
-    :return:
+    """
+    Reads the EnergyPlus result file 'eplusout.csv' and aggregates the results (sums the column)
+    :param batch_sim: dictionary with batch simulation information
+    :param last_run: True if the last simulation run should be loaded (default: False)
+    :param folders: a list of directories (required only when batch_sim is None)
+    :param unit: energy units in the output file - kWh, J or MJ (default)
+    :returns: df_results
     """
     if last_run:
         batch_sim = batch.find_and_load_last_run()
@@ -407,6 +461,13 @@ def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
 
 
 def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folders=None):
+    """
+    Aggregate material types into categories, e.g., concrete, cement, wood and wood products
+    :param batch_sim: dictionary with batch simulation information
+    :param last_run: True if the last simulation run should be loaded (default: False)
+    :param aggreg_dict: dictionary with materials and their aggregation categories
+    :param folders: a list of directories (required only when batch_sim is None)
+    """
     if last_run:
         batch_sim = batch.find_and_load_last_run()
     if aggreg_dict is None:
@@ -455,6 +516,14 @@ def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folder
 
 
 def calculate_intensities(batch_sim=None, last_run=False, results=None, folders=None, ref_area='total_floor_area'):
+    """
+    Calculates intensities of the results (energy or material demand per square meter of floor area)
+    :param batch_sim: dictionary with batch simulation information
+    :param last_run: True if the last simulation run should be loaded
+    :param results: the names of csv files with energy and material results
+    :param folders: a list of directories (required only when batch_sim is None)
+    :param ref_area: reference: 'total_floor_area' (default), 'floor_area_occupied' or 'floor_area_conditioned'
+    """
     if results is None:
         results = ['energy_demand.csv', 'mat_demand.csv', 'mat_demand_aggregated.csv']
     if last_run:
@@ -491,6 +560,14 @@ def calculate_intensities(batch_sim=None, last_run=False, results=None, folders=
 
 
 def collect_results(batch_sim=None, last_run=False, results=None, folders=None, combinations=None):
+    """
+    Collect results from multiple simulations into one summary file
+    :param batch_sim: dictionary with batch simulation information
+    :param last_run: True if the last simulation run should be loaded
+    :param results: the names of csv files with energy and material results
+    :param folders: a list of directories (required only when batch_sim is None)
+    :param combinations: a dictionary with the selected BuildME aspects and their values
+    """
     if results is None:
         results = ['energy_demand.csv', 'geom_stats.csv', 'mat_demand.csv', 'mat_demand_categorized.csv',
                    'mat_demand_aggregated.csv', 'energy_demand_m2.csv', 'mat_demand_aggregated_m2.csv',
@@ -530,8 +607,10 @@ def collect_results(batch_sim=None, last_run=False, results=None, folders=None, 
 def weighing_climate_region(batch_sim=None, last_run=False, results=None, combinations=None):
     """
     Multiplies each result by its climate region ratio given in aggregate.xlsx.
-    :param res:
-    :return:
+    :param batch_sim: dictionary with batch simulation information
+    :param last_run: True if the last simulation run should be loaded
+    :param results: the names of csv files with energy and material results
+    :param combinations: a dictionary with the selected BuildME aspects and their values
     """
     if results is None:
         results = ['summary_energy_demand.csv', 'summary_energy_demand_m2.csv']
@@ -561,10 +640,10 @@ def weighing_climate_region(batch_sim=None, last_run=False, results=None, combin
 def cleanup(batch_sim=None, last_run=False, archive=True, del_temp=True):
     """
     Convenience function to clean up after successful run.
-    :param batch_sim: Simulation dictionary
+    :param batch_sim: dictionary with batch simulation information
+    :param last_run: True if the last simulation run should be loaded
     :param archive: Zip temporary folders into e.g. '220628-080114.zip'
     :param del_temp: Delete all subfolders
-    :return: None
     """
     if last_run:
         batch_sim = batch.find_and_load_last_run()
