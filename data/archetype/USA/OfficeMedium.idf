@@ -2770,132 +2770,132 @@ Schedule:Compact,
     Until: 24:00,             !- Field 101
     1;                        !- Field 102
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_1,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_2,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_3,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_4,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_5,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_6,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_7,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_8,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_9,               !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_10,              !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_11,              !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     HVAC_Sch_12,              !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_1,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_2,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_3,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_4,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_5,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_6,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_7,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_8,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_9,                 !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_10,                !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_11,                !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     NV_Sch_12,                !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     always_on_BuildME,        !- Name
     On/Off,                   !- Schedule Type Limits Name
     1;                        !- Hourly Value
 
-SCHEDULE:CONSTANT,
+Schedule:Constant,
     always_off_BuildME,       !- Name
     On/Off,                   !- Schedule Type Limits Name
     0;                        !- Hourly Value
@@ -2933,38 +2933,6 @@ Material,
     832;                      !- Specific Heat
 
 Material,
-    Concrete_12cm,            !- Name
-    Rough,                    !- Roughness
-    0.12,                     !- Thickness
-    1.312098,                 !- Conductivity
-    2242.8,                   !- Density
-    465.2;                    !- Specific Heat
-
-Material,
-    Reinforcement_1perc_12cm,    !- Name
-    Rough,                    !- Roughness
-    0.0012,                   !- Thickness
-    50,                       !- Conductivity
-    7850,                     !- Density
-    465.2;                    !- Specific Heat
-
-Material,
-    Concrete_15cm,            !- Name
-    Rough,                    !- Roughness
-    0.15,                     !- Thickness
-    1.312098,                 !- Conductivity
-    2242.8,                   !- Density
-    465.2;                    !- Specific Heat
-
-Material,
-    Reinforcement_1perc_15cm,    !- Name
-    Rough,                    !- Roughness
-    0.0015,                   !- Thickness
-    50,                       !- Conductivity
-    7850,                     !- Density
-    465.2;                    !- Specific Heat
-
-Material,
     Concrete_18cm,            !- Name
     Rough,                    !- Roughness
     0.18,                     !- Thickness
@@ -2976,22 +2944,6 @@ Material,
     Reinforcement_1perc_18cm,    !- Name
     Rough,                    !- Roughness
     0.0018,                   !- Thickness
-    50,                       !- Conductivity
-    7850,                     !- Density
-    465.2;                    !- Specific Heat
-
-Material,
-    Concrete_20cm,            !- Name
-    Rough,                    !- Roughness
-    0.2,                      !- Thickness
-    1.312098,                 !- Conductivity
-    2242.8,                   !- Density
-    465.2;                    !- Specific Heat
-
-Material,
-    Reinforcement_1perc_20cm,    !- Name
-    Rough,                    !- Roughness
-    0.002,                    !- Thickness
     50,                       !- Conductivity
     7850,                     !- Density
     465.2;                    !- Specific Heat
@@ -3062,10 +3014,10 @@ Material,
     0.7;                      !- Visible Absorptance
 
 Material,
-    insulation_layer-2cm,     !- Name
+    insulation_layer-8cm,     !- Name
     Rough,                    !- Roughness
-    0.02,                     !- Thickness
-    0.1,                      !- Conductivity
+    0.08,                     !- Thickness
+    0.04,                     !- Conductivity
     120.801,                  !- Density
     1036.25775;               !- Specific Heat
 
@@ -3097,62 +3049,6 @@ Material,
     insulation_layer-30cm,    !- Name
     Rough,                    !- Roughness
     0.3,                      !- Thickness
-    0.04,                     !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
-
-Material,
-    insulation_layer-wood-2cm,    !- Name
-    Rough,                    !- Roughness
-    0.02,                     !- Thickness
-    0.1,                      !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
-
-Material,
-    insulation_layer-wood-5cm,    !- Name
-    Rough,                    !- Roughness
-    0.05,                     !- Thickness
-    0.1,                      !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
-
-Material,
-    insulation_layer-wood-12cm,    !- Name
-    Rough,                    !- Roughness
-    0.12,                     !- Thickness
-    0.04,                     !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
-
-Material,
-    insulation_layer-wood-16cm,    !- Name
-    Rough,                    !- Roughness
-    0.16,                     !- Thickness
-    0.04,                     !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
-
-Material,
-    insulation_layer-wood-20cm,    !- Name
-    Rough,                    !- Roughness
-    0.2,                      !- Thickness
-    0.04,                     !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
-
-Material,
-    insulation_layer-wood-22cm,    !- Name
-    Rough,                    !- Roughness
-    0.22,                     !- Thickness
-    0.04,                     !- Conductivity
-    120.801,                  !- Density
-    1036.25775;               !- Specific Heat
-
-Material,
-    insulation_layer-wood-30cm,    !- Name
-    Rough,                    !- Roughness
-    0.2,                      !- Thickness
     0.04,                     !- Conductivity
     120.801,                  !- Density
     1036.25775;               !- Specific Heat
@@ -3198,28 +3094,12 @@ Material,
     0.5;                      !- Visible Absorptance
 
 Material,
-    G01 16mm gypsum board,    !- Name
-    MediumSmooth,             !- Roughness
-    0.016,                    !- Thickness
-    0.16,                     !- Conductivity
-    800,                      !- Density
-    1090;                     !- Specific Heat
-
-Material,
-    G02 16mm plywood,         !- Name
-    Smooth,                   !- Roughness
-    0.016,                    !- Thickness
-    0.12,                     !- Conductivity
-    544,                      !- Density
-    1210;                     !- Specific Heat
-
-Material:NoMass,
-    Opaque Door panel_con,    !- Name
-    MediumRough,              !- Roughness
-    0.475963827,              !- Thermal Resistance
-    0.9,                      !- Thermal Absorptance
-    0.7,                      !- Solar Absorptance
-    0.7;                      !- Visible Absorptance
+    insulation_layer-22cm,    !- Name
+    Rough,                    !- Roughness
+    0.22,                     !- Thickness
+    0.04,                     !- Conductivity
+    120.801,                  !- Density
+    1036.25775;               !- Specific Heat
 
 Material:NoMass,
     CP02 CARPET PAD,          !- Name
@@ -3288,7 +3168,7 @@ WindowMaterial:SimpleGlazingSystem,
 Construction,
     ext-wall-non-standard-RES0,    !- Name
     200mm Normalweight concrete wall,    !- Outside Layer
-    insulation_layer-2cm,     !- Layer 2
+    insulation_layer-8cm,     !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
@@ -3312,31 +3192,31 @@ Construction,
 Construction,
     ext-wall-non-standard-RES2.1,    !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-5cm,    !- Layer 2
+    insulation_layer-8cm,     !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     ext-wall-standard-RES2.1,    !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-12cm,    !- Layer 2
+    insulation_layer-12cm,    !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     ext-wall-efficient-RES2.1,    !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-16cm,    !- Layer 2
+    insulation_layer-16cm,    !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     ext-wall-ZEB-RES2.1,      !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-20cm,    !- Layer 2
+    insulation_layer-20cm,    !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     ext-wall-non-standard-RES2.2,    !- Name
     160mm Normalweight concrete wall,    !- Outside Layer
-    insulation_layer-2cm,     !- Layer 2
+    insulation_layer-8cm,     !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
@@ -3360,25 +3240,25 @@ Construction,
 Construction,
     ext-wall-non-standard-RES2.1+RES2.2,    !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-5cm,    !- Layer 2
+    insulation_layer-8cm,     !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     ext-wall-standard-RES2.1+RES2.2,    !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-12cm,    !- Layer 2
+    insulation_layer-12cm,    !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     ext-wall-efficient-RES2.1+RES2.2,    !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-16cm,    !- Layer 2
+    insulation_layer-16cm,    !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
     ext-wall-ZEB-RES2.1+RES2.2,    !- Name
     Wood_joist_200x50-400,    !- Outside Layer
-    insulation_layer-wood-20cm,    !- Layer 2
+    insulation_layer-20cm,    !- Layer 2
     G01 13mm gypsum board;    !- Layer 3
 
 Construction,
@@ -3402,18 +3282,18 @@ Construction,
     int-wall-RES2.1+RES2.2,    !- Name
     G01 13mm gypsum board,    !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-12cm,    !- Layer 3
+    insulation_layer-12cm,    !- Layer 3
     G01 13mm gypsum board;    !- Layer 4
 
 Construction,
     int-ceiling-non-standard-RES0,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     100mm Normalweight concrete floor,    !- Layer 2
-    insulation_layer-2cm;     !- Layer 3
+    insulation_layer-8cm;     !- Layer 3
 
 Construction,
     int-floor-non-standard-RES0,    !- Name
-    insulation_layer-2cm,     !- Outside Layer
+    insulation_layer-8cm,     !- Outside Layer
     100mm Normalweight concrete floor,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3457,11 +3337,11 @@ Construction,
     int-ceiling-non-standard-RES2.1,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-5cm;    !- Layer 3
+    insulation_layer-8cm;     !- Layer 3
 
 Construction,
     int-floor-non-standard-RES2.1,    !- Name
-    insulation_layer-wood-5cm,    !- Outside Layer
+    insulation_layer-8cm,     !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3469,11 +3349,11 @@ Construction,
     int-ceiling-standard-RES2.1,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-12cm;    !- Layer 3
+    insulation_layer-12cm;    !- Layer 3
 
 Construction,
     int-floor-standard-RES2.1,    !- Name
-    insulation_layer-wood-12cm,    !- Outside Layer
+    insulation_layer-12cm,    !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3481,11 +3361,11 @@ Construction,
     int-ceiling-efficient-RES2.1,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-16cm;    !- Layer 3
+    insulation_layer-16cm;    !- Layer 3
 
 Construction,
     int-floor-efficient-RES2.1,    !- Name
-    insulation_layer-wood-16cm,    !- Outside Layer
+    insulation_layer-16cm,    !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3493,11 +3373,11 @@ Construction,
     int-ceiling-ZEB-RES2.1,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-20cm;    !- Layer 3
+    insulation_layer-20cm;    !- Layer 3
 
 Construction,
     int-floor-ZEB-RES2.1,     !- Name
-    insulation_layer-wood-20cm,    !- Outside Layer
+    insulation_layer-20cm,    !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3505,11 +3385,11 @@ Construction,
     int-ceiling-non-standard-RES2.2,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     80mm Normalweight concrete floor,    !- Layer 2
-    insulation_layer-2cm;     !- Layer 3
+    insulation_layer-8cm;     !- Layer 3
 
 Construction,
     int-floor-non-standard-RES2.2,    !- Name
-    insulation_layer-2cm,     !- Outside Layer
+    insulation_layer-8cm,     !- Outside Layer
     80mm Normalweight concrete floor,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3553,11 +3433,11 @@ Construction,
     int-ceiling-non-standard-RES2.1+RES2.2,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-5cm;    !- Layer 3
+    insulation_layer-8cm;     !- Layer 3
 
 Construction,
     int-floor-non-standard-RES2.1+RES2.2,    !- Name
-    insulation_layer-wood-5cm,    !- Outside Layer
+    insulation_layer-8cm,     !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3565,11 +3445,11 @@ Construction,
     int-ceiling-standard-RES2.1+RES2.2,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-12cm;    !- Layer 3
+    insulation_layer-12cm;    !- Layer 3
 
 Construction,
     int-floor-standard-RES2.1+RES2.2,    !- Name
-    insulation_layer-wood-12cm,    !- Outside Layer
+    insulation_layer-12cm,    !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3577,11 +3457,11 @@ Construction,
     int-ceiling-efficient-RES2.1+RES2.2,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-16cm;    !- Layer 3
+    insulation_layer-16cm;    !- Layer 3
 
 Construction,
     int-floor-efficient-RES2.1+RES2.2,    !- Name
-    insulation_layer-wood-16cm,    !- Outside Layer
+    insulation_layer-16cm,    !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3589,11 +3469,11 @@ Construction,
     int-ceiling-ZEB-RES2.1+RES2.2,    !- Name
     CP02 CARPET PAD,          !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
-    insulation_layer-wood-20cm;    !- Layer 3
+    insulation_layer-20cm;    !- Layer 3
 
 Construction,
     int-floor-ZEB-RES2.1+RES2.2,    !- Name
-    insulation_layer-wood-20cm,    !- Outside Layer
+    insulation_layer-20cm,    !- Outside Layer
     Wood_joist_200x50-400,    !- Layer 2
     CP02 CARPET PAD;          !- Layer 3
 
@@ -3602,7 +3482,7 @@ Construction,
     F13 Built-up roofing,     !- Outside Layer
     Reinforcement_1perc_22cm,    !- Layer 2
     Concrete_22cm,            !- Layer 3
-    insulation_layer-2cm,     !- Layer 4
+    insulation_layer-8cm,     !- Layer 4
     F08 Metal surface;        !- Layer 5
 
 Construction,
@@ -3632,28 +3512,28 @@ Construction,
 Construction,
     ext-roof-non-standard-RES2.1,    !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-2cm,    !- Layer 2
+    insulation_layer-8cm,     !- Layer 2
     Wood_joist_220x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
 Construction,
     ext-roof-standard-RES2.1,    !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-16cm,    !- Layer 2
+    insulation_layer-16cm,    !- Layer 2
     Wood_joist_220x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
 Construction,
     ext-roof-efficient-RES2.1,    !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-22cm,    !- Layer 2
+    insulation_layer-22cm,    !- Layer 2
     Wood_joist_220x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
 Construction,
     ext-roof-ZEB-RES2.1,      !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-30cm,    !- Layer 2
+    insulation_layer-30cm,    !- Layer 2
     Wood_joist_220x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
@@ -3662,7 +3542,7 @@ Construction,
     F13 Built-up roofing,     !- Outside Layer
     Reinforcement_1perc_18cm,    !- Layer 2
     Concrete_18cm,            !- Layer 3
-    insulation_layer-2cm,     !- Layer 4
+    insulation_layer-8cm,     !- Layer 4
     F08 Metal surface;        !- Layer 5
 
 Construction,
@@ -3692,28 +3572,28 @@ Construction,
 Construction,
     ext-roof-non-standard-RES2.1+RES2.2,    !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-2cm,    !- Layer 2
+    insulation_layer-8cm,     !- Layer 2
     Wood_joist_180x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
 Construction,
     ext-roof-standard-RES2.1+RES2.2,    !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-16cm,    !- Layer 2
+    insulation_layer-16cm,    !- Layer 2
     Wood_joist_180x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
 Construction,
     ext-roof-efficient-RES2.1+RES2.2,    !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-22cm,    !- Layer 2
+    insulation_layer-22cm,    !- Layer 2
     Wood_joist_180x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
 Construction,
     ext-roof-ZEB-RES2.1+RES2.2,    !- Name
     F13 Built-up roofing,     !- Outside Layer
-    insulation_layer-wood-30cm,    !- Layer 2
+    insulation_layer-30cm,    !- Layer 2
     Wood_joist_180x50-400,    !- Layer 3
     F08 Metal surface;        !- Layer 4
 
@@ -3748,10 +3628,6 @@ Construction,
 Construction,
     ext-door-ZEB,             !- Name
     Opaque Door panel_con-ZEB;    !- Outside Layer
-
-Construction,
-    Swinging Door_con,        !- Name
-    Opaque Door panel_con;    !- Outside Layer
 
 Construction,
     InteriorFurnishings,      !- Name
@@ -7892,7 +7768,7 @@ Daylighting:ReferencePoint,
     16.6369,                  !- YCoordinate of Reference Point
     8.687;                    !- ZCoordinate of Reference Point
 
-AIRFLOWNETWORK:SIMULATIONCONTROL,
+AirflowNetwork:SimulationControl,
     NV,                       !- Name
     MultizoneWithoutDistribution,    !- AirflowNetwork Control
     Input,                    !- Wind Pressure Coefficient Type
@@ -7908,7 +7784,7 @@ AIRFLOWNETWORK:SIMULATIONCONTROL,
     No,                       !- Height Dependence of External Node Temperature
     SkylineLU;                !- Solver
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_top_ZN_3,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -7921,7 +7797,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_top_ZN_2,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -7934,7 +7810,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_top_ZN_1,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -7947,7 +7823,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_top_ZN_4,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -7960,7 +7836,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_bot_ZN_3,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -7973,7 +7849,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_bot_ZN_2,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -7986,7 +7862,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_bot_ZN_1,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -7999,7 +7875,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_bot_ZN_4,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8012,7 +7888,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_mid_ZN_3,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8025,7 +7901,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_mid_ZN_2,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8038,7 +7914,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_mid_ZN_1,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8051,7 +7927,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Perimeter_mid_ZN_4,       !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8064,7 +7940,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Core_bottom,              !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8077,7 +7953,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     TopFloor_Plenum,          !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8090,7 +7966,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     MidFloor_Plenum,          !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8103,7 +7979,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     FirstFloor_Plenum,        !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8116,7 +7992,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Core_mid,                 !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8129,7 +8005,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:ZONE,
+AirflowNetwork:MultiZone:Zone,
     Core_top,                 !- Zone Name
     Constant,                 !- Ventilation Control Mode
     ,                         !- Ventilation Control Zone Temperature Setpoint Schedule Name
@@ -8142,7 +8018,7 @@ AIRFLOWNETWORK:MULTIZONE:ZONE,
     Standard,                 !- Single Sided Wind Pressure Coefficient Algorithm
     10;                       !- Facade Width
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Building_Roof,            !- Surface Name
     Crack_1,                  !- Leakage Component Name
     Node_1,                   !- External Node Name
@@ -8159,7 +8035,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_1_Wall_South,    !- Surface Name
     Crack_2,                  !- Leakage Component Name
     Node_2,                   !- External Node Name
@@ -8176,7 +8052,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_1_Wall_East,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8193,7 +8069,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_2_Wall_East,    !- Surface Name
     Crack_5,                  !- Leakage Component Name
     Node_4,                   !- External Node Name
@@ -8210,7 +8086,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_2_Wall_North,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8227,7 +8103,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_3_Wall_North,    !- Surface Name
     Crack_2,                  !- Leakage Component Name
     Node_6,                   !- External Node Name
@@ -8244,7 +8120,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_3_Wall_West,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8261,7 +8137,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_4_Wall_West,    !- Surface Name
     Crack_5,                  !- Leakage Component Name
     Node_8,                   !- External Node Name
@@ -8278,7 +8154,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_4_Wall_South,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8295,7 +8171,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_bot_ZN_5_Wall_South,    !- Surface Name
     Crack_6,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8312,7 +8188,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_bot_ZN_5_Wall_East,    !- Surface Name
     Crack_8,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8329,7 +8205,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_bot_ZN_5_Wall_North,    !- Surface Name
     Crack_6,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8346,7 +8222,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_bot_ZN_5_Wall_West,    !- Surface Name
     Crack_8,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8363,7 +8239,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_1_Wall_South,    !- Surface Name
     Crack_2,                  !- Leakage Component Name
     Node_14,                  !- External Node Name
@@ -8380,7 +8256,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_1_Wall_East,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8397,7 +8273,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_2_Wall_East,    !- Surface Name
     Crack_5,                  !- Leakage Component Name
     Node_16,                  !- External Node Name
@@ -8414,7 +8290,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_2_Wall_North,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8431,7 +8307,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_3_Wall_North,    !- Surface Name
     Crack_2,                  !- Leakage Component Name
     Node_18,                  !- External Node Name
@@ -8448,7 +8324,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_3_Wall_West,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8465,7 +8341,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_4_Wall_West,    !- Surface Name
     Crack_5,                  !- Leakage Component Name
     Node_20,                  !- External Node Name
@@ -8482,7 +8358,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_4_Wall_South,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8499,7 +8375,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_mid_ZN_5_Wall_North,    !- Surface Name
     Crack_6,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8516,7 +8392,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_mid_ZN_5_Wall_East,    !- Surface Name
     Crack_8,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8533,7 +8409,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_mid_ZN_5_Wall_South,    !- Surface Name
     Crack_6,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8550,7 +8426,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_mid_ZN_5_Wall_West,    !- Surface Name
     Crack_8,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8567,7 +8443,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_1_Wall_South,    !- Surface Name
     Crack_2,                  !- Leakage Component Name
     Node_26,                  !- External Node Name
@@ -8584,7 +8460,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_1_Wall_East,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8601,7 +8477,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_2_Wall_East,    !- Surface Name
     Crack_5,                  !- Leakage Component Name
     Node_28,                  !- External Node Name
@@ -8618,7 +8494,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_2_Wall_North,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8635,7 +8511,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_3_Wall_North,    !- Surface Name
     Crack_2,                  !- Leakage Component Name
     Node_30,                  !- External Node Name
@@ -8652,7 +8528,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_3_Wall_West,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8669,7 +8545,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_4_Wall_West,    !- Surface Name
     Crack_5,                  !- Leakage Component Name
     Node_32,                  !- External Node Name
@@ -8686,7 +8562,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_4_Wall_South,    !- Surface Name
     Crack_7,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8703,7 +8579,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_top_ZN_5_Wall_North,    !- Surface Name
     Crack_6,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8720,7 +8596,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_top_ZN_5_Wall_East,    !- Surface Name
     Crack_8,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8737,7 +8613,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_top_ZN_5_Wall_South,    !- Surface Name
     Crack_6,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8754,7 +8630,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Core_top_ZN_5_Wall_West,    !- Surface Name
     Crack_8,                  !- Leakage Component Name
     ,                         !- External Node Name
@@ -8771,7 +8647,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_Plenum_Wall_North,    !- Surface Name
     Crack_4,                  !- Leakage Component Name
     Node_38,                  !- External Node Name
@@ -8788,7 +8664,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_Plenum_Wall_East,    !- Surface Name
     Crack_3,                  !- Leakage Component Name
     Node_39,                  !- External Node Name
@@ -8805,7 +8681,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_Plenum_Wall_South,    !- Surface Name
     Crack_4,                  !- Leakage Component Name
     Node_40,                  !- External Node Name
@@ -8822,7 +8698,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_Plenum_Wall_West,    !- Surface Name
     Crack_3,                  !- Leakage Component Name
     Node_41,                  !- External Node Name
@@ -8839,7 +8715,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_Plenum_Wall_North,    !- Surface Name
     Crack_4,                  !- Leakage Component Name
     Node_42,                  !- External Node Name
@@ -8856,7 +8732,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_Plenum_Wall_East,    !- Surface Name
     Crack_3,                  !- Leakage Component Name
     Node_43,                  !- External Node Name
@@ -8873,7 +8749,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_Plenum_Wall_South,    !- Surface Name
     Crack_4,                  !- Leakage Component Name
     Node_44,                  !- External Node Name
@@ -8890,7 +8766,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_Plenum_Wall_West,    !- Surface Name
     Crack_3,                  !- Leakage Component Name
     Node_45,                  !- External Node Name
@@ -8907,7 +8783,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_Plenum_Wall_North,    !- Surface Name
     Crack_4,                  !- Leakage Component Name
     Node_46,                  !- External Node Name
@@ -8924,7 +8800,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_Plenum_Wall_East,    !- Surface Name
     Crack_3,                  !- Leakage Component Name
     Node_47,                  !- External Node Name
@@ -8941,7 +8817,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_Plenum_Wall_South,    !- Surface Name
     Crack_4,                  !- Leakage Component Name
     Node_48,                  !- External Node Name
@@ -8958,7 +8834,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_Plenum_Wall_West,    !- Surface Name
     Crack_3,                  !- Leakage Component Name
     Node_49,                  !- External Node Name
@@ -8975,7 +8851,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_1_Wall_South_Window1,    !- Surface Name
     Opening_3,                !- Leakage Component Name
     Node_50,                  !- External Node Name
@@ -8992,7 +8868,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_1_Wall_South_Window2,    !- Surface Name
     Opening_3,                !- Leakage Component Name
     Node_51,                  !- External Node Name
@@ -9009,7 +8885,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_1_Wall_South_Window3,    !- Surface Name
     Opening_3,                !- Leakage Component Name
     Node_52,                  !- External Node Name
@@ -9026,7 +8902,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_1_Wall_South_Door1,    !- Surface Name
     Opening_1,                !- Leakage Component Name
     Node_53,                  !- External Node Name
@@ -9043,7 +8919,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_1_Wall_South_Door2,    !- Surface Name
     Opening_1,                !- Leakage Component Name
     Node_54,                  !- External Node Name
@@ -9060,7 +8936,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_3_Wall_North_Window1,    !- Surface Name
     Opening_3,                !- Leakage Component Name
     Node_55,                  !- External Node Name
@@ -9077,7 +8953,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_3_Wall_North_Window2,    !- Surface Name
     Opening_3,                !- Leakage Component Name
     Node_56,                  !- External Node Name
@@ -9094,7 +8970,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_3_Wall_North_Window3,    !- Surface Name
     Opening_3,                !- Leakage Component Name
     Node_57,                  !- External Node Name
@@ -9111,7 +8987,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_3_Wall_North_Door1,    !- Surface Name
     Opening_1,                !- Leakage Component Name
     Node_58,                  !- External Node Name
@@ -9128,7 +9004,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_3_Wall_North_Door2,    !- Surface Name
     Opening_1,                !- Leakage Component Name
     Node_59,                  !- External Node Name
@@ -9145,7 +9021,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_2_Wall_East_Window1,    !- Surface Name
     Opening_4,                !- Leakage Component Name
     Node_60,                  !- External Node Name
@@ -9162,7 +9038,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_2_Wall_East_Window2,    !- Surface Name
     Opening_2,                !- Leakage Component Name
     Node_61,                  !- External Node Name
@@ -9179,7 +9055,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_2_Wall_East_Door,    !- Surface Name
     Opening_1,                !- Leakage Component Name
     Node_62,                  !- External Node Name
@@ -9196,7 +9072,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_4_Wall_West_Window1,    !- Surface Name
     Opening_4,                !- Leakage Component Name
     Node_63,                  !- External Node Name
@@ -9213,7 +9089,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_4_Wall_West_Window2,    !- Surface Name
     Opening_2,                !- Leakage Component Name
     Node_64,                  !- External Node Name
@@ -9230,7 +9106,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_bot_ZN_4_Wall_West_Door,    !- Surface Name
     Opening_1,                !- Leakage Component Name
     Node_65,                  !- External Node Name
@@ -9247,7 +9123,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_1_Wall_South_Window,    !- Surface Name
     Opening_6,                !- Leakage Component Name
     Node_66,                  !- External Node Name
@@ -9264,7 +9140,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_2_Wall_East_Window,    !- Surface Name
     Opening_5,                !- Leakage Component Name
     Node_67,                  !- External Node Name
@@ -9281,7 +9157,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_3_Wall_North_Window,    !- Surface Name
     Opening_6,                !- Leakage Component Name
     Node_68,                  !- External Node Name
@@ -9298,7 +9174,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_mid_ZN_4_Wall_West_Window,    !- Surface Name
     Opening_5,                !- Leakage Component Name
     Node_69,                  !- External Node Name
@@ -9315,7 +9191,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_1_Wall_South_Window,    !- Surface Name
     Opening_6,                !- Leakage Component Name
     Node_70,                  !- External Node Name
@@ -9332,7 +9208,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_2_Wall_East_Window,    !- Surface Name
     Opening_5,                !- Leakage Component Name
     Node_71,                  !- External Node Name
@@ -9349,7 +9225,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_3_Wall_North_Window,    !- Surface Name
     Opening_6,                !- Leakage Component Name
     Node_72,                  !- External Node Name
@@ -9366,7 +9242,7 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE,
+AirflowNetwork:MultiZone:Surface,
     Perimeter_top_ZN_4_Wall_West_Window,    !- Surface Name
     Opening_5,                !- Leakage Component Name
     Node_73,                  !- External Node Name
@@ -9383,47 +9259,47 @@ AIRFLOWNETWORK:MULTIZONE:SURFACE,
     PolygonHeight,            !- Equivalent Rectangle Method
     1;                        !- Equivalent Rectangle Aspect Ratio
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_1,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_2,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_3,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_4,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_5,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_6,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_7,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:SURFACE:CRACK,
+AirflowNetwork:MultiZone:Surface:Crack,
     Crack_8,                  !- Name
     ,                         !- Air Mass Flow Coefficient at Reference Conditions
     0.65;                     !- Air Mass Flow Exponent
 
-AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
+AirflowNetwork:MultiZone:Component:DetailedOpening,
     Opening_1,                !- Name
     ,                         !- Air Mass Flow Coefficient When Opening is Closed
     0.65,                     !- Air Mass Flow Exponent When Opening is Closed
@@ -9451,7 +9327,7 @@ AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
     0,                        !- Height Factor for Opening Factor 4
     0;                        !- Start Height Factor for Opening Factor 4
 
-AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
+AirflowNetwork:MultiZone:Component:DetailedOpening,
     Opening_2,                !- Name
     ,                         !- Air Mass Flow Coefficient When Opening is Closed
     0.65,                     !- Air Mass Flow Exponent When Opening is Closed
@@ -9479,7 +9355,7 @@ AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
     0,                        !- Height Factor for Opening Factor 4
     0;                        !- Start Height Factor for Opening Factor 4
 
-AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
+AirflowNetwork:MultiZone:Component:DetailedOpening,
     Opening_3,                !- Name
     ,                         !- Air Mass Flow Coefficient When Opening is Closed
     0.65,                     !- Air Mass Flow Exponent When Opening is Closed
@@ -9507,7 +9383,7 @@ AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
     0,                        !- Height Factor for Opening Factor 4
     0;                        !- Start Height Factor for Opening Factor 4
 
-AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
+AirflowNetwork:MultiZone:Component:DetailedOpening,
     Opening_4,                !- Name
     ,                         !- Air Mass Flow Coefficient When Opening is Closed
     0.65,                     !- Air Mass Flow Exponent When Opening is Closed
@@ -9535,7 +9411,7 @@ AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
     0,                        !- Height Factor for Opening Factor 4
     0;                        !- Start Height Factor for Opening Factor 4
 
-AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
+AirflowNetwork:MultiZone:Component:DetailedOpening,
     Opening_5,                !- Name
     ,                         !- Air Mass Flow Coefficient When Opening is Closed
     0.65,                     !- Air Mass Flow Exponent When Opening is Closed
@@ -9563,7 +9439,7 @@ AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
     0,                        !- Height Factor for Opening Factor 4
     0;                        !- Start Height Factor for Opening Factor 4
 
-AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
+AirflowNetwork:MultiZone:Component:DetailedOpening,
     Opening_6,                !- Name
     ,                         !- Air Mass Flow Coefficient When Opening is Closed
     0.65,                     !- Air Mass Flow Exponent When Opening is Closed
@@ -9591,350 +9467,350 @@ AIRFLOWNETWORK:MULTIZONE:COMPONENT:DETAILEDOPENING,
     0,                        !- Height Factor for Opening Factor 4
     0;                        !- Start Height Factor for Opening Factor 4
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_1,                   !- Name
     0,                        !- External Node Height
     HighRise_MedShield_roof_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_2,                   !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_4,                   !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_6,                   !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_8,                   !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_14,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_16,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_18,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_20,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_26,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_28,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_30,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_32,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_38,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_39,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_40,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_41,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_42,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_43,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_44,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_45,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_46,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_47,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_48,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_49,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_50,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_51,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_52,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_53,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_54,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_55,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_56,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_57,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_58,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_59,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_60,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_61,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_62,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_63,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_64,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_65,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_66,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_67,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_68,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_69,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_70,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_S,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_71,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_E,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_72,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_N,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:EXTERNALNODE,
+AirflowNetwork:MultiZone:ExternalNode,
     Node_73,                  !- Name
     0,                        !- External Node Height
     HighRise_MedShield_wall_W,    !- Wind Pressure Coefficient Curve Name
     No,                       !- Symmetric Wind Pressure Coefficient Curve
     Absolute;                 !- Wind Angle Type
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTARRAY,
+AirflowNetwork:MultiZone:WindPressureCoefficientArray,
     HighRise_degrees,         !- Name
     0,                        !- Wind Direction 1
     22.5,                     !- Wind Direction 2
@@ -9953,7 +9829,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTARRAY,
     315,                      !- Wind Direction 15
     337.5;                    !- Wind Direction 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_wall_N,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     0.191,                    !- Wind Pressure Coefficient Value 1
@@ -9973,7 +9849,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
     0.081,                    !- Wind Pressure Coefficient Value 15
     -0.149;                   !- Wind Pressure Coefficient Value 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_wall_S,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     -0.152,                   !- Wind Pressure Coefficient Value 1
@@ -9993,7 +9869,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
     -0.278,                   !- Wind Pressure Coefficient Value 15
     -0.212;                   !- Wind Pressure Coefficient Value 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_wall_E,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     -0.149,                   !- Wind Pressure Coefficient Value 1
@@ -10013,7 +9889,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
     0.081,                    !- Wind Pressure Coefficient Value 15
     -0.034;                   !- Wind Pressure Coefficient Value 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_wall_W,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     -0.149,                   !- Wind Pressure Coefficient Value 1
@@ -10033,7 +9909,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
     -0.278,                   !- Wind Pressure Coefficient Value 15
     -0.283;                   !- Wind Pressure Coefficient Value 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_roof_N,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     -0.149,                   !- Wind Pressure Coefficient Value 1
@@ -10053,7 +9929,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
     -0.149,                   !- Wind Pressure Coefficient Value 15
     -0.149;                   !- Wind Pressure Coefficient Value 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_roof_S,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     -0.149,                   !- Wind Pressure Coefficient Value 1
@@ -10073,7 +9949,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
     -0.149,                   !- Wind Pressure Coefficient Value 15
     -0.149;                   !- Wind Pressure Coefficient Value 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_roof_E,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     -0.149,                   !- Wind Pressure Coefficient Value 1
@@ -10093,7 +9969,7 @@ AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
     -0.149,                   !- Wind Pressure Coefficient Value 15
     -0.149;                   !- Wind Pressure Coefficient Value 16
 
-AIRFLOWNETWORK:MULTIZONE:WINDPRESSURECOEFFICIENTVALUES,
+AirflowNetwork:MultiZone:WindPressureCoefficientValues,
     HighRise_MedShield_roof_W,    !- Name
     HighRise_degrees,         !- AirflowNetworkMultiZoneWindPressureCoefficientArray Name
     -0.149,                   !- Wind Pressure Coefficient Value 1
