@@ -1,6 +1,6 @@
-# Documentation on mixed-mode ventilation (MMV) 
+# Documentation on mixed-mode ventilation (MMV) and Airflow Network (AFN)
 
-This document explains the implementation of thermal comfort-driven cooling in BuildME, which was done using mixed-mode ventilation (MMV). The procedure can generally be applied to any IDF file, although some limitations exist. The most important ones are listed in the summary below. 
+This document explains the implementation of thermal comfort-driven cooling in BuildME, which was done using mixed-mode ventilation. The procedure can generally be applied to any IDF file, although some limitations exist. The most important ones are listed in the summary below. This document explains also the motivation behind using AirflowNetwork objects in BuildME archetypes. 
 
 Author: Kamila Krych
 
@@ -12,6 +12,7 @@ BuildME implements MMV into EnergyPlus simulations using a procedure inspired by
 The assumptions in the work are:
 *	Mechanical cooling is implemented using a simplified HVAC system (_HVACTemplate:Zone:IdealLoadsAirSystem_). If it's not, then one step has to be performed manually (see section 2.7). 
 *	Venting through windows is only implemented in zones with the HVAC system, with exactly one People object and at least one vertical window (i.e., not a skylight). The zone is also compatible with AirflowNetwork objects, i.e., it has at least two surfaces (walls, floors, etc.) that are _not_ GroundFCfactorMethod objects, internal partitions, or ceilings. 
+* 	Infiltration in the building is only modeled using Airflow Network (AFN) objects. Otherwise, an error would occur and infiltration would not be modeled, thus making it impossible to compare various energy standards (read more in section [Infiltration](#infiltration)).
 *	The building has walls aligned with cardinal directions. 
 *	The size of the window opening used for venting is 27% of the window area (this assumption can be easily changes, see section 2.6).
 
@@ -59,25 +60,26 @@ The decision to open the windows or use the HVAC system depends on several condi
 
 **Figure 2**: Energy management system program with the decision tree, shown in the IDF Editor.
 
-### 2.4	Infiltration 
-The infiltration modelling is key for achieving the full functionality of BuildME, as the framework uses various infiltration levels to reflect various energy standards. The archetypes used in BuildME rely on various types of objects to model infiltration, such as _ZoneInfiltration:EffectiveLeakageArea_.The BuildME script inserts various infiltration values into IDF files based on the chosen energy standard. 
-
-The MMV procedure requires some airflow network objects to simulate the airflow through the opened windows. Using both AFN and ZoneInfiltration objects yields the following error when executing the EnergyPlus simulation:
+### 2.4 Infiltration
+The infiltration modelling is key for achieving the full functionality of BuildME, as the framework uses various infiltration levels to reflect various energy standards. However, for MMV-based cooling types, the archetype must model the infiltration using AFN objects as well. Otherwise, the EnergyPlus simulation yields the following error:
 
 `** Warning ** GetAirflowNetworkInput:AirflowNetwork:SimulationControl object, Specified AirflowNetwork Control = "MultizoneWithoutDistribution" and ZoneInfiltration:* objects are present. ZoneInfiltration objects will not be simulated. `
 
-This means that—once the AFN objects are used within the model—the only way to model infiltration is by using AFN objects as well. The MMV procedure models infiltration using the same approach as in the DesignBuilder software (2009, pp. 209–210, 414–415), which in turn is based on empirical data presented by Orme et al. (1998). DesignBuilder models airtightness/infiltration standards using airflow network objects. Each surface with cracks allowing for air flow has its own _AirflowNetwork:MultiZone:Surface_ object. In the field_ Leakage Component Name_, one specifies a name of either Crack or DetailedOpening object. Crack objects serve for surface types such as walls, floors, roofs etc. while DetailedOpening objects serve for doors and windows. 
+This means that—once the AFN objects are used within the model—the only way to model infiltration is by using AFN objects as well. For comparability reasons between HVAC-only and MMV cooling types, AFN infiltration is implemented in all cooling types. 
+
+The MMV procedure models infiltration using the same approach as in the DesignBuilder software (2009, pp. 209–210, 414–415), which in turn is based on empirical data presented by Orme et al. (1998). DesignBuilder models airtightness/infiltration standards using airflow network objects. Each surface with cracks allowing for air flow has its own _AirflowNetwork:MultiZone:Surface_ object. In the field_ Leakage Component Name_, one specifies a name of either Crack or DetailedOpening object. Crack objects serve for surface types such as walls, floors, roofs etc. while DetailedOpening objects serve for doors and windows. 
 
 Both Crack and DetailedOpening objects include fields called _Air Mass Flow Coefficient_ and _Air Mass Flow Exponent_. Depending on the airtightness standard and surface type, DesignBuilder uses different values for coefficients and exponents, as specified in the so-called crack templates. BuildME energy standards were mapped to DesignBuilder airtightness standards as seen in Table 1. 
 
 **Table 1**: The mapping of BuildME energy standards to DesignBuilder airtightness standards.
 
-|     BuildME energy standard    |     DesignBuilder airtightness   standard    |
+|     BuildME energy standard    |     Design Builder airtightness standard     |
 |--------------------------------|----------------------------------------------|
-|     ZEB                        |     Medium                                   |
-|     Efficient                  |     Medium/Poor (mean)                       |
-|     Standard                   |     Poor                                     |
-|     Non-standard               |     Very poor                                |
+|     ZEB                        |     Excellent                                |
+|     Efficient                  |     Good		                        |
+|     Standard                   |     Medium                                   |
+|     Non-standard               |     Poor                                     |
+
 
 Please note that the two object types _AirflowNetwork:MultiZone:Surface:Crack_ and _AirflowNetwork:MultiZone:Component:DetailedOpening_ have different units for the air mass flow coefficient—kg/s and kg/s.m, respectively—and that the values for Crack objects are **not normalized**. Consequently, the coefficients used in the Crack objects need to be multiplied by the surface area. This is done automatically in the method `write_to_excel_replace` in `mmv.py`, as further explained in Section 3.3. The normalized coefficient and exponent values for all energy standards and all surface types can be found in “mmv-implementation.xlsx” file in sheet AFN. 
 
@@ -226,11 +228,9 @@ Once such an object is found, we need to modify the mmv-implementation.xlsx file
 ## 3	Python implementation
 BuildME implements the MMV procedure automatically, using a Python script, which creates new EnergyPlus objects and modifies others. The implementation is based on eppy: a scripting language for EnergyPlus input files, written in Python (Santosh, 2021). The code can be found in the `mmv.py` file. The MMV cooling setting can be chosen as one of the simulation combinations - the cooling type can be set to _HVAC_ or _MMV_. The HVAC option uses only the HVAC system to satisfy the cooling needs of the building; the MMV option uses a combination of HVAC and natural ventilation. 
 
-Additionally, a file `pre.py` is used to precalculate the required MMV archetypes. The conversion of the archetypes to an MMV-variant is slightly computationally intensive, so it is done once, at the beginning of the script execution. This reduces the computational time when the MMV option is used for numerous simulations with the same archetype occupation.
+Whenever the MMV option is selected during the execution of BuildME, the method `mmv.change_archetype_to_MMV` is activated. 
 
-Whenever the MMV option is selected during the execution of BuildME, the method `pre.create_mmv_variants` is activated. The method checks if the precalculated MMV archetypes are in place. If not, then `mmv.change_archetype_to_MMV` is activated. 
-
-The `change_archetype_to_MMV` method includes (1) creation of dictionaries; (2) modification of the idf file. Then, the “replace-mmv.xlsx” file is updated using the function `create_or_update_excel_replace`. 
+The `change_archetype_to_MMV` method includes (1) creation of dictionaries; (2) modification of the idf file.
 
 The “mmv-implementation.xlsx” file contains information necessary to perform operations in `mmv.py`; it contains five sheets: 
 * _change_ with data used for modifying EnergyPlus objects; 
@@ -271,7 +271,6 @@ The implementation of the MMV procedure into EnergyPlus and Python could still b
 
 ## 5	References
 * Arnold, D. (1996, February 17). Mixed-mode HVAC -- An alternative philosophy. ASHRAE Transactions: Symposia, Article CONF-960254-. Winter meeting of American Society of Heating, Refrigeration and Air Conditioning Engineers, Atlanta, GA (United States). https://www.osti.gov/biblio/392497-mixed-mode-hvac-alternative-philosophy
-* DesignBuilder Software. (2009). DesignBuilder 2.1 User’s Manual. http://www.designbuildersoftware.com/docs/designbuilder/DesignBuilder_2.1_Users-Manual_Ltr.pdf
 * Integrated Environmental Solutions. (2018). Wind Pressure. https://help.iesve.com/ve2018/wind_pressure.htm?ms=QQAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAQQ&st=MA%3D%3D&sct=MzM3LjA4MzMxMjk4ODI4MTI1&mw=MjQw
 * Neves, L. O., Melo, A. P., & Rodrigues, L. L. (2019). Energy performance of mixed-mode office buildings: Assessing typical construction design practices. Journal of Cleaner Production, 234, 451–466. https://doi.org/10.1016/j.jclepro.2019.06.216
 * Orme, M., Liddament, M. W., & Wilson, A. (1998). Numerical Data for Air Infiltration and Natural Ventilation Calculations. The Air Infiltration and Ventilation Centre.

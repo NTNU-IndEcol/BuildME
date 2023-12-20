@@ -9,5 +9,5 @@
     4. Want to add new archetypes? Please see [framework.md](framework.md).
 4. Other
     1. High-performance cluster at NTNU ([HPCsimulations.md](HPCsimulations.md))
-    2. Advanced cooling option: mixed-mode ventilation ([mmv.md](mmv.md))
+    2. Airflow Network infiltration and mixed-mode ventilation implementation ([afn-mmv.md](afn-mmv.md))
     3. Climate regions in the US ([climate_US.md](climate_US.md))
