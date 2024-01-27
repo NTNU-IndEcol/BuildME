@@ -27,8 +27,6 @@ Wall: 0.57 W/m2K
 Roof: 0.27 W/m2K  
 Floor: 1.35 W/m2K  
 Windows: 2.9 W/m2K  
-While the infiltration value is set to 0.4 1/h (increase?)  
-
 
 **Brick masonry high-rise office building (representative for India):**  
 The high-rise office archetype for India is described in Bhatnagar et al. (2019). The building described is a rectangular 9 floors office building. The shape, height and WWR of this building is similar to the USA archetype, hence the shape, WWR and number of floors is kept constant. Materials, insulation levels, internal loads and occupancy are however changed. Both a building with 24- and 8-hour operation is described in Bhatnagar et al. (2019), but only the 8-hour operation is implemented. 

@@ -12,14 +12,14 @@ ep_version = '9.2.0'
 if os.path.basename(os.getcwd()) != 'BuildME':
     os.chdir('../..')
 sys.path.append(os.getcwd()) 
-from BuildME import mmv
-from BuildME.idf import read_idf
+from BuildME import mmv, settings
+from BuildME.simulate import read_idf
 
 
 def convert_to_AFN(idf_path, occ_type, destination_path, refresh_excel=False):
-    idf = read_idf(idf_path)
+    idf = read_idf(settings.ep_path, idf_path)
     dictionaries = mmv.create_dictionaries(idf, occ_type)
-    xlsx_mmv = './data/mmv-implementation.xlsx'
+    xlsx_mmv = './data/afn-mmv-implementation.xlsx'
     idf_afn = mmv.change_archetype_to_AFN(idf, dictionaries, xlsx_mmv)
     path = destination_path + occ_type + '-HVAC-with-AFN.idf'
     if os.path.isfile(path) is True:
@@ -29,7 +29,7 @@ def convert_to_AFN(idf_path, occ_type, destination_path, refresh_excel=False):
     dir_replace_mmv = destination_path + 'replace_mmv.xlsx'
     if refresh_excel:
         if os.path.isfile(dir_replace_mmv) is True:
-            # delete existing mmv-implementation.xlsx
+            # delete existing replace_mmv.xlsx
             os.remove(dir_replace_mmv)
     mmv.create_or_update_excel_replace(occ_type, xlsx_mmv, dictionaries, dir_replace_mmv)
 

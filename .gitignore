@@ -4,9 +4,9 @@ bin/EnergyPlus*
 tmp/
 debug.py
 data/replace_mmv.xlsx
-data/archetype/USA/*_auto-MMV.idf
+data/archetype/**/*_auto-MMV.idf
 # sharing Meteonorm epw files publically may be illegal
-data/climate/meteonorm*/**/*.epw
+data/climate/**/*.epw
 data/material_candidates.csv
 
 # OS stuff
