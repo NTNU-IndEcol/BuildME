@@ -10,17 +10,19 @@ import platform
 from BuildME import settings
 
 
-def perform_energy_calculation(out_dir, ep_dir, epw_path):
+def perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all):
     """
     Copies the required EnergyPlus files and initiates the energy demand simulation
     :param out_dir: output folder directory
     :param ep_dir: EnergyPlus directory
     :param epw_path: path to the EPW file with weather data
+    :param keep_all: boolean indicating whether to keep all simulation files (incl. the .eso file)
     """
     print("Perform energy simulation...")
     copy_files(out_dir, ep_dir, epw_path)
     run_energyplus_single(out_dir)
-    delete_ep_files(out_dir)
+    if not keep_all:
+        delete_ep_files(out_dir)
     return
 
 
@@ -30,13 +32,15 @@ def perform_energy_calculation_mp(args):
     :param args: arguments (out_dir - output folder directory,
                             ep_dir - EnergyPlus directory,
                             epw_path - path to the EPW file with weather data,
+                            keep_all - boolean indicating whether to keep all simulation files (incl. the .eso file)
                             q - multiprocessing Queue object,
                             no - iteration number)
     """
-    out_dir, ep_dir, epw_path, q, no = args
+    out_dir, ep_dir, epw_path, keep_all, q, no = args
     copy_files(out_dir, ep_dir, epw_path)
     run_energyplus_single(out_dir)
-    delete_ep_files(out_dir)
+    if not keep_all:
+        delete_ep_files(out_dir)
     q.put(no)
     return
 

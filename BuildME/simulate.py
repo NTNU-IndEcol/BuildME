@@ -186,7 +186,8 @@ def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_cs
 
 
 def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
-                     parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, epw_path=None):
+                     parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, epw_path=None,
+                     keep_all=False):
     """
     Initiates the calculation of energy demand
     :param batch_sim: dictionary with batch simulation information
@@ -200,6 +201,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
     :param last_run: True if the last simulation run should be loaded (default: False)
     :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
     :param epw_path: path to the EPW file with weather data
+    :param keep_all: boolean indicating whether to keep all simulation files (incl. the .eso file)
     """
     # check if all necessary variables are defined
     if ep_dir is None:
@@ -228,7 +230,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         validate_ep_version([os.path.join(out_dir, 'in.idf')])
         # perform actual simulation
-        energy.perform_energy_calculation(out_dir, ep_dir, epw_path)
+        energy.perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all)
     else:
         # copy the necessary files
         for sim in batch_sim:
@@ -253,7 +255,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
                     print(f"Weather file (defined as {epw_path}) was not not found. "
                           f"A dummy weather file for New York city (US) will be used instead.")
                 # perform actual simulation
-                energy.perform_energy_calculation(out_dir, ep_dir, epw_path)
+                energy.perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all)
         else: # parallel simulation
             cpus = find_cpus()
             print("Perform energy simulation on %s CPUs..." % cpus)
@@ -261,7 +263,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             m = mp.Manager()
             q = m.Queue()
             pbar = tqdm(total=len(batch_sim), smoothing=0.1, unit='sim')
-            args = [(batch_sim[sim]['run_folder'], ep_dir, batch_sim[sim]['climate_file'], q, i)
+            args = [(batch_sim[sim]['run_folder'], ep_dir, batch_sim[sim]['climate_file'], keep_all, q, i)
                     for i, sim in enumerate(batch_sim)]
             result = pool.map_async(energy.perform_energy_calculation_mp, args)
             old_q = 0
