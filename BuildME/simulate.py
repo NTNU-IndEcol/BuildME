@@ -221,7 +221,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             if not os.path.exists(out_dir):
                 os.makedirs(out_dir)
         if epw_path is None or not os.path.exists(epw_path):
-            epw_path = os.path.join(os.path.dirname(settings.climate_files_path), 'USA_NY_New.York-dummy.epw')
+            epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
             print(f"Weather file (defined as {epw_path}) was not not found. "
                   f"A dummy weather file for New York city (US) will be used instead.")
         if not os.path.exists(os.path.join(out_dir, 'in.idf')):
@@ -237,10 +237,6 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             epw_path = batch_sim[sim]['climate_file']
             archetype = batch_sim[sim]['occupation']
             replace_dict = batch_sim[sim]['replace_dict']
-            if not os.path.exists(epw_path):
-                epw_path = os.path.join(os.path.dirname(settings.climate_files_path), 'USA_NY_New.York-dummy.epw')
-                print(f"Weather file (defined as {epw_path}) was not not found. "
-                      f"A dummy weather file for New York city (US) will be used instead.")
             if not os.path.exists(os.path.join(out_dir, 'in.idf')): # if the in.idf hasn't been created yet
                 if not os.path.exists(idf_path) and batch_sim[sim]['cooling'] == 'MMV':
                     create_mmv_variant(idf_path, ep_dir, archetype)
@@ -252,6 +248,10 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             for sim in tqdm(batch_sim):
                 out_dir = batch_sim[sim]['run_folder']
                 epw_path = batch_sim[sim]['climate_file']
+                if not os.path.exists(epw_path):
+                    epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
+                    print(f"Weather file (defined as {epw_path}) was not not found. "
+                          f"A dummy weather file for New York city (US) will be used instead.")
                 # perform actual simulation
                 energy.perform_energy_calculation(out_dir, ep_dir, epw_path)
         else: # parallel simulation
