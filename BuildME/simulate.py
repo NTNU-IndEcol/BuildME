@@ -170,7 +170,7 @@ def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_cs
     :param replace_dict: dictionary with BuildME replacement aspects
     :param archetype: archetype name
     :param ep_dir: EnergyPlus directory
-    :parm replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
+    :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
     """
     idf_path_new = os.path.join(out_dir, 'in.idf')
     shutil.copy2(idf_path, idf_path_new)
@@ -178,7 +178,8 @@ def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_cs
     if replace_dict:
         for aspect, aspect_value in replace_dict.items():
             idf_file = apply_obj_name_change(idf_file, aspect, aspect_value)
-            idf_file = apply_rule_from_excel(idf_file, aspect, aspect_value, archetype, replace_csv_dir)
+            if replace_csv_dir is not None and os.path.exists(replace_csv_dir):
+                idf_file = apply_rule_from_excel(idf_file, aspect, aspect_value, archetype, replace_csv_dir)
     if archetype in os.path.basename(out_dir):
         idf_file.idfobjects['Building'.upper()][0].Name = os.path.basename(out_dir)
     idf_file.saveas(idf_path_new)
@@ -203,35 +204,24 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
     :param epw_path: path to the EPW file with weather data
     :param keep_all: boolean indicating whether to keep all simulation files (incl. the .eso file)
     """
+    print("Initiating energy demand simulation...")
     # check if all necessary variables are defined
-    if ep_dir is None:
-        ep_dir = settings.ep_path
-    if replace_csv_dir is None:
-        replace_csv_dir = settings.replace_csv_dir
     if last_run:
         batch_sim = batch.find_and_load_last_run()
-    if batch_sim is None: # for a one-off simulation
-        if idf_path is None:
-            raise Exception('Building archetype file not given')
-        if out_dir is None:
-            raise Exception('Output folder not given')
-        else:
-            if os.path.exists(out_dir) and clear_folder is True:
-                print(f'Clearing the content of the folder {out_dir}')
-                shutil.rmtree(out_dir)
-                os.makedirs(out_dir)
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
+    if batch_sim is None:  # for a standalone simulation
+        check_input_variables_standalone(ep_dir, idf_path, out_dir, replace_csv_dir, clear_folder)
         if epw_path is None or not os.path.exists(epw_path):
-            epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
             print(f"Weather file (defined as {epw_path}) was not not found. "
-                  f"A dummy weather file for New York city (US) will be used instead.")
+                  f"\nA dummy weather file for New York city (US) will be used instead.")
+            epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
         if not os.path.exists(os.path.join(out_dir, 'in.idf')):
             copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         validate_ep_version([os.path.join(out_dir, 'in.idf')])
         # perform actual simulation
         energy.perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all)
-    else:
+    else:  # for batch simulation
+        ep_dir = settings.ep_path
+        replace_csv_dir = settings.replace_csv_dir
         # copy the necessary files
         for sim in batch_sim:
             idf_path = batch_sim[sim]['archetype_file']
@@ -251,9 +241,9 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
                 out_dir = batch_sim[sim]['run_folder']
                 epw_path = batch_sim[sim]['climate_file']
                 if not os.path.exists(epw_path):
-                    epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
                     print(f"Weather file (defined as {epw_path}) was not not found. "
-                          f"A dummy weather file for New York city (US) will be used instead.")
+                          f"\nA dummy weather file for New York city (US) will be used instead.")
+                    epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
                 # perform actual simulation
                 energy.perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all)
         else: # parallel simulation
@@ -277,6 +267,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             pool.close()
             pool.join()
             pbar.close()
+    print('Energy demand simulation finished.')
     return
 
 
@@ -298,25 +289,11 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
     :param surrogates_dict: dictionary with surrogate element information
     """
-    print("Extracting materials and surfaces...")
-    if ep_dir is None:
-        ep_dir = settings.ep_path
-    if replace_csv_dir is None:
-        replace_csv_dir = settings.replace_csv_dir
+    print("Initiating material demand simulation...")
     if last_run:
         batch_sim = batch.find_and_load_last_run()
-    if batch_sim is None:
-        if idf_path is None:
-            raise Exception('Building archetype file not given')
-        if out_dir is None:
-            raise Exception('Output folder not given')
-        else:
-            if os.path.exists(out_dir) and clear_folder is True:
-                print(f'Clearing the content of the folder {out_dir}')
-                shutil.rmtree(out_dir)
-                os.makedirs(out_dir)
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
+    if batch_sim is None:  # for a standalone simulation
+        check_input_variables_standalone(ep_dir, idf_path, out_dir, replace_csv_dir, clear_folder)
         if not os.path.exists(os.path.join(out_dir, 'in.idf')):
             copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         if ifsurrogates:
@@ -329,6 +306,8 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
         material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
                                                ifsurrogates, replace_dict=replace_dict)
     else:  # for a batch simulation
+        ep_dir = settings.ep_path
+        replace_csv_dir = settings.replace_csv_dir
         atypical_materials = settings.atypical_materials
         # copy the necessary files
         for sim in batch_sim:
@@ -369,6 +348,39 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
             atypical_materials = check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
             material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
                                                    ifsurrogates, replace_dict=replace_dict)
+    print('Material demand simulation finished.')
+    return
+
+
+def check_input_variables_standalone(ep_dir, idf_path, out_dir, replace_csv_dir, clear_folder):
+    """
+    Checks whether input variables required for a standalone material or energy demand simulation are available
+    :param ep_dir: EnergyPlus directory
+    :param idf_path: path to the IDF file
+    :param out_dir: output folder directory
+    :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
+    :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
+    """
+    if ep_dir is None:
+        raise Exception('Energy plus path not given')
+    elif not os.path.exists(ep_dir):
+        raise Exception(f'Energy plus path does not exist ({ep_dir})')
+    if idf_path is None:
+        raise Exception('Building archetype file not given')
+    elif not os.path.exists(idf_path):
+        raise Exception(f'Building archetype file does not exist ({idf_path})')
+    if out_dir is None:
+        raise Exception('Output folder not given')
+    else:
+        if os.path.exists(out_dir) and clear_folder is True:
+            print(f'Clearing the content of the folder {out_dir}')
+            shutil.rmtree(out_dir)
+            os.makedirs(out_dir)
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+    if replace_csv_dir is None or not os.path.exists(replace_csv_dir):
+        print('The directory with "replace" csv files not provided or the provided one does not exist. '
+              'These replace rules will be skipped.')
     return
 
 

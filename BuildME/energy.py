@@ -18,7 +18,6 @@ def perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all):
     :param epw_path: path to the EPW file with weather data
     :param keep_all: boolean indicating whether to keep all simulation files (incl. the .eso file)
     """
-    print("Perform energy simulation...")
     copy_files(out_dir, ep_dir, epw_path)
     run_energyplus_single(out_dir)
     if not keep_all:
