@@ -75,9 +75,11 @@ def make_materials_dict(idf_file):
     """
     # create a list of idf material objects
     materials = []
-    for mtype in ['Material', 'Material:NoMass', 'Material:AirGap',
-                  'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Blind', 'WindowMaterial:Shade',
-                  'WindowMaterial:Glazing']:
+    for mtype in ['Material', 'Material:NoMass', 'Material:InfraredTransparent', 'Material:AirGap',
+                  'Material:RoofVegetation', 'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Glazing',
+                  'WindowMaterial:GlazingGroup:Thermochromic', 'WindowMaterial:Glazing:RefractionExtinctionMethod',
+                  'WindowMaterial:Gas', 'WindowMaterial:GasMixture', 'WindowMaterial:Gap', 'WindowMaterial:Shade',
+                  'WindowMaterial:ComplexShade', 'WindowMaterial:Blind', 'WindowMaterial:Screen']:
         materials = materials + [i for i in idf_file.idfobjects[mtype.upper()]]
     # check if no duplicates
     object_names = [io.Name for io in materials]
@@ -286,10 +288,10 @@ def get_surfaces(idf):
                            extract_surfaces(idf, 'BuildingSurface:Detailed', 'Zone', 'Wall') + \
                            extract_surfaces(idf, 'InternalMass')
     surfaces['door'] = extract_surfaces(idf, 'Door') + \
-                       extract_surfaces(idf, 'FenestrationSurface:Detailed','', 'Door')
+                       extract_surfaces(idf, 'FenestrationSurface:Detailed', None, 'Door')
     surfaces['window'] = extract_surfaces(idf, 'Window') + \
-                         extract_surfaces(idf, 'FenestrationSurface:Detailed', '', 'Window') + \
-                         extract_surfaces(idf, 'FenestrationSurface:Detailed', '', 'GlassDoor')
+                         extract_surfaces(idf, 'FenestrationSurface:Detailed', None, 'Window') + \
+                         extract_surfaces(idf, 'FenestrationSurface:Detailed', None, 'GlassDoor')
     surfaces['int_floor'] = extract_surfaces(idf, 'BuildingSurface:Detailed', 'Outdoors', 'Floor') + \
                             extract_surfaces(idf, 'BuildingSurface:Detailed', 'Surface', 'Floor') + \
                             extract_surfaces(idf, 'BuildingSurface:Detailed', 'Zone', 'Floor')
@@ -368,7 +370,9 @@ def get_building_geometry_stats(idf_file, surfaces):
     geom_stats['footprint_area'] = (y_max-y_min)*(x_max-x_min)
     geom_stats['footprint_perimeter'] = (y_max-y_min)*2+(x_max-x_min)*2
     zones_with_people = [obj.Zone_or_ZoneList_Name for obj in idf_file.idfobjects['People'.upper()]]
-    zones_with_cond = [obj.Zone_Name for obj in idf_file.idfobjects['HVACTemplate:Zone:IdealLoadsAirSystem'.upper()]]
+    ideal_loads_obj_types = ['HVACTemplate:Zone:IdealLoadsAirSystem', 'ZoneHVAC:EquipmentConnections']
+    ideal_loads_objs = [obj for obj_type in ideal_loads_obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
+    zones_with_cond = [obj.Zone_Name for obj in ideal_loads_objs]
     if not zones_with_cond:
         print('Warning: No zones with IdealLoadsAirSystem found. The conditioned floor area will not be calculated.')
     floor_area_occupied = 0

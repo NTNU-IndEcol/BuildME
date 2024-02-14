@@ -380,8 +380,6 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
     :param out_dir: output folder directory
     :param config: True if the configuration file should be used (to add the missing materials into the file)
     """
-    obj_types = ['Material:NoMass', 'Material:AirGap', 'WindowMaterial:SimpleGlazingSystem',
-                 'WindowMaterial:Glazing']
     if atypical_materials is None:
         if os.path.exists(os.path.join(out_dir, 'atypical_materials.csv')):
             print('Atypical materials automatically read from "atypical_materials.csv".')
@@ -389,6 +387,14 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
             atypical_materials = df.to_dict(orient='index')
         else:
             atypical_materials = {}
+    obj_types = ['Material:NoMass', 'Material:InfraredTransparent', 'Material:AirGap',
+                 'Material:RoofVegetation', 'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Glazing',
+                 'WindowMaterial:GlazingGroup:Thermochromic', 'WindowMaterial:Glazing:RefractionExtinctionMethod',
+                 'WindowMaterial:Gas', 'WindowMaterial:GasMixture', 'WindowMaterial:Gap', 'WindowMaterial:Shade',
+                 'WindowMaterial:ComplexShade', 'WindowMaterial:Blind', 'WindowMaterial:Screen']
+    obj_types_with_thickness = ['Material:RoofVegetation', 'WindowMaterial:Glazing',
+                                'WindowMaterial:Glazing:RefractionExtinctionMethod', 'WindowMaterial:Gas',
+                                'WindowMaterial:GasMixture', 'WindowMaterial:Gap', 'WindowMaterial:Shade']
     weird_mats = [obj for obj_type in obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
     unknown_materials = {}
     for mat in weird_mats:
@@ -414,7 +420,7 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
             for mat, mat_type in unknown_materials.items():
                 ws.cell(column=3, row=last_row + c, value=mat)
                 ws.cell(column=4, row=last_row + c, value='?')
-                if mat_type in ['WindowMaterial:Glazing']:
+                if mat_type in obj_types_with_thickness:
                     ws.cell(column=5, row=last_row + c, value='defined in ep')
                 else:
                     ws.cell(column=5, row=last_row + c, value='?')
