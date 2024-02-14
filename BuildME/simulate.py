@@ -285,7 +285,7 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
     :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
     :param last_run: True if the last simulation run should be loaded (default: False)
     :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
-    :param atypical_materials: dictionary with atypical materials and their thickness (m) and density (kg/m3)
+    :param atypical_materials: pandas dataframe with atypical materials and their thickness (m) and density (kg/m3)
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
     :param surrogates_dict: dictionary with surrogate element information
     """
@@ -388,17 +388,16 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
     """
     Check if all atypical materials (with no density and/or thickness data) have externally defined data
     :param idf_file: IDF file
-    :param atypical_materials: dictionary with atypical materials and their thickness (m) and density (kg/m3)
+    :param atypical_materials: pandas dataframe with atypical materials and their thickness (m) and density (kg/m3)
     :param out_dir: output folder directory
     :param config: True if the configuration file should be used (to add the missing materials into the file)
     """
     if atypical_materials is None:
         if os.path.exists(os.path.join(out_dir, 'atypical_materials.csv')):
             print('Atypical materials automatically read from "atypical_materials.csv".')
-            df = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
-            atypical_materials = df.to_dict(orient='index')
+            atypical_materials = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
         else:
-            atypical_materials = {}
+            atypical_materials = pd.DataFrame()
     obj_types = ['Material:NoMass', 'Material:InfraredTransparent', 'Material:AirGap',
                  'Material:RoofVegetation', 'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Glazing',
                  'WindowMaterial:GlazingGroup:Thermochromic', 'WindowMaterial:Glazing:RefractionExtinctionMethod',
@@ -410,13 +409,13 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
     weird_mats = [obj for obj_type in obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
     unknown_materials = {}
     for mat in weird_mats:
-        if mat.Name not in atypical_materials.keys():
+        if mat.Name not in atypical_materials.index:
             unknown_materials[mat.Name] = mat.obj[0]
     if unknown_materials:
         if config is False:
             thickness_list = ['?' if mat not in obj_types_with_thickness
                               else 'defined in ep' for mat in unknown_materials.values()]
-            df = pd.DataFrame({'density': ['?'], 'thickness': thickness_list}, index=unknown_materials.keys())
+            df = pd.DataFrame({'density (kg/m3)': ['?'], 'thickness (m)': thickness_list}, index=unknown_materials.keys())
             if os.path.exists(os.path.join(out_dir, 'atypical_materials.csv')):
                 df_old = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
                 df = pd.concat([df_old, df])
@@ -443,10 +442,11 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
                             f'\n\t {list(unknown_materials.keys())}.'
                             f"\n\t These materials were added in sheet 'atypical materials' of the file "
                             f'{os.path.basename(settings.config_file)}')
-    unspecified_materials = [k for k, v in atypical_materials.items() if v['density'] == '?' or v['thickness'] == '?']
-    if unspecified_materials:
+    unspecified_materials = atypical_materials[(atypical_materials['density (kg/m3)'] == '?')
+                                               | (atypical_materials['thickness (m)'] == '?')]
+    if list(unspecified_materials.index):
         raise Exception(f"The atypical materials dictionary includes entries with '?' instead of values "
-                        f"for the following materials: \n\t {unspecified_materials}.")
+                        f"for the following materials: \n\t {list(unspecified_materials.index)}.")
     return atypical_materials
 
 
