@@ -172,7 +172,7 @@ def run_energyplus_single(out_dir, verbose=True):
         run_idf = 'in.idf'
 
     with open("log_energyplus.txt", 'w+') as log_file:
-        cmd = out_dir + '/energyplus -r %s' % run_idf
+        cmd = f'"{os.path.join(out_dir, "energyplus")}" -r {run_idf}'
         log_file.write("%s\n\n" % cmd)
         log_file.flush()
         subprocess.call(cmd, shell=True, stdout=log_file, stderr=log_file)
