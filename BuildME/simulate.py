@@ -294,15 +294,13 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
     :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
     :param last_run: True if the last simulation run should be loaded (default: False)
     :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: dictionary with atypical materials and their thickness (m) and density (kg/m3)
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
     :param surrogates_dict: dictionary with surrogate element information
     """
     print("Extracting materials and surfaces...")
     if ep_dir is None:
         ep_dir = settings.ep_path
-    if atypical_materials is None:
-        atypical_materials = settings.atypical_materials
     if replace_csv_dir is None:
         replace_csv_dir = settings.replace_csv_dir
     if last_run:
@@ -327,10 +325,11 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
         validate_ep_version([os.path.join(out_dir, 'in.idf')])
         # perform actual simulation
         idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
-        check_atypical_materials(idf_file, atypical_materials, config=False)
+        atypical_materials = check_atypical_materials(idf_file, atypical_materials, out_dir, config=False)
         material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
                                                ifsurrogates, replace_dict=replace_dict)
-    else:
+    else:  # for a batch simulation
+        atypical_materials = settings.atypical_materials
         # copy the necessary files
         for sim in batch_sim:
             idf_path = batch_sim[sim]['archetype_file']
@@ -367,21 +366,29 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
                           f'and aspects {replace_dict} \nin the "surrogate elements" sheet '
                           f'of the config file. Surrogate element calculations will be skipped.')
             idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
-            check_atypical_materials(idf_file, atypical_materials, config=True)
+            atypical_materials = check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
             material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
                                                    ifsurrogates, replace_dict=replace_dict)
     return
 
 
-def check_atypical_materials(idf_file, atypical_materials, config=True):
+def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True):
     """
     Check if all atypical materials (with no density and/or thickness data) have externally defined data
     :param idf_file: IDF file
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: dictionary with atypical materials and their thickness (m) and density (kg/m3)
+    :param out_dir: output folder directory
     :param config: True if the configuration file should be used (to add the missing materials into the file)
     """
     obj_types = ['Material:NoMass', 'Material:AirGap', 'WindowMaterial:SimpleGlazingSystem',
                  'WindowMaterial:Glazing']
+    if atypical_materials is None:
+        if os.path.exists(os.path.join(out_dir, 'atypical_materials.csv')):
+            print('Atypical materials automatically read from "atypical_materials.csv".')
+            df = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
+            atypical_materials = df.to_dict(orient='index')
+        else:
+            atypical_materials = {}
     weird_mats = [obj for obj_type in obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
     unknown_materials = {}
     for mat in weird_mats:
@@ -389,9 +396,16 @@ def check_atypical_materials(idf_file, atypical_materials, config=True):
             unknown_materials[mat.Name] = mat.obj[0]
     if unknown_materials:
         if config is False:
+            thickness_list = ['?' if mat not in obj_types_with_thickness
+                              else 'defined in ep' for mat in unknown_materials.values()]
+            df = pd.DataFrame({'density': ['?'], 'thickness': thickness_list}, index=unknown_materials.keys())
+            if os.path.exists(os.path.join(out_dir, 'atypical_materials.csv')):
+                df_old = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
+                df = pd.concat([df_old, df])
+            df.to_csv(os.path.join(out_dir, 'atypical_materials.csv'))
             raise Exception(f'The following materials were not found in the atypical materials dictionary: '
                             f'{list(unknown_materials.keys())}.'
-                            f'These materials need to be added manually to the atypical_materials variable.')
+                            f'\nThese materials were added to file "atypical_materials.csv".')
         else:
             wb = openpyxl.load_workbook(filename=settings.config_file)
             ws = wb['atypical materials']
@@ -408,14 +422,14 @@ def check_atypical_materials(idf_file, atypical_materials, config=True):
             wb.save(filename=settings.config_file)
             wb.close()
             raise Exception(f'The following materials were not found in the atypical materials dictionary: '
-                            f'\n{list(unknown_materials.keys())}.'
+                            f'\n\t {list(unknown_materials.keys())}.'
                             f"\n\t These materials were added in sheet 'atypical materials' of the file "
                             f'{os.path.basename(settings.config_file)}')
     unspecified_materials = [k for k, v in atypical_materials.items() if v['density'] == '?' or v['thickness'] == '?']
     if unspecified_materials:
         raise Exception(f"The atypical materials dictionary includes entries with '?' instead of values "
-                        f"for the following \n\t materials: {unspecified_materials}.")
-    return
+                        f"for the following materials: \n\t {unspecified_materials}.")
+    return atypical_materials
 
 
 def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):

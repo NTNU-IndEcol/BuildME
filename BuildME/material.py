@@ -19,7 +19,7 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
     Runs the material demand simulation
     :param idf_file: IDF file
     :param out_dir: output folder directory
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: dictionary with atypical materials and their thickness (m) and density (kg/m3)
     :param surrogates_dict: dictionary with surrogate element information
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
     :param replace_dict: dictionary with BuildME replacement aspects
@@ -92,7 +92,7 @@ def make_mat_density_dict(materials_dict, atypical_materials):
     """
     Creates a dictionary of material densities by material.
     :param materials_dict: dictionary like {material.Name: material}
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: dictionary with atypical materials and their thickness (m) and density (kg/m3)
     :return: densities: dictionary like {material.Name: density}
     """
     densities = {}
@@ -104,7 +104,7 @@ def make_mat_density_dict(materials_dict, atypical_materials):
             try:
                 densities[mat] = atypical_materials[mat]['density']
             except KeyError:
-                raise KeyError(f"Material {mat} was not found in material.csv")
+                raise KeyError(f"Material {mat} was not found in the atypical_materials dictionary")
     if 'Concrete_surrogate' not in densities.keys():
         densities['Concrete_surrogate'] = 2200
     if 'Insulation_surrogate' not in densities.keys():
@@ -119,7 +119,7 @@ def make_construction_dict(idf_file, materials_dict, atypical_materials, replace
     Creates a dictionary with constructions and the thicknesses of their layers
     :param idf_file: IDF file
     :param materials_dict: dictionary like {material.Name: material}
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: dictionary with atypical materials and their thickness (m) and density (kg/m3)
     :param replace_dict: dictionary with BuildME replacement aspects
     :return: constr_layers: dictionary like {'construction_name': {'layer1': thickness1, 'layer2': thickness2}}
     """
