@@ -273,7 +273,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
 
 def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
                         clear_folder=False, last_run=False, replace_csv_dir=None, atypical_materials=None,
-                        ifsurrogates=True, surrogates_dict=None):
+                        ifsurrogates=True, surrogates=None, region=None):
     """
     Initiates the calculation of material demand
     :param batch_sim: dictionary with batch simulation information
@@ -287,7 +287,8 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
     :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
     :param atypical_materials: pandas dataframe with thicknesses and densities of atypical materials (also accepts dict)
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
-    :param surrogates_dict: dictionary with surrogate element information
+    :param surrogates: dictionary with surrogate element information (pandas dataframe is also accepted)
+    :param region: name of the region (only necessary when surrogates is a pandas dataframe with a "region" column)
     """
     print("Initiating material demand simulation...")
     if last_run:
@@ -297,13 +298,15 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
         if not os.path.exists(os.path.join(out_dir, 'in.idf')):
             copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         if ifsurrogates:
-            if surrogates_dict is None:
+            if surrogates is None:
                 raise Exception("Surrogate element calculations requested but no surrogate dictionary given")
+            elif type(surrogates) == pd.core.frame.DataFrame:
+                surrogates = convert_surrogates_df_to_dict(surrogates, archetype, replace_dict, region)
         validate_ep_version([os.path.join(out_dir, 'in.idf')])
         # perform actual simulation
         idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
         atypical_materials = check_atypical_materials(idf_file, atypical_materials, out_dir, config=False)
-        material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
+        material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates,
                                                ifsurrogates, replace_dict=replace_dict)
     else:  # for a batch simulation
         ep_dir = settings.ep_path
@@ -325,28 +328,12 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
             out_dir = batch_sim[sim]['run_folder']
             archetype = batch_sim[sim]['occupation']
             replace_dict = batch_sim[sim]['replace_dict']
+            region = batch_sim[sim]['climate_region']
             if ifsurrogates:
-                df_sur = settings.surrogate_elements
-                df_sur_sim = df_sur[df_sur['occupation'] == archetype].drop(columns='occupation')
-                if replace_dict is not None:
-                    for k, v in replace_dict.items():
-                        if k in df_sur.columns:
-                            df_sur_sim = df_sur_sim[(df_sur_sim[k] == v) | (df_sur_sim[k] == 0)]
-                            df_sur_sim = df_sur_sim.drop(columns=k)
-                surrogate_duplicates = df_sur_sim['surrogate'].duplicated()
-                if surrogate_duplicates.any():
-                    df_sur_sim = df_sur_sim[~surrogate_duplicates]  # keep the first entry
-                    print('Warning: duplicates found in the "surrogate elements" sheet of the config file. '
-                          'Only the first entry will be kept.')
-                df_sur_sim = df_sur_sim.set_index('surrogate')
-                surrogates_dict = df_sur_sim.to_dict('index')
-                if not surrogates_dict:
-                    print(f'Warning: No surrogate elements found for archetype {archetype} '
-                          f'and aspects {replace_dict} \nin the "surrogate elements" sheet '
-                          f'of the config file. Surrogate element calculations will be skipped.')
+                surrogates = convert_surrogates_df_to_dict(settings.surrogate_elements, archetype, replace_dict, region)
             idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
             atypical_materials = check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
-            material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
+            material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates,
                                                    ifsurrogates, replace_dict=replace_dict)
     print('Material demand simulation finished.')
     return
@@ -382,6 +369,47 @@ def check_input_variables_standalone(ep_dir, idf_path, out_dir, replace_csv_dir,
         print('The directory with "replace" csv files not provided or the provided one does not exist. '
               'These replace rules will be skipped.')
     return
+
+
+def convert_surrogates_df_to_dict(surrogates, archetype, replace_dict, region):
+    """
+    Filter the "surrogates" pandas dataframe according to archetype, region and replace_dict
+    and then convert the dataframe into a dict
+    :param surrogates: pandas dataframe with surrogate element information
+    :param archetype: archetype name
+    :param replace_dict: dictionary with BuildME replacement aspects
+    :param region: name of the region (only necessary when surrogates is a pandas dataframe with a "region" column)
+    """
+    df_sur_sim = surrogates[surrogates['occupation'] == archetype].drop(columns='occupation')
+    # filtering columns 'region', 'en-std' and 'res' (if they exist)
+    # keeps a surrogate dataframe's row if the field matches the given value or is empty (== 0)
+    if region is not None:
+        if 'region' in df_sur_sim.columns:
+            df_sur_sim = df_sur_sim[(df_sur_sim['region'] == region) | (df_sur_sim['region'] == 0)]
+            df_sur_sim = df_sur_sim.drop(columns='region')
+    else:
+        if 'region' in df_sur_sim.columns:
+            df_sur_sim = df_sur_sim.drop(columns='region')
+    if replace_dict is not None:
+        for k, v in replace_dict.items():
+            if k in df_sur_sim.columns:
+                df_sur_sim = df_sur_sim[(df_sur_sim[k] == v) | (df_sur_sim[k] == 0)]
+                df_sur_sim = df_sur_sim.drop(columns=k)
+    else:
+        for k in ['en-std', 'res']:  # if replace_dict is None, drop the columns with en-std and res
+            if k in df_sur_sim.columns:
+                df_sur_sim = df_sur_sim.drop(columns=k)
+    surrogate_duplicates = df_sur_sim['surrogate'].duplicated()
+    if surrogate_duplicates.any():
+        df_sur_sim = df_sur_sim[~surrogate_duplicates]  # keep the first entry
+        print('Warning: duplicates found in the "surrogates" dataframe. Only the first entry will be kept.')
+    df_sur_sim = df_sur_sim.set_index('surrogate')
+    surrogates_dict = df_sur_sim.to_dict('index')
+    if not surrogates_dict:
+        print(f'Warning: No surrogate elements found for archetype {archetype} '
+              f'and aspects {replace_dict}. '
+              f'\n\t Surrogate element calculations will be skipped.')
+    return surrogates_dict
 
 
 def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True):
