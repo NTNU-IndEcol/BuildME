@@ -285,7 +285,7 @@ def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None
     :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
     :param last_run: True if the last simulation run should be loaded (default: False)
     :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
-    :param atypical_materials: pandas dataframe with atypical materials and their thickness (m) and density (kg/m3)
+    :param atypical_materials: pandas dataframe with thicknesses and densities of atypical materials (also accepts dict)
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
     :param surrogates_dict: dictionary with surrogate element information
     """
@@ -388,7 +388,7 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
     """
     Check if all atypical materials (with no density and/or thickness data) have externally defined data
     :param idf_file: IDF file
-    :param atypical_materials: pandas dataframe with atypical materials and their thickness (m) and density (kg/m3)
+    :param atypical_materials: pandas dataframe with thicknesses and densities of atypical materials (also accepts dict)
     :param out_dir: output folder directory
     :param config: True if the configuration file should be used (to add the missing materials into the file)
     """
@@ -398,6 +398,11 @@ def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
             atypical_materials = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
         else:
             atypical_materials = pd.DataFrame()
+    elif type(atypical_materials) is dict:
+        density = [v for dic in atypical_materials.values() for k, v in dic.items() if 'density' in k]
+        thickness = [v for dic in atypical_materials.values() for k, v in dic.items() if 'thickness' in k]
+        atypical_materials = pd.DataFrame({'density (kg/m3)': density, 'thickness (m)': thickness},
+                                          index=atypical_materials.keys())
     obj_types = ['Material:NoMass', 'Material:InfraredTransparent', 'Material:AirGap',
                  'Material:RoofVegetation', 'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Glazing',
                  'WindowMaterial:GlazingGroup:Thermochromic', 'WindowMaterial:Glazing:RefractionExtinctionMethod',
