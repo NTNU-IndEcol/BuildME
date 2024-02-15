@@ -527,33 +527,49 @@ def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
     return df_results
 
 
-def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folders=None):
+def aggregate_materials(batch_sim=None, last_run=False, aggregation_categories=None, folders=None):
     """
     Aggregate material types into categories, e.g., concrete, cement, wood and wood products
     :param batch_sim: dictionary with batch simulation information
     :param last_run: True if the last simulation run should be loaded (default: False)
-    :param aggreg_dict: dictionary with materials and their aggregation categories
+    :param aggregation_categories: dict with materials and their aggregation categories (also accepts pandas dataframe)
     :param folders: a list of directories (required only when batch_sim is None)
     """
     if last_run:
         batch_sim = batch.find_and_load_last_run()
-    if aggreg_dict is None:
-        aggreg_dict = settings.material_aggregation
     if batch_sim is None:
         if folders is None:
             raise Exception('Folders not given')
+        if aggregation_categories is None:
+            if len(folders) == 1:
+                out_dir = folders[0]
+            else:
+                out_dir = os.path.dirname(folders[0])
+            if os.path.exists(os.path.join(out_dir, 'aggregation_categories.csv')):
+                print(f'Aggregation categories automatically read from "aggregation_categories.csv" placed in {out_dir}.')
+                aggregation_categories = pd.read_csv(os.path.join(out_dir, 'aggregation_categories.csv'), index_col=0)
+                aggregation_categories = aggregation_categories.T.to_dict(orient='list')
+                aggregation_categories = {k: v[0] for k, v in aggregation_categories.items()}
+            else:
+                aggregation_categories = {}
+        elif type(aggregation_categories) == pd.core.frame.DataFrame:
+            aggregation_categories = aggregation_categories.T.to_dict(orient='list')
+            aggregation_categories = {k: v[0] for k, v in aggregation_categories.items()}
     else:
+        if aggregation_categories is None:
+            aggregation_categories = settings.material_aggregation
         folders = [batch_sim[sim]['run_folder'] for sim in batch_sim]
     unknown_materials = []
     for folder in folders:
         df = pd.read_csv(os.path.join(folder, 'mat_demand.csv'))
-        mapping = df['Material name'].map(aggreg_dict)
+        mapping = df['Material name'].map(aggregation_categories)
         df['Material type'] = mapping
         unknown_materials = unknown_materials + df[df['Material type'].isna()]['Material name'].values.tolist()
         df['Material type'] = df['Material type'].replace(np.nan, '?')
-        df = df[['Material type', 'Unit', 'Value']]
+        df = df[['Material name', 'Material type', 'Unit', 'Value']]
         filename = os.path.join(folder, 'mat_demand_categorized.csv')
         df.to_csv(filename, index=False)
+        df = df.drop(columns='Material name')
         df = df.groupby(['Material type', 'Unit']).sum()
         df = df.reset_index()
         total = pd.DataFrame([['TOTAL', 'kg', df['Value'].sum()]], columns=df.columns)
@@ -562,9 +578,14 @@ def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folder
         df.to_csv(filename, index=False)
     unknown_materials = list(set(unknown_materials))  # deleting duplicates
     if unknown_materials:
-        print(f'The following materials were not found in the material aggregation dictionary: {unknown_materials}')
         if batch_sim is None:
-            print(f'These materials need to be added manually to the aggreg_dict variable.')
+            df = pd.DataFrame({'material category': ['?']}, index=unknown_materials)
+            df.to_csv(os.path.join(out_dir, 'aggregation_categories.csv'))
+            print(f'The following materials were not found in the material aggregation dictionary: '
+                  f'\n\t{unknown_materials}'
+                  f'\n\tThese materials were added to file "aggregation_categories.csv" placed in {out_dir}.'
+                  f"\n\tUnless the aggregation category is specified, "
+                  f" these materials will continue to be classified as '?'.")
         else:
             wb = openpyxl.load_workbook(filename=settings.config_file)
             ws = wb['material aggregation']
@@ -576,8 +597,11 @@ def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folder
                 c += 1
             wb.save(filename=settings.config_file)
             wb.close()
-            print(f"These materials were added in sheet 'material aggregation' of the file"
-                  f"{os.path.basename(settings.config_file)}. \n Unless the aggregation category is specified,"
+            print(f'The following materials were not found in the material aggregation dictionary: '
+                  f'\n\t{unknown_materials}'
+                  f"\n\tThese materials were added in sheet 'material aggregation' of the file"
+                  f"{os.path.basename(settings.config_file)}. "
+                  f"\n\tUnless the aggregation category is specified,"
                   f" these materials will continue to be classified as '?'.")
     return
 
