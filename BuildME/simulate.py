@@ -182,6 +182,11 @@ def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_cs
                 idf_file = apply_rule_from_excel(idf_file, aspect, aspect_value, archetype, replace_csv_dir)
     if archetype in os.path.basename(out_dir):
         idf_file.idfobjects['Building'.upper()][0].Name = os.path.basename(out_dir)
+    for meter_name in ['Cooling:EnergyTransfer', 'Heating:EnergyTransfer', 'InteriorEquipment:Electricity',
+                       'InteriorLights:Electricity']:
+        new_object = idf_file.newidfobject('Output:Meter')
+        new_object['Key_Name'] = meter_name
+        new_object['Reporting_Frequency'] = 'annual'
     idf_file.saveas(idf_path_new)
     return
 
@@ -508,11 +513,12 @@ def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
     multipliers = [1, 1/10**6, 1/(3.6*10**6)]
     multiplier = multipliers[units.index(unit)]
     # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
-    results_to_collect = ("Heating:EnergyTransfer [J](Hourly)",	"Cooling:EnergyTransfer [J](Hourly)",
-                          "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly) ")
+    variables = ("Heating:EnergyTransfer [J](Annual)", "Cooling:EnergyTransfer [J](Annual)",
+                 "InteriorLights:Electricity [J](Annual)", "InteriorEquipment:Electricity [J](Annual)")
     for folder in folders:
         ep_file = os.path.join(folder, 'eplusout.csv')
         ep_out = pd.read_csv(ep_file)
+        results_to_collect = [col for col in ep_out.columns for v in variables if col.startswith(v)]
         df_results = ep_out.loc[:, results_to_collect].sum()*multiplier
         df_results.index = [i.split(' [')[0] for i in df_results.index]
         df_results = df_results.reset_index()
