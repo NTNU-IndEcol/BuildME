@@ -4,7 +4,7 @@ import sys
 from BuildME import settings, batch, simulate, __version__
 
 
-def run(run_new=True, run_eplus=True):
+def run_batch_simulation(run_new=True, run_eplus=True):
     if run_new:
         print("Running new simulation...")
         # Creating the scenario combinations
@@ -16,12 +16,11 @@ def run(run_new=True, run_eplus=True):
     # Performing simulations
     if run_eplus:
         simulate.calculate_energy(batch_simulation, parallel=True)
-        simulate.aggregate_energy(batch_simulation, unit='kWh')
-        print("Energy simulations done")
     simulate.calculate_materials(batch_simulation)
-    print("Material extraction done")
 
     # Postprocessing
+    if run_eplus:
+        simulate.aggregate_energy(batch_simulation, unit='kWh')
     simulate.aggregate_materials(batch_simulation)
     simulate.calculate_intensities(batch_simulation)
     simulate.collect_results(batch_simulation)
@@ -35,4 +34,5 @@ if __name__ == "__main__":
     if 'darwin' in sys.platform:
         print('Running \'caffeinate\' on MacOSX to prevent the system from sleeping')
         subprocess.Popen('caffeinate')
-    run(run_new=True, run_eplus=True)
+    run_batch_simulation(run_new=True, run_eplus=True)
+    # for a standalone simulation of a single building file, see tutorial_buildme.ipynb

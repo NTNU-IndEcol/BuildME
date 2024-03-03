@@ -170,7 +170,7 @@ def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_cs
     :param replace_dict: dictionary with BuildME replacement aspects
     :param archetype: archetype name
     :param ep_dir: EnergyPlus directory
-    :parm replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
+    :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
     """
     idf_path_new = os.path.join(out_dir, 'in.idf')
     shutil.copy2(idf_path, idf_path_new)
@@ -178,73 +178,63 @@ def copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_cs
     if replace_dict:
         for aspect, aspect_value in replace_dict.items():
             idf_file = apply_obj_name_change(idf_file, aspect, aspect_value)
-            idf_file = apply_rule_from_excel(idf_file, aspect, aspect_value, archetype, replace_csv_dir)
+            if replace_csv_dir is not None and os.path.exists(replace_csv_dir):
+                idf_file = apply_rule_from_excel(idf_file, aspect, aspect_value, archetype, replace_csv_dir)
     if archetype in os.path.basename(out_dir):
         idf_file.idfobjects['Building'.upper()][0].Name = os.path.basename(out_dir)
+    for meter_name in ['Cooling:EnergyTransfer', 'Heating:EnergyTransfer', 'InteriorEquipment:Electricity',
+                       'InteriorLights:Electricity']:
+        new_object = idf_file.newidfobject('Output:Meter')
+        new_object['Key_Name'] = meter_name
+        new_object['Reporting_Frequency'] = 'annual'
     idf_file.saveas(idf_path_new)
     return
 
 
-def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
-                     parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, epw_path=None):
+def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, replace_dict=None,
+                     parallel=False, clear_folder=False, last_run=False, replace_csv_dir=None, epw_path=None,
+                     keep_all=False):
     """
     Initiates the calculation of energy demand
     :param batch_sim: dictionary with batch simulation information
     :param idf_path: path to the IDF file
     :param out_dir: output folder directory
     :param ep_dir: EnergyPlus directory
-    :param archetype: archetype name
     :param replace_dict: dictionary with BuildME replacement aspects
     :param parallel: True if parallel simulations (multiprocessing) should be performed (default: False)
     :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
     :param last_run: True if the last simulation run should be loaded (default: False)
     :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
     :param epw_path: path to the EPW file with weather data
+    :param keep_all: boolean indicating whether to keep all simulation files (incl. the .eso file)
     """
+    print("Initiating energy demand simulation...")
     # check if all necessary variables are defined
-    if ep_dir is None:
-        ep_dir = settings.ep_path
-    if replace_csv_dir is None:
-        replace_csv_dir = settings.replace_csv_dir
     if last_run:
         batch_sim = batch.find_and_load_last_run()
-    if batch_sim is None: # for a one-off simulation
-        if idf_path is None:
-            raise Exception('Building archetype file not given')
-        if out_dir is None:
-            raise Exception('Output folder not given')
-        else:
-            if os.path.exists(out_dir) and clear_folder is True:
-                print(f'Clearing the content of the folder {out_dir}')
-                shutil.rmtree(out_dir)
-                os.makedirs(out_dir)
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
+    if batch_sim is None:  # for a standalone simulation
+        check_input_variables_standalone(ep_dir, idf_path, out_dir, replace_csv_dir, clear_folder)
+        archetype = os.path.basename(idf_path).replace('.idf', '')
         if epw_path is None or not os.path.exists(epw_path):
-            epw_path = os.path.join(os.path.dirname(settings.climate_files_path), 'USA_NY_New.York-dummy.epw')
             print(f"Weather file (defined as {epw_path}) was not not found. "
-                  f"A dummy weather file for New York city (US) will be used instead.")
-        if not os.path.exists(os.path.join(out_dir, 'in.idf')):
-            copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+                  f"\nA dummy weather file for New York city (US) will be used instead.")
+            epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
+        copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         validate_ep_version([os.path.join(out_dir, 'in.idf')])
         # perform actual simulation
-        energy.perform_energy_calculation(out_dir, ep_dir, epw_path)
-    else:
+        energy.perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all)
+    else:  # for batch simulation
+        ep_dir = settings.ep_path
+        replace_csv_dir = settings.replace_csv_dir
         # copy the necessary files
         for sim in batch_sim:
             idf_path = batch_sim[sim]['archetype_file']
             out_dir = batch_sim[sim]['run_folder']
-            epw_path = batch_sim[sim]['climate_file']
             archetype = batch_sim[sim]['occupation']
             replace_dict = batch_sim[sim]['replace_dict']
-            if not os.path.exists(epw_path):
-                epw_path = os.path.join(os.path.dirname(settings.climate_files_path), 'USA_NY_New.York-dummy.epw')
-                print(f"Weather file (defined as {epw_path}) was not not found. "
-                      f"A dummy weather file for New York city (US) will be used instead.")
-            if not os.path.exists(os.path.join(out_dir, 'in.idf')): # if the in.idf hasn't been created yet
-                if not os.path.exists(idf_path) and batch_sim[sim]['cooling'] == 'MMV':
-                    create_mmv_variant(idf_path, ep_dir, archetype)
-                copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+            if not os.path.exists(idf_path) and batch_sim[sim]['cooling'] == 'MMV':
+                create_mmv_variant(idf_path, ep_dir, archetype)
+            copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         validate_ep_version(list(set([batch_sim[sim]['archetype_file'] for sim in batch_sim])))  # list with no duplicates
         
         # perform the simulation (ordinary or parallel)
@@ -252,8 +242,12 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             for sim in tqdm(batch_sim):
                 out_dir = batch_sim[sim]['run_folder']
                 epw_path = batch_sim[sim]['climate_file']
+                if not os.path.exists(epw_path):
+                    print(f"Weather file (defined as {epw_path}) was not not found. "
+                          f"\nA dummy weather file for New York city (US) will be used instead.")
+                    epw_path = os.path.join(settings.climate_files_path, 'USA_NY_New.York-dummy.epw')
                 # perform actual simulation
-                energy.perform_energy_calculation(out_dir, ep_dir, epw_path)
+                energy.perform_energy_calculation(out_dir, ep_dir, epw_path, keep_all)
         else: # parallel simulation
             cpus = find_cpus()
             print("Perform energy simulation on %s CPUs..." % cpus)
@@ -261,7 +255,7 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             m = mp.Manager()
             q = m.Queue()
             pbar = tqdm(total=len(batch_sim), smoothing=0.1, unit='sim')
-            args = [(batch_sim[sim]['run_folder'], ep_dir, batch_sim[sim]['climate_file'], q, i)
+            args = [(batch_sim[sim]['run_folder'], ep_dir, batch_sim[sim]['climate_file'], keep_all, q, i)
                     for i, sim in enumerate(batch_sim)]
             result = pool.map_async(energy.perform_energy_calculation_mp, args)
             old_q = 0
@@ -275,121 +269,194 @@ def calculate_energy(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, a
             pool.close()
             pool.join()
             pbar.close()
+    print('Energy demand simulation finished.')
     return
 
 
-def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, archetype=None, replace_dict=None,
+def calculate_materials(batch_sim=None, idf_path=None, out_dir=None, ep_dir=None, replace_dict=None,
                         clear_folder=False, last_run=False, replace_csv_dir=None, atypical_materials=None,
-                        ifsurrogates=True, surrogates_dict=None):
+                        ifsurrogates=True, surrogates=None, region=None):
     """
     Initiates the calculation of material demand
     :param batch_sim: dictionary with batch simulation information
     :param idf_path: path to the IDF file
     :param out_dir: output folder directory
     :param ep_dir: EnergyPlus directory
-    :param archetype: archetype name
     :param replace_dict: dictionary with BuildME replacement aspects
     :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
     :param last_run: True if the last simulation run should be loaded (default: False)
     :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: pandas dataframe with thicknesses and densities of atypical materials (also accepts dict)
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
-    :param surrogates_dict: dictionary with surrogate element information
+    :param surrogates: dictionary with surrogate element information (pandas dataframe is also accepted)
+    :param region: name of the region (only necessary when surrogates is a pandas dataframe with a "region" column)
     """
-    print("Extracting materials and surfaces...")
-    if ep_dir is None:
-        ep_dir = settings.ep_path
-    if atypical_materials is None:
-        atypical_materials = settings.atypical_materials
-    if replace_csv_dir is None:
-        replace_csv_dir = settings.replace_csv_dir
+    print("Initiating material demand simulation...")
     if last_run:
         batch_sim = batch.find_and_load_last_run()
-    if batch_sim is None:
-        if idf_path is None:
-            raise Exception('Building archetype file not given')
-        if out_dir is None:
-            raise Exception('Output folder not given')
-        else:
-            if os.path.exists(out_dir) and clear_folder is True:
-                print(f'Clearing the content of the folder {out_dir}')
-                shutil.rmtree(out_dir)
-                os.makedirs(out_dir)
-            if not os.path.exists(out_dir):
-                os.makedirs(out_dir)
-        if not os.path.exists(os.path.join(out_dir, 'in.idf')):
-            copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+    if batch_sim is None:  # for a standalone simulation
+        check_input_variables_standalone(ep_dir, idf_path, out_dir, replace_csv_dir, clear_folder)
+        archetype = os.path.basename(idf_path).replace('.idf', '')
+        copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         if ifsurrogates:
-            if surrogates_dict is None:
+            if surrogates is None:
                 raise Exception("Surrogate element calculations requested but no surrogate dictionary given")
+            elif type(surrogates) == pd.core.frame.DataFrame:
+                surrogates = convert_surrogates_df_to_dict(surrogates, archetype, replace_dict, region)
         validate_ep_version([os.path.join(out_dir, 'in.idf')])
         # perform actual simulation
         idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
-        check_atypical_materials(idf_file, atypical_materials, config=False)
-        material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
+        atypical_materials = check_atypical_materials(idf_file, atypical_materials, out_dir, config=False)
+        material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates,
                                                ifsurrogates, replace_dict=replace_dict)
-    else:
+    else:  # for a batch simulation
+        ep_dir = settings.ep_path
+        replace_csv_dir = settings.replace_csv_dir
+        atypical_materials = settings.atypical_materials
         # copy the necessary files
         for sim in batch_sim:
             idf_path = batch_sim[sim]['archetype_file']
             out_dir = batch_sim[sim]['run_folder']
             archetype = batch_sim[sim]['occupation']
             replace_dict = batch_sim[sim]['replace_dict']
-            if not os.path.exists(os.path.join(out_dir, 'in.idf')):
-                if not os.path.exists(idf_path) and batch_sim[sim]['cooling'] == 'MMV':
-                    create_mmv_variant(idf_path, ep_dir, archetype)
-                copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
+            if not os.path.exists(idf_path) and batch_sim[sim]['cooling'] == 'MMV':
+                create_mmv_variant(idf_path, ep_dir, archetype)
+            copy_idf_file(idf_path, out_dir, replace_dict, archetype, ep_dir, replace_csv_dir)
         validate_ep_version(list(set([batch_sim[sim]['archetype_file'] for sim in batch_sim])))  # list with no duplicates
         # perform actual simulation
         for sim in tqdm(batch_sim):
             out_dir = batch_sim[sim]['run_folder']
             archetype = batch_sim[sim]['occupation']
             replace_dict = batch_sim[sim]['replace_dict']
+            region = batch_sim[sim]['climate_region']
             if ifsurrogates:
-                df_sur = settings.surrogate_elements
-                df_sur_sim = df_sur[df_sur['occupation'] == archetype].drop(columns='occupation')
-                if replace_dict is not None:
-                    for k, v in replace_dict.items():
-                        if k in df_sur.columns:
-                            df_sur_sim = df_sur_sim[(df_sur_sim[k] == v) | (df_sur_sim[k] == 0)]
-                            df_sur_sim = df_sur_sim.drop(columns=k)
-                surrogate_duplicates = df_sur_sim['surrogate'].duplicated()
-                if surrogate_duplicates.any():
-                    df_sur_sim = df_sur_sim[~surrogate_duplicates]  # keep the first entry
-                    print('Warning: duplicates found in the "surrogate elements" sheet of the config file. '
-                          'Only the first entry will be kept.')
-                df_sur_sim = df_sur_sim.set_index('surrogate')
-                surrogates_dict = df_sur_sim.to_dict('index')
-                if not surrogates_dict:
-                    print(f'Warning: No surrogate elements found for archetype {archetype} '
-                          f'and aspects {replace_dict} \nin the "surrogate elements" sheet '
-                          f'of the config file. Surrogate element calculations will be skipped.')
+                surrogates = convert_surrogates_df_to_dict(settings.surrogate_elements, archetype, replace_dict, region)
             idf_file = read_idf(ep_dir, os.path.join(out_dir, 'in.idf'))
-            check_atypical_materials(idf_file, atypical_materials, config=True)
-            material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates_dict,
+            atypical_materials = check_atypical_materials(idf_file, atypical_materials, out_dir, config=True)
+            material.perform_materials_calculation(idf_file, out_dir, atypical_materials, surrogates,
                                                    ifsurrogates, replace_dict=replace_dict)
+    print('Material demand simulation finished.')
     return
 
 
-def check_atypical_materials(idf_file, atypical_materials, config=True):
+def check_input_variables_standalone(ep_dir, idf_path, out_dir, replace_csv_dir, clear_folder):
+    """
+    Checks whether input variables required for a standalone material or energy demand simulation are available
+    :param ep_dir: EnergyPlus directory
+    :param idf_path: path to the IDF file
+    :param out_dir: output folder directory
+    :param replace_csv_dir: folder with replacement csv files, e.g., 'replace-en-std.csv'
+    :param clear_folder: True if the simulation folder should be cleared before the simulation (default: False)
+    """
+    if ep_dir is None:
+        raise Exception('Energy plus path not given')
+    elif not os.path.exists(ep_dir):
+        raise Exception(f'Energy plus path does not exist ({ep_dir})')
+    if idf_path is None:
+        raise Exception('Building archetype file not given')
+    elif not os.path.exists(idf_path):
+        raise Exception(f'Building archetype file does not exist ({idf_path})')
+    if out_dir is None:
+        raise Exception('Output folder not given')
+    else:
+        if os.path.exists(out_dir) and clear_folder is True:
+            print(f'Clearing the content of the folder {out_dir}')
+            shutil.rmtree(out_dir)
+            os.makedirs(out_dir)
+        if not os.path.exists(out_dir):
+            os.makedirs(out_dir)
+    if replace_csv_dir is None or not os.path.exists(replace_csv_dir):
+        print('The directory with "replace" csv files not provided or the provided one does not exist. '
+              'These replace rules will be skipped.')
+    return
+
+
+def convert_surrogates_df_to_dict(surrogates, archetype, replace_dict, region):
+    """
+    Filter the "surrogates" pandas dataframe according to archetype, region and replace_dict
+    and then convert the dataframe into a dict
+    :param surrogates: pandas dataframe with surrogate element information
+    :param archetype: archetype name
+    :param replace_dict: dictionary with BuildME replacement aspects
+    :param region: name of the region (only necessary when surrogates is a pandas dataframe with a "region" column)
+    """
+    df_sur_sim = surrogates[surrogates['occupation'] == archetype].drop(columns='occupation')
+    # filtering columns 'region', 'en-std' and 'res' (if they exist)
+    # keeps a surrogate dataframe's row if the field matches the given value or is empty (== 0)
+    if region is not None:
+        if 'region' in df_sur_sim.columns:
+            df_sur_sim = df_sur_sim[(df_sur_sim['region'] == region) | (df_sur_sim['region'] == 0)]
+            df_sur_sim = df_sur_sim.drop(columns='region')
+    else:
+        if 'region' in df_sur_sim.columns:
+            df_sur_sim = df_sur_sim.drop(columns='region')
+    if replace_dict is not None:
+        for k, v in replace_dict.items():
+            if k in df_sur_sim.columns:
+                df_sur_sim = df_sur_sim[(df_sur_sim[k] == v) | (df_sur_sim[k] == 0)]
+                df_sur_sim = df_sur_sim.drop(columns=k)
+    else:
+        for k in ['en-std', 'res']:  # if replace_dict is None, drop the columns with en-std and res
+            if k in df_sur_sim.columns:
+                df_sur_sim = df_sur_sim.drop(columns=k)
+    surrogate_duplicates = df_sur_sim['surrogate'].duplicated()
+    if surrogate_duplicates.any():
+        df_sur_sim = df_sur_sim[~surrogate_duplicates]  # keep the first entry
+        print('Warning: duplicates found in the "surrogates" dataframe. Only the first entry will be kept.')
+    df_sur_sim = df_sur_sim.set_index('surrogate')
+    surrogates_dict = df_sur_sim.to_dict('index')
+    if not surrogates_dict:
+        print(f'Warning: No surrogate elements found for archetype {archetype} '
+              f'and aspects {replace_dict}. '
+              f'\n Surrogate element calculations will be skipped.')
+    return surrogates_dict
+
+
+def check_atypical_materials(idf_file, atypical_materials, out_dir, config=True):
     """
     Check if all atypical materials (with no density and/or thickness data) have externally defined data
     :param idf_file: IDF file
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: pandas dataframe with thicknesses and densities of atypical materials (also accepts dict)
+    :param out_dir: output folder directory
     :param config: True if the configuration file should be used (to add the missing materials into the file)
     """
-    obj_types = ['Material:NoMass', 'Material:AirGap', 'WindowMaterial:SimpleGlazingSystem',
-                 'WindowMaterial:Glazing']
+    if atypical_materials is None:
+        if os.path.exists(os.path.join(out_dir, 'atypical_materials.csv')):
+            print(f'Atypical materials automatically read from "atypical_materials.csv" located in "{out_dir}".')
+            atypical_materials = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
+        else:
+            atypical_materials = pd.DataFrame()
+    elif type(atypical_materials) is dict:
+        density = [v for dic in atypical_materials.values() for k, v in dic.items() if 'density' in k]
+        thickness = [v for dic in atypical_materials.values() for k, v in dic.items() if 'thickness' in k]
+        atypical_materials = pd.DataFrame({'density (kg/m3)': density, 'thickness (m)': thickness},
+                                          index=atypical_materials.keys())
+    obj_types = ['Material:NoMass', 'Material:InfraredTransparent', 'Material:AirGap',
+                 'Material:RoofVegetation', 'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Glazing',
+                 'WindowMaterial:GlazingGroup:Thermochromic', 'WindowMaterial:Glazing:RefractionExtinctionMethod',
+                 'WindowMaterial:Gas', 'WindowMaterial:GasMixture', 'WindowMaterial:Gap', 'WindowMaterial:Shade',
+                 'WindowMaterial:ComplexShade', 'WindowMaterial:Blind', 'WindowMaterial:Screen']
+    obj_types_with_thickness = ['Material:RoofVegetation', 'WindowMaterial:Glazing',
+                                'WindowMaterial:Glazing:RefractionExtinctionMethod', 'WindowMaterial:Gas',
+                                'WindowMaterial:GasMixture', 'WindowMaterial:Gap', 'WindowMaterial:Shade']
     weird_mats = [obj for obj_type in obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
     unknown_materials = {}
     for mat in weird_mats:
-        if mat.Name not in atypical_materials.keys():
+        if mat.Name not in atypical_materials.index:
             unknown_materials[mat.Name] = mat.obj[0]
     if unknown_materials:
         if config is False:
+            thickness_list = ['?' if mat not in obj_types_with_thickness
+                              else 'defined in ep' for mat in unknown_materials.values()]
+            df = pd.DataFrame({'density (kg/m3)': ['?'], 'thickness (m)': thickness_list}, index=unknown_materials.keys())
+            if os.path.exists(os.path.join(out_dir, 'atypical_materials.csv')):
+                df_old = pd.read_csv(os.path.join(out_dir, 'atypical_materials.csv'), index_col=0)
+                df = pd.concat([df_old, df])
+            df.to_csv(os.path.join(out_dir, 'atypical_materials.csv'))
             raise Exception(f'The following materials were not found in the atypical materials dictionary: '
-                            f'{list(unknown_materials.keys())}.'
-                            f'These materials need to be added manually to the atypical_materials variable.')
+                            f'\n {list(unknown_materials.keys())}.'
+                            f'\n These materials were added to file "atypical_materials.csv" located in "{out_dir}".'
+                            f'\n Material demand calculation unsuccessful.')
         else:
             wb = openpyxl.load_workbook(filename=settings.config_file)
             ws = wb['atypical materials']
@@ -398,7 +465,7 @@ def check_atypical_materials(idf_file, atypical_materials, config=True):
             for mat, mat_type in unknown_materials.items():
                 ws.cell(column=3, row=last_row + c, value=mat)
                 ws.cell(column=4, row=last_row + c, value='?')
-                if mat_type in ['WindowMaterial:Glazing']:
+                if mat_type in obj_types_with_thickness:
                     ws.cell(column=5, row=last_row + c, value='defined in ep')
                 else:
                     ws.cell(column=5, row=last_row + c, value='?')
@@ -406,14 +473,15 @@ def check_atypical_materials(idf_file, atypical_materials, config=True):
             wb.save(filename=settings.config_file)
             wb.close()
             raise Exception(f'The following materials were not found in the atypical materials dictionary: '
-                            f'\n{list(unknown_materials.keys())}.'
-                            f"\n\t These materials were added in sheet 'atypical materials' of the file "
+                            f'\n {list(unknown_materials.keys())}.'
+                            f"\n These materials were added in sheet 'atypical materials' of the file "
                             f'{os.path.basename(settings.config_file)}')
-    unspecified_materials = [k for k, v in atypical_materials.items() if v['density'] == '?' or v['thickness'] == '?']
-    if unspecified_materials:
+    unspecified_materials = atypical_materials[(atypical_materials['density (kg/m3)'] == '?')
+                                               | (atypical_materials['thickness (m)'] == '?')]
+    if list(unspecified_materials.index):
         raise Exception(f"The atypical materials dictionary includes entries with '?' instead of values "
-                        f"for the following \n\t materials: {unspecified_materials}.")
-    return
+                        f"for the following materials: \n {list(unspecified_materials.index)}.")
+    return atypical_materials
 
 
 def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
@@ -425,6 +493,7 @@ def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
     :param unit: energy units in the output file - kWh, J or MJ (default)
     :returns: df_results
     """
+    print("Aggregating energy simulation results...")
     if last_run:
         batch_sim = batch.find_and_load_last_run()
     if batch_sim is None:
@@ -441,11 +510,18 @@ def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
     multipliers = [1, 1/10**6, 1/(3.6*10**6)]
     multiplier = multipliers[units.index(unit)]
     # Note the trailing whitespace at the end of "InteriorEquipment:Electricity [J](Hourly) "
-    results_to_collect = ("Heating:EnergyTransfer [J](Hourly)",	"Cooling:EnergyTransfer [J](Hourly)",
-                          "InteriorLights:Electricity [J](Hourly)", "InteriorEquipment:Electricity [J](Hourly) ")
+    variables = ("Heating:EnergyTransfer [J](Annual)", "Cooling:EnergyTransfer [J](Annual)",
+                 "InteriorLights:Electricity [J](Annual)", "InteriorEquipment:Electricity [J](Annual)")
     for folder in folders:
         ep_file = os.path.join(folder, 'eplusout.csv')
+        if os.path.getsize(ep_file)/10**6 > 185:
+            print(f'The size of the file "eplusout.csv" located in {folder} is over 185 MB because of a large number '
+                  f'of "Output:Variable" and "Output:Meter" objects requested in the idf file. '
+                  f'\n This might cause the aggregated energy calculated below to be zero '
+                  f'as some values might not be printed out due to overflow. '
+                  f'\n Please consider removing some of the idf file output objects to fix this issue.')
         ep_out = pd.read_csv(ep_file)
+        results_to_collect = [col for col in ep_out.columns for v in variables if col.startswith(v)]
         df_results = ep_out.loc[:, results_to_collect].sum()*multiplier
         df_results.index = [i.split(' [')[0] for i in df_results.index]
         df_results = df_results.reset_index()
@@ -460,33 +536,51 @@ def aggregate_energy(batch_sim=None, last_run=False, folders=None, unit='MJ'):
     return df_results
 
 
-def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folders=None):
+def aggregate_materials(batch_sim=None, last_run=False, aggregation_categories=None, folders=None):
     """
     Aggregate material types into categories, e.g., concrete, cement, wood and wood products
     :param batch_sim: dictionary with batch simulation information
     :param last_run: True if the last simulation run should be loaded (default: False)
-    :param aggreg_dict: dictionary with materials and their aggregation categories
+    :param aggregation_categories: dict with materials and their aggregation categories (also accepts pandas dataframe)
     :param folders: a list of directories (required only when batch_sim is None)
     """
+    print("Aggregating material simulation results...")
     if last_run:
         batch_sim = batch.find_and_load_last_run()
-    if aggreg_dict is None:
-        aggreg_dict = settings.material_aggregation
     if batch_sim is None:
         if folders is None:
             raise Exception('Folders not given')
+        if aggregation_categories is None:
+            if len(folders) == 1:
+                out_dir = folders[0]
+            else:
+                out_dir = os.path.dirname(folders[0])
+            if os.path.exists(os.path.join(out_dir, 'aggregation_categories.csv')):
+                print(f'Aggregation categories automatically read from "aggregation_categories.csv" '
+                      f'located in "{out_dir}".')
+                aggregation_categories = pd.read_csv(os.path.join(out_dir, 'aggregation_categories.csv'), index_col=0)
+                aggregation_categories = aggregation_categories.T.to_dict(orient='list')
+                aggregation_categories = {k: v[0] for k, v in aggregation_categories.items()}
+            else:
+                aggregation_categories = {}
+        elif type(aggregation_categories) == pd.core.frame.DataFrame:
+            aggregation_categories = aggregation_categories.T.to_dict(orient='list')
+            aggregation_categories = {k: v[0] for k, v in aggregation_categories.items()}
     else:
+        if aggregation_categories is None:
+            aggregation_categories = settings.material_aggregation
         folders = [batch_sim[sim]['run_folder'] for sim in batch_sim]
     unknown_materials = []
     for folder in folders:
         df = pd.read_csv(os.path.join(folder, 'mat_demand.csv'))
-        mapping = df['Material name'].map(aggreg_dict)
+        mapping = df['Material name'].map(aggregation_categories)
         df['Material type'] = mapping
         unknown_materials = unknown_materials + df[df['Material type'].isna()]['Material name'].values.tolist()
         df['Material type'] = df['Material type'].replace(np.nan, '?')
-        df = df[['Material type', 'Unit', 'Value']]
+        df = df[['Material name', 'Material type', 'Unit', 'Value']]
         filename = os.path.join(folder, 'mat_demand_categorized.csv')
         df.to_csv(filename, index=False)
+        df = df.drop(columns='Material name')
         df = df.groupby(['Material type', 'Unit']).sum()
         df = df.reset_index()
         total = pd.DataFrame([['TOTAL', 'kg', df['Value'].sum()]], columns=df.columns)
@@ -495,9 +589,17 @@ def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folder
         df.to_csv(filename, index=False)
     unknown_materials = list(set(unknown_materials))  # deleting duplicates
     if unknown_materials:
-        print(f'The following materials were not found in the material aggregation dictionary: {unknown_materials}')
         if batch_sim is None:
-            print(f'These materials need to be added manually to the aggreg_dict variable.')
+            df = pd.DataFrame({'material category': ['?']}, index=unknown_materials)
+            if os.path.exists(os.path.join(out_dir, 'aggregation_categories.csv')):
+                df_old = pd.read_csv(os.path.join(out_dir, 'aggregation_categories.csv'), index_col=0)
+                df = pd.concat([df_old, df])
+            df.to_csv(os.path.join(out_dir, 'aggregation_categories.csv'))
+            print(f'The following materials were not found in the material aggregation dictionary: '
+                  f'\n {unknown_materials}'
+                  f'\n These materials were added to file "aggregation_categories.csv" located in "{out_dir}".'
+                  f"\n Unless the aggregation category is specified, "
+                  f" these materials will continue to be classified as '?'.")
         else:
             wb = openpyxl.load_workbook(filename=settings.config_file)
             ws = wb['material aggregation']
@@ -509,8 +611,11 @@ def aggregate_materials(batch_sim=None, last_run=False, aggreg_dict=None, folder
                 c += 1
             wb.save(filename=settings.config_file)
             wb.close()
-            print(f"These materials were added in sheet 'material aggregation' of the file"
-                  f"{os.path.basename(settings.config_file)}. \n Unless the aggregation category is specified,"
+            print(f'The following materials were not found in the material aggregation dictionary: '
+                  f'\n {unknown_materials}'
+                  f"\n These materials were added in sheet 'material aggregation' of the file"
+                  f"{os.path.basename(settings.config_file)}. "
+                  f"\n Unless the aggregation category is specified,"
                   f" these materials will continue to be classified as '?'.")
     return
 
@@ -524,6 +629,7 @@ def calculate_intensities(batch_sim=None, last_run=False, results=None, folders=
     :param folders: a list of directories (required only when batch_sim is None)
     :param ref_area: reference: 'total_floor_area' (default), 'floor_area_occupied' or 'floor_area_conditioned'
     """
+    print("Calculating intensities of the energy and/or material simulation results...")
     if results is None:
         results = ['energy_demand.csv', 'mat_demand.csv', 'mat_demand_aggregated.csv']
     if last_run:

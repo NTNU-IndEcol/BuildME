@@ -31,8 +31,8 @@ The aspect "Cooling" allows to choose between conventional HVAC-based mechanical
 The aspect ”Resource efficiency scenario” (RES) reflects changes occurring in buildings due to material efficiency strategies. ”Resource efficiency scenario” is a replacement aspect, meaning that the IDF building file is modified to substitute the default values of chosen parameters with customized values. This is done automatically through the functions `apply_obj_name_change()` and `apply_rule_from_excel()`. For example, depending on the scenario, different types of constructions are used in the building. Resource efficiency scenarios may also influence surrogate material elements. The RES aspect includes four possible scenario options: 
 - **RES0**: the default material choice;
 - **RES2.1**: material substitution, where wooden elements substitute some structures made of concrete (e.g., external walls);
-- **RES2.2**: lightweighting, where the thickness of chosen construction layers is decreased;
-- **RES2.1+RES2.2**: combined material substitution and lightweighting.
+- **RES2.2**: downsizing, where the thickness of chosen construction layers is decreased;
+- **RES2.1+RES2.2**: combined material substitution and downsizing.
 
 ### BuildME aspects: energy standard
 The aspects "Energy standard" (en-std) is optional, and is another "replacement aspect".  BuildME includes four possible energy standards: 'non-standard', 'standard', 'efficient', and 'ZEB'. These four options determine the amount of building insulation in walls, roof, etc., the U-value (thermal transmittance) of glazed surfaces, and the parameters describing the air infiltration. 

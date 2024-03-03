@@ -188,25 +188,12 @@ def read_material_aggregation(ConfigFile):
 
 def read_atypical_materials(ConfigFile):
     '''
-    Reads the "atypical materials" sheet in the config file
-    and returns the corresponding dictionary.
-    Ex:
-        atypical_materials = {
-            'material_name1': {'density': value, 'thickness': value},
-            'material_name2': {'density': value, 'thickness': value}
-            }
+    Reads the "atypical materials" sheet in the config file and returns the corresponding dataframe.
     '''
-    config_sheet = openpyxl.load_workbook(ConfigFile)['atypical materials']
-    Rix = 4 # start row index
-    Cix = 3 # start column index
-    atypical_materials = {}
-    while config_sheet.cell(Rix,Cix).value != None: 
-        material_name = config_sheet.cell(Rix,Cix).value
-        atypical_materials[material_name] = {}
-        atypical_materials[material_name]['density'] = config_sheet.cell(Rix,Cix+1).value
-        atypical_materials[material_name]['thickness'] = config_sheet.cell(Rix,Cix+2).value
-        Rix+=1
-    return atypical_materials
+    df = pd.read_excel(ConfigFile, 'atypical materials', header=2, index_col='Material name')
+    df = df.dropna(how='all').dropna(how='all', axis=1)
+    df = df.drop(columns=['comment'])
+    return df
 
 
 def read_climate_region_weight(ConfigFile):

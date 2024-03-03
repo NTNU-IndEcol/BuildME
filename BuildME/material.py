@@ -19,7 +19,7 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
     Runs the material demand simulation
     :param idf_file: IDF file
     :param out_dir: output folder directory
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: pandas dataframe with atypical materials and their thickness (m) and density (kg/m3)
     :param surrogates_dict: dictionary with surrogate element information
     :param ifsurrogates: True if surrogate calculations are requested (default: False)
     :param replace_dict: dictionary with BuildME replacement aspects
@@ -75,9 +75,11 @@ def make_materials_dict(idf_file):
     """
     # create a list of idf material objects
     materials = []
-    for mtype in ['Material', 'Material:NoMass', 'Material:AirGap',
-                  'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Blind', 'WindowMaterial:Shade',
-                  'WindowMaterial:Glazing']:
+    for mtype in ['Material', 'Material:NoMass', 'Material:InfraredTransparent', 'Material:AirGap',
+                  'Material:RoofVegetation', 'WindowMaterial:SimpleGlazingSystem', 'WindowMaterial:Glazing',
+                  'WindowMaterial:GlazingGroup:Thermochromic', 'WindowMaterial:Glazing:RefractionExtinctionMethod',
+                  'WindowMaterial:Gas', 'WindowMaterial:GasMixture', 'WindowMaterial:Gap', 'WindowMaterial:Shade',
+                  'WindowMaterial:ComplexShade', 'WindowMaterial:Blind', 'WindowMaterial:Screen']:
         materials = materials + [i for i in idf_file.idfobjects[mtype.upper()]]
     # check if no duplicates
     object_names = [io.Name for io in materials]
@@ -92,7 +94,7 @@ def make_mat_density_dict(materials_dict, atypical_materials):
     """
     Creates a dictionary of material densities by material.
     :param materials_dict: dictionary like {material.Name: material}
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: pandas dataframe with atypical materials and their thickness (m) and density (kg/m3)
     :return: densities: dictionary like {material.Name: density}
     """
     densities = {}
@@ -102,9 +104,9 @@ def make_mat_density_dict(materials_dict, atypical_materials):
             densities[mat] = materials_dict[mat].Density
         else:
             try:
-                densities[mat] = atypical_materials[mat]['density']
+                densities[mat] = atypical_materials.loc[mat]['density (kg/m3)']
             except KeyError:
-                raise KeyError(f"Material {mat} was not found in material.csv")
+                raise KeyError(f"Material {mat} was not found in the atypical_materials dictionary")
     if 'Concrete_surrogate' not in densities.keys():
         densities['Concrete_surrogate'] = 2200
     if 'Insulation_surrogate' not in densities.keys():
@@ -119,7 +121,7 @@ def make_construction_dict(idf_file, materials_dict, atypical_materials, replace
     Creates a dictionary with constructions and the thicknesses of their layers
     :param idf_file: IDF file
     :param materials_dict: dictionary like {material.Name: material}
-    :param atypical_materials: dictionary with materials that need externally defined thickness and density values
+    :param atypical_materials: pandas dataframe with atypical materials and their thickness (m) and density (kg/m3)
     :param replace_dict: dictionary with BuildME replacement aspects
     :return: constr_layers: dictionary like {'construction_name': {'layer1': thickness1, 'layer2': thickness2}}
     """
@@ -134,7 +136,7 @@ def make_construction_dict(idf_file, materials_dict, atypical_materials, replace
                 thickness = obj.Thickness
             else:
                 try:
-                    thickness = float(atypical_materials[layers[layer]]['thickness'])
+                    thickness = float(atypical_materials.loc[layers[layer]]['thickness (m)'])
                 except KeyError:
                     raise KeyError(f"Material {obj.Name} was not found in material.csv")
             if layers[layer] not in constr_layers[construction.Name]:
@@ -286,10 +288,10 @@ def get_surfaces(idf):
                            extract_surfaces(idf, 'BuildingSurface:Detailed', 'Zone', 'Wall') + \
                            extract_surfaces(idf, 'InternalMass')
     surfaces['door'] = extract_surfaces(idf, 'Door') + \
-                       extract_surfaces(idf, 'FenestrationSurface:Detailed','', 'Door')
+                       extract_surfaces(idf, 'FenestrationSurface:Detailed', None, 'Door')
     surfaces['window'] = extract_surfaces(idf, 'Window') + \
-                         extract_surfaces(idf, 'FenestrationSurface:Detailed', '', 'Window') + \
-                         extract_surfaces(idf, 'FenestrationSurface:Detailed', '', 'GlassDoor')
+                         extract_surfaces(idf, 'FenestrationSurface:Detailed', None, 'Window') + \
+                         extract_surfaces(idf, 'FenestrationSurface:Detailed', None, 'GlassDoor')
     surfaces['int_floor'] = extract_surfaces(idf, 'BuildingSurface:Detailed', 'Outdoors', 'Floor') + \
                             extract_surfaces(idf, 'BuildingSurface:Detailed', 'Surface', 'Floor') + \
                             extract_surfaces(idf, 'BuildingSurface:Detailed', 'Zone', 'Floor')
@@ -368,7 +370,9 @@ def get_building_geometry_stats(idf_file, surfaces):
     geom_stats['footprint_area'] = (y_max-y_min)*(x_max-x_min)
     geom_stats['footprint_perimeter'] = (y_max-y_min)*2+(x_max-x_min)*2
     zones_with_people = [obj.Zone_or_ZoneList_Name for obj in idf_file.idfobjects['People'.upper()]]
-    zones_with_cond = [obj.Zone_Name for obj in idf_file.idfobjects['HVACTemplate:Zone:IdealLoadsAirSystem'.upper()]]
+    ideal_loads_obj_types = ['HVACTemplate:Zone:IdealLoadsAirSystem', 'ZoneHVAC:EquipmentConnections']
+    ideal_loads_objs = [obj for obj_type in ideal_loads_obj_types for obj in idf_file.idfobjects[obj_type.upper()]]
+    zones_with_cond = [obj.Zone_Name for obj in ideal_loads_objs]
     if not zones_with_cond:
         print('Warning: No zones with IdealLoadsAirSystem found. The conditioned floor area will not be calculated.')
     floor_area_occupied = 0
