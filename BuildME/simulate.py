@@ -627,15 +627,16 @@ def calculate_intensities(batch_sim=None, last_run=False, results=None, folders=
     :param last_run: True if the last simulation run should be loaded
     :param results: the names of csv files with energy and material results
     :param folders: a list of directories (required only when batch_sim is None)
-    :param ref_area: reference: 'total_floor_area' (default), 'floor_area_occupied' or 'floor_area_conditioned'
+    :param ref_area: reference area with can be 'total_floor_area' (default), 'total_floor_area_wo_basement',
+                     'floor_area_occupied', or 'floor_area_conditioned'
     """
     print("Calculating intensities of the energy and/or material simulation results...")
     if results is None:
         results = ['energy_demand.csv', 'mat_demand.csv', 'mat_demand_aggregated.csv']
     if last_run:
         batch_sim = batch.find_and_load_last_run()
-    if ref_area not in ['floor_area_occupied', 'floor_area_conditioned', 'total_floor_area'] \
-            and type(ref_area) not in [int, float]:
+    if ref_area not in ['floor_area_occupied', 'floor_area_conditioned', 'total_floor_area',
+                        'total_floor_area_wo_basement'] and type(ref_area) not in [int, float]:
         raise Exception(f'Reference area {ref_area} is unknown')
     if batch_sim is None:
         if folders is None:
