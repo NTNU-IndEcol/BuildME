@@ -35,8 +35,6 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
     surfaces = get_surfaces_from_floor_multipliers(idf_file, surfaces)
     # add the total floor area and other area measures
     geom_stats = get_building_geometry_stats(idf_file, surfaces)
-    save_dict_to_csv(geom_stats, out_dir, 'geom_stats.csv', header=['Geometry statistics', 'Unit', 'Value'],
-                     units_dict={'area': 'm^2', 'perimeter': 'm', 'height': 'm', 'num_of_floors': 'floors'})
     # calculate the total material volume (thickness * total area, by material)
     mat_vol_bdg = calc_mat_vol_bdg(idf_file, surfaces, constr_layers)
     # calculate the total mass (total volume/density, by material)
@@ -46,25 +44,54 @@ def perform_materials_calculation(idf_file, out_dir, atypical_materials, surroga
         for key, calc_dict in surrogates_dict.items():
             if all(v == 0 for k, v in calc_dict.items()):
                 continue
-            elif key == 'basement':
-                mat_mass = add_surrogate_basement(mat_mass, geom_stats, **surrogates_dict['basement'])
+            elif key.startswith('basement'):
+                if '*' in key:
+                    multiplier = float(key.split('*')[1])
+                else:
+                    multiplier = 1
+                basement, area_slab = add_surrogate_basement(geom_stats, **surrogates_dict[key])
+                mat_mass = add_surrogate_element_to_mat_mass(mat_mass, {k: v*multiplier for k, v in basement.items()})
+                geom_stats['total_floor_area'] = geom_stats['total_floor_area']+area_slab*multiplier
             elif key == 'foundation':
-                mat_mass = add_surrogate_foundation(mat_mass, geom_stats, **surrogates_dict['foundation'])
+                foundation = add_surrogate_foundation(geom_stats, **surrogates_dict[key])
+                mat_mass = add_surrogate_element_to_mat_mass(mat_mass, foundation)
             elif key == 'beams':
-                mat_mass = add_surrogate_beams(mat_mass, geom_stats, **surrogates_dict['beams'])
+                beams = add_surrogate_beams(geom_stats, **surrogates_dict[key])
+                mat_mass = add_surrogate_element_to_mat_mass(mat_mass, beams)
             elif key == 'columns':
-                mat_mass = add_surrogate_columns(mat_mass, geom_stats, **surrogates_dict['columns'])
+                columns = add_surrogate_columns(geom_stats, **surrogates_dict[key])
+                mat_mass = add_surrogate_element_to_mat_mass(mat_mass, columns)
             elif key == 'studs':
-                mat_mass = add_surrogate_studs(mat_mass, geom_stats, **surrogates_dict['studs'])
+                studs = add_surrogate_studs(geom_stats, **surrogates_dict[key])
+                mat_mass = add_surrogate_element_to_mat_mass(mat_mass, studs)
             elif key == 'roof_beams':
-                mat_mass = add_surrogate_roof_beams(mat_mass, geom_stats, **surrogates_dict['roof_beams'])
+                roof_beams = add_surrogate_roof_beams(geom_stats, **surrogates_dict[key])
+                mat_mass = add_surrogate_element_to_mat_mass(mat_mass, roof_beams)
             elif key == 'shear_walls':
-                mat_mass = add_surrogate_shear_walls(mat_mass, geom_stats, **surrogates_dict['shear_walls'])
+                shear_walls = add_surrogate_shear_walls(geom_stats, **surrogates_dict[key])
+                mat_mass = add_surrogate_element_to_mat_mass(mat_mass, shear_walls)
             else:
                 print(f'Warning: surrogate element {key} not recognized')
     # export
+    save_dict_to_csv(geom_stats, out_dir, 'geom_stats.csv', header=['Geometry statistics', 'Unit', 'Value'],
+                     units_dict={'area': 'm^2', 'perimeter': 'm', 'height': 'm', 'num_of_floors': 'floors'})
     save_dict_to_csv(mat_mass, out_dir, 'mat_demand.csv', header=['Material name', 'Unit', 'Value'],
                      units_dict={'': 'kg'})
+
+
+def add_surrogate_element_to_mat_mass(mat_mass, surrogate_element):
+    """
+    Adds a surrogate element to the total building mass by material type
+    :param mat_mass: dictionary with the total mass like {'material1': mass1, ...}
+    :param surrogate_element: dictionary with the mass of surrogate element materials like {'material1': mass1, ...}
+    :return mat_mass: dictionary with the total mass including the surrogate element
+    """
+    for mat, value in surrogate_element.items():
+        if mat not in mat_mass:
+            mat_mass[mat] = value
+        else:
+            mat_mass[mat] += value
+    return mat_mass
 
 
 def make_materials_dict(idf_file):
@@ -385,6 +412,7 @@ def get_building_geometry_stats(idf_file, surfaces):
     geom_stats['floor_area_occupied'] = floor_area_occupied
     geom_stats['floor_area_conditioned'] = floor_area_conditioned
     geom_stats['total_floor_area'] = geom_stats['ext_floor_area'] + geom_stats['int_floor_area']
+    geom_stats['total_floor_area_wo_basement'] = geom_stats['ext_floor_area'] + geom_stats['int_floor_area']
     heights = {obj.Name: obj.height for obj in idf_file.idfobjects['BuildingSurface:Detailed'.upper()] if
                obj.Surface_Type == 'Wall'}
     geom_stats['median_floor_height'] = statistics.median(heights.values())
@@ -448,13 +476,12 @@ def add_ground_floor_ffactor_cfactor(constr_layers, obj, replace_dict):
     return constr_layers
 
 
-def add_surrogate_basement(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
+def add_surrogate_basement(geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                            shares=[1], densities=None, room_h=2.8):
     """
     Adds a surrogate basement (floor slab + perimeter wall) to the material demand
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param geom_stats: dictionary with building geometry statistics
-    :param height: height of the floor slab and wall (meters)
+    :param height: height of the floor slab and thickness of the basement walls (meters)
     :param width: (unused)
     :param length: (unused)
     :param distance: (unused)
@@ -463,18 +490,18 @@ def add_surrogate_basement(mat_mass, geom_stats, height=None, width=None, length
     :param densities: list with material densities (kg/m3 per material)
     :param room_h: basement height (default: 2.8 meters)
     :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate element
+    :returns: area_slab
     """
     area_slab = geom_stats['footprint_area']
     area_walls = geom_stats['footprint_perimeter'] * room_h
     volume = height * (area_slab+area_walls)
-    return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
+    return convert_volume_to_mass(volume, materials, shares, densities), area_slab
 
 
-def add_surrogate_foundation(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
+def add_surrogate_foundation(geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                              shares=[1], densities=None):
     """
     Adds a surrogate foundation to the material demand
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param geom_stats: dictionary with building geometry statistics
     :param height: height of the foundation (meters)
     :param width: (unused)
@@ -486,19 +513,19 @@ def add_surrogate_foundation(mat_mass, geom_stats, height=None, width=None, leng
     :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate element
     """
     volume = geom_stats['footprint_area'] * height
-    return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
+    return convert_volume_to_mass(volume, materials, shares, densities)
 
 
-def convert_volume_to_mass(mat_mass, volume, materials, shares, densities):
+def convert_volume_to_mass(volume, materials, shares, densities):
     """
     Converts the total surrogate element volume to volume by material and multiplies by density to obtain mass
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param volume: total volume of the surrogate element
     :param materials: list with material names
     :param shares: list with material shares (i.e., % in total volume)
     :param densities: list with material densities (kg/m3 per material)
-    :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate element
+    :returns: dictionary with the mass of surrogate element materials like {'material1': mass1, ...}
     """
+    mat_mass = {}
     if type(materials) is str:
         materials = [str(i).strip() for i in materials.replace('[', '').replace(']', '').split(',')]
     if type(shares) is str:
@@ -516,18 +543,17 @@ def convert_volume_to_mass(mat_mass, volume, materials, shares, densities):
     if sum(shares) != 1:
         raise Exception('The shares of the provided materials do not sum to 1')
     for i, mat in enumerate(materials):
-        if mat not in mat_mass:
-            mat_mass[mat] = volume * shares[i] * densities[i]
-        else:
-            mat_mass[mat] += volume * shares[i] * densities[i]
+        # if mat not in mat_mass:
+        #     mat_mass[mat] = volume * shares[i] * densities[i]
+        # else:
+        mat_mass[mat] = volume * shares[i] * densities[i]
     return mat_mass
 
 
-def add_surrogate_columns(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
+def add_surrogate_columns(geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                           shares=[1], densities=None):
     """
     Adds surrogate columns (on the perimeter) to the material demand
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param geom_stats: dictionary with building geometry statistics
     :param height: (unused)
     :param width: width of the column (meters)
@@ -544,14 +570,13 @@ def add_surrogate_columns(mat_mass, geom_stats, height=None, width=None, length=
     except ZeroDivisionError:
         number = 0
     volume = number * vol_column
-    return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
+    return convert_volume_to_mass(volume, materials, shares, densities)
 
 
-def add_surrogate_beams(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
+def add_surrogate_beams(geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                         shares=[1], densities=None):
     """
     Adds surrogate beams to the material demand
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param geom_stats: dictionary with building geometry statistics
     :param height: (unused)
     :param width: width of the beam (meters)
@@ -569,14 +594,13 @@ def add_surrogate_beams(mat_mass, geom_stats, height=None, width=None, length=No
     except ZeroDivisionError:
         number_per_floor = 0
     volume = number_per_floor * vol_beam * geom_stats['num_of_floors']
-    return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
+    return convert_volume_to_mass(volume, materials, shares, densities)
 
 
-def add_surrogate_studs(mat_mass, geom_stats, height=None, width=None, length=None, distance=None, materials=None,
+def add_surrogate_studs(geom_stats, height=None, width=None, length=None, distance=None, materials=None,
                         shares=[1], densities=None):
     """
     Adds surrogate studs (studded wall) to the material demand
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param geom_stats: dictionary with building geometry statistics
     :param height: height of one stud (meters)
     :param width: width of one stud (meters)
@@ -593,14 +617,13 @@ def add_surrogate_studs(mat_mass, geom_stats, height=None, width=None, length=No
     except ZeroDivisionError:
         number_studs = 0
     volume = number_studs * vol_stud
-    return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
+    return convert_volume_to_mass(volume, materials, shares, densities)
 
 
-def add_surrogate_roof_beams(mat_mass, geom_stats, height=None, width=None, length=None, distance=None,
+def add_surrogate_roof_beams(geom_stats, height=None, width=None, length=None, distance=None,
                              materials=None, shares=[1], densities=None):
     """
     Adds surrogate roof beams to the material demand
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param geom_stats: dictionary with building geometry statistics
     :param height: (unused)
     :param width: width of one beam (meters)
@@ -618,16 +641,15 @@ def add_surrogate_roof_beams(mat_mass, geom_stats, height=None, width=None, leng
     except ZeroDivisionError:
         number_beams = 0
     volume = vol_roof_beam * blg_side_estimate * number_beams
-    return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
+    return convert_volume_to_mass(volume, materials, shares, densities)
 
 
-def add_surrogate_shear_walls(mat_mass, geom_stats, height=None, width=None, length=None, distance=None,
+def add_surrogate_shear_walls(geom_stats, height=None, width=None, length=None, distance=None,
                              materials=None, shares=[1], densities=None, shear_wall_ratio=0.02):
     """
     Adds surrogate shear walls to the material demand. Taller archetypes need shear/core walls for lateral load
     resistance. The shear wall ratio is assumed 2% (the footprint of the shear walls to the floor area).
     Based on: https://ascelibrary.org/doi/full/10.1061/(ASCE)ST.1943-541X.0000785
-    :param mat_mass: material mass dictionary like {'material1': mass1, ...}
     :param geom_stats: dictionary with building geometry statistics
     :param height: (unused)
     :param width: (unused)
@@ -636,10 +658,11 @@ def add_surrogate_shear_walls(mat_mass, geom_stats, height=None, width=None, len
     :param materials: list with material names
     :param shares: list with material shares (i.e., % in total volume)
     :param densities: list with material densities (kg/m3 per material)
+    :param shear_wall_ratio:
     :returns: material mass dictionary like {'material1': mass1, ...} including the new surrogate elemen
     """
     volume = geom_stats['building_height'] * geom_stats['footprint_area'] * shear_wall_ratio
-    return convert_volume_to_mass(mat_mass, volume, materials, shares, densities)
+    return convert_volume_to_mass(volume, materials, shares, densities)
 
 
 def save_dict_to_csv(dict_in, folder, filename, header=[], units_dict=None):
